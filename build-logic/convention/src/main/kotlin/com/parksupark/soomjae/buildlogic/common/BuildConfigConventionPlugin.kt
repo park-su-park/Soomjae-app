@@ -43,7 +43,7 @@ class BuildConfigConventionPlugin : Plugin<Project> {
         }
 
         val generateBuildConfig by tasks.registering(GenerateBuildConfigTask::class) {
-            config.set(rootProject.file("gradle/config/build/build_config.yml"))
+            config.set(rootProject.file("gradle/config/build_config.yml"))
             flavor.set(providers.gradleProperty("soomjae.flavor").getOrElse("dev"))
             packageName.set(fullPackageName)
             outputDirs.set(sourceOutputDirs)
