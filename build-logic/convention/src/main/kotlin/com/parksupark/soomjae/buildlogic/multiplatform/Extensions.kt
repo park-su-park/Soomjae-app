@@ -66,7 +66,13 @@ private fun KotlinMultiplatformExtension.configureApple(configure: KotlinNativeT
         ios.configure()
         compilerOptions.configureKotlinCompiler()
         ios.binaries.framework {
-            baseName = project.frameworkIdentifier
+            baseName = project.frameworkIdentifier.replaceFirstChar {
+                if (it.isLowerCase()) {
+                    it.titlecase(Locale.getDefault())
+                } else {
+                    it.toString()
+                }
+            }
             isStatic = true
         }
     }

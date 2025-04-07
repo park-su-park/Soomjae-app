@@ -1,0 +1,27 @@
+android:
+    dev:
+        - type: Boolean
+          name: isDebug
+          value: true
+    release:
+        - type: Boolean
+          name: isDebug
+          value: false
+ios:
+    dev:
+        - type: Boolean
+          name: isDebug
+          value: true
+    release:
+        - type: Boolean
+          name: isDebug
+          value: false
+desktop:
+    dev:
+        - type: Boolean
+          name: isDebug
+          value: true
+    release:
+        - type: Boolean
+          name: isDebug
+          value: false
