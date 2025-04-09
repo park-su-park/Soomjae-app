@@ -1,0 +1,67 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "assignees": [
+        "ruh0n"
+    ],
+    "baseBranches": [
+        "dev"
+    ],
+    "extends": [
+        "config:base",
+        ":disableDependencyDashboard",
+        "helpers:pinGitHubActionDigests"
+    ],
+    "rebaseWhen": "behind-base-branch",
+    "reviewers": [
+        "ruh0n"
+    ],
+    "packageRules": [
+        {
+            "groupName": "Kotlin Dependants",
+            "groupSlug": "kotlin",
+            "matchPackagePrefixes": [
+                "com.google.devtools.ksp",
+                "dev.mokkery",
+                "org.jetbrains.compose",
+                "org.jetbrains.kotlinx"
+            ],
+            "matchPackagePatterns": [
+                "org.jetbrains.kotlin.*"
+            ]
+        },
+        {
+            "groupName": "Koin",
+            "groupSlug": "koin",
+            "matchPackagePrefixes": [
+                "io.insert-koin"
+            ]
+        },
+        {
+            "groupName": "Kotest",
+            "groupSlug": "kotest",
+            "matchPackagePrefixes": [
+                "io.kotest",
+                "io.kotest.extensions"
+            ]
+        },
+        {
+            "groupName": "GitHub Actions",
+            "groupSlug": "actions",
+            "matchManagers": [
+                "github-actions"
+            ],
+            "matchUpdateTypes": [
+                "digest",
+                "pinDigest"
+            ]
+        },
+        {
+            "matchUpdateTypes": [
+                "minor",
+                "patch",
+                "pin",
+                "digest"
+            ]
+        }
+    ]
+}
