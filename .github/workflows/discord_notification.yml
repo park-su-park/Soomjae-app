@@ -11,7 +11,7 @@ jobs:
 
         steps:
             -   name: Send PR Opened Notification
-                if: ${{ github.event_name == 'pull_request' && github.event.action == 'opened' }}
+                if: ${{ github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'reopened') }}
                 uses: Ilshidur/action-discord@0.3.2
                 env:
                     DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_APP_PR }}
