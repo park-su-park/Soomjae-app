@@ -4,8 +4,8 @@ package com.parksupark.soomjae
 
 import androidx.compose.runtime.Composable
 import com.parksupark.soomjae.composeApp.BuildConfig
+import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.di.soomjaeModule
-import com.parksupark.soomjae.theme.AppTheme
 import org.koin.compose.KoinMultiplatformApplication
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.logger.Level
