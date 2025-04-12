@@ -1,0 +1,64 @@
+name: Pr Check
+
+on:
+  pull_request:
+  push:
+    branches:
+      - dev
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TZ: UTC
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  cancel-stale-jobs:
+    name: Cancel stale jobs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Stale Jobs
+        uses: styfle/cancel-workflow-action@0.12.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  validation:
+    name: Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+      - name: Validate Gradle wrapper
+        uses: gradle/actions/wrapper-validation@v3.5.0
+
+  assemble:
+    name: Assembling
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+      - name: Common Steps
+        uses: ./.github/actions/common-steps
+        with:
+          gradle-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+      - name: Assemble
+        run: ./gradlew :composeApp:assembleDebug --no-daemon --stacktrace
+      - name: Upload compose reports artifact
+        uses: actions/upload-artifact@v4.6.2
+        if: always()
+        with:
+          name: compose-reports
+          path: |
+            **/build/compose-metrics
+            **/build/compose-reports
+          retention-days: 7
