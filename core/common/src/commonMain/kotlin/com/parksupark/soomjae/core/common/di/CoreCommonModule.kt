@@ -6,10 +6,10 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val coreCommonModule = module {
-    includes(dispatcherModule)
-}
-
 private val dispatcherModule = module {
     singleOf(::AppSoomjaeDispatcher) bind SoomjaeDispatcher::class
+}
+
+val coreCommonModule = module {
+    includes(dispatcherModule)
 }
