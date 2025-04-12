@@ -2,6 +2,7 @@ package com.parksupark.soomjae.buildlogic.multiplatform
 
 import SoomjaeConfiguration
 import configureKotlinCompiler
+import java.util.Locale
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.NamedDomainObjectProvider
 import org.gradle.api.Project
@@ -15,7 +16,6 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinAndroidTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.targets.jvm.KotlinJvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
-import java.util.Locale
 
 @OptIn(ExperimentalKotlinGradlePluginApi::class)
 internal fun KotlinMultiplatformExtension.hierarchy(

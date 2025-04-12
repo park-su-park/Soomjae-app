@@ -1,9 +1,12 @@
+@file:Suppress("NoUnusedImports", "UnusedImports")
+
 package com.parksupark.soomjae.buildlogic.multiplatform.ui
 
 import bundleImplementation
 import com.parksupark.soomjae.buildlogic.multiplatform.desktopMain
 import com.parksupark.soomjae.buildlogic.multiplatform.desktopTest
 import fullPackageName
+import java.io.File
 import kspDependencies
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -18,7 +21,6 @@ import org.jetbrains.compose.resources.ResourcesExtension
 import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
 import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag.Companion.OptimizeNonSkippingGroups
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import java.io.File
 
 class MultiplatformComposeConventionPlugin : Plugin<Project> {
 

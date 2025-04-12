@@ -1,4 +1,7 @@
+@file:Suppress("NoUnusedImports", "UnusedImports")
+
 import com.android.build.gradle.BaseExtension
+import java.util.Locale
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.plugins.ExtensionContainer
@@ -25,7 +28,6 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType.native
 import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.konan.util.visibleName
-import java.util.Locale
 
 private val Project.libs
     get() = extensions.getByType<VersionCatalogsExtension>().named("libs")
