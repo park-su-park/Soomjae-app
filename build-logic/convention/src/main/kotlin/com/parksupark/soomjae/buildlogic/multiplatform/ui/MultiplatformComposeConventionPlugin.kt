@@ -98,5 +98,8 @@ class MultiplatformComposeConventionPlugin : Plugin<Project> {
         resources.packageOfResClass = "${project.fullPackageName}.resources"
     }
 
-    private fun Project.composePluginDir(directory: String) = File(layout.buildDirectory.asFile.get(), directory).absolutePath
+    private fun Project.composePluginDir(directory: String) = File(
+        layout.buildDirectory.asFile.get(),
+        directory,
+    ).absolutePath
 }

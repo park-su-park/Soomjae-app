@@ -23,6 +23,6 @@ fun main() = application {
 
 @Preview
 @Composable
-private fun AppPreview() {
+private fun SoomjaePreview() {
     Soomjae()
 }
