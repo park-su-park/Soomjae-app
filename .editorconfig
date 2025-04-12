@@ -50,3 +50,7 @@ ktlint_standard_class-signature = disabled
 
 # Ignore putting every dot-chain in the same line as closing parenthesis
 ktlint_standard_chain-method-continuation = disabled
+
+
+[*.{yml,yaml}]
+indent_size = 2
