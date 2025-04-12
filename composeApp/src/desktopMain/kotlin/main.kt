@@ -5,8 +5,8 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.parksupark.soomjae.Soomjae
-import org.jetbrains.compose.reload.DevelopmentEntryPoint
 import java.awt.Dimension
+import org.jetbrains.compose.reload.DevelopmentEntryPoint
 
 fun main() = application {
     Window(
