@@ -6,3 +6,11 @@ plugins {
 dependencies {
     coreLibraryDesugaring(libs.desugaring)
 }
+
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation(projects.core.common)
+        }
+    }
+}

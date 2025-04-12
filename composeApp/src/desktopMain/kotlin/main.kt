@@ -4,7 +4,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import com.parksupark.soomjae.App
+import com.parksupark.soomjae.Soomjae
 import org.jetbrains.compose.reload.DevelopmentEntryPoint
 import java.awt.Dimension
 
@@ -16,13 +16,13 @@ fun main() = application {
     ) {
         window.minimumSize = Dimension(350, 600)
         DevelopmentEntryPoint {
-            App()
+            Soomjae()
         }
     }
 }
 
 @Preview
 @Composable
-fun AppPreview() {
-    App()
+private fun SoomjaePreview() {
+    Soomjae()
 }
