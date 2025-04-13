@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.theme
+package com.parksupark.soomjae.core.presentation.designsystem.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -11,6 +11,7 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import com.materialkolor.rememberDynamicColorScheme
 
 private val LightColorScheme = lightColorScheme(
     primary = PrimaryLight,
@@ -88,10 +89,10 @@ private val DarkColorScheme = darkColorScheme(
     surfaceContainerHighest = SurfaceContainerHighestDark,
 )
 
-internal val LocalThemeIsDark = compositionLocalOf { mutableStateOf(true) }
+val LocalThemeIsDark = compositionLocalOf { mutableStateOf(true) }
 
 @Composable
-internal fun AppTheme(content: @Composable () -> Unit) {
+fun AppTheme(content: @Composable () -> Unit) {
     val systemIsDark = isSystemInDarkTheme()
     val isDarkState = remember(systemIsDark) { mutableStateOf(systemIsDark) }
     CompositionLocalProvider(
@@ -99,8 +100,11 @@ internal fun AppTheme(content: @Composable () -> Unit) {
     ) {
         val isDark by isDarkState
         SystemAppearance(!isDark)
+
+        val colorScheme =
+            rememberDynamicColorScheme(primary = Seed, isDark = isDark, isAmoled = false)
         MaterialTheme(
-            colorScheme = if (isDark) DarkColorScheme else LightColorScheme,
+            colorScheme = colorScheme,
             content = { Surface(content = content) },
         )
     }

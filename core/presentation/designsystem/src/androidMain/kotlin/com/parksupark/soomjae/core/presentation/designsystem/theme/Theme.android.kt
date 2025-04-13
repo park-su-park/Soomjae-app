@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.theme
+package com.parksupark.soomjae.core.presentation.designsystem.theme
 
 import android.app.Activity
 import androidx.compose.runtime.Composable

@@ -7,6 +7,7 @@ import bundleImplementation
 import com.android.build.api.dsl.ApplicationBuildType
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import configureAndroid
+import java.util.Properties
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
@@ -20,7 +21,6 @@ import org.jetbrains.compose.ComposePlugin
 import org.jetbrains.compose.desktop.DesktopExtension
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import java.util.Properties
 
 class SoomjaeAppConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {

@@ -10,6 +10,8 @@ trim_trailing_whitespace = true
 insert_final_newline = true
 
 [*.{kt,kts}]
+ij_kotlin_imports_layout = *, ^
+
 # Don't allow any wildcard imports
 ij_kotlin_packages_to_use_import_on_demand = unset
 

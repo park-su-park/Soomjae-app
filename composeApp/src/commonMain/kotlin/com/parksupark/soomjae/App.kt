@@ -43,8 +43,8 @@ import com.parksupark.soomjae.composeApp.resources.open_github
 import com.parksupark.soomjae.composeApp.resources.run
 import com.parksupark.soomjae.composeApp.resources.stop
 import com.parksupark.soomjae.composeApp.resources.theme
-import com.parksupark.soomjae.theme.AppTheme
-import com.parksupark.soomjae.theme.LocalThemeIsDark
+import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
+import com.parksupark.soomjae.core.presentation.designsystem.theme.LocalThemeIsDark
 import kotlinx.coroutines.isActive
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.stringResource

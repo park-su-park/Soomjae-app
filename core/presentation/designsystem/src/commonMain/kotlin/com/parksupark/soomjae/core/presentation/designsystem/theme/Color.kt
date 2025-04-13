@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.theme
+package com.parksupark.soomjae.core.presentation.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 
