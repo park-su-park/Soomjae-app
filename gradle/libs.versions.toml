@@ -5,7 +5,7 @@ androidx-activityCompose = "1.10.1"
 androidx-lifecycle = "2.9.0-alpha06"
 androidx-navigation = "2.9.0-alpha16"
 androidx-uiTest = "1.7.8"
-buildConfig = "5.6.2"
+buildconfig = "5.6.2"
 coil = "3.1.0"
 compose = "1.8.0-beta02"
 datastore = "1.1.4"
@@ -42,7 +42,7 @@ junit = "1.2.1"
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
-buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
+buildconfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildconfig" }
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 hotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "hotReload" }
@@ -128,6 +128,7 @@ room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 # Gradle
 ###
 gradle-android = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+gradle-buildconfig = { module = "com.github.gmazzo.buildconfig:com.github.gmazzo.buildconfig.gradle.plugin", version.ref = "buildconfig" }
 gradle-compose = { module = "org.jetbrains.compose:compose-gradle-plugin", version.ref = "compose" }
 gradle-compose-compiler = { module = "org.jetbrains.kotlin.plugin.compose:org.jetbrains.kotlin.plugin.compose.gradle.plugin", version.ref = "kotlin" }
 gradle-detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
@@ -313,6 +314,7 @@ build-config = [
 
 gradle = [
     "gradle-android",
+    "gradle-buildconfig",
     "gradle-compose",
     "gradle-compose-compiler",
     "gradle-detekt",
