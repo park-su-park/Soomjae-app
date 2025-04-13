@@ -12,11 +12,9 @@ import org.gradle.kotlin.dsl.invoke
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 class MultiplatformDataRemoteConventionPlugin : Plugin<Project> {
-
     override fun apply(target: Project) = with(target) {
         with(pluginManager) {
-            apply(plugin = "katana.multiplatform.core")
-            apply(plugin = "com.apollographql.apollo")
+            apply(plugin = "soomjae.multiplatform.core")
         }
 
         with(extensions) {
