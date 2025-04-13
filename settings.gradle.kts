@@ -36,6 +36,8 @@ plugins {
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":composeApp")
-include(":core:domain")
 include(":core:common")
+include(":core:domain")
+include(":core:presentation:designsystem")
+include(":core:remote")
 include(":core:presentation:designsystem")
