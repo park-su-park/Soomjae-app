@@ -2,8 +2,8 @@
 
 package com.parksupark.soomjae
 
+import SoomJae.composeApp.BuildConfig
 import androidx.compose.runtime.Composable
-import com.parksupark.soomjae.composeApp.BuildConfig
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.di.soomjaeModule
 import org.koin.compose.KoinMultiplatformApplication
