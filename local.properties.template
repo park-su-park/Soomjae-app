@@ -1,0 +1,6 @@
+# Configure your sdk here
+sdk.dir=
+# Should be one of `dev` or `release`
+soomjae.flavor=dev
+# should contain protocol, ends with `/`
+base.url=https://example.com/

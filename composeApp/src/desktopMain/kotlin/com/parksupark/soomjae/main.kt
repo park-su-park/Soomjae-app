@@ -1,10 +1,11 @@
+package com.parksupark.soomjae
+
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import com.parksupark.soomjae.Soomjae
 import java.awt.Dimension
 import org.jetbrains.compose.reload.DevelopmentEntryPoint
 
