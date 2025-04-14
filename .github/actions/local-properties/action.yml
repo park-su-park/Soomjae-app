@@ -1,0 +1,25 @@
+name: Generate local.properties
+
+description: 'Generates local.properties file if it does not exist'
+
+inputs:
+  base-url:
+    description: 'Base Url for API request'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Ensure local.properties exists
+      shell: bash
+      run: |
+        if [ ! -f local.properties ]; then
+          echo "Creating local.properties..."
+          touch local.properties
+        else
+          echo "local.properties already exists. Skipping file creation."
+        fi
+    - name: Write to local.properties
+      shell: bash
+      run: |
+        echo "base.url=${{ inputs.base-url }}" >> local.properties
