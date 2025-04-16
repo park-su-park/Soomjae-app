@@ -6,7 +6,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.core.common)
-            implementation(projects.core.presentation.ui)
+            api(projects.core.presentation.designsystem)
         }
     }
 }
