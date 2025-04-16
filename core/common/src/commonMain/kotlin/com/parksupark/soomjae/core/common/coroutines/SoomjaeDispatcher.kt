@@ -7,6 +7,7 @@ import kotlinx.coroutines.SupervisorJob
 
 interface SoomjaeDispatcher : CoroutineScope {
     val main: CoroutineDispatcher
+    val mainImmediate: CoroutineDispatcher
     val io: CoroutineDispatcher
     val default: CoroutineDispatcher
     val unconfined: CoroutineDispatcher
