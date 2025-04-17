@@ -14,6 +14,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeO
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.features.home.presentation.resources.Res
 import com.parksupark.soomjae.features.home.presentation.resources.home_search_hint
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun HomeScreen(
@@ -30,7 +31,7 @@ internal fun HomeScreen(
             SoomjaeOutlinedTextField(
                 state = rememberTextFieldState(),
                 startIcon = Icons.Default.Search,
-                hint = stringResource(id = Res.string.home_search_hint),
+                hint = stringResource(Res.string.home_search_hint),
                 modifier = Modifier.padding(horizontal = 16.dp),
             )
             Spacer(modifier = Modifier.weight(2f))
