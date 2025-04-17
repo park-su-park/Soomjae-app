@@ -221,13 +221,13 @@ fun SoomjaeOutlinedTextField(
                 .clip(RoundedCornerShape(16.dp))
                 .border(
                     width = 1.dp,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = if (isFocused) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
                     shape = RoundedCornerShape(16.dp),
                 )
                 .padding(12.dp)
                 .onFocusChanged {
                     isFocused = it.isFocused
-                },
+                }
             enabled = enabled,
             decorator = { innerBox ->
                 Row(
