@@ -30,7 +30,7 @@ internal fun HomeScreen(
             SoomjaeOutlinedTextField(
                 state = rememberTextFieldState(),
                 startIcon = Icons.Default.Search,
-                hint = Res.string.home_search_hint.toString(),
+                hint = stringResource(id = Res.string.home_search_hint),
                 modifier = Modifier.padding(horizontal = 16.dp),
             )
             Spacer(modifier = Modifier.weight(2f))
