@@ -5,8 +5,7 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.core.common)
-            api(projects.core.presentation.designsystem)
+            implementation(projects.core.presentation.ui)
         }
     }
 }

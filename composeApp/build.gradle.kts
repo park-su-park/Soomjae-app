@@ -14,6 +14,8 @@ kotlin {
             implementation(projects.core.domain)
             implementation(projects.core.presentation.designsystem)
             implementation(projects.core.remote)
+
+            implementation(projects.features.home.presentation)
         }
     }
 }

@@ -70,6 +70,8 @@ class MultiplatformComposeConventionPlugin : Plugin<Project> {
                 bundleImplementation("ui-ios")
             }
             desktopMain.dependencies {
+                implementation(compose.preview)
+                implementation(compose.uiTooling)
                 bundleImplementation("ui-desktop")
             }
 

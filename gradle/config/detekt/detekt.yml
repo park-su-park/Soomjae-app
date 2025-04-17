@@ -317,7 +317,7 @@ formatting:
         active: false
         autoCorrect: true
         indentSize: 4
-        maxLineLength: 120
+        maxLineLength: 140
     BlockCommentInitialStarAlignment:
         active: true
         autoCorrect: true
@@ -363,7 +363,7 @@ formatting:
         indentSize: 4
     MaximumLineLength:
         active: true
-        maxLineLength: 120
+        maxLineLength: 140
         ignoreBackTickedIdentifier: false
     ModifierListSpacing:
         active: true
@@ -415,7 +415,7 @@ formatting:
     ParameterListWrapping:
         active: true
         autoCorrect: true
-        maxLineLength: 120
+        maxLineLength: 140
     SpacingAroundAngleBrackets:
         active: false
         autoCorrect: true
@@ -818,7 +818,7 @@ style:
         maxChainedCalls: 5
     MaxLineLength:
         active: true
-        maxLineLength: 120
+        maxLineLength: 140
         excludePackageStatements: true
         excludeImportStatements: true
         excludeCommentStatements: false
