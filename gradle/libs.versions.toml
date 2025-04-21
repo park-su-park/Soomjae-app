@@ -1,6 +1,6 @@
 [versions]
 arrow = "2.0.1"
-agp = "8.9.1"
+agp = "8.9.2"
 androidx-activityCompose = "1.10.1"
 androidx-lifecycle = "2.9.0-alpha06"
 androidx-navigation = "2.9.0-alpha16"
