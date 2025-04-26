@@ -18,7 +18,7 @@ private val LocalSoomjaeColors = staticCompositionLocalOf<SoomjaeColors> {
 }
 
 object SoomjaeTheme {
-    val colors: SoomjaeColors
+    val colorScheme: SoomjaeColors
         @Composable
         get() = LocalSoomjaeColors.current
 }
