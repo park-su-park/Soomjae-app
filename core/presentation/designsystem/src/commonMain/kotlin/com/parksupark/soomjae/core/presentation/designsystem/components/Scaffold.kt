@@ -10,12 +10,12 @@ import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 
 @Composable
 fun SoomjaeScaffold(
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier.Companion,
     topBar: @Composable () -> Unit = {},
     bottomBar: @Composable () -> Unit = {},
     snackbarHost: @Composable () -> Unit = {},
     floatingActionButton: @Composable () -> Unit = {},
-    floatingActionButtonPosition: FabPosition = FabPosition.End,
+    floatingActionButtonPosition: FabPosition = FabPosition.Companion.End,
     backgroundColor: Color = SoomjaeTheme.colorScheme.background1,
     contentColor: Color = SoomjaeTheme.colorScheme.text1,
     content: @Composable (PaddingValues) -> Unit,

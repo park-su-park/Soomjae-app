@@ -30,7 +30,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 @Composable
 fun SoomjaeButton(
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier.Companion,
     enabled: Boolean = true,
     shape: Shape = SoomjaeButtonDefaults.shape,
     border: BorderStroke? = null,
@@ -44,7 +44,7 @@ fun SoomjaeButton(
 ) {
     SoomjaeSurface(
         shape = shape,
-        color = Color.Transparent,
+        color = Color.Companion.Transparent,
         contentColor = if (enabled) contentColor else disabledContentColor,
         border = border,
         modifier = modifier
@@ -53,7 +53,7 @@ fun SoomjaeButton(
             .clickable(
                 onClick = onClick,
                 enabled = enabled,
-                role = Role.Button,
+                role = Role.Companion.Button,
                 interactionSource = interactionSource,
                 indication = null,
             ),
@@ -62,7 +62,7 @@ fun SoomjaeButton(
             value = MaterialTheme.typography.labelLarge,
         ) {
             Row(
-                Modifier
+                Modifier.Companion
                     .defaultMinSize(
                         minWidth = ButtonDefaults.MinWidth,
                         minHeight = ButtonDefaults.MinHeight,
@@ -70,7 +70,7 @@ fun SoomjaeButton(
                     .indication(interactionSource, ripple())
                     .padding(contentPadding),
                 horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.Companion.CenterVertically,
                 content = content,
             )
         }

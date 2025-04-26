@@ -39,13 +39,13 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun SoomjaeTextField(
     state: TextFieldState,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier.Companion,
     hint: String = "",
     title: String? = null,
     startIcon: ImageVector? = null,
     endIcon: ImageVector? = null,
     error: String? = null,
-    keyboardType: KeyboardType = KeyboardType.Text,
+    keyboardType: KeyboardType = KeyboardType.Companion.Text,
     additionalInfo: String? = null,
     enabled: Boolean = true,
 ) {
@@ -56,10 +56,10 @@ fun SoomjaeTextField(
         modifier = modifier,
     ) {
         Row(
-            modifier = Modifier
+            modifier = Modifier.Companion
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.Companion.CenterVertically,
         ) {
             if (title != null) {
                 Text(
@@ -81,7 +81,7 @@ fun SoomjaeTextField(
                 )
             }
         }
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.Companion.height(4.dp))
         BasicTextField(
             state = state,
             textStyle = LocalTextStyle.current.copy(
@@ -92,7 +92,7 @@ fun SoomjaeTextField(
             ),
             lineLimits = TextFieldLineLimits.SingleLine,
             cursorBrush = SolidColor(MaterialTheme.colorScheme.onBackground),
-            modifier = Modifier
+            modifier = Modifier.Companion
                 .clip(RoundedCornerShape(16.dp))
                 .background(
                     if (isFocused) {
@@ -108,9 +108,9 @@ fun SoomjaeTextField(
                     color = if (isFocused) {
                         MaterialTheme.colorScheme.primary
                     } else {
-                        Color.Transparent
+                        Color.Companion.Transparent
                     },
-                    shape = RoundedCornerShape(16.dp),
+                    shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
                 )
                 .padding(12.dp)
                 .onFocusChanged {
@@ -118,9 +118,9 @@ fun SoomjaeTextField(
                 },
             decorator = { innerBox ->
                 Row(
-                    modifier = Modifier
+                    modifier = Modifier.Companion
                         .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
+                    verticalAlignment = Alignment.Companion.CenterVertically,
                 ) {
                     if (startIcon != null) {
                         Icon(
@@ -128,10 +128,10 @@ fun SoomjaeTextField(
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
-                        Spacer(modifier = Modifier.width(16.dp))
+                        Spacer(modifier = Modifier.Companion.width(16.dp))
                     }
                     Box(
-                        modifier = Modifier
+                        modifier = Modifier.Companion
                             .weight(1f),
                     ) {
                         if (state.text.isEmpty() && !isFocused) {
@@ -140,18 +140,18 @@ fun SoomjaeTextField(
                                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
                                     alpha = 0.4f,
                                 ),
-                                modifier = Modifier.fillMaxWidth(),
+                                modifier = Modifier.Companion.fillMaxWidth(),
                             )
                         }
                         innerBox()
                     }
                     if (endIcon != null) {
-                        Spacer(modifier = Modifier.width(16.dp))
+                        Spacer(modifier = Modifier.Companion.width(16.dp))
                         Icon(
                             imageVector = endIcon,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier
+                            modifier = Modifier.Companion
                                 .padding(end = 8.dp),
                         )
                     }
@@ -164,13 +164,13 @@ fun SoomjaeTextField(
 @Composable
 fun SoomjaeOutlinedTextField(
     state: TextFieldState,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier.Companion,
     hint: String = "",
     title: String? = null,
     startIcon: ImageVector? = null,
     endIcon: ImageVector? = null,
     error: String? = null,
-    keyboardType: KeyboardType = KeyboardType.Text,
+    keyboardType: KeyboardType = KeyboardType.Companion.Text,
     additionalInfo: String? = null,
     enabled: Boolean = true,
 ) {
@@ -181,10 +181,10 @@ fun SoomjaeOutlinedTextField(
         modifier = modifier,
     ) {
         Row(
-            modifier = Modifier
+            modifier = Modifier.Companion
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.Companion.CenterVertically,
         ) {
             if (title != null) {
                 Text(
@@ -206,7 +206,7 @@ fun SoomjaeOutlinedTextField(
                 )
             }
         }
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.Companion.height(4.dp))
         BasicTextField(
             state = state,
             textStyle = LocalTextStyle.current.copy(
@@ -217,8 +217,8 @@ fun SoomjaeOutlinedTextField(
             ),
             lineLimits = TextFieldLineLimits.SingleLine,
             cursorBrush = SolidColor(MaterialTheme.colorScheme.onBackground),
-            modifier = Modifier
-                .clip(RoundedCornerShape(16.dp))
+            modifier = Modifier.Companion
+                .clip(androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
                 .border(
                     width = 1.dp,
                     color = if (isFocused) {
@@ -226,7 +226,7 @@ fun SoomjaeOutlinedTextField(
                     } else {
                         MaterialTheme.colorScheme.onSurfaceVariant
                     },
-                    shape = RoundedCornerShape(16.dp),
+                    shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
                 )
                 .padding(12.dp)
                 .onFocusChanged {
@@ -235,9 +235,9 @@ fun SoomjaeOutlinedTextField(
             enabled = enabled,
             decorator = { innerBox ->
                 Row(
-                    modifier = Modifier
+                    modifier = Modifier.Companion
                         .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
+                    verticalAlignment = Alignment.Companion.CenterVertically,
                 ) {
                     if (startIcon != null) {
                         Icon(
@@ -245,10 +245,10 @@ fun SoomjaeOutlinedTextField(
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
-                        Spacer(modifier = Modifier.width(16.dp))
+                        Spacer(modifier = Modifier.Companion.width(16.dp))
                     }
                     Box(
-                        modifier = Modifier
+                        modifier = Modifier.Companion
                             .weight(1f),
                     ) {
                         if (state.text.isEmpty() && !isFocused) {
@@ -257,18 +257,18 @@ fun SoomjaeOutlinedTextField(
                                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
                                     alpha = 0.4f,
                                 ),
-                                modifier = Modifier.fillMaxWidth(),
+                                modifier = Modifier.Companion.fillMaxWidth(),
                             )
                         }
                         innerBox()
                     }
                     if (endIcon != null) {
-                        Spacer(modifier = Modifier.width(16.dp))
+                        Spacer(modifier = Modifier.Companion.width(16.dp))
                         Icon(
                             imageVector = endIcon,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier
+                            modifier = Modifier.Companion
                                 .padding(end = 8.dp),
                         )
                     }
