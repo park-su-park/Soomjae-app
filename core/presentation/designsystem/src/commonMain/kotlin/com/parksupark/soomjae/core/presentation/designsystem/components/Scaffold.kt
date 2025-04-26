@@ -5,15 +5,19 @@ import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 
 @Composable
 fun SoomjaeScaffold(
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier.Companion,
     topBar: @Composable () -> Unit = {},
     bottomBar: @Composable () -> Unit = {},
     snackbarHost: @Composable () -> Unit = {},
     floatingActionButton: @Composable () -> Unit = {},
-    floatingActionButtonPosition: FabPosition = FabPosition.End,
+    floatingActionButtonPosition: FabPosition = FabPosition.Companion.End,
+    backgroundColor: Color = SoomjaeTheme.colorScheme.background1,
+    contentColor: Color = SoomjaeTheme.colorScheme.text1,
     content: @Composable (PaddingValues) -> Unit,
 ) {
     Scaffold(
@@ -23,7 +27,8 @@ fun SoomjaeScaffold(
         snackbarHost = snackbarHost,
         floatingActionButton = floatingActionButton,
         floatingActionButtonPosition = floatingActionButtonPosition,
-    ) { padding ->
-        content(padding)
-    }
+        containerColor = backgroundColor,
+        contentColor = contentColor,
+        content = content,
+    )
 }
