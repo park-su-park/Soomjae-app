@@ -6,6 +6,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeButton
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSecondaryButton
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSurface
+import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeTextButton
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 
 @Composable
@@ -28,6 +29,20 @@ private fun SoomjaeSecondaryButtonPreview() {
     AppTheme {
         SoomjaeSurface {
             SoomjaeSecondaryButton(
+                onClick = { },
+            ) {
+                Text("Button")
+            }
+        }
+    }
+}
+
+@Composable
+@Preview
+private fun SoomjaeTextButtonPreview() {
+    AppTheme {
+        SoomjaeSurface {
+            SoomjaeTextButton(
                 onClick = { },
             ) {
                 Text("Button")

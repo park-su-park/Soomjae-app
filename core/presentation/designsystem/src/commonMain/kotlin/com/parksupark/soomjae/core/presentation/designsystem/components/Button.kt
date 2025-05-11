@@ -112,6 +112,39 @@ fun SoomjaeSecondaryButton(
     )
 }
 
+@Composable
+fun SoomjaeTextButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier.Companion,
+    enabled: Boolean = true,
+    shape: Shape = SoomjaeButtonDefaults.shape,
+    border: BorderStroke? = null,
+    background: Color = Color.Transparent,
+    disabledBackground: Color = SoomjaeTheme.colorScheme.ctaDisabled,
+    contentColor: Color = SoomjaeTheme.colorScheme.text1,
+    disabledContentColor: Color = SoomjaeTheme.colorScheme.text4,
+    contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
+    contentAlign: Alignment = Alignment.Center,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    content: @Composable RowScope.() -> Unit,
+) {
+    SoomjaeButton(
+        shape = shape,
+        enabled = enabled,
+        contentColor = contentColor,
+        disabledContentColor = disabledContentColor,
+        border = border,
+        modifier = modifier,
+        background = background,
+        disabledBackground = disabledBackground,
+        onClick = onClick,
+        interactionSource = interactionSource,
+        contentPadding = contentPadding,
+        contentAlign = contentAlign,
+        content = content,
+    )
+}
+
 object SoomjaeButtonDefaults {
     val shape: Shape
         @Composable get() = RoundedCornerShape(12.dp)
