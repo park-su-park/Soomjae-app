@@ -3,4 +3,6 @@
     <string name="login_divider_text">또는</string>
     <string name="register_button">회원가입</string>
     <string name="email_login_button">이메일로 로그인</string>
+    <string name="login_register_button">회원가입</string>
+    <string name="login_email_login_button">이메일로 로그인</string>
 </resources>

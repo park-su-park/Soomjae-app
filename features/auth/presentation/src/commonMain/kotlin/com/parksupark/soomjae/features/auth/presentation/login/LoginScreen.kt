@@ -22,10 +22,10 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeS
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSecondaryButton
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.features.auth.presentation.resources.Res
-import com.parksupark.soomjae.features.auth.presentation.resources.email_login_button
 import com.parksupark.soomjae.features.auth.presentation.resources.login_divider_text
+import com.parksupark.soomjae.features.auth.presentation.resources.login_email_login_button
 import com.parksupark.soomjae.features.auth.presentation.resources.login_eula_text
-import com.parksupark.soomjae.features.auth.presentation.resources.register_button
+import com.parksupark.soomjae.features.auth.presentation.resources.login_register_button
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -100,7 +100,7 @@ private fun OwnLoginSection(
             },
             modifier = Modifier.weight(1f),
         ) {
-            Text(stringResource(Res.string.register_button))
+            Text(stringResource(Res.string.login_register_button))
         }
         Spacer(modifier = Modifier.width(8.dp))
         SoomjaeSecondaryButton(
@@ -109,7 +109,7 @@ private fun OwnLoginSection(
             },
             modifier = Modifier.weight(1f),
         ) {
-            Text(text = stringResource(Res.string.email_login_button))
+            Text(text = stringResource(Res.string.login_email_login_button))
         }
     }
 }
