@@ -2,7 +2,7 @@
 arrow = "2.1.2"
 agp = "8.10.0"
 androidx-activityCompose = "1.10.1"
-androidx-lifecycle = "2.9.0-beta01"
+androidx-lifecycle = "2.9.0"
 androidx-navigation = "2.9.0-beta02"
 androidx-uiTest = "1.8.1"
 buildconfig = "5.6.5"
