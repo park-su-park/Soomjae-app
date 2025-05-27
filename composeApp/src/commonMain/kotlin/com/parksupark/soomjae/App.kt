@@ -11,6 +11,7 @@ import com.parksupark.soomjae.core.presentation.ui.navigation.loggerObserver
 import com.parksupark.soomjae.features.auth.presentation.navigation.authGraph
 import com.parksupark.soomjae.features.home.presentation.navigation.HomeDestination
 import com.parksupark.soomjae.features.home.presentation.navigation.homeGraph
+import com.parksupark.soomjae.features.profile.presentation.navigation.profileGraph
 import com.parksupark.soomjae.viewmodel.SoomjaeViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -35,6 +36,7 @@ internal fun App(viewModel: SoomjaeViewModel = koinViewModel()) {
         ) {
             homeGraph(navHostController)
             authGraph(navHostController)
+            profileGraph(navHostController)
         }
     }
 }
