@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.parksupark.soomjae.composeApp.resources.IndieFlower_Regular
 import com.parksupark.soomjae.composeApp.resources.Res
 import com.parksupark.soomjae.composeApp.resources.cyclone
@@ -46,13 +47,17 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeB
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.designsystem.theme.LocalThemeIsDark
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
+import com.parksupark.soomjae.viewmodel.SoomjaeViewModel
 import kotlinx.coroutines.isActive
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-internal fun App() {
+internal fun App(viewModel: SoomjaeViewModel = koinViewModel()) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     SoomjaeScaffold {
         Column(
             modifier = Modifier
