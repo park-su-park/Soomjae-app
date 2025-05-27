@@ -5,7 +5,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 
 @Composable
-fun ProfileRoute(coordinator: ProfileCoordinator = rememberProfileCoordinator()) {
+fun ProfileRoute(
+    onLoginClick: () -> Unit,
+    coordinator: ProfileCoordinator = rememberProfileCoordinator(onLoginClick),
+) {
     val uiState by coordinator.screenStateFlow.collectAsState(ProfileState())
 
     val actionsHandler: (ProfileAction) -> Unit = { action ->

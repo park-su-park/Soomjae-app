@@ -9,6 +9,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeS
 import com.parksupark.soomjae.core.presentation.ui.components.SoomjaeBottomNavigationBar
 import com.parksupark.soomjae.core.presentation.ui.navigation.loggerObserver
 import com.parksupark.soomjae.features.auth.presentation.navigation.authGraph
+import com.parksupark.soomjae.features.auth.presentation.navigation.navigateToLogin
 import com.parksupark.soomjae.features.home.presentation.navigation.HomeDestination
 import com.parksupark.soomjae.features.home.presentation.navigation.homeGraph
 import com.parksupark.soomjae.features.profile.presentation.navigation.profileGraph
@@ -36,7 +37,7 @@ internal fun App(viewModel: SoomjaeViewModel = koinViewModel()) {
         ) {
             homeGraph(navHostController)
             authGraph(navHostController)
-            profileGraph(navHostController)
+            profileGraph(navigateToLogin = navHostController::navigateToLogin)
         }
     }
 }

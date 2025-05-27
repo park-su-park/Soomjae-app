@@ -26,3 +26,11 @@ fun NavGraphBuilder.authGraph(navController: NavHostController) {
         }
     }
 }
+
+fun NavHostController.navigateToLogin() {
+    navigate(AuthDestination.Login) {
+        popUpTo(AuthDestination.Root) {
+            inclusive = true
+        }
+    }
+}
