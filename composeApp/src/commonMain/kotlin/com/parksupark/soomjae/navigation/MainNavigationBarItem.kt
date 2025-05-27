@@ -22,7 +22,7 @@ data class MainNavigationBarItem(
     override fun toString(): String = label.key
 }
 
-internal val mainNavigationBarItemItems: ImmutableList<MainNavigationBarItem> = persistentListOf(
+internal val mainNavigationBarItems: ImmutableList<MainNavigationBarItem> = persistentListOf(
     MainNavigationBarItem(
         route = HomeDestination.Root,
         selectedIcon = Icons.Filled.Home,
