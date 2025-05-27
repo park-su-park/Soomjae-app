@@ -4,24 +4,24 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationRoutes
+import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationDestination
 import com.parksupark.soomjae.features.home.presentation.home.HomeRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed interface HomeRoutes : NavigationRoutes {
+sealed interface HomeDestination : NavigationDestination {
     @Serializable
-    data object Root : HomeRoutes
+    data object Root : HomeDestination
 
     @Serializable
-    data object Home : HomeRoutes
+    data object Home : HomeDestination
 }
 
 fun NavGraphBuilder.homeGraph(navController: NavHostController) {
-    navigation<HomeRoutes.Root>(
-        startDestination = HomeRoutes.Home,
+    navigation<HomeDestination.Root>(
+        startDestination = HomeDestination.Home,
     ) {
-        composable<HomeRoutes.Home> {
+        composable<HomeDestination.Home> {
             HomeRoute()
         }
     }

@@ -7,14 +7,14 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.parksupark.soomjae.composeApp.resources.Res
 import com.parksupark.soomjae.composeApp.resources.navigation_bar_home
 import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationBarItem
-import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationRoutes
-import com.parksupark.soomjae.features.home.presentation.navigation.HomeRoutes
+import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationDestination
+import com.parksupark.soomjae.features.home.presentation.navigation.HomeDestination
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import org.jetbrains.compose.resources.StringResource
 
 data class MainNavigationBarItem(
-    override val route: NavigationRoutes,
+    override val route: NavigationDestination,
     override val selectedIcon: ImageVector,
     override val unselectedIcon: ImageVector,
     override val label: StringResource,
@@ -24,7 +24,7 @@ data class MainNavigationBarItem(
 
 internal val mainNavigationBarItemItems: ImmutableList<MainNavigationBarItem> = persistentListOf(
     MainNavigationBarItem(
-        route = HomeRoutes.Root,
+        route = HomeDestination.Root,
         selectedIcon = Icons.Filled.Home,
         unselectedIcon = Icons.Outlined.Home,
         label = Res.string.navigation_bar_home,

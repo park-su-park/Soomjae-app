@@ -9,7 +9,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.ui.components.SoomjaeBottomNavigationBar
 import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationBarItem
-import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationRoutes
+import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationDestination
 import com.parksupark.soomjae.core.presentation.ui.resources.Res
 import com.parksupark.soomjae.core.presentation.ui.resources.preview_navigation_home
 import kotlinx.collections.immutable.persistentListOf
@@ -28,7 +28,7 @@ private fun SoomjaeBottomNavigationBarPreview() {
 }
 
 private class PreviewNavigationBarItem(
-    override val route: NavigationRoutes,
+    override val route: NavigationDestination,
     override val selectedIcon: ImageVector,
     override val unselectedIcon: ImageVector,
     override val label: StringResource,
@@ -40,31 +40,31 @@ private class PreviewNavigationBarItem(
 
 private val previewNavigationBarItems = persistentListOf(
     PreviewNavigationBarItem(
-        route = object : NavigationRoutes {},
+        route = object : NavigationDestination {},
         selectedIcon = Icons.Filled.Home,
         unselectedIcon = Icons.Outlined.Home,
         label = Res.string.preview_navigation_home,
     ),
     PreviewNavigationBarItem(
-        route = object : NavigationRoutes {},
+        route = object : NavigationDestination {},
         selectedIcon = Icons.Filled.Home,
         unselectedIcon = Icons.Outlined.Home,
         label = Res.string.preview_navigation_home,
     ),
     PreviewNavigationBarItem(
-        route = object : NavigationRoutes {},
+        route = object : NavigationDestination {},
         selectedIcon = Icons.Filled.Home,
         unselectedIcon = Icons.Outlined.Home,
         label = Res.string.preview_navigation_home,
     ),
     PreviewNavigationBarItem(
-        route = object : NavigationRoutes {},
+        route = object : NavigationDestination {},
         selectedIcon = Icons.Filled.Home,
         unselectedIcon = Icons.Outlined.Home,
         label = Res.string.preview_navigation_home,
     ),
     PreviewNavigationBarItem(
-        route = object : NavigationRoutes {},
+        route = object : NavigationDestination {},
         selectedIcon = Icons.Filled.Home,
         unselectedIcon = Icons.Outlined.Home,
         label = Res.string.preview_navigation_home,
