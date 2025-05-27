@@ -8,6 +8,8 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.core.common)
             api(projects.core.presentation.designsystem)
+
+            implementation(libs.coil.network.ktor)
         }
     }
 }
