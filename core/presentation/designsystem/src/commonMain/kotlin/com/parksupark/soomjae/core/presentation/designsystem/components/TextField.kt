@@ -18,7 +18,6 @@ import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,6 +34,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 
 @Composable
 fun SoomjaeTextField(
@@ -64,19 +64,19 @@ fun SoomjaeTextField(
             if (title != null) {
                 Text(
                     text = title,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = SoomjaeTheme.colorScheme.text2,
                 )
             }
             if (error != null) {
                 Text(
                     text = error,
-                    color = MaterialTheme.colorScheme.error,
+                    color = SoomjaeTheme.colorScheme.error,
                     fontSize = 12.sp,
                 )
             } else if (additionalInfo != null) {
                 Text(
                     text = additionalInfo,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = SoomjaeTheme.colorScheme.text2,
                     fontSize = 12.sp,
                 )
             }
@@ -85,28 +85,26 @@ fun SoomjaeTextField(
         BasicTextField(
             state = state,
             textStyle = LocalTextStyle.current.copy(
-                color = MaterialTheme.colorScheme.onBackground,
+                color = SoomjaeTheme.colorScheme.text1,
             ),
             keyboardOptions = KeyboardOptions(
                 keyboardType = keyboardType,
             ),
             lineLimits = TextFieldLineLimits.SingleLine,
-            cursorBrush = SolidColor(MaterialTheme.colorScheme.onBackground),
+            cursorBrush = SolidColor(SoomjaeTheme.colorScheme.text1),
             modifier = Modifier.Companion
                 .clip(RoundedCornerShape(16.dp))
                 .background(
                     if (isFocused) {
-                        MaterialTheme.colorScheme.primary.copy(
-                            alpha = 0.05f,
-                        )
+                        SoomjaeTheme.colorScheme.background2
                     } else {
-                        MaterialTheme.colorScheme.surface
+                        SoomjaeTheme.colorScheme.background1
                     },
                 )
                 .border(
                     width = 1.dp,
                     color = if (isFocused) {
-                        MaterialTheme.colorScheme.primary
+                        SoomjaeTheme.colorScheme.divider1
                     } else {
                         Color.Companion.Transparent
                     },
@@ -126,7 +124,7 @@ fun SoomjaeTextField(
                         Icon(
                             imageVector = startIcon,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            tint = SoomjaeTheme.colorScheme.text2,
                         )
                         Spacer(modifier = Modifier.Companion.width(16.dp))
                     }
@@ -137,7 +135,7 @@ fun SoomjaeTextField(
                         if (state.text.isEmpty() && !isFocused) {
                             Text(
                                 text = hint,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                                color = SoomjaeTheme.colorScheme.text2.copy(
                                     alpha = 0.4f,
                                 ),
                                 modifier = Modifier.Companion.fillMaxWidth(),
@@ -150,7 +148,7 @@ fun SoomjaeTextField(
                         Icon(
                             imageVector = endIcon,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            tint = SoomjaeTheme.colorScheme.text2,
                             modifier = Modifier.Companion
                                 .padding(end = 8.dp),
                         )
@@ -189,19 +187,19 @@ fun SoomjaeOutlinedTextField(
             if (title != null) {
                 Text(
                     text = title,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = SoomjaeTheme.colorScheme.text2,
                 )
             }
             if (error != null) {
                 Text(
                     text = error,
-                    color = MaterialTheme.colorScheme.error,
+                    color = SoomjaeTheme.colorScheme.error,
                     fontSize = 12.sp,
                 )
             } else if (additionalInfo != null) {
                 Text(
                     text = additionalInfo,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = SoomjaeTheme.colorScheme.text2,
                     fontSize = 12.sp,
                 )
             }
@@ -210,23 +208,23 @@ fun SoomjaeOutlinedTextField(
         BasicTextField(
             state = state,
             textStyle = LocalTextStyle.current.copy(
-                color = MaterialTheme.colorScheme.onBackground,
+                color = SoomjaeTheme.colorScheme.text1,
             ),
             keyboardOptions = KeyboardOptions(
                 keyboardType = keyboardType,
             ),
             lineLimits = TextFieldLineLimits.SingleLine,
-            cursorBrush = SolidColor(MaterialTheme.colorScheme.onBackground),
+            cursorBrush = SolidColor(SoomjaeTheme.colorScheme.text1),
             modifier = Modifier.Companion
-                .clip(androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
+                .clip(RoundedCornerShape(16.dp))
                 .border(
                     width = 1.dp,
                     color = if (isFocused) {
-                        MaterialTheme.colorScheme.primary
+                        SoomjaeTheme.colorScheme.divider2
                     } else {
-                        MaterialTheme.colorScheme.onSurfaceVariant
+                        SoomjaeTheme.colorScheme.divider1
                     },
-                    shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
+                    shape = RoundedCornerShape(16.dp),
                 )
                 .padding(12.dp)
                 .onFocusChanged {
@@ -243,7 +241,7 @@ fun SoomjaeOutlinedTextField(
                         Icon(
                             imageVector = startIcon,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            tint = SoomjaeTheme.colorScheme.text2,
                         )
                         Spacer(modifier = Modifier.Companion.width(16.dp))
                     }
@@ -254,9 +252,7 @@ fun SoomjaeOutlinedTextField(
                         if (state.text.isEmpty() && !isFocused) {
                             Text(
                                 text = hint,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(
-                                    alpha = 0.4f,
-                                ),
+                                color = SoomjaeTheme.colorScheme.text3,
                                 modifier = Modifier.Companion.fillMaxWidth(),
                             )
                         }
@@ -267,7 +263,7 @@ fun SoomjaeOutlinedTextField(
                         Icon(
                             imageVector = endIcon,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            tint = SoomjaeTheme.colorScheme.text2,
                             modifier = Modifier.Companion
                                 .padding(end = 8.dp),
                         )

@@ -17,11 +17,12 @@ hotReload = "1.0.0-alpha10"
 kaml = "0.78.0"
 kermit = "2.0.5"
 koin = "4.1.0-RC1"
-kotest = "6.0.0.M4"
+kotest = "6.0.0.M3"
 kotest-property-datetime = "2.0.0"
 kotlin = "2.1.21"
 kotlinx-coroutines = "1.10.2"
 kotlinx-datetime = "0.6.2"
+kotlinx-immutable = "0.4.0"
 kotlinx-serialization = "1.8.1"
 kotlinpoet = "2.2.0"
 ksp = "2.1.21-2.0.1"
@@ -93,6 +94,7 @@ kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-c
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+kotlinx-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-immutable" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 
@@ -124,7 +126,7 @@ multiplatformSettings = { module = "com.russhwolf:multiplatform-settings", versi
 # Room
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite"}
+sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 
 ###
 # Gradle
@@ -171,6 +173,7 @@ core-common = [
     "koin-core",
     "kotlinx-coroutines-core",
     "kotlinx-datetime",
+    "kotlinx-immutable",
     "kermit",
 ]
 core-android = []

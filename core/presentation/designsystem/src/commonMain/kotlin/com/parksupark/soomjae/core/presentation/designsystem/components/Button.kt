@@ -39,6 +39,7 @@ fun SoomjaeButton(
     contentColor: Color = SoomjaeTheme.colorScheme.text1W,
     disabledContentColor: Color = SoomjaeTheme.colorScheme.text4,
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
+    contentAlign: Alignment = Alignment.Center,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable RowScope.() -> Unit,
 ) {
@@ -48,7 +49,7 @@ fun SoomjaeButton(
         contentColor = if (enabled) contentColor else disabledContentColor,
         border = border,
         modifier = modifier
-            .clip(shape)
+            .clip(shape = shape)
             .background(if (enabled) background else disabledBackground)
             .clickable(
                 onClick = onClick,
@@ -57,6 +58,7 @@ fun SoomjaeButton(
                 interactionSource = interactionSource,
                 indication = null,
             ),
+        contentAlign = contentAlign,
     ) {
         ProvideTextStyle(
             value = MaterialTheme.typography.labelLarge,
@@ -67,14 +69,80 @@ fun SoomjaeButton(
                         minWidth = ButtonDefaults.MinWidth,
                         minHeight = ButtonDefaults.MinHeight,
                     )
-                    .indication(interactionSource, ripple())
-                    .padding(contentPadding),
+                    .indication(interactionSource = interactionSource, indication = ripple())
+                    .padding(paddingValues = contentPadding),
                 horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.Companion.CenterVertically,
+                verticalAlignment = Alignment.CenterVertically,
                 content = content,
             )
         }
     }
+}
+
+@Composable
+fun SoomjaeSecondaryButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier.Companion,
+    enabled: Boolean = true,
+    shape: Shape = SoomjaeButtonDefaults.shape,
+    border: BorderStroke? = null,
+    background: Color = SoomjaeTheme.colorScheme.ctaSecondary,
+    disabledBackground: Color = SoomjaeTheme.colorScheme.ctaDisabled,
+    contentColor: Color = SoomjaeTheme.colorScheme.ctaSecondaryText,
+    disabledContentColor: Color = SoomjaeTheme.colorScheme.text4,
+    contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
+    contentAlign: Alignment = Alignment.Center,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    content: @Composable RowScope.() -> Unit,
+) {
+    SoomjaeButton(
+        shape = shape,
+        enabled = enabled,
+        contentColor = contentColor,
+        disabledContentColor = disabledContentColor,
+        border = border,
+        modifier = modifier,
+        background = background,
+        disabledBackground = disabledBackground,
+        onClick = onClick,
+        interactionSource = interactionSource,
+        contentPadding = contentPadding,
+        contentAlign = contentAlign,
+        content = content,
+    )
+}
+
+@Composable
+fun SoomjaeTextButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier.Companion,
+    enabled: Boolean = true,
+    shape: Shape = SoomjaeButtonDefaults.shape,
+    border: BorderStroke? = null,
+    background: Color = Color.Transparent,
+    disabledBackground: Color = SoomjaeTheme.colorScheme.ctaDisabled,
+    contentColor: Color = SoomjaeTheme.colorScheme.text1,
+    disabledContentColor: Color = SoomjaeTheme.colorScheme.text4,
+    contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
+    contentAlign: Alignment = Alignment.Center,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    content: @Composable RowScope.() -> Unit,
+) {
+    SoomjaeButton(
+        shape = shape,
+        enabled = enabled,
+        contentColor = contentColor,
+        disabledContentColor = disabledContentColor,
+        border = border,
+        modifier = modifier,
+        background = background,
+        disabledBackground = disabledBackground,
+        onClick = onClick,
+        interactionSource = interactionSource,
+        contentPadding = contentPadding,
+        contentAlign = contentAlign,
+        content = content,
+    )
 }
 
 object SoomjaeButtonDefaults {

@@ -1,0 +1,15 @@
+<resources>
+    <string name="login_eula_text">가입을 진행할 경우, 이용약관과 개인정보 수집 및 이용\n에 대해 동의한 것으로 간주됩니다.</string>
+    <string name="login_divider_text">또는</string>
+    <string name="login_register_button">회원가입</string>
+    <string name="login_email_login_button">이메일로 로그인</string>
+
+    <string name="register_title">회원가입</string>
+    <string name="register_email_hint">이메일</string>
+    <string name="register_password_hint">비밀번호</string>
+    <string name="register_password_confirm_hint">비밀번호 재확인</string>
+    <string name="register_register_button">가입</string>
+    <string name="register_login_button_1">이미 계정이 있으신가요?</string>
+    <string name="register_login_button_2">로그인</string>
+    <string name="register_navigate_up_description">뒤로 가기</string>
+</resources>
