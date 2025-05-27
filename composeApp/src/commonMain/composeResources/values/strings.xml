@@ -6,4 +6,5 @@
     <string name="theme">Theme</string>
 
     <string name="navigation_bar_home">Home</string>
+    <string name="navigation_bar_profile">Profile</string>
 </resources>
