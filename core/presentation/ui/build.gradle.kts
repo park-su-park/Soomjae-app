@@ -1,5 +1,6 @@
 plugins {
     id("soomjae.multiplatform.ui")
+    id("soomjae.build-config")
 }
 
 kotlin {
