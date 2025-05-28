@@ -55,7 +55,7 @@ fun SoomjaeButton(
                 enabled = enabled,
                 role = Role.Companion.Button,
                 interactionSource = interactionSource,
-                indication = null,
+                indication = ripple(),
             ),
         contentAlign = contentAlign,
     ) {
@@ -68,7 +68,6 @@ fun SoomjaeButton(
                         minWidth = ButtonDefaults.MinWidth,
                         minHeight = ButtonDefaults.MinHeight,
                     )
-                    .indication(interactionSource = interactionSource, indication = ripple())
                     .padding(paddingValues = contentPadding),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
