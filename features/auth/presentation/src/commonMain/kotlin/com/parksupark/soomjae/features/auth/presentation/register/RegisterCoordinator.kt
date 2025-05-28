@@ -10,14 +10,24 @@ class RegisterCoordinator(
     val viewModel: RegisterViewModel,
 ) {
     val screenStateFlow = viewModel.uiState
+    val eventChannelFlow = viewModel.eventChannel
 
     fun handle(action: RegisterAction) {
         when (action) {
             RegisterAction.OnBackClick -> navigator.navigateBack()
 
-            RegisterAction.OnRegisterClick -> {}
-
             RegisterAction.OnLoginClick -> navigator.navigateToEmailLogin()
+
+            RegisterAction.OnRegisterClick -> viewModel.register()
+        }
+    }
+
+    fun handleEvent(event: RegisterEvent) {
+        when (event) {
+            is RegisterEvent.Error -> { // TODO
+            }
+
+            is RegisterEvent.RegistrationSuccess -> navigator.navigateToEmailLogin()
         }
     }
 }

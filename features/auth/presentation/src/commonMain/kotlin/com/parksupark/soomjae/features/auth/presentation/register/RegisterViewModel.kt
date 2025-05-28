@@ -2,8 +2,11 @@ package com.parksupark.soomjae.features.auth.presentation.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.collectAsFlow
+import com.parksupark.soomjae.features.auth.domain.AuthRepository
 import com.parksupark.soomjae.features.auth.domain.UserDataValidator
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,13 +15,19 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class RegisterViewModel(
     private val userDataValidator: UserDataValidator,
+    private val authRepository: AuthRepository,
 ) : ViewModel() {
     private val _uiState: MutableStateFlow<RegisterState> = MutableStateFlow(RegisterState())
     val uiState: StateFlow<RegisterState> = _uiState.asStateFlow()
+
+    private val _eventChannel = Channel<RegisterEvent>()
+    val eventChannel = _eventChannel.receiveAsFlow()
 
     init {
         uiState.value.inputEmail.collectAsFlow().onEach { email ->
@@ -61,5 +70,25 @@ class RegisterViewModel(
                 it.copy(canRegister = canRegister)
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun register() {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isRegistering = true) }
+            val result = authRepository.register(
+                email = uiState.value.inputEmail.text.toString().trim(),
+                password = uiState.value.inputPassword.text.toString(),
+            )
+            _uiState.update { it.copy(isRegistering = false) }
+
+            result.fold(
+                ifLeft = {
+                    _eventChannel.send(RegisterEvent.Error(it.asUiText()))
+                },
+                ifRight = {
+                    _eventChannel.send(RegisterEvent.RegistrationSuccess)
+                },
+            )
+        }
     }
 }
