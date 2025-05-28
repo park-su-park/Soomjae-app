@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
@@ -56,12 +55,12 @@ fun SoomjaeButton(
                 enabled = enabled,
                 role = Role.Companion.Button,
                 interactionSource = interactionSource,
-                indication = null,
+                indication = ripple(),
             ),
         contentAlign = contentAlign,
     ) {
         ProvideTextStyle(
-            value = MaterialTheme.typography.labelLarge,
+            value = SoomjaeTheme.typography.button2,
         ) {
             Row(
                 Modifier.Companion
@@ -69,7 +68,6 @@ fun SoomjaeButton(
                         minWidth = ButtonDefaults.MinWidth,
                         minHeight = ButtonDefaults.MinHeight,
                     )
-                    .indication(interactionSource = interactionSource, indication = ripple())
                     .padding(paddingValues = contentPadding),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,

@@ -5,7 +5,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 
 @Composable
-internal fun HomeRoute(coordinator: HomeCoordinator = rememberHomeCoordinator()) {
+internal fun HomeRoute(
+    bottomBar: @Composable () -> Unit,
+    coordinator: HomeCoordinator = rememberHomeCoordinator(),
+) {
     val uiState by coordinator.uiStateFlow.collectAsState(HomeState())
 
     val actionsHandler: (HomeAction) -> Unit = { action ->
@@ -13,6 +16,7 @@ internal fun HomeRoute(coordinator: HomeCoordinator = rememberHomeCoordinator())
     }
 
     HomeScreen(
+        bottomBar = bottomBar,
         state = uiState,
         onAction = actionsHandler,
     )

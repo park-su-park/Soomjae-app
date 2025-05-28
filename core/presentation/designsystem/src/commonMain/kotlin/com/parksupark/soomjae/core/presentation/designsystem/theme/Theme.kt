@@ -17,18 +17,33 @@ private val LocalSoomjaeColors = staticCompositionLocalOf<SoomjaeColors> {
     error("No LocalSoomjaeColors provided")
 }
 
+private val LocalSoomjaeTypography = staticCompositionLocalOf<SoomjaeTypography> {
+    error("No LocalSoomjaeTypography provided")
+}
+
 object SoomjaeTheme {
     val colorScheme: SoomjaeColors
         @Composable
         get() = LocalSoomjaeColors.current
+    val typography: SoomjaeTypography
+        @Composable
+        get() = LocalSoomjaeTypography.current
 }
 
 @Composable
-fun ProvideSoomjaeColors(
+fun ProvideSoomjaeColorsAndTypography(
     colors: SoomjaeColors,
+    typography: SoomjaeTypography,
     content: @Composable () -> Unit,
 ) {
-    CompositionLocalProvider(value = LocalSoomjaeColors provides colors, content = content)
+    CompositionLocalProvider(
+        value = LocalSoomjaeColors provides colors,
+    ) {
+        CompositionLocalProvider(
+            LocalSoomjaeTypography provides typography,
+            content = content,
+        )
+    }
 }
 
 @Composable
@@ -38,8 +53,9 @@ fun AppTheme(
 ) {
     val isDarkState = remember(darkTheme) { mutableStateOf(darkTheme) }
 
-    ProvideSoomjaeColors(
+    ProvideSoomjaeColorsAndTypography(
         colors = if (darkTheme) DarkColorPalette else LightColorPalette,
+        typography = SoomjaeTypography,
     ) {
         CompositionLocalProvider(
             LocalThemeIsDark provides isDarkState,

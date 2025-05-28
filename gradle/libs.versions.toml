@@ -61,7 +61,7 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 arrow = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
 
 # Coil
-coil = { module = "io.coil-kt.coil3:coil-compose-core", version.ref = "coil" }
+coil = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
 
 # Desugaring

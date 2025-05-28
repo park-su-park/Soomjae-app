@@ -558,7 +558,7 @@ naming:
     VariableMaxLength:
         active: true
         excludes: [ '**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jvmBasedTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**', '**/jsTest/**', '**/iosTest/**', '**/desktopTest/**', '**/mobileTest/**', '**/nonMobileTest/**' ]
-        maximumVariableNameLength: 30
+        maximumVariableNameLength: 50
     VariableMinLength:
         active: false
         excludes: [ '**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jvmBasedTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**', '**/jsTest/**', '**/iosTest/**', '**/desktopTest/**', '**/mobileTest/**', '**/nonMobileTest/**' ]

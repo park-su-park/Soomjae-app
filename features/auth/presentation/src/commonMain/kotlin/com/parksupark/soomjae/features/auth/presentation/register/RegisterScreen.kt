@@ -35,7 +35,7 @@ import com.parksupark.soomjae.features.auth.presentation.resources.register_titl
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun RegisterScreen(
+internal fun RegisterScreen(
     state: RegisterState,
     onAction: (RegisterAction) -> Unit,
 ) {
@@ -51,28 +51,10 @@ fun RegisterScreen(
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
             InputSection(state = state, modifier = Modifier.fillMaxWidth())
-            SoomjaeButton(
-                onClick = { onAction(RegisterAction.OnRegisterClick) },
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Text(stringResource(Res.string.register_register_button))
-            }
-            SoomjaeTextButton(
-                onClick = { onAction(RegisterAction.OnLoginClick) },
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Text(
-                    text = buildAnnotatedString {
-                        append(stringResource(Res.string.register_login_button_1))
 
-                        append(" ")
+            RegisterButton(state.canRegister, onAction)
 
-                        withStyle(style = SpanStyle(color = SoomjaeTheme.colorScheme.cta)) {
-                            append(stringResource(Res.string.register_login_button_2))
-                        }
-                    },
-                )
-            }
+            LoginButton(onAction)
         }
     }
 }
@@ -95,7 +77,7 @@ private fun InputSection(
             hint = stringResource(Res.string.register_password_hint),
         )
         SoomjaeOutlinedTextField(
-            state = state.inputPasswordConfirm,
+            state = state.inputConfirmPassword,
             hint = stringResource(Res.string.register_password_confirm_hint),
         )
     }
@@ -123,4 +105,38 @@ fun RegisterTopBar(
             }
         },
     )
+}
+
+@Composable
+private fun RegisterButton(
+    canRegister: Boolean,
+    onAction: (RegisterAction) -> Unit,
+) {
+    SoomjaeButton(
+        onClick = { onAction(RegisterAction.OnRegisterClick) },
+        modifier = Modifier.fillMaxWidth(),
+        enabled = canRegister,
+    ) {
+        Text(stringResource(Res.string.register_register_button))
+    }
+}
+
+@Composable
+private fun LoginButton(onAction: (RegisterAction) -> Unit) {
+    SoomjaeTextButton(
+        onClick = { onAction(RegisterAction.OnLoginClick) },
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Text(
+            text = buildAnnotatedString {
+                append(stringResource(Res.string.register_login_button_1))
+
+                append(" ")
+
+                withStyle(style = SpanStyle(color = SoomjaeTheme.colorScheme.cta)) {
+                    append(stringResource(Res.string.register_login_button_2))
+                }
+            },
+        )
+    }
 }

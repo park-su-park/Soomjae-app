@@ -1,0 +1,11 @@
+package com.parksupark.soomjae.features.auth.domain
+
+import arrow.core.Either
+import com.parksupark.soomjae.core.domain.failures.DataFailure
+
+interface AuthRepository {
+    suspend fun register(
+        email: String,
+        password: String,
+    ): Either<DataFailure.Network, Unit>
+}

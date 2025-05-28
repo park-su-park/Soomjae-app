@@ -1,4 +1,5 @@
 <resources>
+    <string name="login_action_close">닫기</string>
     <string name="login_eula_text">가입을 진행할 경우, 이용약관과 개인정보 수집 및 이용\n에 대해 동의한 것으로 간주됩니다.</string>
     <string name="login_divider_text">또는</string>
     <string name="login_register_button">회원가입</string>

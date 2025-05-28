@@ -16,8 +16,10 @@ kotlin {
             implementation(projects.core.presentation.ui)
             implementation(projects.core.remote)
 
+            implementation(projects.features.auth.data)
             implementation(projects.features.auth.presentation)
             implementation(projects.features.home.presentation)
+            implementation(projects.features.profile.presentation)
         }
     }
 }

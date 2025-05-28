@@ -6,6 +6,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 
 @Composable
@@ -38,7 +39,7 @@ private val SoomjaeNavigationBarItemColors: NavigationBarItemColors
     get() = NavigationBarItemColors(
         selectedIconColor = SoomjaeTheme.colorScheme.primary,
         selectedTextColor = SoomjaeTheme.colorScheme.primary,
-        selectedIndicatorColor = SoomjaeTheme.colorScheme.text2,
+        selectedIndicatorColor = Color.Unspecified,
         unselectedIconColor = SoomjaeTheme.colorScheme.text2,
         unselectedTextColor = SoomjaeTheme.colorScheme.text2,
         disabledIconColor = SoomjaeTheme.colorScheme.text2.copy(alpha = 0.38f),

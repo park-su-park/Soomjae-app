@@ -1,0 +1,29 @@
+package com.parksupark.soomjae.features.auth.presentation.navigation
+
+import androidx.navigation.NavHostController
+import com.parksupark.soomjae.core.presentation.ui.navigation.SoomjaeNavigator
+import com.parksupark.soomjae.core.presentation.ui.navigation.overridden
+
+interface AuthNavigator : SoomjaeNavigator {
+    fun navigateToRegister()
+
+    fun navigateToEmailLogin()
+}
+
+private class SoomjaeAuthNavigator(
+    override val navController: NavHostController,
+) : AuthNavigator {
+    override fun navigateBack() {
+        overridden()
+    }
+
+    override fun navigateToRegister() {
+        overridden()
+    }
+
+    override fun navigateToEmailLogin() {
+        overridden()
+    }
+}
+
+fun soomjaeAuthNavigator(navController: NavHostController): AuthNavigator = SoomjaeAuthNavigator(navController)
