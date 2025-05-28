@@ -17,6 +17,11 @@ class UserDataValidator {
         )
     }
 
+    fun isPasswordMatch(
+        password: String,
+        confirmPassword: String,
+    ): Boolean = password == confirmPassword
+
     companion object {
         const val MIN_PASSWORD_LENGTH = 9
 
