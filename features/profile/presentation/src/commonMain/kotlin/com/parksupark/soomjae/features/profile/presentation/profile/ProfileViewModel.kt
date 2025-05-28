@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class ProfileViewModel : ViewModel() {
-    private val _uiStateFlow: MutableStateFlow<ProfileState> = MutableStateFlow(ProfileState())
+    private val _uiStateFlow: MutableStateFlow<ProfileState> = MutableStateFlow(ProfileState.MyProfileState())
     val uiStateFlow: StateFlow<ProfileState> = _uiStateFlow.asStateFlow()
 }

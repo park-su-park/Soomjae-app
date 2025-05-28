@@ -1,22 +1,22 @@
 package com.parksupark.soomjae.features.profile.presentation.profile
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
 fun ProfileRoute(
     onLoginClick: () -> Unit,
     coordinator: ProfileCoordinator = rememberProfileCoordinator(onLoginClick),
 ) {
-    val uiState by coordinator.screenStateFlow.collectAsState(ProfileState())
+    val uiState by coordinator.screenStateFlow.collectAsStateWithLifecycle()
 
     val actionsHandler: (ProfileAction) -> Unit = { action ->
         coordinator.handle(action)
     }
 
-    ProfileScreen(
-        state = uiState,
-        onAction = actionsHandler,
-    )
+    when (val profileState = uiState) {
+        is ProfileState.MyProfileState -> MyProfileScreen(profileState, actionsHandler)
+        is ProfileState.OtherProfileState -> OthersProfileScreen(profileState, actionsHandler)
+    }
 }
