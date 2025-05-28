@@ -33,6 +33,7 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
         // ! Should be applied after commonConfiguration to avoid 'kspCommonMainMetadata' not found error
         with(pluginManager) {
             apply("soomjae.multiplatform.compose")
+            apply("org.jetbrains.compose.hot-reload")
         }
 
         with(extensions) {
