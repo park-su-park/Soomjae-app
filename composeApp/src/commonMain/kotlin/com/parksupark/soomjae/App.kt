@@ -5,18 +5,17 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import co.touchlab.kermit.Logger
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.ui.components.SoomjaeBottomNavigationBar
 import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationBarItem.Companion.hasRoute
-import com.parksupark.soomjae.core.presentation.ui.navigation.loggerObserver
 import com.parksupark.soomjae.features.auth.presentation.navigation.authGraph
 import com.parksupark.soomjae.features.auth.presentation.navigation.navigateToLogin
 import com.parksupark.soomjae.features.home.presentation.navigation.HomeDestination
 import com.parksupark.soomjae.features.home.presentation.navigation.homeGraph
 import com.parksupark.soomjae.features.profile.presentation.navigation.profileGraph
 import com.parksupark.soomjae.navigation.isMainNavigationBarItem
+import com.parksupark.soomjae.navigation.rememberSoomjaeNavigator
 import com.parksupark.soomjae.viewmodel.SoomjaeViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -24,7 +23,8 @@ import org.koin.compose.viewmodel.koinViewModel
 internal fun App(viewModel: SoomjaeViewModel = koinViewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val navHostController = rememberNavController().loggerObserver()
+    val navigator = rememberSoomjaeNavigator()
+    val navHostController = navigator.navController
     val currentNav by navHostController.currentBackStackEntryAsState()
 
     val bottomBar = @Composable {
@@ -47,11 +47,11 @@ internal fun App(viewModel: SoomjaeViewModel = koinViewModel()) {
 
     SoomjaeScaffold {
         NavHost(
-            navController = navHostController,
+            navController = navigator.navController,
             startDestination = HomeDestination.Root,
         ) {
             homeGraph(navHostController, bottomBar)
-            authGraph(navHostController)
+            authGraph(navigator)
             profileGraph(bottomBar, navigateToLogin = navHostController::navigateToLogin)
         }
     }
