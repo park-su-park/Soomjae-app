@@ -8,6 +8,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.parksupark.soomjae.core.common.coroutines.SoomjaeDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
+import org.koin.compose.koinInject
 
 @Composable
 fun <T> ObserveAsEvents(
@@ -15,7 +16,7 @@ fun <T> ObserveAsEvents(
     key1: Any? = null,
     key2: Any? = null,
     onEvent: (T) -> Unit,
-    dispatcher: SoomjaeDispatcher,
+    dispatcher: SoomjaeDispatcher = koinInject(),
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     LaunchedEffect(flow, lifecycleOwner.lifecycle, key1, key2) {
