@@ -40,3 +40,5 @@ internal val mainNavigationBarItems: ImmutableList<MainNavigationBarItem> = pers
         label = Res.string.navigation_bar_profile,
     ),
 )
+
+internal fun NavigationBarItem.isMainNavigationBarItem(): Boolean = this is MainNavigationBarItem && mainNavigationBarItems.contains(this)

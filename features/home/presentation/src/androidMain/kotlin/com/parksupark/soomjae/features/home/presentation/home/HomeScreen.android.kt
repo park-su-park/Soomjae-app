@@ -9,6 +9,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 private fun HomeScreenPreview() {
     AppTheme {
         HomeScreen(
+            bottomBar = {},
             state = HomeState(),
             onAction = {},
         )

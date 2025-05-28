@@ -25,11 +25,13 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun MyProfileScreen(
+    bottomBar: @Composable () -> Unit,
     state: ProfileState.MyProfileState,
     onAction: (ProfileAction) -> Unit,
 ) {
     SoomjaeScaffold(
         topBar = { ProfileTopBar(onAction) },
+        bottomBar = bottomBar,
     ) { innerPadding ->
         Column(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
             if (state.isLogin) {

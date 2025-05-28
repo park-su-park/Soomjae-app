@@ -12,6 +12,7 @@ import com.parksupark.soomjae.features.profile.presentation.profile.ProfileState
 private fun MyProfileScreenPreview() {
     AppTheme {
         MyProfileScreen(
+            bottomBar = {},
             state = ProfileState.MyProfileState(),
             onAction = {},
         )

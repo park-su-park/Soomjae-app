@@ -18,10 +18,11 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 internal fun HomeScreen(
+    bottomBar: @Composable () -> Unit,
     state: HomeState,
     onAction: (HomeAction) -> Unit,
 ) {
-    SoomjaeScaffold { paddingValues ->
+    SoomjaeScaffold(bottomBar = bottomBar) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()

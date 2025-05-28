@@ -1,5 +1,6 @@
 package com.parksupark.soomjae.features.home.presentation.navigation
 
+import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -17,12 +18,15 @@ sealed interface HomeDestination : NavigationDestination {
     data object Home : HomeDestination
 }
 
-fun NavGraphBuilder.homeGraph(navController: NavHostController) {
+fun NavGraphBuilder.homeGraph(
+    navController: NavHostController,
+    bottomBar: @Composable () -> Unit,
+) {
     navigation<HomeDestination.Root>(
         startDestination = HomeDestination.Home,
     ) {
         composable<HomeDestination.Home> {
-            HomeRoute()
+            HomeRoute(bottomBar)
         }
     }
 }

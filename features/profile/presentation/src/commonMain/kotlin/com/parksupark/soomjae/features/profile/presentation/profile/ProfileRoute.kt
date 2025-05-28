@@ -6,6 +6,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
 fun ProfileRoute(
+    bottomBar: @Composable () -> Unit,
     onLoginClick: () -> Unit,
     coordinator: ProfileCoordinator = rememberProfileCoordinator(onLoginClick),
 ) {
@@ -16,7 +17,7 @@ fun ProfileRoute(
     }
 
     when (val profileState = uiState) {
-        is ProfileState.MyProfileState -> MyProfileScreen(profileState, actionsHandler)
+        is ProfileState.MyProfileState -> MyProfileScreen(bottomBar, profileState, actionsHandler)
         is ProfileState.OtherProfileState -> OthersProfileScreen(profileState, actionsHandler)
     }
 }

@@ -1,6 +1,8 @@
 package com.parksupark.soomjae.features.profile.presentation.navigation
 
+import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationDestination
@@ -16,10 +18,21 @@ sealed class ProfileDestination : NavigationDestination {
     data object Profile : ProfileDestination()
 }
 
-fun NavGraphBuilder.profileGraph(navigateToLogin: () -> Unit) {
+fun NavGraphBuilder.profileGraph(
+    bottomBar: @Composable () -> Unit,
+    navigateToLogin: () -> Unit,
+) {
     navigation<ProfileDestination.Root>(startDestination = ProfileDestination.Profile) {
         composable<ProfileDestination.Profile> {
-            ProfileRoute(onLoginClick = navigateToLogin)
+            ProfileRoute(bottomBar = bottomBar, onLoginClick = navigateToLogin)
+        }
+    }
+}
+
+fun NavHostController.navigateToProfile() {
+    navigate(ProfileDestination.Profile) {
+        popUpTo(ProfileDestination.Root) {
+            inclusive = true
         }
     }
 }
