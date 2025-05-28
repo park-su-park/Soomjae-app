@@ -5,6 +5,7 @@ import androidx.compose.runtime.remember
 import org.koin.compose.viewmodel.koinViewModel
 
 class LoginCoordinator(
+    val onRegisterClick: () -> Unit,
     val viewModel: LoginViewModel,
 ) {
     val uiStateFlow = viewModel.uiState
@@ -12,15 +13,19 @@ class LoginCoordinator(
     fun handle(action: LoginAction) {
         when (action) {
             LoginAction.OnClick -> {}
+            LoginAction.OnRegisterClick -> onRegisterClick()
             LoginAction.OnEmailLoginClick -> {}
-            LoginAction.OnRegisterClick -> {}
         }
     }
 }
 
 @Composable
-fun rememberLoginCoordinator(viewModel: LoginViewModel = koinViewModel()): LoginCoordinator = remember(viewModel) {
+fun rememberLoginCoordinator(
+    onRegisterClick: () -> Unit,
+    viewModel: LoginViewModel = koinViewModel(),
+): LoginCoordinator = remember(viewModel) {
     LoginCoordinator(
+        onRegisterClick = onRegisterClick,
         viewModel = viewModel,
     )
 }

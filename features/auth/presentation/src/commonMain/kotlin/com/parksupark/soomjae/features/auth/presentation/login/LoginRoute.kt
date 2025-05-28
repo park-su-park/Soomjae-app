@@ -5,7 +5,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 
 @Composable
-fun LoginRoute(coordinator: LoginCoordinator = rememberLoginCoordinator()) {
+fun LoginRoute(
+    onRegisterClick: () -> Unit,
+    coordinator: LoginCoordinator = rememberLoginCoordinator(onRegisterClick),
+) {
     val uiState by coordinator.uiStateFlow.collectAsState(LoginState())
 
     val actionsHandler: (LoginAction) -> Unit = { action ->

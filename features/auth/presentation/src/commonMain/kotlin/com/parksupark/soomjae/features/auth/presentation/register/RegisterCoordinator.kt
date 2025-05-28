@@ -5,13 +5,14 @@ import androidx.compose.runtime.remember
 import org.koin.compose.viewmodel.koinViewModel
 
 class RegisterCoordinator(
+    val onNavigateUp: () -> Unit,
     val viewModel: RegisterViewModel,
 ) {
     val screenStateFlow = viewModel.uiState
 
     fun handle(action: RegisterAction) {
         when (action) {
-            RegisterAction.OnBackClick -> {}
+            RegisterAction.OnBackClick -> onNavigateUp()
 
             RegisterAction.OnRegisterClick -> {}
 
@@ -21,8 +22,12 @@ class RegisterCoordinator(
 }
 
 @Composable
-fun rememberRegisterCoordinator(viewModel: RegisterViewModel = koinViewModel()): RegisterCoordinator = remember(viewModel) {
+fun rememberRegisterCoordinator(
+    onNavigateUp: () -> Unit,
+    viewModel: RegisterViewModel = koinViewModel(),
+): RegisterCoordinator = remember(viewModel) {
     RegisterCoordinator(
+        onNavigateUp = onNavigateUp,
         viewModel = viewModel,
     )
 }

@@ -5,7 +5,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 
 @Composable
-fun RegisterRoute(coordinator: RegisterCoordinator = rememberRegisterCoordinator()) {
+fun RegisterRoute(
+    onNavigateUp: () -> Unit,
+    coordinator: RegisterCoordinator = rememberRegisterCoordinator(onNavigateUp),
+) {
     val uiState by coordinator.screenStateFlow.collectAsState(RegisterState())
 
     val actionsHandler: (RegisterAction) -> Unit = { action ->

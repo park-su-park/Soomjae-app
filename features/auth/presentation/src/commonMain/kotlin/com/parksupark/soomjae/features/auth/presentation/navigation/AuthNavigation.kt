@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationDestination
 import com.parksupark.soomjae.features.auth.presentation.login.LoginRoute
+import com.parksupark.soomjae.features.auth.presentation.register.RegisterRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -15,6 +16,9 @@ sealed interface AuthDestination : NavigationDestination {
 
     @Serializable
     data object Login : AuthDestination
+
+    @Serializable
+    data object Register : AuthDestination
 }
 
 fun NavGraphBuilder.authGraph(navController: NavHostController) {
@@ -22,7 +26,10 @@ fun NavGraphBuilder.authGraph(navController: NavHostController) {
         startDestination = AuthDestination.Login,
     ) {
         composable<AuthDestination.Login> {
-            LoginRoute()
+            LoginRoute(onRegisterClick = navController::navigateToRegister)
+        }
+        composable<AuthDestination.Register> {
+            RegisterRoute(onNavigateUp = navController::navigateUp)
         }
     }
 }
@@ -33,4 +40,8 @@ fun NavHostController.navigateToLogin() {
             inclusive = true
         }
     }
+}
+
+fun NavHostController.navigateToRegister() {
+    navigate(AuthDestination.Register)
 }
