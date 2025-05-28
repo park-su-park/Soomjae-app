@@ -19,12 +19,12 @@ sealed class ProfileDestination : NavigationDestination {
 }
 
 fun NavGraphBuilder.profileGraph(
+    navigator: ProfileNavigator,
     bottomBar: @Composable () -> Unit,
-    navigateToLogin: () -> Unit,
 ) {
     navigation<ProfileDestination.Root>(startDestination = ProfileDestination.Profile) {
         composable<ProfileDestination.Profile> {
-            ProfileRoute(bottomBar = bottomBar, onLoginClick = navigateToLogin)
+            ProfileRoute(navigator, bottomBar = bottomBar)
         }
     }
 }

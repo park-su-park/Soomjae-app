@@ -5,12 +5,10 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
-import co.touchlab.kermit.Logger
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.ui.components.SoomjaeBottomNavigationBar
 import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationBarItem.Companion.hasRoute
 import com.parksupark.soomjae.features.auth.presentation.navigation.authGraph
-import com.parksupark.soomjae.features.auth.presentation.navigation.navigateToLogin
 import com.parksupark.soomjae.features.home.presentation.navigation.HomeDestination
 import com.parksupark.soomjae.features.home.presentation.navigation.homeGraph
 import com.parksupark.soomjae.features.profile.presentation.navigation.profileGraph
@@ -32,14 +30,8 @@ internal fun App(viewModel: SoomjaeViewModel = koinViewModel()) {
             items = uiState.navigationBarItems,
             isSelected = { item -> currentNav.hasRoute(item) },
             onClick = { item ->
-                Logger.d(tag = "App", messageString = "Navigation bar item clicked: ${item.label}")
-
                 if (item.isMainNavigationBarItem()) {
-                    navHostController.navigate(item.route) {
-                        popUpTo(HomeDestination.Root) {
-                            inclusive = true
-                        }
-                    }
+                    navigator.onNavigationBarItemClicked(item)
                 }
             },
         )
@@ -50,9 +42,9 @@ internal fun App(viewModel: SoomjaeViewModel = koinViewModel()) {
             navController = navigator.navController,
             startDestination = HomeDestination.Root,
         ) {
-            homeGraph(navHostController, bottomBar)
+            homeGraph(navigator, bottomBar)
             authGraph(navigator)
-            profileGraph(bottomBar, navigateToLogin = navHostController::navigateToLogin)
+            profileGraph(navigator, bottomBar)
         }
     }
 }

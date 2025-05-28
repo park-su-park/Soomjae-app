@@ -2,30 +2,33 @@ package com.parksupark.soomjae.features.profile.presentation.profile
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import com.parksupark.soomjae.features.profile.presentation.navigation.ProfileNavigator
 import org.koin.compose.viewmodel.koinViewModel
 
 class ProfileCoordinator(
-    val onLoginClick: () -> Unit,
+    val navigator: ProfileNavigator,
     val viewModel: ProfileViewModel,
 ) {
     val screenStateFlow = viewModel.uiStateFlow
 
     fun handle(action: ProfileAction) {
         when (action) {
-            ProfileAction.OnLoginClick -> onLoginClick()
+            ProfileAction.OnLoginClick -> navigator.navigateToLogin()
 
-            ProfileAction.OnSettingClick -> {}
+            ProfileAction.OnSettingClick -> {
+                // TODO: navigate to setting
+            }
         }
     }
 }
 
 @Composable
 fun rememberProfileCoordinator(
-    onLoginClick: () -> Unit,
+    navigator: ProfileNavigator,
     viewModel: ProfileViewModel = koinViewModel(),
 ): ProfileCoordinator = remember(viewModel) {
     ProfileCoordinator(
-        onLoginClick = onLoginClick,
+        navigator = navigator,
         viewModel = viewModel,
     )
 }

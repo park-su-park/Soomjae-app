@@ -3,12 +3,13 @@ package com.parksupark.soomjae.features.profile.presentation.profile
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.parksupark.soomjae.features.profile.presentation.navigation.ProfileNavigator
 
 @Composable
 fun ProfileRoute(
+    navigator: ProfileNavigator,
     bottomBar: @Composable () -> Unit,
-    onLoginClick: () -> Unit,
-    coordinator: ProfileCoordinator = rememberProfileCoordinator(onLoginClick),
+    coordinator: ProfileCoordinator = rememberProfileCoordinator(navigator),
 ) {
     val uiState by coordinator.screenStateFlow.collectAsStateWithLifecycle()
 

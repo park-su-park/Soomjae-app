@@ -5,27 +5,35 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationBarItem
 import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationDestination
 import com.parksupark.soomjae.core.presentation.ui.navigation.loggerObserver
 import com.parksupark.soomjae.core.presentation.ui.utils.hasRoute
 import com.parksupark.soomjae.features.auth.presentation.navigation.AuthNavigator
 import com.parksupark.soomjae.features.auth.presentation.navigation.navigateToEmailLogin
+import com.parksupark.soomjae.features.auth.presentation.navigation.navigateToLogin
 import com.parksupark.soomjae.features.auth.presentation.navigation.navigateToRegister
 import com.parksupark.soomjae.features.auth.presentation.navigation.soomjaeAuthNavigator
+import com.parksupark.soomjae.features.home.presentation.navigation.HomeNavigator
+import com.parksupark.soomjae.features.home.presentation.navigation.soomjaeHomeNavigator
+import com.parksupark.soomjae.features.profile.presentation.navigation.ProfileNavigator
+import com.parksupark.soomjae.features.profile.presentation.navigation.soomjaeProfileNavigator
 
-internal sealed interface RootNavigator : AuthNavigator {
-    fun onNavigationBarItemClicked(item: MainNavigationBarItem)
+internal sealed interface RootNavigator : AuthNavigator, HomeNavigator, ProfileNavigator {
+    fun onNavigationBarItemClicked(item: NavigationBarItem)
 }
 
 private class SoomjaeRootNavigator(
     override val navController: NavHostController,
     authNavigator: AuthNavigator,
-) : RootNavigator, AuthNavigator by authNavigator {
+    homeNavigator: HomeNavigator,
+    profileNavigator: ProfileNavigator,
+) : RootNavigator, AuthNavigator by authNavigator, HomeNavigator by homeNavigator, ProfileNavigator by profileNavigator {
     override fun navigateBack() {
         navController.navigateUp()
     }
 
-    override fun onNavigationBarItemClicked(item: MainNavigationBarItem) {
+    override fun onNavigationBarItemClicked(item: NavigationBarItem) {
         onNavigationBarItemClicked(item.route)
     }
 
@@ -36,6 +44,12 @@ private class SoomjaeRootNavigator(
 
     override fun navigateToEmailLogin() {
         navController.navigateToEmailLogin()
+    }
+    // </editor-fold>
+
+    // <editor-fold desc="ProfileNavigator">
+    override fun navigateToLogin() {
+        navController.navigateToLogin()
     }
     // </editor-fold>
 
@@ -60,6 +74,8 @@ internal fun rememberSoomjaeNavigator(): RootNavigator {
         SoomjaeRootNavigator(
             navController = navController,
             authNavigator = soomjaeAuthNavigator(navController),
+            homeNavigator = soomjaeHomeNavigator(navController),
+            profileNavigator = soomjaeProfileNavigator(navController),
         )
     }
 }
