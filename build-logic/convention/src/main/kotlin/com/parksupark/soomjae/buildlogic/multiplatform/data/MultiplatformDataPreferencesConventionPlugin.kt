@@ -15,7 +15,7 @@ class MultiplatformDataPreferencesConventionPlugin : Plugin<Project> {
 
     override fun apply(target: Project) = with(target) {
         with(pluginManager) {
-            apply("katana.multiplatform.core")
+            apply("soomjae.multiplatform.core")
             apply("org.jetbrains.kotlin.plugin.serialization")
             apply("androidx.room")
         }
