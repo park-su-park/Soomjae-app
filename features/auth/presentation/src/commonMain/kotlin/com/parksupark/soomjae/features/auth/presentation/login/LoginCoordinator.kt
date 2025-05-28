@@ -13,7 +13,7 @@ class LoginCoordinator(
 
     fun handle(action: LoginAction) {
         when (action) {
-            LoginAction.OnClick -> {}
+            LoginAction.OnCloseClick -> navigator.navigateBack()
             LoginAction.OnRegisterClick -> navigator.navigateToRegister()
             LoginAction.OnEmailLoginClick -> {}
         }
