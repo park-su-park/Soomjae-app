@@ -6,6 +6,9 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
+            implementation(projects.core.domain)
+            implementation(projects.core.remote)
+
             implementation(projects.features.auth.domain)
         }
     }
