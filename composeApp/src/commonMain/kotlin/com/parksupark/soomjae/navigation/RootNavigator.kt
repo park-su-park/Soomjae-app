@@ -9,6 +9,7 @@ import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationBarItem
 import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationDestination
 import com.parksupark.soomjae.core.presentation.ui.navigation.loggerObserver
 import com.parksupark.soomjae.core.presentation.ui.utils.hasRoute
+import com.parksupark.soomjae.features.auth.presentation.navigation.AuthDestination
 import com.parksupark.soomjae.features.auth.presentation.navigation.AuthNavigator
 import com.parksupark.soomjae.features.auth.presentation.navigation.navigateToEmailLogin
 import com.parksupark.soomjae.features.auth.presentation.navigation.navigateToLogin
@@ -45,6 +46,11 @@ private class SoomjaeRootNavigator(
     override fun navigateToEmailLogin() {
         navController.navigateToEmailLogin()
     }
+
+    override fun popUpAuthGraph() {
+        navController.popBackStack(AuthDestination.Root, inclusive = true)
+    }
+
     // </editor-fold>
 
     // <editor-fold desc="ProfileNavigator">
