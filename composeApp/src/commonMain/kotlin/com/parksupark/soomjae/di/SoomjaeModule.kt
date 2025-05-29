@@ -1,6 +1,7 @@
 package com.parksupark.soomjae.di
 
 import com.parksupark.soomjae.core.common.di.coreCommonModule
+import com.parksupark.soomjae.core.data.di.coreDataModule
 import com.parksupark.soomjae.core.remote.di.coreRemoteModule
 import com.parksupark.soomjae.features.auth.data.di.featuresAuthDataModule
 import com.parksupark.soomjae.features.auth.presentation.di.featuresAuthPresentationModule
@@ -17,6 +18,7 @@ private val appModule = module {
 internal val soomjaeModule = module {
     includes(appModule)
     includes(coreCommonModule)
+    includes(coreDataModule)
     includes(coreRemoteModule)
 
     includes(featuresAuthPresentationModule)
