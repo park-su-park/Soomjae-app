@@ -21,15 +21,6 @@ class RegisterCoordinator(
             RegisterAction.OnRegisterClick -> viewModel.register()
         }
     }
-
-    fun handleEvent(event: RegisterEvent) {
-        when (event) {
-            is RegisterEvent.Error -> { // TODO
-            }
-
-            is RegisterEvent.RegistrationSuccess -> navigator.navigateToEmailLogin()
-        }
-    }
 }
 
 @Composable

@@ -13,6 +13,7 @@ private fun RegisterScreenPreview() {
         RegisterScreen(
             state = RegisterState(),
             onAction = {},
+            snackbarHost = {},
         )
     }
 }
