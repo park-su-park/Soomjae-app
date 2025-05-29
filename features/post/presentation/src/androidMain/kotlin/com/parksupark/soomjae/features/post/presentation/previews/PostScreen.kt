@@ -13,6 +13,7 @@ private fun PostScreenPreview() {
         PostScreen(
             state = PostState(),
             onAction = {},
+            bottomBar = {},
         )
     }
 }

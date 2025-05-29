@@ -5,18 +5,19 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 
 @Composable
-fun PostRoute(coordinator: PostCoordinator = rememberPostCoordinator()) {
-    // State observing and declarations
+fun PostRoute(
+    bottomBar: @Composable () -> Unit,
+    coordinator: PostCoordinator = rememberPostCoordinator(),
+) {
     val uiState by coordinator.screenStateFlow.collectAsState(PostState())
 
-    // UI Actions
     val actionsHandler: (PostAction) -> Unit = { action ->
         coordinator.handle(action)
     }
 
-    // UI Rendering
     PostScreen(
         state = uiState,
         onAction = actionsHandler,
+        bottomBar = bottomBar,
     )
 }

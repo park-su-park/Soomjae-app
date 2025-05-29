@@ -33,12 +33,13 @@ import org.jetbrains.compose.resources.StringResource
 internal fun PostScreen(
     state: PostState,
     onAction: (PostAction) -> Unit,
+    bottomBar: @Composable () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     val pagerState = rememberPagerState(pageCount = { PostTabs.entries.size })
     val selectedTabIndex by remember { derivedStateOf { pagerState.currentPage } }
 
-    SoomjaeScaffold { innerPadding ->
+    SoomjaeScaffold(bottomBar = bottomBar) { innerPadding ->
         Column(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
             SoomjaeTabRow(
                 selectedTabIndex = selectedTabIndex,
@@ -62,17 +63,11 @@ internal fun PostScreen(
                 modifier = Modifier.fillMaxWidth().weight(1f),
             ) {
                 when (PostTabs.entries[it]) {
-                    PostTabs.COMMUNITY -> {
-                        CommunityTabRoute()
-                    }
+                    PostTabs.COMMUNITY -> CommunityTabRoute()
 
-                    PostTabs.MEETING -> {
-                        MeetingTabRoute()
-                    }
+                    PostTabs.MEETING -> MeetingTabRoute()
 
-                    PostTabs.FEED -> {
-                        MemberTabRoute()
-                    }
+                    PostTabs.FEED -> MemberTabRoute()
                 }
             }
         }

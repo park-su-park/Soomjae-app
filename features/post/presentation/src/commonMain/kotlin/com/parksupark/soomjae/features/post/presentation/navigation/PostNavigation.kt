@@ -1,5 +1,6 @@
 package com.parksupark.soomjae.features.post.presentation.navigation
 
+import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -17,12 +18,12 @@ sealed interface PostDestination : NavigationDestination {
     data object Post : PostDestination
 }
 
-fun NavGraphBuilder.postGraph() {
+fun NavGraphBuilder.postGraph(bottomBar: @Composable () -> Unit) {
     navigation<PostDestination.Root>(
         startDestination = PostDestination.Post,
     ) {
         composable<PostDestination.Post> {
-            PostRoute()
+            PostRoute(bottomBar)
         }
     }
 }

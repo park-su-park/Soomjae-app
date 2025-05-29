@@ -45,7 +45,7 @@ internal fun App(viewModel: SoomjaeViewModel = koinViewModel()) {
         ) {
             homeGraph(navigator, bottomBar)
             authGraph(navigator)
-            postGraph()
+            postGraph(bottomBar)
             profileGraph(navigator, bottomBar)
         }
     }
