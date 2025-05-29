@@ -13,8 +13,9 @@ class EmailLoginCoordinator(
 
     fun handle(action: EmailLoginAction) {
         when (action) {
-            EmailLoginAction.OnClick -> { // Handle action
-            }
+            EmailLoginAction.OnBackClick -> navigator.navigateBack()
+
+            EmailLoginAction.OnLoginClick -> viewModel.login()
         }
     }
 }

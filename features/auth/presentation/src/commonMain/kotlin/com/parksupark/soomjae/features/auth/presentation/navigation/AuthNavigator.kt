@@ -8,6 +8,10 @@ interface AuthNavigator : SoomjaeNavigator {
     fun navigateToRegister()
 
     fun navigateToEmailLogin()
+
+    fun popUpAuthGraph() {
+        overridden()
+    }
 }
 
 private class SoomjaeAuthNavigator(
@@ -22,6 +26,10 @@ private class SoomjaeAuthNavigator(
     }
 
     override fun navigateToEmailLogin() {
+        overridden()
+    }
+
+    override fun popUpAuthGraph() {
         overridden()
     }
 }
