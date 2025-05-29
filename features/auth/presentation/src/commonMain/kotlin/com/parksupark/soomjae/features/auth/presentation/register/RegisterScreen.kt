@@ -38,8 +38,10 @@ import org.jetbrains.compose.resources.stringResource
 internal fun RegisterScreen(
     state: RegisterState,
     onAction: (RegisterAction) -> Unit,
+    snackbarHost: @Composable () -> Unit,
 ) {
     SoomjaeScaffold(
+        snackbarHost = snackbarHost,
         topBar = {
             RegisterTopBar(
                 onBackClick = { onAction(RegisterAction.OnBackClick) },
