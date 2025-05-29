@@ -1,0 +1,5 @@
+<resources>
+    <string name="post_community_title">커뮤니티</string>
+    <string name="post_meeting_title">모임</string>
+    <string name="post_feed_title">피드</string>
+</resources>

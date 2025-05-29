@@ -3,15 +3,15 @@ package com.parksupark.soomjae.features.post.presentation.previews
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
-import com.parksupark.soomjae.features.post.presentation.post.PostScreen
-import com.parksupark.soomjae.features.post.presentation.post.PostState
+import com.parksupark.soomjae.features.post.presentation.post.tabs.member.MemberTabScreen
+import com.parksupark.soomjae.features.post.presentation.post.tabs.member.MemberTabState
 
 @Composable
-@Preview(name = "Post")
-private fun PostScreenPreview() {
+@Preview(name = "MemberTab")
+private fun MemberTabScreenPreview() {
     AppTheme {
-        PostScreen(
-            state = PostState(),
+        MemberTabScreen(
+            state = MemberTabState(),
             onAction = {},
         )
     }
