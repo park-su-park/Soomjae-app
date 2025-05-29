@@ -37,6 +37,7 @@ plugins {
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":composeApp")
 include(":core:common")
+include(":core:data")
 include(":core:domain")
 include(":core:presentation:designsystem")
 include(":core:presentation:ui")
