@@ -37,13 +37,10 @@ fun ProvideSoomjaeColorsAndTypography(
     content: @Composable () -> Unit,
 ) {
     CompositionLocalProvider(
-        value = LocalSoomjaeColors provides colors,
-    ) {
-        CompositionLocalProvider(
-            LocalSoomjaeTypography provides typography,
-            content = content,
-        )
-    }
+        LocalSoomjaeColors provides colors,
+        LocalSoomjaeTypography provides typography,
+        content = content,
+    )
 }
 
 @Composable
