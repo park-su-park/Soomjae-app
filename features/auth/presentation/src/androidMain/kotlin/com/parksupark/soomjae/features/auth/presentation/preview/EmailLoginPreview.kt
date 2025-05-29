@@ -11,5 +11,6 @@ private fun EmailLoginScreenPreview() {
     EmailLoginScreen(
         state = EmailLoginState(),
         onAction = {},
+        snackbarHost = {},
     )
 }

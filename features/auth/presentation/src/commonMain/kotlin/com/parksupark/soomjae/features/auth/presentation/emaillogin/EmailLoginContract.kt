@@ -1,6 +1,7 @@
 package com.parksupark.soomjae.features.auth.presentation.emaillogin
 
 import androidx.compose.foundation.text.input.TextFieldState
+import com.parksupark.soomjae.core.presentation.ui.utils.UiText
 
 data class EmailLoginState(
     val inputEmail: TextFieldState = TextFieldState(),
@@ -15,4 +16,10 @@ sealed interface EmailLoginAction {
     data object OnBackClick : EmailLoginAction
 
     data object OnLoginClick : EmailLoginAction
+}
+
+sealed interface EmailLoginEvent {
+    data class Error(val message: UiText) : EmailLoginEvent
+
+    data object LoginSuccess : EmailLoginEvent
 }

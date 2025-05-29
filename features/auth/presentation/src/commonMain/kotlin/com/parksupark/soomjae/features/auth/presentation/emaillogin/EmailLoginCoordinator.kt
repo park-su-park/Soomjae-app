@@ -10,6 +10,7 @@ class EmailLoginCoordinator(
     val viewModel: EmailLoginViewModel,
 ) {
     val screenStateFlow = viewModel.uiStateFlow
+    val eventsFlow = viewModel.eventChannel
 
     fun handle(action: EmailLoginAction) {
         when (action) {
