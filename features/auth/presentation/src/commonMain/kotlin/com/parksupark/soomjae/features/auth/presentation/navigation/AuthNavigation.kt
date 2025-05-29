@@ -4,8 +4,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import co.touchlab.kermit.Logger
 import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationDestination
+import com.parksupark.soomjae.features.auth.presentation.emaillogin.EmailLoginRoute
 import com.parksupark.soomjae.features.auth.presentation.login.LoginRoute
 import com.parksupark.soomjae.features.auth.presentation.register.RegisterRoute
 import kotlinx.serialization.Serializable
@@ -20,6 +20,9 @@ sealed interface AuthDestination : NavigationDestination {
 
     @Serializable
     data object Register : AuthDestination
+
+    @Serializable
+    data object EmailLogin : AuthDestination
 }
 
 fun NavGraphBuilder.authGraph(navigator: AuthNavigator) {
@@ -31,6 +34,9 @@ fun NavGraphBuilder.authGraph(navigator: AuthNavigator) {
         }
         composable<AuthDestination.Register> {
             RegisterRoute(navigator)
+        }
+        composable<AuthDestination.EmailLogin> {
+            EmailLoginRoute(navigator)
         }
     }
 }
@@ -48,6 +54,9 @@ fun NavHostController.navigateToRegister() {
 }
 
 fun NavHostController.navigateToEmailLogin() {
-    // TODO: Implement email login navigation
-    Logger.e { "Not Implemented" }
+    navigate(AuthDestination.EmailLogin) {
+        popUpTo(AuthDestination.Login) {
+            inclusive = false
+        }
+    }
 }

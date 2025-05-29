@@ -15,7 +15,7 @@ class LoginCoordinator(
         when (action) {
             LoginAction.OnCloseClick -> navigator.navigateBack()
             LoginAction.OnRegisterClick -> navigator.navigateToRegister()
-            LoginAction.OnEmailLoginClick -> {}
+            LoginAction.OnEmailLoginClick -> navigator.navigateToEmailLogin()
         }
     }
 }

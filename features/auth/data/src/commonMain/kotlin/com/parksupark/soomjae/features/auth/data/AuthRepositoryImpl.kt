@@ -14,7 +14,7 @@ class AuthRepositoryImpl(
         email: String,
         password: String,
     ): Either<DataFailure.Network, Unit> = httpClient.post<RegisterRequest, Unit>(
-        route = "auth/register",
+        route = "/v1/create-member",
         body = RegisterRequest(
             email = email,
             password = password,
