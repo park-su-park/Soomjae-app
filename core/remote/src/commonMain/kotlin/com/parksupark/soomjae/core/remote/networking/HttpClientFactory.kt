@@ -28,7 +28,7 @@ internal class HttpClientFactory {
         install(Logging) {
             logger = object : Logger {
                 override fun log(message: String) {
-                    Kermit.i(message)
+                    Kermit.i(HTTPCLIENT_TAG) { message }
                 }
             }
             level = LogLevel.ALL
@@ -39,3 +39,5 @@ internal class HttpClientFactory {
         }
     }
 }
+
+private const val HTTPCLIENT_TAG = "HttpClient"
