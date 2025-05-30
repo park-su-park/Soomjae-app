@@ -17,10 +17,12 @@ import com.parksupark.soomjae.features.auth.presentation.navigation.navigateToRe
 import com.parksupark.soomjae.features.auth.presentation.navigation.soomjaeAuthNavigator
 import com.parksupark.soomjae.features.home.presentation.navigation.HomeNavigator
 import com.parksupark.soomjae.features.home.presentation.navigation.soomjaeHomeNavigator
+import com.parksupark.soomjae.features.post.presentation.navigation.PostNavigator
+import com.parksupark.soomjae.features.post.presentation.navigation.soomjaePostNavigator
 import com.parksupark.soomjae.features.profile.presentation.navigation.ProfileNavigator
 import com.parksupark.soomjae.features.profile.presentation.navigation.soomjaeProfileNavigator
 
-internal sealed interface RootNavigator : AuthNavigator, HomeNavigator, ProfileNavigator {
+internal sealed interface RootNavigator : AuthNavigator, HomeNavigator, PostNavigator, ProfileNavigator {
     fun onNavigationBarItemClicked(item: NavigationBarItem)
 }
 
@@ -28,8 +30,13 @@ private class SoomjaeRootNavigator(
     override val navController: NavHostController,
     authNavigator: AuthNavigator,
     homeNavigator: HomeNavigator,
+    postNavigator: PostNavigator,
     profileNavigator: ProfileNavigator,
-) : RootNavigator, AuthNavigator by authNavigator, HomeNavigator by homeNavigator, ProfileNavigator by profileNavigator {
+) : RootNavigator,
+    AuthNavigator by authNavigator,
+    HomeNavigator by homeNavigator,
+    PostNavigator by postNavigator,
+    ProfileNavigator by profileNavigator {
     override fun navigateBack() {
         navController.navigateUp()
     }
@@ -81,6 +88,7 @@ internal fun rememberSoomjaeNavigator(): RootNavigator {
             navController = navController,
             authNavigator = soomjaeAuthNavigator(navController),
             homeNavigator = soomjaeHomeNavigator(navController),
+            postNavigator = soomjaePostNavigator(navController),
             profileNavigator = soomjaeProfileNavigator(navController),
         )
     }
