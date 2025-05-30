@@ -10,4 +10,8 @@ internal data class CommunityTabState(
 
 sealed interface CommunityTabAction {
     data object OnClick : CommunityTabAction
+
+    data class OnFavoriteClick(val postId: String) : CommunityTabAction
+
+    data class OnPostClick(val postId: String) : CommunityTabAction
 }

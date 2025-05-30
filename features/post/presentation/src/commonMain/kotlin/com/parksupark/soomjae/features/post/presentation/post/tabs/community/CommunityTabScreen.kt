@@ -1,7 +1,7 @@
 package com.parksupark.soomjae.features.post.presentation.post.tabs.community
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,6 +18,7 @@ import app.cash.paging.compose.itemKey
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCircularProgressIndicator
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.features.post.presentation.post.models.CommunityPostUi
+import com.parksupark.soomjae.features.post.presentation.post.tabs.community.components.CommunityPostCard
 
 @Composable
 internal fun CommunityTabScreen(
@@ -36,11 +37,15 @@ internal fun CommunityTabScreen(
                 LoadStateLoading -> item { SoomjaeCircularProgressIndicator() }
 
                 is LoadStateNotLoading -> items(count = posts.itemCount, key = posts.itemKey { it.id }) { index ->
-                    val post = posts[index]!!
-                    Row(Modifier.fillMaxWidth()) {
-                        Text(
-                            post.id,
-                            Modifier.weight(1f),
+                    val post = posts[index]
+                    if (post != null) {
+                        CommunityPostCard(
+                            post = post,
+                            onFavoriteClick = { onAction(CommunityTabAction.OnFavoriteClick(post.id)) },
+                            modifier = Modifier.fillMaxWidth()
+                                .clickable {
+                                    onAction(CommunityTabAction.OnPostClick(post.id))
+                                },
                         )
                     }
                 }
