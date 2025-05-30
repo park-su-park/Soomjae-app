@@ -13,6 +13,7 @@ private fun CommunityTabScreenPreview() {
     AppTheme {
         CommunityTabScreen(
             state = CommunityTabState(),
+            onPostAction = {},
             onAction = {},
             posts = emptyLazyPagingItems(),
         )

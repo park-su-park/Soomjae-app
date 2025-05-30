@@ -16,14 +16,20 @@ sealed interface PostDestination : NavigationDestination {
 
     @Serializable
     data object Post : PostDestination
+
+    @Serializable
+    data object CommunityWrite : PostDestination
 }
 
-fun NavGraphBuilder.postGraph(bottomBar: @Composable () -> Unit) {
+fun NavGraphBuilder.postGraph(
+    navigator: PostNavigator,
+    bottomBar: @Composable () -> Unit,
+) {
     navigation<PostDestination.Root>(
         startDestination = PostDestination.Post,
     ) {
         composable<PostDestination.Post> {
-            PostRoute(bottomBar)
+            PostRoute(navigator = navigator, bottomBar = bottomBar)
         }
     }
 }
@@ -34,4 +40,8 @@ fun NavHostController.navigateToPost() {
             inclusive = true
         }
     }
+}
+
+fun NavHostController.navigateToCommunityWrite() {
+    navigate(PostDestination.CommunityWrite)
 }
