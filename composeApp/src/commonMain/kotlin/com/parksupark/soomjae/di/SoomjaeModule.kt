@@ -6,6 +6,7 @@ import com.parksupark.soomjae.core.remote.di.coreRemoteModule
 import com.parksupark.soomjae.features.auth.data.di.featuresAuthDataModule
 import com.parksupark.soomjae.features.auth.presentation.di.featuresAuthPresentationModule
 import com.parksupark.soomjae.features.home.presentation.di.featuresHomePresentationModule
+import com.parksupark.soomjae.features.post.data.di.featuresPostDataModule
 import com.parksupark.soomjae.features.post.presentation.di.featuresPostPresentationModule
 import com.parksupark.soomjae.features.profile.presentation.di.featuresProfilePresentationModule
 import com.parksupark.soomjae.viewmodel.SoomjaeViewModel
@@ -25,6 +26,7 @@ internal val soomjaeModule = module {
     includes(featuresAuthPresentationModule)
     includes(featuresAuthDataModule)
     includes(featuresHomePresentationModule)
+    includes(featuresPostDataModule)
     includes(featuresPostPresentationModule)
     includes(featuresProfilePresentationModule)
 }

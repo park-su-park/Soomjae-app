@@ -32,6 +32,8 @@ mockk = "1.14.2"
 mokkery = "2.8.0"
 multiplatformSettings = "1.3.0"
 navigation-material = "1.8.0-beta05"
+paging = "3.3.0-alpha02"
+paging-multiplatform = "3.3.0-alpha02-0.5.1"
 room = "2.7.1"
 sqlite = "2.5.1"
 turbine = "1.2.0"
@@ -123,6 +125,17 @@ materialkolor = { module = "com.materialkolor:material-kolor", version.ref = "ma
 # Multiplatform Settings
 multiplatformSettings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettings" }
 
+# Paging 3
+paging = { module = "androidx.paging:paging-runtime", version.ref = "paging" }
+paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
+paging-rxjava3 = { module = "androidx.paging:paging-rxjava3", version.ref = "paging" }
+
+# Paging
+paging-multiplatform-common = { module = "app.cash.paging:paging-common", version.ref = "paging-multiplatform" }
+paging-multiplatform-compose-common = { module = "app.cash.paging:paging-compose-common", version.ref = "paging-multiplatform" }
+paging-multiplatform-ios = { module = "app.cash.paging:paging-runtime-uikit", version.ref = "paging-multiplatform" }
+paging-multiplatform-testing = { module = "app.cash.paging:paging-testing", version.ref = "paging-multiplatform" }
+
 # Room
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
@@ -175,8 +188,13 @@ core-common = [
     "kotlinx-datetime",
     "kotlinx-immutable",
     "kermit",
+    "paging-multiplatform-common",
 ]
-core-android = []
+core-android = [
+    "paging",
+    "paging-compose",
+    "paging-rxjava3",
+]
 core-ios = []
 core-desktop = []
 
@@ -192,6 +210,7 @@ core-common-test = [
     "kotest-property",
     "kotlinx-coroutines-test",
     "turbine",
+    "paging-multiplatform-testing",
 ]
 core-android-test = [
     "kotest-junit5",
@@ -284,9 +303,12 @@ ui-common = [
     "koin-compose-viewmodel-navigation",
     "kotlinx-serialization-json",
     "navigation-material",
+    "paging-multiplatform-compose-common"
 ]
 ui-android = []
-ui-ios = []
+ui-ios = [
+    "paging-multiplatform-ios"
+]
 ui-desktop = [
     "kotlinx-coroutines-swing",
 ]

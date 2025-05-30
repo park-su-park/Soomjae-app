@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import org.koin.compose.viewmodel.koinViewModel
 
-class CommunityTabCoordinator(
-    val viewModel: CommunityTabViewModel,
+internal class CommunityTabCoordinator(
+    viewModel: CommunityTabViewModel,
 ) {
     val screenStateFlow = viewModel.stateFlow
 
@@ -18,8 +18,9 @@ class CommunityTabCoordinator(
 }
 
 @Composable
-fun rememberCommunityTabCoordinator(viewModel: CommunityTabViewModel = koinViewModel()): CommunityTabCoordinator = remember(viewModel) {
-    CommunityTabCoordinator(
-        viewModel = viewModel,
-    )
-}
+internal fun rememberCommunityTabCoordinator(viewModel: CommunityTabViewModel = koinViewModel()): CommunityTabCoordinator =
+    remember(viewModel) {
+        CommunityTabCoordinator(
+            viewModel = viewModel,
+        )
+    }

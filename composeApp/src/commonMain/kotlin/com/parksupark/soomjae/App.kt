@@ -1,5 +1,7 @@
 package com.parksupark.soomjae
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -42,6 +44,10 @@ internal fun App(viewModel: SoomjaeViewModel = koinViewModel()) {
         NavHost(
             navController = navigator.navController,
             startDestination = HomeDestination.Root,
+            enterTransition = { EnterTransition.None },
+            exitTransition = { ExitTransition.None },
+            popEnterTransition = { EnterTransition.None },
+            popExitTransition = { ExitTransition.None },
         ) {
             homeGraph(navigator, bottomBar)
             authGraph(navigator)
