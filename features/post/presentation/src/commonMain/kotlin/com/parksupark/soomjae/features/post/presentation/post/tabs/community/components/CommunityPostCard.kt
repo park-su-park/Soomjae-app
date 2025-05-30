@@ -38,7 +38,7 @@ internal fun CommunityPostCard(
 
         PostCardTitle(title = post.title)
 
-        PostCardContent(post.contentPreview)
+        PostCardContent(post.content)
 
         AdditionalActions(onFavoriteClick = onFavoriteClick)
     }
@@ -62,7 +62,7 @@ private fun PostAuthorHeader(
         )
 
         Column {
-            Text(text = author.name, style = SoomjaeTheme.typography.labelL, maxLines = 1)
+            Text(text = author.nickname, style = SoomjaeTheme.typography.labelL, maxLines = 1)
             Text(
                 text = subtitle,
                 style = SoomjaeTheme.typography.labelS.copy(
