@@ -5,7 +5,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 
 @Composable
-fun CommunityTabRoute(coordinator: CommunityTabCoordinator = rememberCommunityTabCoordinator()) {
+internal fun CommunityTabRoute(coordinator: CommunityTabCoordinator = rememberCommunityTabCoordinator()) {
     val uiState by coordinator.screenStateFlow.collectAsState(CommunityTabState())
 
     val actionsHandler: (CommunityTabAction) -> Unit = { action ->
