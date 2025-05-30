@@ -8,6 +8,8 @@ kotlin {
             implementation(projects.core.presentation.ui)
 
             implementation(projects.features.post.domain)
+
+            implementation(libs.rich.editor)
         }
     }
 }
