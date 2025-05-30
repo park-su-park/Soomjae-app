@@ -11,7 +11,16 @@ internal class CommunityTabCoordinator(
 
     fun handle(action: CommunityTabAction) {
         when (action) {
-            CommunityTabAction.OnClick -> { // Handle action
+            is CommunityTabAction.OnClick -> {
+                // TODO
+            }
+
+            is CommunityTabAction.OnFavoriteClick -> {
+                // TODO
+            }
+
+            is CommunityTabAction.OnPostClick -> {
+                // TODO
             }
         }
     }

@@ -5,9 +5,16 @@ import com.parksupark.soomjae.features.post.domain.models.CommunityPost
 internal data class CommunityPostUi(
     val id: String,
     val title: String,
+    val content: String,
+    val author: AuthorUi,
+    val createdAt: String,
 )
 
+// TODO: Fix formatting logic of createdAt
 internal fun CommunityPost.toUi(): CommunityPostUi = CommunityPostUi(
     id = id,
-    title = id,
+    title = title,
+    content = content,
+    author = author.toUi(),
+    createdAt = createdAt.toString(),
 )
