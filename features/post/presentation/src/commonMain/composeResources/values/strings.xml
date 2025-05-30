@@ -6,4 +6,7 @@
 
     <string name="community_write_navigate_up_description">뒤로가기</string>
     <string name="community_write_button_confirm_description">완료</string>
+
+    <string name="write_input_title_placeholder">제목 입력란</string>
+    <string name="write_input_content_placeholder">내용을 입력하세요.</string>
 </resources>

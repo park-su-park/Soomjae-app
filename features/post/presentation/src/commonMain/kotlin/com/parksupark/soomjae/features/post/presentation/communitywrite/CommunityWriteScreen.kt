@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCenterAlignedTopAppBar
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.ui.resources.value
+import com.parksupark.soomjae.features.post.presentation.components.WriteInputSection
 import com.parksupark.soomjae.features.post.presentation.resources.Res
 import com.parksupark.soomjae.features.post.presentation.resources.community_write_button_confirm_description
 import com.parksupark.soomjae.features.post.presentation.resources.community_write_navigate_up_description
@@ -32,6 +33,10 @@ internal fun CommunityWriteScreen(
         },
     ) { innerPadding ->
         Column(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
+            WriteInputSection(
+                title = state.inputTitle,
+                content = state.inputContent,
+            )
         }
     }
 }

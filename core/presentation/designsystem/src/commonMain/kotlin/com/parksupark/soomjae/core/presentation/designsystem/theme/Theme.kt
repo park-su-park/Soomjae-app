@@ -1,6 +1,8 @@
 package com.parksupark.soomjae.core.presentation.designsystem.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.text.selection.LocalTextSelectionColors
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -36,9 +38,15 @@ fun ProvideSoomjaeColorsAndTypography(
     typography: SoomjaeTypography,
     content: @Composable () -> Unit,
 ) {
+    val textSelectionColors = TextSelectionColors(
+        handleColor = colors.cta,
+        backgroundColor = colors.cta.copy(alpha = 0.4f),
+    )
+
     CompositionLocalProvider(
         LocalSoomjaeColors provides colors,
         LocalSoomjaeTypography provides typography,
+        LocalTextSelectionColors provides textSelectionColors,
         content = content,
     )
 }
