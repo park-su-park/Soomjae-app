@@ -20,6 +20,7 @@ kotlin {
             implementation(projects.features.auth.data)
             implementation(projects.features.auth.presentation)
             implementation(projects.features.home.presentation)
+            implementation(projects.features.post.data)
             implementation(projects.features.post.presentation)
             implementation(projects.features.profile.presentation)
         }
