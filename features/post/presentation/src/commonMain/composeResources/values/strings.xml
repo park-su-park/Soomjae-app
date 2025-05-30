@@ -3,4 +3,7 @@
     <string name="post_meeting_title">모임</string>
     <string name="post_feed_title">피드</string>
     <string name="post_community_fab_description">새 게시글 작성</string>
+
+    <string name="community_write_navigate_up_description">뒤로가기</string>
+    <string name="community_write_button_confirm_description">완료</string>
 </resources>
