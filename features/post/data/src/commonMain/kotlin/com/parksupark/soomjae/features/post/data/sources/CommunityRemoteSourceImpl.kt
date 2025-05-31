@@ -28,4 +28,8 @@ internal class CommunityRemoteSourceImpl(
             content = content,
         ),
     )
+
+    override suspend fun getPostDetails(postId: String): Either<DataFailure.Network, CommunityPostResponse> = httpClient.get(
+        route = "/v1/boards/community/posts/$postId",
+    )
 }

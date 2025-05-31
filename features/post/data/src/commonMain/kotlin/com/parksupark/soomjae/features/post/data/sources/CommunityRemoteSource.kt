@@ -13,4 +13,6 @@ internal interface CommunityRemoteSource {
         title: String,
         content: String,
     ): Either<DataFailure.Network, PostCommunityPostResponse>
+
+    suspend fun getPostDetails(postId: String): Either<DataFailure.Network, CommunityPostResponse>
 }

@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import org.koin.compose.viewmodel.koinViewModel
 
-class CommunityDetailCoordinator(
+internal class CommunityDetailCoordinator(
     val viewModel: CommunityDetailViewModel,
 ) {
     val screenStateFlow = viewModel.uiStateFlow
@@ -18,7 +18,7 @@ class CommunityDetailCoordinator(
 }
 
 @Composable
-fun rememberCommunityDetailCoordinator(viewModel: CommunityDetailViewModel = koinViewModel()): CommunityDetailCoordinator =
+internal fun rememberCommunityDetailCoordinator(viewModel: CommunityDetailViewModel = koinViewModel()): CommunityDetailCoordinator =
     remember(viewModel) {
         CommunityDetailCoordinator(
             viewModel = viewModel,

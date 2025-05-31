@@ -1,12 +1,12 @@
 package com.parksupark.soomjae.features.post.presentation.communitydetail
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
-fun CommunityDetailRoute(coordinator: CommunityDetailCoordinator = rememberCommunityDetailCoordinator()) {
-    val uiState by coordinator.screenStateFlow.collectAsState(CommunityDetailState())
+internal fun CommunityDetailRoute(coordinator: CommunityDetailCoordinator = rememberCommunityDetailCoordinator()) {
+    val uiState by coordinator.screenStateFlow.collectAsStateWithLifecycle()
 
     val actionsHandler: (CommunityDetailAction) -> Unit = { action ->
         coordinator.handle(action)

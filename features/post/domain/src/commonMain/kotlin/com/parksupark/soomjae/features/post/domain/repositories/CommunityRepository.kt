@@ -14,4 +14,6 @@ interface CommunityRepository {
         title: String,
         content: String,
     ): Either<DataFailure.Network, NewPost>
+
+    suspend fun getPostDetails(postId: String): Either<DataFailure.Network, CommunityPost>
 }

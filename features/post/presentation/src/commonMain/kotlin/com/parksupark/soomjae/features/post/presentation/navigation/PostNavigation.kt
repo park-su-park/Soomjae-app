@@ -41,6 +41,10 @@ fun NavGraphBuilder.postGraph(
         composable<PostDestination.CommunityWrite> {
             CommunityWriteRoute(navigator = navigator)
         }
+
+        composable<PostDestination.CommunityDetail> { backStackEntry ->
+            CommunityWriteRoute(navigator = navigator)
+        }
     }
 }
 

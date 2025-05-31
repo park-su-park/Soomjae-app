@@ -38,4 +38,9 @@ internal class CommunityRepositoryImpl(
     ).map { response ->
         NewPost(id = response.id)
     }
+
+    override suspend fun getPostDetails(postId: String): Either<DataFailure.Network, CommunityPost> = remoteSource.getPostDetails(postId)
+        .map { response ->
+            response.toModel()
+        }
 }
