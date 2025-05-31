@@ -5,6 +5,6 @@ import org.koin.dsl.module
 
 val coreRemoteModule = module {
     single {
-        HttpClientFactory().build()
+        HttpClientFactory(get()).build()
     }
 }

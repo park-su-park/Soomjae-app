@@ -15,6 +15,7 @@ class MultiplatformDataRemoteConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         with(pluginManager) {
             apply(plugin = "soomjae.multiplatform.core")
+            apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
         }
 
         with(extensions) {

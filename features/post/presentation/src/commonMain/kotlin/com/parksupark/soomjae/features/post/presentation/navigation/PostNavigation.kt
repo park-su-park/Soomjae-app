@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationDestination
+import com.parksupark.soomjae.features.post.presentation.communitydetail.CommunityDetailRoute
 import com.parksupark.soomjae.features.post.presentation.communitywrite.CommunityWriteRoute
 import com.parksupark.soomjae.features.post.presentation.post.PostRoute
 import kotlinx.serialization.Serializable
@@ -20,6 +21,11 @@ sealed interface PostDestination : NavigationDestination {
 
     @Serializable
     data object CommunityWrite : PostDestination
+
+    @Serializable
+    data class CommunityDetail(
+        val postId: String,
+    ) : PostDestination
 }
 
 fun NavGraphBuilder.postGraph(
@@ -35,6 +41,10 @@ fun NavGraphBuilder.postGraph(
 
         composable<PostDestination.CommunityWrite> {
             CommunityWriteRoute(navigator = navigator)
+        }
+
+        composable<PostDestination.CommunityDetail> { backStackEntry ->
+            CommunityDetailRoute(navigator = navigator)
         }
     }
 }
@@ -52,5 +62,9 @@ fun NavHostController.navigateToCommunityWrite() {
 }
 
 fun NavHostController.navigateToCommunityDetail(postId: String) {
-    // TODO : Implement navigation to community post detail
+    navigate(PostDestination.CommunityDetail(postId)) {
+        popUpTo(PostDestination.Root) {
+            inclusive = true
+        }
+    }
 }
