@@ -32,9 +32,11 @@ internal class CommunityRepositoryImpl(
     override suspend fun createPost(
         title: String,
         content: String,
+        categoryId: Long,
     ): Either<DataFailure.Network, NewPost> = remoteSource.postPost(
         title = title,
         content = content,
+        categoryId = categoryId,
     ).map { response ->
         NewPost(id = response.id)
     }

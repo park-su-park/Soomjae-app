@@ -11,6 +11,7 @@ internal interface CommunityRemoteSource {
     suspend fun postPost(
         title: String,
         content: String,
+        categoryId: Long,
     ): Either<DataFailure.Network, PostCommunityPostResponse>
 
     suspend fun getPostDetails(postId: String): Either<DataFailure.Network, CommunityPostResponse>
