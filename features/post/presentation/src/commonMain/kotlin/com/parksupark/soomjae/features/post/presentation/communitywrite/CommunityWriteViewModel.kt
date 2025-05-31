@@ -3,6 +3,7 @@ package com.parksupark.soomjae.features.post.presentation.communitywrite
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.parksupark.soomjae.core.presentation.ui.utils.collectAsFlow
+import com.parksupark.soomjae.features.post.domain.repositories.CommunityRepository
 import com.parksupark.soomjae.features.post.presentation.utils.collectAsHtmlFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,8 +13,11 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
-class CommunityWriteViewModel : ViewModel() {
+class CommunityWriteViewModel(
+    private val repository: CommunityRepository,
+) : ViewModel() {
     private val _uiStateFlow: MutableStateFlow<CommunityWriteState> = MutableStateFlow(CommunityWriteState())
     val uiStateFlow: StateFlow<CommunityWriteState> = _uiStateFlow.asStateFlow()
 
@@ -41,5 +45,30 @@ class CommunityWriteViewModel : ViewModel() {
         }.onEach { canSubmit ->
             _uiStateFlow.update { it.copy(canSubmit = canSubmit) }
         }.launchIn(viewModelScope)
+    }
+
+    fun submitPost() {
+        if (!uiStateFlow.value.canSubmit) return
+
+        viewModelScope.launch {
+            _uiStateFlow.update { it.copy(isSubmitting = true) }
+
+            val title = uiStateFlow.value.inputTitle.text.toString()
+            val content = uiStateFlow.value.inputContent.toHtml()
+
+            repository.createPost(
+                title = title,
+                content = content,
+            ).fold(
+                ifLeft = {
+                    // TODO
+                },
+                ifRight = {
+                    // TODO
+                },
+            )
+
+            _uiStateFlow.update { it.copy(isSubmitting = false) }
+        }
     }
 }

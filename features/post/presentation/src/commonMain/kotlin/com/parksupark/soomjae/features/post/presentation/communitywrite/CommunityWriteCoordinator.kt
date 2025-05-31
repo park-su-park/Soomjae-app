@@ -15,9 +15,7 @@ class CommunityWriteCoordinator(
         when (action) {
             CommunityWriteAction.OnBackClick -> navigator.navigateBack()
 
-            CommunityWriteAction.OnConfirmClick -> {
-                // TODO: Implement the logic for confirming the community write action
-            }
+            CommunityWriteAction.OnConfirmClick -> viewModel.submitPost()
         }
     }
 }
