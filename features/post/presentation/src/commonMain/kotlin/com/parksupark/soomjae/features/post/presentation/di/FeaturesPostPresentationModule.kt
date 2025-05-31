@@ -1,5 +1,6 @@
 package com.parksupark.soomjae.features.post.presentation.di
 
+import com.parksupark.soomjae.features.post.presentation.communitydetail.CommunityDetailViewModel
 import com.parksupark.soomjae.features.post.presentation.communitywrite.CommunityWriteViewModel
 import com.parksupark.soomjae.features.post.presentation.post.PostViewModel
 import com.parksupark.soomjae.features.post.presentation.post.tabs.community.CommunityTabViewModel
@@ -16,10 +17,14 @@ private val postModule = module {
     viewModelOf(::MemberTabViewModel)
 }
 
+private val communityDetailModule = module {
+    viewModelOf(::CommunityDetailViewModel)
+}
+
 private val communityWriteModule = module {
     viewModelOf(::CommunityWriteViewModel)
 }
 
 val featuresPostPresentationModule = module {
-    includes(postModule, communityWriteModule)
+    includes(postModule, communityDetailModule, communityWriteModule)
 }

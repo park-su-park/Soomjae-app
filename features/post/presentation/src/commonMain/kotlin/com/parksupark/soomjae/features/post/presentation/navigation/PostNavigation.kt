@@ -20,6 +20,11 @@ sealed interface PostDestination : NavigationDestination {
 
     @Serializable
     data object CommunityWrite : PostDestination
+
+    @Serializable
+    data class CommunityDetail(
+        val postId: String,
+    ) : PostDestination
 }
 
 fun NavGraphBuilder.postGraph(
@@ -52,5 +57,9 @@ fun NavHostController.navigateToCommunityWrite() {
 }
 
 fun NavHostController.navigateToCommunityDetail(postId: String) {
-    // TODO : Implement navigation to community post detail
+    navigate(PostDestination.CommunityDetail(postId)) {
+        popUpTo(PostDestination.Root) {
+            inclusive = true
+        }
+    }
 }
