@@ -4,13 +4,13 @@
     <string name="post_feed_title">피드</string>
     <string name="post_community_fab_description">새 게시글 작성</string>
 
-    <string name="community_write_navigate_up_description">뒤로가기</string>
+    <string name="community_write_navigate_up_description">뒤로 가기</string>
     <string name="community_write_button_confirm_description">완료</string>
 
     <string name="community_detail_title">커뮤니티</string>
-    <string name="community_detail_navigate_up_description">커뮤니티</string>
+    <string name="community_detail_navigate_up_description">뒤로 가기</string>
     <string name="community_detail_like_button_description">좋아요</string>
-    <string name="community_detail_dislike_button_description">좋아요</string>
+    <string name="community_detail_dislike_button_description">좋아요 취소</string>
     <string name="community_detail_comment_button_description">댓글</string>
 
     <string name="write_input_title_placeholder">제목 입력란</string>
