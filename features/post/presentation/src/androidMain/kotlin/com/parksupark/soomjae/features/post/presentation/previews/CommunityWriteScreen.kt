@@ -11,5 +11,6 @@ private fun CommunityWriteScreenPreview() {
     CommunityWriteScreen(
         state = CommunityWriteState(),
         onAction = {},
+        snackbarHost = {},
     )
 }

@@ -50,3 +50,7 @@ fun NavHostController.navigateToPost() {
 fun NavHostController.navigateToCommunityWrite() {
     navigate(PostDestination.CommunityWrite)
 }
+
+fun NavHostController.navigateToCommunityDetail(postId: String) {
+    // TODO : Implement navigation to community post detail
+}

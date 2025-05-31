@@ -6,6 +6,8 @@ import com.parksupark.soomjae.core.presentation.ui.navigation.overridden
 
 interface PostNavigator : SoomjaeNavigator {
     fun navigateToCommunityWrite()
+
+    fun navigateToCommunityDetail(postId: String)
 }
 
 private class SoomjaePostNavigator(override val navController: NavHostController) : PostNavigator {
@@ -14,6 +16,10 @@ private class SoomjaePostNavigator(override val navController: NavHostController
     }
 
     override fun navigateToCommunityWrite() {
+        overridden()
+    }
+
+    override fun navigateToCommunityDetail(postId: String) {
         overridden()
     }
 }

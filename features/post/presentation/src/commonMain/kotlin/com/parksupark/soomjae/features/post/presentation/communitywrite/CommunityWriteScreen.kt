@@ -23,6 +23,7 @@ import com.parksupark.soomjae.features.post.presentation.resources.community_wri
 internal fun CommunityWriteScreen(
     state: CommunityWriteState,
     onAction: (CommunityWriteAction) -> Unit,
+    snackbarHost: @Composable () -> Unit,
 ) {
     SoomjaeScaffold(
         topBar = {
@@ -32,6 +33,7 @@ internal fun CommunityWriteScreen(
                 canSubmit = state.canSubmit,
             )
         },
+        snackbarHost = snackbarHost,
     ) { innerPadding ->
         Column(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
             WriteInputSection(
