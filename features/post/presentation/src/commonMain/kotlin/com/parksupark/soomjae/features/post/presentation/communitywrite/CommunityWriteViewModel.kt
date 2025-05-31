@@ -7,6 +7,7 @@ import com.parksupark.soomjae.core.presentation.ui.utils.collectAsFlow
 import com.parksupark.soomjae.features.post.domain.repositories.CategoryRepository
 import com.parksupark.soomjae.features.post.domain.repositories.CommunityRepository
 import com.parksupark.soomjae.features.post.presentation.utils.collectAsHtmlFlow
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -92,7 +93,8 @@ internal class CommunityWriteViewModel(
         }
     }
 
-    fun selectCategory(category: CategoryUi) {
+    fun selectCategory(categoryId: Long) {
+        val category = uiStateFlow.value.categories.find { it.id == categoryId } ?: return
         _uiStateFlow.update { it.copy(selectedCategory = category) }
     }
 
@@ -103,7 +105,7 @@ internal class CommunityWriteViewModel(
                     _eventChannel.send(CommunityWriteEvent.Error(it.asUiText()))
                 },
                 ifRight = { categories ->
-                    val categoryUiList = categories.map { it.value.toUi() }
+                    val categoryUiList = categories.map { it.value.toUi() }.toPersistentList()
                     _uiStateFlow.update {
                         it.copy(
                             categories = categoryUiList,

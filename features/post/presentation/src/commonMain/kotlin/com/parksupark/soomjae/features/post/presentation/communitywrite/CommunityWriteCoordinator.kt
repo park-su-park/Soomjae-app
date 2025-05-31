@@ -5,7 +5,7 @@ import androidx.compose.runtime.remember
 import com.parksupark.soomjae.features.post.presentation.navigation.PostNavigator
 import org.koin.compose.viewmodel.koinViewModel
 
-class CommunityWriteCoordinator(
+internal class CommunityWriteCoordinator(
     private val navigator: PostNavigator,
     val viewModel: CommunityWriteViewModel,
 ) {
@@ -17,12 +17,14 @@ class CommunityWriteCoordinator(
             CommunityWriteAction.OnBackClick -> navigator.navigateBack()
 
             CommunityWriteAction.OnConfirmClick -> viewModel.submitPost()
+
+            is CommunityWriteAction.OnCategorySelected -> viewModel.selectCategory(action.categoryId)
         }
     }
 }
 
 @Composable
-fun rememberCommunityWriteCoordinator(
+internal fun rememberCommunityWriteCoordinator(
     navigator: PostNavigator,
     viewModel: CommunityWriteViewModel = koinViewModel(),
 ): CommunityWriteCoordinator = remember(viewModel) {
