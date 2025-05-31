@@ -17,7 +17,7 @@ import co.touchlab.kermit.Logger as Kermit
 expect fun platformHttpClientEngine(): HttpClientEngineFactory<HttpClientEngineConfig>
 
 internal class HttpClientFactory {
-    fun build(): HttpClient = HttpClient {
+    fun build(): HttpClient = HttpClient(platformHttpClientEngine()) {
         install(ContentNegotiation) {
             json(
                 json = Json {
