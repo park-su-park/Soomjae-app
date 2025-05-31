@@ -49,12 +49,9 @@ fun SoomjaeTextField(
     additionalInfo: String? = null,
     enabled: Boolean = true,
 ) {
-    var isFocused by remember {
-        mutableStateOf(false)
-    }
-    Column(
-        modifier = modifier,
-    ) {
+    var isFocused by remember { mutableStateOf(false) }
+
+    Column(modifier = modifier) {
         Row(
             modifier = Modifier.Companion
                 .fillMaxWidth(),
@@ -64,27 +61,34 @@ fun SoomjaeTextField(
             if (title != null) {
                 Text(
                     text = title,
-                    color = SoomjaeTheme.colorScheme.text2,
+                    style = SoomjaeTheme.typography.labelS.copy(
+                        color = SoomjaeTheme.colorScheme.text2,
+                    ),
                 )
             }
             if (error != null) {
                 Text(
                     text = error,
-                    color = SoomjaeTheme.colorScheme.error,
-                    fontSize = 12.sp,
+                    style = SoomjaeTheme.typography.labelS.copy(
+                        color = SoomjaeTheme.colorScheme.error,
+                    ),
                 )
             } else if (additionalInfo != null) {
                 Text(
                     text = additionalInfo,
-                    color = SoomjaeTheme.colorScheme.text2,
-                    fontSize = 12.sp,
+                    style = SoomjaeTheme.typography.labelS.copy(
+                        color = SoomjaeTheme.colorScheme.text2,
+                    ),
                 )
             }
         }
+
         Spacer(modifier = Modifier.Companion.height(4.dp))
+
         BasicTextField(
             state = state,
-            textStyle = LocalTextStyle.current.copy(
+            enabled = enabled,
+            textStyle = SoomjaeTheme.typography.labelM.copy(
                 color = SoomjaeTheme.colorScheme.text1,
             ),
             keyboardOptions = KeyboardOptions(
@@ -135,10 +139,10 @@ fun SoomjaeTextField(
                         if (state.text.isEmpty() && !isFocused) {
                             Text(
                                 text = hint,
-                                color = SoomjaeTheme.colorScheme.text2.copy(
-                                    alpha = 0.4f,
+                                style = SoomjaeTheme.typography.labelM.copy(
+                                    color = SoomjaeTheme.colorScheme.text3,
                                 ),
-                                modifier = Modifier.Companion.fillMaxWidth(),
+                                modifier = Modifier.Companion.fillMaxWidth().align(Alignment.CenterStart),
                             )
                         }
                         innerBox()
@@ -155,6 +159,12 @@ fun SoomjaeTextField(
                     }
                 }
             },
+        )
+
+        Spacer(
+            modifier = Modifier.height(1.dp).fillMaxWidth().background(
+                color = SoomjaeTheme.colorScheme.divider1,
+            ),
         )
     }
 }

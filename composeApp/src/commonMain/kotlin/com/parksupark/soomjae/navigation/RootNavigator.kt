@@ -18,6 +18,8 @@ import com.parksupark.soomjae.features.auth.presentation.navigation.soomjaeAuthN
 import com.parksupark.soomjae.features.home.presentation.navigation.HomeNavigator
 import com.parksupark.soomjae.features.home.presentation.navigation.soomjaeHomeNavigator
 import com.parksupark.soomjae.features.post.presentation.navigation.PostNavigator
+import com.parksupark.soomjae.features.post.presentation.navigation.navigateToCommunityDetail
+import com.parksupark.soomjae.features.post.presentation.navigation.navigateToCommunityWrite
 import com.parksupark.soomjae.features.post.presentation.navigation.soomjaePostNavigator
 import com.parksupark.soomjae.features.profile.presentation.navigation.ProfileNavigator
 import com.parksupark.soomjae.features.profile.presentation.navigation.soomjaeProfileNavigator
@@ -57,7 +59,16 @@ private class SoomjaeRootNavigator(
     override fun popUpAuthGraph() {
         navController.popBackStack(AuthDestination.Root, inclusive = true)
     }
+    // </editor-fold>
 
+    // <editor-fold desc="PostNavigator">
+    override fun navigateToCommunityWrite() {
+        navController.navigateToCommunityWrite()
+    }
+
+    override fun navigateToCommunityDetail(postId: String) {
+        navController.navigateToCommunityDetail(postId)
+    }
     // </editor-fold>
 
     // <editor-fold desc="ProfileNavigator">

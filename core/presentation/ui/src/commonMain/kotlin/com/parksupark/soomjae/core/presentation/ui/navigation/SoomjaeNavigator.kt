@@ -12,6 +12,6 @@ interface SoomjaeNavigator {
 }
 
 @Suppress("UnusedReceiverParameter")
-fun SoomjaeNavigator.overridden(navigator: String = "KatanaRootNavigator") {
+fun SoomjaeNavigator.overridden(navigator: String = "SoomjaeRootNavigator") {
     Logger.i(LOG_TAG) { "Implementation overridden in $navigator" }
 }

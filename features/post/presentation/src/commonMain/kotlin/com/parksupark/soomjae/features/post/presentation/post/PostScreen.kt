@@ -63,7 +63,7 @@ internal fun PostScreen(
                 modifier = Modifier.fillMaxWidth().weight(1f),
             ) {
                 when (PostTabs.entries[it]) {
-                    PostTabs.COMMUNITY -> CommunityTabRoute()
+                    PostTabs.COMMUNITY -> CommunityTabRoute(onPostAction = onAction)
 
                     PostTabs.MEETING -> MeetingTabRoute()
 
