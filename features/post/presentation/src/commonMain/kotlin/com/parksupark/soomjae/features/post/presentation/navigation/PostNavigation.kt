@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationDestination
+import com.parksupark.soomjae.features.post.presentation.communitydetail.CommunityDetailRoute
 import com.parksupark.soomjae.features.post.presentation.communitywrite.CommunityWriteRoute
 import com.parksupark.soomjae.features.post.presentation.post.PostRoute
 import kotlinx.serialization.Serializable
@@ -43,7 +44,7 @@ fun NavGraphBuilder.postGraph(
         }
 
         composable<PostDestination.CommunityDetail> { backStackEntry ->
-            CommunityWriteRoute(navigator = navigator)
+            CommunityDetailRoute(navigator = navigator)
         }
     }
 }
