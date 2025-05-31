@@ -7,7 +7,6 @@ import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.UiText
 import com.parksupark.soomjae.features.post.domain.repositories.CommunityRepository
 import com.parksupark.soomjae.features.post.presentation.navigation.PostDestination
-import com.parksupark.soomjae.features.post.presentation.post.models.toUi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -54,9 +53,14 @@ internal class CommunityDetailViewModel(
                         _uiStateFlow.update { CommunityDetailState.Error(error.asUiText()) }
                     },
                     ifRight = { postDetails ->
-                        _uiStateFlow.update { CommunityDetailState.Success(postDetails.toUi()) }
+                        // TODO
+                        // _uiStateFlow.update { CommunityDetailState.Success(postDetails.toUi()) }
                     },
                 )
         }
+    }
+
+    fun toggleLike() {
+        // Todo
     }
 }
