@@ -34,7 +34,7 @@ internal fun MyProfileScreen(
         bottomBar = bottomBar,
     ) { innerPadding ->
         Column(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
-            if (state.isLogin) {
+            if (state.isLoggedIn) {
                 // TODO: Display user profile information
             } else {
                 Column(modifier = Modifier.fillMaxSize()) {

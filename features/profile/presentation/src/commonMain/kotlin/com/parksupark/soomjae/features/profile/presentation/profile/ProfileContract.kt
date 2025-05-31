@@ -1,8 +1,11 @@
 package com.parksupark.soomjae.features.profile.presentation.profile
 
+import com.parksupark.soomjae.features.profile.presentation.profile.mdoels.UserUi
+
 sealed interface ProfileState {
     data class MyProfileState(
-        val isLogin: Boolean = false,
+        val isLoggedIn: Boolean = false,
+        val user: UserUi = UserUi.Default,
     ) : ProfileState
 
     data class OtherProfileState(
