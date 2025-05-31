@@ -5,7 +5,7 @@ import androidx.compose.runtime.remember
 import com.parksupark.soomjae.features.profile.presentation.navigation.ProfileNavigator
 import org.koin.compose.viewmodel.koinViewModel
 
-class ProfileCoordinator(
+internal class ProfileCoordinator(
     val navigator: ProfileNavigator,
     val viewModel: ProfileViewModel,
 ) {
@@ -23,7 +23,7 @@ class ProfileCoordinator(
 }
 
 @Composable
-fun rememberProfileCoordinator(
+internal fun rememberProfileCoordinator(
     navigator: ProfileNavigator,
     viewModel: ProfileViewModel = koinViewModel(),
 ): ProfileCoordinator = remember(viewModel) {

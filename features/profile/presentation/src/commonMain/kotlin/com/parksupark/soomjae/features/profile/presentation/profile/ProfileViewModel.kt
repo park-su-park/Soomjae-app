@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 
-class ProfileViewModel(
+internal class ProfileViewModel(
     private val authRepository: SessionRepository,
 ) : ViewModel() {
     private val _uiStateFlow: MutableStateFlow<ProfileState> = MutableStateFlow(ProfileState.MyProfileState())
