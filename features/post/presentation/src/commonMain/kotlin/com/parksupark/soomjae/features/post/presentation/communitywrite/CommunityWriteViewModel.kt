@@ -19,9 +19,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class CommunityWriteViewModel(
-    private val repository: CommunityRepository,
+    private val communityRepository: CommunityRepository,
 ) : ViewModel() {
-    private val _uiStateFlow: MutableStateFlow<CommunityWriteState> = MutableStateFlow(CommunityWriteState())
+    private val _uiStateFlow: MutableStateFlow<CommunityWriteState> =
+        MutableStateFlow(CommunityWriteState())
     val uiStateFlow: StateFlow<CommunityWriteState> = _uiStateFlow.asStateFlow()
 
     private val _eventChannel = Channel<CommunityWriteEvent>()
@@ -62,7 +63,7 @@ class CommunityWriteViewModel(
             val title = uiStateFlow.value.inputTitle.text.toString()
             val content = uiStateFlow.value.inputContent.toHtml()
 
-            repository.createPost(
+            communityRepository.createPost(
                 title = title,
                 content = content,
             ).fold(
