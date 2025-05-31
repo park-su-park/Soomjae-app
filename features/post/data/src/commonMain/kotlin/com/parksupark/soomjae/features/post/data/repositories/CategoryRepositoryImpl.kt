@@ -9,5 +9,5 @@ import com.parksupark.soomjae.features.post.domain.repositories.CategoryReposito
 class CategoryRepositoryImpl(
     private val categoryRemoteSource: CategoryRemoteSource,
 ) : CategoryRepository {
-    override suspend fun getAllCategories(): Either<DataFailure.Network, List<Category>> = categoryRemoteSource.getAllCategories()
+    override suspend fun getAllCategories(): Either<DataFailure.Network, Map<Long, Category>> = categoryRemoteSource.getAllCategories()
 }

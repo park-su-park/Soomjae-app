@@ -5,5 +5,5 @@ import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.features.post.domain.models.Category
 
 interface CategoryRepository {
-    suspend fun getAllCategories(): Either<DataFailure.Network, List<Category>>
+    suspend fun getAllCategories(): Either<DataFailure.Network, Map<Long, Category>>
 }

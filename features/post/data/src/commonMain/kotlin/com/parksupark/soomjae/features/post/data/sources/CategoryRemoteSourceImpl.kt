@@ -11,9 +11,9 @@ import io.ktor.client.HttpClient
 class CategoryRemoteSourceImpl(
     private val httpClient: HttpClient,
 ) : CategoryRemoteSource {
-    override suspend fun getAllCategories(): Either<DataFailure.Network, List<Category>> = httpClient.get<CategoriesResponse>(
+    override suspend fun getAllCategories(): Either<DataFailure.Network, Map<Long, Category>> = httpClient.get<CategoriesResponse>(
         route = "/v1/categories/all",
     ).map { response ->
-        response.categories.map { it.toDomain() }
+        response.categories.map { it.toDomain() }.associateBy { it.id }
     }
 }
