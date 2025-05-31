@@ -29,6 +29,7 @@ internal fun CommunityWriteScreen(
             CommunityWriteTopBar(
                 onBackClick = { onAction(CommunityWriteAction.OnBackClick) },
                 onConfirmClick = { onAction(CommunityWriteAction.OnConfirmClick) },
+                canSubmit = state.canSubmit,
             )
         },
     ) { innerPadding ->
@@ -46,6 +47,7 @@ internal fun CommunityWriteScreen(
 private fun CommunityWriteTopBar(
     onBackClick: () -> Unit,
     onConfirmClick: () -> Unit,
+    canSubmit: Boolean,
 ) {
     SoomjaeCenterAlignedTopAppBar(
         title = { },
@@ -63,6 +65,7 @@ private fun CommunityWriteTopBar(
         actions = {
             IconButton(
                 onClick = onConfirmClick,
+                enabled = canSubmit,
                 content = {
                     Icon(
                         imageVector = Icons.Default.Check,
