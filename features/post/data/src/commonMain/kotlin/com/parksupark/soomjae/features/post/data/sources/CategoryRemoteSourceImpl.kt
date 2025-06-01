@@ -14,8 +14,12 @@ class CategoryRemoteSourceImpl(
     override suspend fun getAllCategories(): Either<DataFailure.Network, Map<Long, Category>> = httpClient.get<CategoryResponse>(
         route = "/v1/categories/all",
     ).map { response ->
-        response.children.map { category ->
-            category.toDomain()
+        response.children.flatMap { category ->
+            flattenCategory(category)
         }.associateBy { it.id }
+    }
+
+    private fun flattenCategory(category: CategoryResponse): List<Category> = listOf(category.toDomain()) + category.children.flatMap {
+        flattenCategory(it)
     }
 }
