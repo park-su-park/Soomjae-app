@@ -5,9 +5,10 @@ import androidx.compose.runtime.remember
 import org.koin.compose.viewmodel.koinViewModel
 
 internal class CommunityTabCoordinator(
-    viewModel: CommunityTabViewModel,
+    private val viewModel: CommunityTabViewModel,
 ) {
     val screenStateFlow = viewModel.stateFlow
+    val eventFlow = viewModel.eventChannel
 
     fun handle(action: CommunityTabAction) {
         when (action) {
@@ -22,6 +23,10 @@ internal class CommunityTabCoordinator(
             is CommunityTabAction.OnPostClick -> {
                 // TODO
             }
+
+            is CommunityTabAction.OnPullToRefresh -> viewModel.refreshPosts()
+
+            is CommunityTabAction.OnRefreshChange -> viewModel.setRefreshing(action.isRefreshing)
         }
     }
 }
