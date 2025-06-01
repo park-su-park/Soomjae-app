@@ -76,7 +76,7 @@ internal class CommunityWriteViewModel(
 
             val title = uiStateFlow.value.inputTitle.text.toString().trim()
             val content = uiStateFlow.value.inputContent.toHtml().trim()
-            val categoryId = uiStateFlow.value.selectedCategory!!.id
+            val categoryId = uiStateFlow.value.selectedCategory?.id ?: return@launch
 
             communityRepository.createPost(
                 title = title,
