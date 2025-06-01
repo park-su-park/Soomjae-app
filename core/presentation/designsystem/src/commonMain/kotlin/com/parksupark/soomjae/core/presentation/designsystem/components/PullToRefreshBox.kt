@@ -64,7 +64,7 @@ fun SoomjaeIndicator(
 
 object SoomjaePullToRefreshDefaults {
     val containerColor: Color
-        @Composable get() = SoomjaeTheme.colorScheme.background4
+        @Composable get() = SoomjaeTheme.colorScheme.background2
 
     val indicatorColor: Color
         @Composable get() = SoomjaeTheme.colorScheme.cta
