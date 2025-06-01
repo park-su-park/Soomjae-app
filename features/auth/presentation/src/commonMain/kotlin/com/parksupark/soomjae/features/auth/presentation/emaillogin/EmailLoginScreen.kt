@@ -15,6 +15,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.autofill.ContentType
+import androidx.compose.ui.semantics.contentType
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeButton
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCenterAlignedTopAppBar
@@ -68,9 +71,21 @@ private fun EmailLoginTopBar(onBackClick: () -> Unit) {
 @Composable
 private fun InputSection(state: EmailLoginState) {
     Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        SoomjaeTextField(state = state.inputEmail, hint = Res.string.email_login_textfield_email_hint.value)
+        SoomjaeTextField(
+            state = state.inputEmail,
+            modifier = Modifier.semantics {
+                contentType = ContentType.EmailAddress
+            },
+            hint = Res.string.email_login_textfield_email_hint.value,
+        )
 
-        SoomjaeTextField(state = state.inputPassword, hint = Res.string.email_login_textfield_password_hint.value)
+        SoomjaeTextField(
+            state = state.inputPassword,
+            modifier = Modifier.semantics {
+                contentType = ContentType.Password
+            },
+            hint = Res.string.email_login_textfield_password_hint.value,
+        )
     }
 }
 
