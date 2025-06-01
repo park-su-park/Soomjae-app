@@ -3,6 +3,7 @@ package com.parksupark.soomjae.features.post.presentation.communitywrite
 import androidx.compose.foundation.text.input.TextFieldState
 import com.mohamedrejeb.richeditor.model.RichTextState
 import com.parksupark.soomjae.core.presentation.ui.utils.UiText
+import com.parksupark.soomjae.features.post.presentation.models.CategoryUi
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
