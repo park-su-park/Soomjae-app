@@ -32,8 +32,16 @@ internal class ProfileViewModel(
 
                     if (isLoggedIn) {
                         _uiStateFlow.update {
+                            // TODO: Fetch Real User Data From Server
                             ProfileState.MyProfileState(
                                 isLoggedIn = true,
+                                user = UserUi.Default,
+                            )
+                        }
+                    } else {
+                        _uiStateFlow.update {
+                            ProfileState.MyProfileState(
+                                isLoggedIn = false,
                                 user = UserUi.Default,
                             )
                         }
