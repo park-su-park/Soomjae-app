@@ -2,6 +2,7 @@ package com.parksupark.soomjae.features.post.presentation.communitywrite
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,7 +18,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -31,10 +31,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCenterAlignedTopAppBar
+import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeHorizontalDivider
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeListItem
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeRadioButton
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSurface
+import com.parksupark.soomjae.core.presentation.designsystem.modifiers.bottomBorder
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.features.post.presentation.components.WriteInputSection
@@ -87,6 +89,10 @@ private fun CommunityWriteTopBar(
 ) {
     SoomjaeCenterAlignedTopAppBar(
         title = { },
+        modifier = Modifier.bottomBorder(
+            color = SoomjaeTheme.colorScheme.divider1,
+            height = 1.dp,
+        ),
         navigationIcon = {
             IconButton(
                 onClick = onBackClick,
@@ -121,38 +127,60 @@ private fun AdditionalInfoSelection(
 ) {
     var isCategoryVisible by remember { mutableStateOf(false) }
 
-    Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
-        OutlinedButton(
-            onClick = { isCategoryVisible = categories.isNotEmpty() && true },
-            modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.outlinedButtonColors().copy(
-                containerColor = Color.Transparent,
-                contentColor = SoomjaeTheme.colorScheme.text2,
-            ),
-            border = BorderStroke(1.dp, SoomjaeTheme.colorScheme.text2),
+    Column(modifier = Modifier.fillMaxWidth()) {
+        AdditionalInfoItem(
+            label = "카테고리",
         ) {
-            val modifier = Modifier.fillMaxWidth()
-            if (selectedCategory == null) {
-                Text(
-                    text = Res.string.community_write_category_select_placeholder.value,
-                    style = LocalTextStyle.current.copy(
-                        color = LocalContentColor.current.copy(alpha = 0.4f),
-                    ),
-                    modifier = modifier,
-                )
-            } else {
-                Text(text = selectedCategory.name, modifier = modifier)
+            OutlinedButton(
+                onClick = { isCategoryVisible = categories.isNotEmpty() && true },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(8.dp),
+                colors = ButtonDefaults.outlinedButtonColors().copy(
+                    containerColor = Color.Transparent,
+                    contentColor = SoomjaeTheme.colorScheme.text2,
+                ),
+                border = BorderStroke(1.dp, SoomjaeTheme.colorScheme.divider1),
+            ) {
+                val modifier = Modifier.fillMaxWidth()
+                if (selectedCategory == null) {
+                    Text(
+                        text = Res.string.community_write_category_select_placeholder.value,
+                        style = LocalTextStyle.current.copy(
+                            color = SoomjaeTheme.colorScheme.text4,
+                        ),
+                        modifier = modifier,
+                    )
+                } else {
+                    Text(text = selectedCategory.name, modifier = modifier)
+                }
             }
         }
+    }
 
-        if (isCategoryVisible) {
-            CategoryDialog(
-                setIsCategoryVisible = { isCategoryVisible = it },
-                categories = categories,
-                selectedCategory = selectedCategory,
-                onCategorySelect = onCategorySelect,
-            )
-        }
+    if (isCategoryVisible) {
+        CategoryDialog(
+            setIsCategoryVisible = { isCategoryVisible = it },
+            categories = categories,
+            selectedCategory = selectedCategory,
+            onCategorySelect = onCategorySelect,
+        )
+    }
+}
+
+@Composable
+private fun AdditionalInfoItem(
+    label: String,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
+) {
+    SoomjaeHorizontalDivider()
+    Column(
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = modifier.padding(16.dp),
+    ) {
+        Text(label, style = SoomjaeTheme.typography.labelL)
+
+        content()
     }
 }
 
