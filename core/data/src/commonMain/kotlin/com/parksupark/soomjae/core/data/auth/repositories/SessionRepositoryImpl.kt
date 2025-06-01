@@ -9,7 +9,9 @@ import com.parksupark.soomjae.core.data.auth.entities.toAuthInfoSerializable
 import com.parksupark.soomjae.core.data.datastore.SessionDataStoreKey
 import com.parksupark.soomjae.core.domain.auth.models.AuthInfo
 import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
 
 class SessionRepositoryImpl(
@@ -17,6 +19,12 @@ class SessionRepositoryImpl(
 ) : SessionRepository {
     override suspend fun get(): AuthInfo? = dataStore.data.first()[SessionDataStoreKey.SESSION]?.let { json ->
         Json.decodeFromString<AuthInfoSerializable>(json).toAuthInfo()
+    }
+
+    override fun getAsFlow(): Flow<AuthInfo?> = dataStore.data.map { session ->
+        session[SessionDataStoreKey.SESSION]?.let { json ->
+            Json.decodeFromString<AuthInfoSerializable>(json).toAuthInfo()
+        }
     }
 
     override suspend fun set(info: AuthInfo?) {

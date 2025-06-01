@@ -6,7 +6,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.parksupark.soomjae.features.profile.presentation.navigation.ProfileNavigator
 
 @Composable
-fun ProfileRoute(
+internal fun ProfileRoute(
     navigator: ProfileNavigator,
     bottomBar: @Composable () -> Unit,
     coordinator: ProfileCoordinator = rememberProfileCoordinator(navigator),

@@ -13,7 +13,7 @@ import com.parksupark.soomjae.features.post.presentation.navigation.PostNavigato
 import kotlinx.coroutines.launch
 
 @Composable
-fun CommunityWriteRoute(
+internal fun CommunityWriteRoute(
     navigator: PostNavigator,
     coordinator: CommunityWriteCoordinator = rememberCommunityWriteCoordinator(navigator),
 ) {

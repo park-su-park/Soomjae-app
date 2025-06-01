@@ -8,19 +8,25 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeButton
+import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCenterAlignedTopAppBar
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
-import com.parksupark.soomjae.features.profile.presentation.profile.components.ProfileTopBar
+import com.parksupark.soomjae.core.presentation.ui.resources.value
+import com.parksupark.soomjae.features.profile.presentation.profile.components.UserProfileCard
 import com.parksupark.soomjae.features.profile.presentation.resources.Res
 import com.parksupark.soomjae.features.profile.presentation.resources.my_profile_login_button
 import com.parksupark.soomjae.features.profile.presentation.resources.my_profile_login_request
+import com.parksupark.soomjae.features.profile.presentation.resources.profile_title
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -30,14 +36,19 @@ internal fun MyProfileScreen(
     onAction: (ProfileAction) -> Unit,
 ) {
     SoomjaeScaffold(
-        topBar = { ProfileTopBar(onAction) },
+        topBar = { MyProfileTobBar({ onAction(ProfileAction.OnLogoutClick) }) },
         bottomBar = bottomBar,
     ) { innerPadding ->
         Column(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
-            if (state.isLogin) {
-                // TODO: Display user profile information
+            if (state.isLoggedIn) {
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    UserProfileCard(
+                        user = state.user,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
             } else {
-                Column(modifier = Modifier.fillMaxSize()) {
+                Column(modifier = Modifier.fillMaxWidth()) {
                     Spacer(modifier = Modifier.weight(1f))
                     LoginRequestSection(onLoginClick = { onAction(ProfileAction.OnLoginClick) })
                     Spacer(modifier = Modifier.weight(2f))
@@ -45,6 +56,23 @@ internal fun MyProfileScreen(
             }
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun MyProfileTobBar(
+    onSettingClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    SoomjaeCenterAlignedTopAppBar(
+        title = { Text(Res.string.profile_title.value) },
+        actions = {
+            IconButton(
+                onClick = onSettingClick,
+                content = { Icon(Icons.Outlined.Settings, "") },
+            )
+        },
+    )
 }
 
 @Composable

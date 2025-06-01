@@ -6,4 +6,5 @@ import kotlinx.serialization.Serializable
 internal data class PostCommunityPostRequest(
     val title: String,
     val content: String,
+    val categoryId: Long,
 )
