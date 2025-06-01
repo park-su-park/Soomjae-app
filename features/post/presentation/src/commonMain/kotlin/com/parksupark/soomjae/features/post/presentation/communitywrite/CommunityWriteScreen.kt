@@ -3,11 +3,13 @@ package com.parksupark.soomjae.features.post.presentation.communitywrite
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
@@ -15,7 +17,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.ListItem
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedButton
@@ -30,6 +31,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCenterAlignedTopAppBar
+import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeListItem
+import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeRadioButton
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSurface
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
@@ -143,19 +146,35 @@ private fun AdditionalInfoSelection(
         }
 
         if (isCategoryVisible) {
-            Dialog(onDismissRequest = {}) {
-                SoomjaeSurface(elevation = 4.dp) {
-                    LazyColumn {
-                        items(items = categories, key = { it.id }) { category ->
-                            CategoryItem(
-                                category = category,
-                                onCategorySelect = {
-                                    onCategorySelect(category.id)
-                                    isCategoryVisible = false
-                                },
-                            )
-                        }
-                    }
+            CategoryDialog(
+                setIsCategoryVisible = { isCategoryVisible = it },
+                categories = categories,
+                selectedCategory = selectedCategory,
+                onCategorySelect = onCategorySelect,
+            )
+        }
+    }
+}
+
+@Composable
+private fun CategoryDialog(
+    setIsCategoryVisible: (Boolean) -> Unit,
+    categories: ImmutableList<CategoryUi>,
+    selectedCategory: CategoryUi?,
+    onCategorySelect: (Long) -> Unit,
+) {
+    Dialog(onDismissRequest = { setIsCategoryVisible(false) }) {
+        SoomjaeSurface(elevation = 4.dp, shape = RoundedCornerShape(16.dp)) {
+            LazyColumn(contentPadding = PaddingValues(16.dp)) {
+                items(items = categories, key = { it.id }) { category ->
+                    CategoryItem(
+                        category = category,
+                        selected = selectedCategory?.id == category.id,
+                        onCategorySelect = {
+                            onCategorySelect(category.id)
+                            setIsCategoryVisible(false)
+                        },
+                    )
                 }
             }
         }
@@ -165,12 +184,19 @@ private fun AdditionalInfoSelection(
 @Composable
 private fun CategoryItem(
     category: CategoryUi,
+    selected: Boolean,
     onCategorySelect: () -> Unit,
 ) {
-    ListItem(
+    SoomjaeListItem(
         headlineContent = { Text(category.name) },
         modifier = Modifier.clickable {
             onCategorySelect()
+        },
+        leadingContent = {
+            SoomjaeRadioButton(
+                selected = selected,
+                onClick = null,
+            )
         },
     )
 }
