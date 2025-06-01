@@ -35,6 +35,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeS
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.features.post.presentation.components.WriteInputSection
+import com.parksupark.soomjae.features.post.presentation.models.CategoryUi
 import com.parksupark.soomjae.features.post.presentation.resources.Res
 import com.parksupark.soomjae.features.post.presentation.resources.community_write_button_confirm_description
 import com.parksupark.soomjae.features.post.presentation.resources.community_write_category_select_placeholder

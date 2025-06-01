@@ -6,6 +6,7 @@ import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.collectAsFlow
 import com.parksupark.soomjae.features.post.domain.repositories.CategoryRepository
 import com.parksupark.soomjae.features.post.domain.repositories.CommunityRepository
+import com.parksupark.soomjae.features.post.presentation.models.toUi
 import com.parksupark.soomjae.features.post.presentation.utils.collectAsHtmlFlow
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.channels.Channel
