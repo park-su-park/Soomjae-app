@@ -33,7 +33,7 @@ internal class CommunityWriteViewModel(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = CommunityWriteState(),
+        initialValue = _uiStateFlow.value,
     )
 
     private val _eventChannel = Channel<CommunityWriteEvent>()
@@ -41,15 +41,15 @@ internal class CommunityWriteViewModel(
 
     init {
         uiStateFlow.value.inputTitle.collectAsFlow().onEach { title ->
+            val isTitleValid = title.toString().isNotBlank()
             _uiStateFlow.update {
-                val isTitleValid = title.toString().isNotBlank()
                 it.copy(isTitleValid = isTitleValid)
             }
         }.launchIn(viewModelScope)
 
         uiStateFlow.value.inputContent.collectAsHtmlFlow().onEach { content ->
+            val isContentValid = content.isNotBlank()
             _uiStateFlow.update {
-                val isContentValid = content.isNotBlank()
                 it.copy(isContentValid = isContentValid)
             }
         }.launchIn(viewModelScope)
@@ -60,7 +60,8 @@ internal class CommunityWriteViewModel(
                 old.isSubmitting == new.isSubmitting &&
                 old.selectedCategory == new.selectedCategory
         }.map {
-            it.isTitleValid && it.isContentValid && !it.isSubmitting && it.selectedCategory != null
+            val canSubmit = it.isTitleValid && it.isContentValid && !it.isSubmitting && it.selectedCategory != null
+            canSubmit
         }.onEach { canSubmit ->
             _uiStateFlow.update { it.copy(canSubmit = canSubmit) }
         }.launchIn(viewModelScope)
@@ -72,9 +73,9 @@ internal class CommunityWriteViewModel(
         viewModelScope.launch {
             _uiStateFlow.update { it.copy(isSubmitting = true) }
 
-            val title = uiStateFlow.value.inputTitle.text.toString()
-            val content = uiStateFlow.value.inputContent.toHtml()
-            val categoryId = uiStateFlow.value.selectedCategory?.id ?: return@launch
+            val title = uiStateFlow.value.inputTitle.text.toString().trim()
+            val content = uiStateFlow.value.inputContent.toHtml().trim()
+            val categoryId = uiStateFlow.value.selectedCategory!!.id
 
             communityRepository.createPost(
                 title = title,
