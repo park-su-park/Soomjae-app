@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 internal class ProfileViewModel(
     private val authRepository: SessionRepository,
@@ -44,5 +45,11 @@ internal class ProfileViewModel(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun logout() {
+        viewModelScope.launch {
+            authRepository.set(null)
+        }
     }
 }

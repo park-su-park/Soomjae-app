@@ -16,5 +16,7 @@ internal sealed interface ProfileState {
 sealed interface ProfileAction {
     data object OnLoginClick : ProfileAction
 
+    data object OnLogoutClick : ProfileAction
+
     data object OnSettingClick : ProfileAction
 }
