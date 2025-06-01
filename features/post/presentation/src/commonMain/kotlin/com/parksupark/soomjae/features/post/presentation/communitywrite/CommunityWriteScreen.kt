@@ -45,6 +45,7 @@ import com.parksupark.soomjae.features.post.presentation.resources.Res
 import com.parksupark.soomjae.features.post.presentation.resources.community_write_button_confirm_description
 import com.parksupark.soomjae.features.post.presentation.resources.community_write_category_select_placeholder
 import com.parksupark.soomjae.features.post.presentation.resources.community_write_navigate_up_description
+import com.parksupark.soomjae.features.post.presentation.resources.write_category_select_label
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -129,7 +130,7 @@ private fun AdditionalInfoSelection(
 
     Column(modifier = Modifier.fillMaxWidth()) {
         AdditionalInfoItem(
-            label = "카테고리",
+            label = Res.string.write_category_select_label.value,
         ) {
             OutlinedButton(
                 onClick = { isCategoryVisible = categories.isNotEmpty() && true },

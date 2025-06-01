@@ -16,6 +16,7 @@
 
     <string name="write_input_title_placeholder">제목 입력란</string>
     <string name="write_input_content_placeholder">내용을 입력하세요.</string>
+    <string name="write_category_select_label">카테고리</string>
 
     <string name="post_detail_created_at_icon_description">작성일</string>
 </resources>
