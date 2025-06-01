@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import app.cash.paging.compose.collectAsLazyPagingItems
+import com.parksupark.soomjae.core.presentation.ui.ObserveAsEvents
 import com.parksupark.soomjae.features.post.presentation.post.PostAction
 import kotlinx.coroutines.flow.map
 
@@ -17,6 +18,17 @@ internal fun CommunityTabRoute(
 
     val actionsHandler: (CommunityTabAction) -> Unit = { action ->
         coordinator.handle(action)
+    }
+
+    ObserveAsEvents(
+        flow = coordinator.eventFlow,
+    ) { event ->
+        when (event) {
+            CommunityTabEvent.RefreshPosts -> {
+                actionsHandler(CommunityTabAction.OnRefreshChange(true))
+                posts.refresh()
+            }
+        }
     }
 
     CommunityTabScreen(
