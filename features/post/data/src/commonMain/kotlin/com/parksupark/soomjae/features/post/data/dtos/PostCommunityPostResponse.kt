@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class PostCommunityPostResponse(
-    @SerialName("postId") val id: String,
+    @SerialName("postId") val id: Long,
 )

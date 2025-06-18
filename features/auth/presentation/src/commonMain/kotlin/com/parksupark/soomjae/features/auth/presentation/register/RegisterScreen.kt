@@ -13,6 +13,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.autofill.ContentType
+import androidx.compose.ui.semantics.contentType
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
@@ -72,14 +75,23 @@ private fun InputSection(
     ) {
         SoomjaeOutlinedTextField(
             state = state.inputEmail,
+            modifier = Modifier.semantics {
+                contentType = ContentType.EmailAddress
+            },
             hint = stringResource(Res.string.register_email_hint),
         )
         SoomjaeOutlinedTextField(
             state = state.inputPassword,
+            modifier = Modifier.semantics {
+                contentType = ContentType.Password
+            },
             hint = stringResource(Res.string.register_password_hint),
         )
         SoomjaeOutlinedTextField(
             state = state.inputConfirmPassword,
+            modifier = Modifier.semantics {
+                contentType = ContentType.Password
+            },
             hint = stringResource(Res.string.register_password_confirm_hint),
         )
     }

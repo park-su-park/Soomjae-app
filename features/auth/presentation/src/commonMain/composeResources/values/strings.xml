@@ -16,7 +16,11 @@
 
     <string name="email_login_title">로그인</string>
     <string name="email_login_textfield_email_hint">이메일을 입력해주세요.</string>
-    <string name="email_login_textfield_password_hint">비밀번호를을 입력해주세요.</string>
+    <string name="email_login_textfield_password_hint">비밀번호를 입력해주세요.</string>
     <string name="email_login_button_login">로그인</string>
     <string name="email_login_navigate_up_description">뒤로 가기</string>
+
+    <string name="login_naver_oauth_button">네이버로 로그인</string>
+    <string name="login_kakao_oauth_button">카카오로 3초만에 시작하기</string>
+    <string name="login_google_oauth_button">구글로 로그인</string>
 </resources>
