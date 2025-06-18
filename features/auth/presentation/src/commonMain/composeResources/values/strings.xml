@@ -16,7 +16,7 @@
 
     <string name="email_login_title">로그인</string>
     <string name="email_login_textfield_email_hint">이메일을 입력해주세요.</string>
-    <string name="email_login_textfield_password_hint">비밀번호를을 입력해주세요.</string>
+    <string name="email_login_textfield_password_hint">비밀번호를 입력해주세요.</string>
     <string name="email_login_button_login">로그인</string>
     <string name="email_login_navigate_up_description">뒤로 가기</string>
 
