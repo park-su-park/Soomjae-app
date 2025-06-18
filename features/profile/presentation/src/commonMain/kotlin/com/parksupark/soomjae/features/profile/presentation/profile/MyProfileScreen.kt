@@ -36,7 +36,7 @@ internal fun MyProfileScreen(
     onAction: (ProfileAction) -> Unit,
 ) {
     SoomjaeScaffold(
-        topBar = { MyProfileTobBar({ onAction(ProfileAction.OnLogoutClick) }) },
+        topBar = { MyProfileTobBar { onAction(ProfileAction.OnSettingClick) } },
         bottomBar = bottomBar,
     ) { innerPadding ->
         Column(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
@@ -60,10 +60,7 @@ internal fun MyProfileScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun MyProfileTobBar(
-    onSettingClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
+private fun MyProfileTobBar(onSettingClick: () -> Unit) {
     SoomjaeCenterAlignedTopAppBar(
         title = { Text(Res.string.profile_title.value) },
         actions = {

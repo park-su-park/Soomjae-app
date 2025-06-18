@@ -15,6 +15,7 @@ import com.parksupark.soomjae.features.home.presentation.navigation.HomeDestinat
 import com.parksupark.soomjae.features.home.presentation.navigation.homeGraph
 import com.parksupark.soomjae.features.post.presentation.navigation.postGraph
 import com.parksupark.soomjae.features.profile.presentation.navigation.profileGraph
+import com.parksupark.soomjae.features.setting.presentation.navigation.settingGraph
 import com.parksupark.soomjae.navigation.isMainNavigationBarItem
 import com.parksupark.soomjae.navigation.rememberSoomjaeNavigator
 import com.parksupark.soomjae.viewmodel.SoomjaeViewModel
@@ -53,6 +54,7 @@ internal fun App(viewModel: SoomjaeViewModel = koinViewModel()) {
             authGraph(navigator)
             postGraph(navigator, bottomBar)
             profileGraph(navigator, bottomBar)
+            settingGraph(navigator)
         }
     }
 }
