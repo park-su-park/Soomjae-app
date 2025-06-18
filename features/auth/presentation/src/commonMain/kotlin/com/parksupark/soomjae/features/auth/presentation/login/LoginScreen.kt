@@ -55,8 +55,8 @@ internal fun LoginScreen(
             verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.Bottom),
         ) {
             Logo(modifier = Modifier.fillMaxWidth().weight(1f))
-            OAuthButtonsSection(onAction = onAction)
-            LoginButtonsDivider(Modifier.fillMaxWidth())
+            OAuthSection(onAction = onAction)
+            LoginSectionDivider(Modifier.fillMaxWidth())
             OwnLoginSection(onAction = onAction)
             RegisterEulaText()
         }
@@ -92,19 +92,7 @@ private fun Logo(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun RegisterEulaText(modifier: Modifier = Modifier) {
-    Text(
-        modifier = modifier,
-        text = stringResource(Res.string.login_eula_text),
-        style = MaterialTheme.typography.labelSmall.copy(
-            color = SoomjaeTheme.colorScheme.text3,
-        ),
-        textAlign = TextAlign.Center,
-    )
-}
-
-@Composable
-fun OAuthButtonsSection(
+private fun OAuthSection(
     onAction: (LoginAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -126,7 +114,7 @@ fun OAuthButtonsSection(
 }
 
 @Composable
-private fun LoginButtonsDivider(modifier: Modifier = Modifier) {
+private fun LoginSectionDivider(modifier: Modifier = Modifier) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
@@ -176,4 +164,16 @@ private fun OwnLoginSection(
             )
         }
     }
+}
+
+@Composable
+private fun RegisterEulaText(modifier: Modifier = Modifier) {
+    Text(
+        modifier = modifier,
+        text = stringResource(Res.string.login_eula_text),
+        style = MaterialTheme.typography.labelSmall.copy(
+            color = SoomjaeTheme.colorScheme.text3,
+        ),
+        textAlign = TextAlign.Center,
+    )
 }
