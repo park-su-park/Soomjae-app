@@ -4,8 +4,6 @@ package com.parksupark.soomjae
 
 import SoomJae.composeApp.BuildConfig
 import androidx.compose.runtime.Composable
-import com.parksupark.soomjae.core.common.theme.ColorTheme
-import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.di.soomjaeModule
 import org.koin.compose.KoinMultiplatformApplication
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -18,8 +16,6 @@ fun Soomjae() {
         config = KoinConfiguration { modules(soomjaeModule) },
         logLevel = if (BuildConfig.isDebug) Level.DEBUG else Level.NONE,
     ) {
-        AppTheme(theme = ColorTheme.SYSTEM) {
-            App()
-        }
+        App()
     }
 }
