@@ -4,6 +4,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.Contrast
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -38,6 +39,7 @@ internal fun SettingScreen(
                 currentTheme = state.colorTheme,
                 onThemeChange = { onAction(SettingAction.OnThemeChange(it)) },
             )
+            logout(onClick = { onAction(SettingAction.OnLogoutClick) })
         }
     }
 }
@@ -81,4 +83,12 @@ private fun LazyListScope.themeSetting(
             currentTheme = currentTheme,
         )
     }
+}
+
+private fun LazyListScope.logout(onClick: () -> Unit) = item {
+    SettingItem(
+        text = Res.string.setting_item_theme,
+        icon = Icons.AutoMirrored.Filled.Logout,
+        onClick = onClick,
+    )
 }

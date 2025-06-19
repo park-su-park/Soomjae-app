@@ -4,6 +4,7 @@
     <string name="setting_navigate_up_description">뒤로 가기</string>
 
     <string name="setting_item_theme">테마 설정</string>
+    <string name="setting_item_logout">로그아웃</string>
 
     <string name="setting_theme_dialog_confirm">확인</string>
     <string name="setting_theme_dialog_cancel">취소</string>
