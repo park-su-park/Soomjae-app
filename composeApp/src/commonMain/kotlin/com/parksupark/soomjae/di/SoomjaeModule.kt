@@ -9,6 +9,7 @@ import com.parksupark.soomjae.features.home.presentation.di.featuresHomePresenta
 import com.parksupark.soomjae.features.post.data.di.featuresPostDataModule
 import com.parksupark.soomjae.features.post.presentation.di.featuresPostPresentationModule
 import com.parksupark.soomjae.features.profile.presentation.di.featuresProfilePresentationModule
+import com.parksupark.soomjae.features.setting.presentation.di.featuresSettingPresentationModule
 import com.parksupark.soomjae.viewmodel.SoomjaeViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
@@ -29,4 +30,5 @@ internal val soomjaeModule = module {
     includes(featuresPostDataModule)
     includes(featuresPostPresentationModule)
     includes(featuresProfilePresentationModule)
+    includes(featuresSettingPresentationModule)
 }

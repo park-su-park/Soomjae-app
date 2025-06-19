@@ -23,8 +23,11 @@ import com.parksupark.soomjae.features.post.presentation.navigation.navigateToCo
 import com.parksupark.soomjae.features.post.presentation.navigation.soomjaePostNavigator
 import com.parksupark.soomjae.features.profile.presentation.navigation.ProfileNavigator
 import com.parksupark.soomjae.features.profile.presentation.navigation.soomjaeProfileNavigator
+import com.parksupark.soomjae.features.setting.presentation.navigation.SettingNavigator
+import com.parksupark.soomjae.features.setting.presentation.navigation.navigateToSetting
+import com.parksupark.soomjae.features.setting.presentation.navigation.soomjaeSettingNavigator
 
-internal sealed interface RootNavigator : AuthNavigator, HomeNavigator, PostNavigator, ProfileNavigator {
+internal sealed interface RootNavigator : AuthNavigator, HomeNavigator, PostNavigator, ProfileNavigator, SettingNavigator {
     fun onNavigationBarItemClicked(item: NavigationBarItem)
 }
 
@@ -34,11 +37,13 @@ private class SoomjaeRootNavigator(
     homeNavigator: HomeNavigator,
     postNavigator: PostNavigator,
     profileNavigator: ProfileNavigator,
+    settingNavigator: SettingNavigator,
 ) : RootNavigator,
     AuthNavigator by authNavigator,
     HomeNavigator by homeNavigator,
     PostNavigator by postNavigator,
-    ProfileNavigator by profileNavigator {
+    ProfileNavigator by profileNavigator,
+    SettingNavigator by settingNavigator {
     override fun navigateBack() {
         navController.navigateUp()
     }
@@ -75,6 +80,10 @@ private class SoomjaeRootNavigator(
     override fun navigateToLogin() {
         navController.navigateToLogin()
     }
+
+    override fun navigateToSetting() {
+        navController.navigateToSetting()
+    }
     // </editor-fold>
 
     private fun onNavigationBarItemClicked(screen: NavigationDestination) {
@@ -101,6 +110,7 @@ internal fun rememberSoomjaeNavigator(): RootNavigator {
             homeNavigator = soomjaeHomeNavigator(navController),
             postNavigator = soomjaePostNavigator(navController),
             profileNavigator = soomjaeProfileNavigator(navController),
+            settingNavigator = soomjaeSettingNavigator(navController),
         )
     }
 }

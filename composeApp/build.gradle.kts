@@ -23,6 +23,7 @@ kotlin {
             implementation(projects.features.post.data)
             implementation(projects.features.post.presentation)
             implementation(projects.features.profile.presentation)
+            implementation(projects.features.setting.presentation)
         }
     }
 }

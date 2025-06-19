@@ -6,6 +6,8 @@ import com.parksupark.soomjae.core.presentation.ui.navigation.overridden
 
 interface ProfileNavigator : SoomjaeNavigator {
     fun navigateToLogin()
+
+    fun navigateToSetting()
 }
 
 private class SoomjaeProfileNavigator(
@@ -16,6 +18,10 @@ private class SoomjaeProfileNavigator(
     }
 
     override fun navigateToLogin() {
+        overridden()
+    }
+
+    override fun navigateToSetting() {
         overridden()
     }
 }

@@ -17,9 +17,7 @@ internal class ProfileCoordinator(
 
             ProfileAction.OnLogoutClick -> viewModel.logout()
 
-            ProfileAction.OnSettingClick -> {
-                // TODO: navigate to setting
-            }
+            ProfileAction.OnSettingClick -> navigator.navigateToSetting()
         }
     }
 }
