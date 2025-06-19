@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
+import com.parksupark.soomjae.core.common.theme.ColorTheme
 
 val LocalThemeIsDark = compositionLocalOf { mutableStateOf(true) }
 
@@ -53,13 +54,22 @@ fun ProvideSoomjaeColorsAndTypography(
 
 @Composable
 fun AppTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    theme: ColorTheme = ColorTheme.SYSTEM,
+    isSystemDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
-    val isDarkState = remember(darkTheme) { mutableStateOf(darkTheme) }
+    val isDarkState = remember(theme) {
+        mutableStateOf(
+            when (theme) {
+                ColorTheme.SYSTEM -> isSystemDarkTheme
+                ColorTheme.LIGHT -> false
+                ColorTheme.DARK -> true
+            },
+        )
+    }
 
     ProvideSoomjaeColorsAndTypography(
-        colors = if (darkTheme) DarkColorPalette else LightColorPalette,
+        colors = if (isDarkState.value) DarkColorPalette else LightColorPalette,
         typography = SoomjaeTypography,
     ) {
         CompositionLocalProvider(
@@ -69,7 +79,7 @@ fun AppTheme(
             SystemAppearance(!isDark)
 
             MaterialTheme(
-                colorScheme = debugColorScheme(darkTheme),
+                colorScheme = debugColorScheme(isDarkState.value),
                 content = { Surface(content = content) },
             )
         }

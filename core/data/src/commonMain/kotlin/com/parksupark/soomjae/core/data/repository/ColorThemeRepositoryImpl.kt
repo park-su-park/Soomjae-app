@@ -3,8 +3,8 @@ package com.parksupark.soomjae.core.data.repository
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import com.parksupark.soomjae.core.common.theme.ColorTheme
 import com.parksupark.soomjae.core.data.datastore.SettingDataStoreKey
-import com.parksupark.soomjae.core.domain.model.ColorTheme
 import com.parksupark.soomjae.core.domain.repository.ColorThemeRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

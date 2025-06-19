@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.parksupark.soomjae.core.domain.model.ColorTheme
+import com.parksupark.soomjae.core.common.theme.ColorTheme
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeAlertDialog
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeListItem
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeRadioButton

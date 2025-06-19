@@ -1,6 +1,6 @@
 package com.parksupark.soomjae.features.setting.presentation.setting
 
-import com.parksupark.soomjae.core.domain.model.ColorTheme
+import com.parksupark.soomjae.core.common.theme.ColorTheme
 
 data class SettingState(
     val colorTheme: ColorTheme = ColorTheme.SYSTEM,
