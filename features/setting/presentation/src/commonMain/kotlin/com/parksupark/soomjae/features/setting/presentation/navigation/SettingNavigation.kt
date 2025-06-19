@@ -19,7 +19,7 @@ private sealed interface SettingDestination : NavigationDestination {
 fun NavGraphBuilder.settingGraph(navigator: SettingNavigator) {
     navigation<SettingDestination.Root>(startDestination = SettingDestination.Setting) {
         composable<SettingDestination.Setting> {
-            SettingRoute()
+            SettingRoute(navigator = navigator)
         }
     }
 }
