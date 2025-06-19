@@ -1,6 +1,8 @@
 package com.parksupark.soomjae.features.setting.presentation.setting.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +25,9 @@ internal fun SettingItem(
         },
         leadingContent = {
             Icon(imageVector = icon, contentDescription = null)
+        },
+        trailingContent = {
+            Icon(imageVector = Icons.AutoMirrored.Filled.ArrowForwardIos, contentDescription = null)
         },
         modifier = modifier.clickable(onClick = onClick),
     )
