@@ -20,6 +20,8 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeT
 import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.features.setting.presentation.resources.Res
 import com.parksupark.soomjae.features.setting.presentation.resources.setting_theme_dark
+import com.parksupark.soomjae.features.setting.presentation.resources.setting_theme_dialog_cancel
+import com.parksupark.soomjae.features.setting.presentation.resources.setting_theme_dialog_confirm
 import com.parksupark.soomjae.features.setting.presentation.resources.setting_theme_light
 import com.parksupark.soomjae.features.setting.presentation.resources.setting_theme_system
 import org.jetbrains.compose.resources.StringResource
@@ -42,9 +44,17 @@ internal fun ThemeSettingDialog(
 
     SoomjaeAlertDialog(
         onDismissRequest = onDismissRequest,
-        confirmButton = { SoomjaeTextButton(onClick = onConfirmClick) { Text("확인") } },
+        confirmButton = {
+            SoomjaeTextButton(onClick = onConfirmClick) {
+                Text(Res.string.setting_theme_dialog_confirm.value)
+            }
+        },
         modifier = modifier,
-        dismissButton = { SoomjaeTextButton(onClick = onDismissRequest) { Text("취소") } },
+        dismissButton = {
+            SoomjaeTextButton(onClick = onDismissRequest) {
+                Text(Res.string.setting_theme_dialog_cancel.value)
+            }
+        },
         text = {
             Column {
                 themes.forEach { theme ->
