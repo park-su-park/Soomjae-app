@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import com.parksupark.soomjae.core.domain.model.ColorTheme
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCenterAlignedTopAppBar
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.ui.resources.value
@@ -33,7 +34,10 @@ internal fun SettingScreen(
         topBar = { SettingTopBar(onBackClick = { onAction(SettingAction.OnBackClick) }) },
     ) { innerPadding ->
         LazyColumn(contentPadding = innerPadding) {
-            themeSetting()
+            themeSetting(
+                currentTheme = state.colorTheme,
+                onThemeChange = { onAction(SettingAction.OnThemeChange(it)) },
+            )
         }
     }
 }
@@ -57,7 +61,10 @@ private fun SettingTopBar(onBackClick: () -> Unit) {
     )
 }
 
-private fun LazyListScope.themeSetting() = item {
+private fun LazyListScope.themeSetting(
+    currentTheme: ColorTheme,
+    onThemeChange: (ColorTheme) -> Unit,
+) = item {
     var dialogOpen by remember { mutableStateOf(false) }
 
     SettingItem(
@@ -69,9 +76,9 @@ private fun LazyListScope.themeSetting() = item {
     if (dialogOpen) {
         ThemeSettingDialog(
             onDismissRequest = { dialogOpen = false },
-            onConfirmClick = {
-                // TODO: Implement logic to save current theme
-            },
+            onConfirmClick = { dialogOpen = false },
+            onThemeClick = onThemeChange,
+            currentTheme = currentTheme,
         )
     }
 }

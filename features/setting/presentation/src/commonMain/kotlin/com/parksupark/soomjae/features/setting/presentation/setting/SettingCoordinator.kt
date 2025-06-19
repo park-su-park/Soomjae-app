@@ -13,7 +13,8 @@ internal class SettingCoordinator(
 
     fun handle(action: SettingAction) {
         when (action) {
-            SettingAction.OnBackClick -> navigator.navigateBack()
+            is SettingAction.OnBackClick -> navigator.navigateBack()
+            is SettingAction.OnThemeChange -> viewModel.changeColorTheme(action.theme)
         }
     }
 }
