@@ -20,6 +20,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeC
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.features.setting.presentation.resources.Res
+import com.parksupark.soomjae.features.setting.presentation.resources.setting_item_logout
 import com.parksupark.soomjae.features.setting.presentation.resources.setting_item_theme
 import com.parksupark.soomjae.features.setting.presentation.resources.setting_navigate_up_description
 import com.parksupark.soomjae.features.setting.presentation.resources.setting_title
@@ -87,7 +88,7 @@ private fun LazyListScope.themeSetting(
 
 private fun LazyListScope.logout(onClick: () -> Unit) = item {
     SettingItem(
-        text = Res.string.setting_item_theme,
+        text = Res.string.setting_item_logout,
         icon = Icons.AutoMirrored.Filled.Logout,
         onClick = onClick,
     )
