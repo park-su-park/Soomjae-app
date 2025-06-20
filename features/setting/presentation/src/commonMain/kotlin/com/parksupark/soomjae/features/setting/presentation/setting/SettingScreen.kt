@@ -4,6 +4,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.Contrast
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -19,6 +20,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeC
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.features.setting.presentation.resources.Res
+import com.parksupark.soomjae.features.setting.presentation.resources.setting_item_logout
 import com.parksupark.soomjae.features.setting.presentation.resources.setting_item_theme
 import com.parksupark.soomjae.features.setting.presentation.resources.setting_navigate_up_description
 import com.parksupark.soomjae.features.setting.presentation.resources.setting_title
@@ -38,6 +40,7 @@ internal fun SettingScreen(
                 currentTheme = state.colorTheme,
                 onThemeChange = { onAction(SettingAction.OnThemeChange(it)) },
             )
+            logout(onClick = { onAction(SettingAction.OnLogoutClick) })
         }
     }
 }
@@ -81,4 +84,12 @@ private fun LazyListScope.themeSetting(
             currentTheme = currentTheme,
         )
     }
+}
+
+private fun LazyListScope.logout(onClick: () -> Unit) = item {
+    SettingItem(
+        text = Res.string.setting_item_logout,
+        icon = Icons.AutoMirrored.Filled.Logout,
+        onClick = onClick,
+    )
 }

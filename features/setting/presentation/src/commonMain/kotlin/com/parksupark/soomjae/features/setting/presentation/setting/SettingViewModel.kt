@@ -3,6 +3,7 @@ package com.parksupark.soomjae.features.setting.presentation.setting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.parksupark.soomjae.core.common.theme.ColorTheme
+import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
 import com.parksupark.soomjae.core.domain.repository.ColorThemeRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,6 +15,7 @@ import kotlinx.coroutines.launch
 
 internal class SettingViewModel(
     private val colorThemeRepository: ColorThemeRepository,
+    private val sessionRepository: SessionRepository,
 ) : ViewModel() {
     private val _stateFlow: MutableStateFlow<SettingState> = MutableStateFlow(SettingState())
     val stateFlow: StateFlow<SettingState> = _stateFlow.asStateFlow()
@@ -29,6 +31,12 @@ internal class SettingViewModel(
 
         viewModelScope.launch {
             colorThemeRepository.setColorTheme(theme)
+        }
+    }
+
+    fun logout() {
+        viewModelScope.launch {
+            sessionRepository.set(null)
         }
     }
 }
