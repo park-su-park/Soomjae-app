@@ -17,6 +17,8 @@ import kotlinx.serialization.json.Json
 class SessionRepositoryImpl(
     private val dataStore: DataStore<Preferences>,
 ) : SessionRepository {
+    override suspend fun isLoggedIn(): Boolean = get() != null
+
     override suspend fun get(): AuthInfo? = dataStore.data.first()[SessionDataStoreKey.SESSION]?.let { json ->
         Json.decodeFromString<AuthInfoSerializable>(json).toAuthInfo()
     }
