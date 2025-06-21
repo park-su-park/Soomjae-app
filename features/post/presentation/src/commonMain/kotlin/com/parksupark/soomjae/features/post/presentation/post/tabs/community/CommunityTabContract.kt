@@ -19,8 +19,12 @@ sealed interface CommunityTabAction {
     data class OnFavoriteClick(val postId: String) : CommunityTabAction
 
     data class OnPostClick(val postId: String) : CommunityTabAction
+
+    data object OnCommunityWriteClick : CommunityTabAction
 }
 
 sealed interface CommunityTabEvent {
     data object RefreshPosts : CommunityTabEvent
+
+    data object NavigateToCommunityWrite : CommunityTabEvent
 }

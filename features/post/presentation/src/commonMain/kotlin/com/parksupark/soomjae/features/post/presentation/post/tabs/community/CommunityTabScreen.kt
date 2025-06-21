@@ -14,6 +14,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -27,7 +29,6 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeF
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaePullToRefreshBox
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.ui.resources.value
-import com.parksupark.soomjae.features.post.presentation.post.PostAction
 import com.parksupark.soomjae.features.post.presentation.post.models.CommunityPostUi
 import com.parksupark.soomjae.features.post.presentation.post.tabs.community.components.CommunityPostCard
 import com.parksupark.soomjae.features.post.presentation.resources.Res
@@ -37,10 +38,11 @@ import com.parksupark.soomjae.features.post.presentation.resources.post_communit
 @Composable
 internal fun CommunityTabScreen(
     state: CommunityTabState,
-    onPostAction: (PostAction) -> Unit,
     onAction: (CommunityTabAction) -> Unit,
     posts: LazyPagingItems<CommunityPostUi>,
 ) {
+    val onAction by rememberUpdatedState(onAction)
+
     LaunchedEffect(posts.loadState.refresh) {
         val refresh = posts.loadState.refresh
         if (refresh is LoadStateNotLoading && state.isPostsRefreshing) {
@@ -51,7 +53,7 @@ internal fun CommunityTabScreen(
     SoomjaeScaffold(
         floatingActionButton = {
             SoomjaeFab(
-                onClick = { onPostAction(PostAction.OnCommunityWriteClick) },
+                onClick = { onAction(CommunityTabAction.OnCommunityWriteClick) },
                 content = { Icon(Icons.Outlined.Edit, contentDescription = Res.string.post_community_fab_description.value) },
             )
         },
