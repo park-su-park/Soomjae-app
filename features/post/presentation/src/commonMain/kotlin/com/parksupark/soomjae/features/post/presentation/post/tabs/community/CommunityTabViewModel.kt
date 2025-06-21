@@ -4,6 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import androidx.paging.map
+import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
+import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEvent
+import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEventController
 import com.parksupark.soomjae.features.post.domain.repositories.CommunityRepository
 import com.parksupark.soomjae.features.post.presentation.post.models.toUi
 import kotlinx.coroutines.channels.Channel
@@ -19,6 +22,8 @@ import kotlinx.coroutines.launch
 
 internal class CommunityTabViewModel(
     repository: CommunityRepository,
+    private val sessionRepository: SessionRepository,
+    private val soomjaeEventController: SoomjaeEventController,
 ) : ViewModel() {
     private val _stateFlow: MutableStateFlow<CommunityTabState> = MutableStateFlow(CommunityTabState())
     val stateFlow: StateFlow<CommunityTabState> = _stateFlow.asStateFlow()
@@ -32,6 +37,16 @@ internal class CommunityTabViewModel(
             .map { it.map { post -> post.toUi() } }
             .onEach { posts -> _stateFlow.update { it.copy(posts = posts) } }
             .launchIn(viewModelScope)
+    }
+
+    fun handCommunityWriteClick() {
+        viewModelScope.launch {
+            if (sessionRepository.isLoggedIn()) {
+                _eventChannel.send(CommunityTabEvent.NavigateToCommunityWrite)
+            } else {
+                soomjaeEventController.sendEvent(SoomjaeEvent.LoginRequest)
+            }
+        }
     }
 
     fun refreshPosts() = viewModelScope.launch {

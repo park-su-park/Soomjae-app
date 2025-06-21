@@ -16,7 +16,7 @@ class PostCoordinator(
             PostAction.OnClick -> { // Handle action
             }
 
-            PostAction.OnCommunityWriteClick -> navigator.navigateToCommunityWrite()
+            PostAction.NavigateToCommunityWrite -> navigator.navigateToCommunityWrite()
         }
     }
 }
