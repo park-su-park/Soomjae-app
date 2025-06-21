@@ -37,7 +37,7 @@ internal fun NaverOAuthButton(
         text = Res.string.login_naver_oauth_button,
         colors = ButtonColors(
             containerColor = Color(0xFF03C75A),
-            contentColor = SoomjaeTheme.colorScheme.text1,
+            contentColor = SoomjaeTheme.colorScheme.text1W,
             disabledContainerColor = Color.Unspecified,
             disabledContentColor = Color.Unspecified,
         ),
