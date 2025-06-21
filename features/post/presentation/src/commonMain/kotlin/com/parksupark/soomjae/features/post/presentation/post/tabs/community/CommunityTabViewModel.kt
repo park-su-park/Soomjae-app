@@ -39,7 +39,7 @@ internal class CommunityTabViewModel(
             .launchIn(viewModelScope)
     }
 
-    fun handCommunityWriteClick() {
+    fun handleCommunityWriteClick() {
         viewModelScope.launch {
             if (sessionRepository.isLoggedIn()) {
                 _eventChannel.send(CommunityTabEvent.NavigateToCommunityWrite)

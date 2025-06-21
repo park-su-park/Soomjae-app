@@ -24,7 +24,7 @@ internal class CommunityTabCoordinator(
                 // TODO
             }
 
-            is CommunityTabAction.OnCommunityWriteClick -> viewModel.handCommunityWriteClick()
+            is CommunityTabAction.OnCommunityWriteClick -> viewModel.handleCommunityWriteClick()
 
             is CommunityTabAction.OnPullToRefresh -> viewModel.refreshPosts()
 
