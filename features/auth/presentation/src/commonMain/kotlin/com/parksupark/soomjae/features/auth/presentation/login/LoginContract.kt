@@ -1,8 +1,8 @@
 package com.parksupark.soomjae.features.auth.presentation.login
 
-class LoginState
+internal class LoginState
 
-sealed interface LoginAction {
+internal sealed interface LoginAction {
     data object OnCloseClick : LoginAction
 
     data object OnRegisterClick : LoginAction

@@ -6,7 +6,7 @@ import androidx.compose.runtime.getValue
 import com.parksupark.soomjae.features.auth.presentation.navigation.AuthNavigator
 
 @Composable
-fun LoginRoute(
+internal fun LoginRoute(
     navigator: AuthNavigator,
     coordinator: LoginCoordinator = rememberLoginCoordinator(navigator),
 ) {

@@ -5,7 +5,7 @@ import androidx.compose.runtime.remember
 import com.parksupark.soomjae.features.auth.presentation.navigation.AuthNavigator
 import org.koin.compose.viewmodel.koinViewModel
 
-class LoginCoordinator(
+internal class LoginCoordinator(
     val navigator: AuthNavigator,
     val viewModel: LoginViewModel,
 ) {
@@ -21,7 +21,7 @@ class LoginCoordinator(
 }
 
 @Composable
-fun rememberLoginCoordinator(
+internal fun rememberLoginCoordinator(
     navigator: AuthNavigator,
     viewModel: LoginViewModel = koinViewModel(),
 ): LoginCoordinator = remember(viewModel) {
