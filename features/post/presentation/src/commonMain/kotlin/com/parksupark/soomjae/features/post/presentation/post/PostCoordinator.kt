@@ -5,7 +5,7 @@ import androidx.compose.runtime.remember
 import com.parksupark.soomjae.features.post.presentation.navigation.PostNavigator
 import org.koin.compose.viewmodel.koinViewModel
 
-class PostCoordinator(
+internal class PostCoordinator(
     private val navigator: PostNavigator,
     val viewModel: PostViewModel,
 ) {
@@ -22,7 +22,7 @@ class PostCoordinator(
 }
 
 @Composable
-fun rememberPostCoordinator(
+internal fun rememberPostCoordinator(
     navigator: PostNavigator,
     viewModel: PostViewModel = koinViewModel(),
 ): PostCoordinator = remember(viewModel) {

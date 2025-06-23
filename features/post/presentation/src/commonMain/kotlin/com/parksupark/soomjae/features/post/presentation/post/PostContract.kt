@@ -1,8 +1,8 @@
 package com.parksupark.soomjae.features.post.presentation.post
 
-class PostState
+internal class PostState
 
-sealed interface PostAction {
+internal sealed interface PostAction {
     data object OnClick : PostAction
 
     data object NavigateToCommunityWrite : PostAction

@@ -74,7 +74,7 @@ internal fun PostScreen(
     }
 }
 
-enum class PostTabs(
+private enum class PostTabs(
     val title: StringResource,
 ) {
     COMMUNITY(title = Res.string.post_community_title),

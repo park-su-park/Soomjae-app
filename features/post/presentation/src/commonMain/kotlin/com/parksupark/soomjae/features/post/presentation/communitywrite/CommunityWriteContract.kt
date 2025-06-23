@@ -20,7 +20,7 @@ internal data class CommunityWriteState(
     val isCategoryLoading: Boolean = true,
 )
 
-sealed interface CommunityWriteAction {
+internal sealed interface CommunityWriteAction {
     data object OnBackClick : CommunityWriteAction
 
     data object OnConfirmClick : CommunityWriteAction
@@ -28,7 +28,7 @@ sealed interface CommunityWriteAction {
     data class OnCategorySelected(val categoryId: Long) : CommunityWriteAction
 }
 
-sealed interface CommunityWriteEvent {
+internal sealed interface CommunityWriteEvent {
     data class Error(val message: UiText) : CommunityWriteEvent
 
     data class PostSubmitted(val postId: String) : CommunityWriteEvent
