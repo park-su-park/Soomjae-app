@@ -54,26 +54,21 @@ suspend inline fun <reified Response : Any> HttpClient.delete(
     }
 }
 
-suspend inline fun <reified T> safeCall(execute: () -> HttpResponse): Either<DataFailure.Network, T> {
-    val response = try {
-        execute()
-    } catch (e: Exception) {
-        Logger.e(e) { "Error detected in safeCall" }
+suspend inline fun <reified T> safeCall(execute: () -> HttpResponse): Either<DataFailure.Network, T> = try {
+    responseToResult(execute())
+} catch (e: Exception) {
+    Logger.e(e, TAG) { "Network request failed: ${e.message}" }
+    when (e) {
+        is UnresolvedAddressException -> Either.Left(DataFailure.Network.NO_INTERNET)
 
-        return when (e) {
-            is UnresolvedAddressException -> Either.Left(DataFailure.Network.NO_INTERNET)
+        is ContentConvertException,
+        is SerializationException,
+        -> Either.Left(DataFailure.Network.SERIALIZATION)
 
-            is ContentConvertException,
-            is SerializationException,
-            -> Either.Left(DataFailure.Network.SERIALIZATION)
+        is CancellationException -> throw e
 
-            is CancellationException -> throw e
-
-            else -> Either.Left(DataFailure.Network.UNKNOWN)
-        }
+        else -> Either.Left(DataFailure.Network.UNKNOWN)
     }
-
-    return responseToResult(response)
 }
 
 suspend inline fun <reified T> responseToResult(response: HttpResponse): Either<DataFailure.Network, T> = when (response.status.value) {
@@ -92,3 +87,5 @@ fun constructRoute(route: String): String = when {
     route.startsWith("/") -> BuildConfig.BASE_URL + route
     else -> BuildConfig.BASE_URL + "/$route"
 }
+
+const val TAG = "HttpClientExtensions"
