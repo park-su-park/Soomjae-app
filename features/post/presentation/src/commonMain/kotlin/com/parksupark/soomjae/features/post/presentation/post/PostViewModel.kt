@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class PostViewModel : ViewModel() {
+internal class PostViewModel : ViewModel() {
     private val _uiStateFlow: MutableStateFlow<PostState> = MutableStateFlow(PostState())
     val uiStateFlow: StateFlow<PostState> = _uiStateFlow.asStateFlow()
 }

@@ -9,7 +9,7 @@ internal data class CommunityTabState(
     val posts: PagingData<CommunityPostUi> = PagingData.empty(),
 )
 
-sealed interface CommunityTabAction {
+internal sealed interface CommunityTabAction {
     data object OnClick : CommunityTabAction
 
     data object OnPullToRefresh : CommunityTabAction
@@ -23,7 +23,7 @@ sealed interface CommunityTabAction {
     data object OnCommunityWriteClick : CommunityTabAction
 }
 
-sealed interface CommunityTabEvent {
+internal sealed interface CommunityTabEvent {
     data object RefreshPosts : CommunityTabEvent
 
     data object NavigateToCommunityWrite : CommunityTabEvent

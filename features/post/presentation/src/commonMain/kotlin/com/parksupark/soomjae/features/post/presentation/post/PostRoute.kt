@@ -6,7 +6,7 @@ import androidx.compose.runtime.getValue
 import com.parksupark.soomjae.features.post.presentation.navigation.PostNavigator
 
 @Composable
-fun PostRoute(
+internal fun PostRoute(
     navigator: PostNavigator,
     bottomBar: @Composable () -> Unit,
     coordinator: PostCoordinator = rememberPostCoordinator(navigator),
