@@ -3,7 +3,7 @@ package com.parksupark.soomjae.features.post.presentation.post.models
 import com.parksupark.soomjae.features.post.domain.models.CommunityPost
 
 internal data class CommunityPostUi(
-    val id: String,
+    val id: Long,
     val title: String,
     val content: String,
     val author: AuthorUi,

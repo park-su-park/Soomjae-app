@@ -17,7 +17,7 @@ private fun CommunityDetailScreenPreview() {
             state = CommunityDetailState.Success(
                 postDetail = CommunityPostDetailUi(
                     post = CommunityPostUi(
-                        id = "1",
+                        id = 1,
                         title = "Sample Post Title",
                         content = "This is a sample post content for preview purposes.",
                         author = AuthorUi(

@@ -16,7 +16,7 @@ private fun CommunityPostCardPreview() {
         SoomjaeSurface {
             CommunityPostCard(
                 post = CommunityPostUi(
-                    id = "1",
+                    id = 1,
                     title = "Sample Post Title",
                     content = "This is a preview of the post content. It gives a brief overview of what the post is about.",
                     author = AuthorUi(
