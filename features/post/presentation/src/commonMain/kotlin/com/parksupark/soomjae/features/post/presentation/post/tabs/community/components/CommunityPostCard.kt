@@ -75,10 +75,7 @@ private fun PostAuthorHeader(
 }
 
 @Composable
-private fun PostCardTitle(
-    title: String,
-    modifier: Modifier = Modifier,
-) {
+private fun PostCardTitle(title: String) {
     Text(text = title, style = SoomjaeTheme.typography.title3, maxLines = 1)
 }
 
