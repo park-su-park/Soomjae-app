@@ -12,5 +12,9 @@ kotlin {
 
             implementation(libs.coil.network.ktor)
         }
+
+        commonTest.dependencies {
+            implementation(projects.core.test)
+        }
     }
 }
