@@ -8,6 +8,9 @@ import com.parksupark.soomjae.features.post.presentation.communitydetail.Communi
 import com.parksupark.soomjae.features.post.presentation.communitydetail.models.CommunityPostDetailUi
 import com.parksupark.soomjae.features.post.presentation.post.models.AuthorUi
 import com.parksupark.soomjae.features.post.presentation.post.models.CommunityPostUi
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.atStartOfDayIn
 
 @Composable
 @Preview(name = "CommunityDetail")
@@ -25,7 +28,7 @@ private fun CommunityDetailScreenPreview() {
                             nickname = "John Doe",
                             profileImageUrl = "https://example.com/profile.jpg",
                         ),
-                        createdAt = "2023-10-01",
+                        createdAt = LocalDate(2023, 10, 1).atStartOfDayIn(TimeZone.currentSystemDefault()),
                     ),
                     isLiked = false,
                     likeCount = 100,

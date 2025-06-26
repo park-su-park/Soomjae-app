@@ -24,7 +24,7 @@ private fun CommunityPostCardPreview() {
                         nickname = "silentfox11",
                         profileImageUrl = "https://picsum.photos/200",
                     ),
-                    createdAt = Clock.System.now().toString(),
+                    createdAt = Clock.System.now(),
                 ),
                 onFavoriteClick = {},
             )

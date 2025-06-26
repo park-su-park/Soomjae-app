@@ -33,7 +33,7 @@ internal fun CommunityPostCard(
     ) {
         PostAuthorHeader(
             author = post.author,
-            subtitle = post.createdAt,
+            subtitle = post.formattedCreatedAt,
         )
 
         PostCardTitle(title = post.title)

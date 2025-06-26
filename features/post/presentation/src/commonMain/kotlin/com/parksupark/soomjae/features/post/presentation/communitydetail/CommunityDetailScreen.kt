@@ -59,7 +59,7 @@ internal fun CommunityDetailScreen(
 private fun PostContentScreen(
     state: CommunityDetailState.Success,
     onAction: (CommunityDetailAction) -> Unit,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
         PostDetailAuthorHeader(
@@ -69,7 +69,7 @@ private fun PostContentScreen(
 
         PostDetailTitleHeader(
             title = state.postDetail.post.title,
-            createdAt = state.postDetail.post.createdAt,
+            createdAt = state.postDetail.post.formattedCreatedAt,
             modifier = Modifier.fillMaxWidth(),
         )
 
