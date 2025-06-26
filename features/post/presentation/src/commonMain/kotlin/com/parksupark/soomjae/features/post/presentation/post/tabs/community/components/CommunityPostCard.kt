@@ -33,7 +33,7 @@ internal fun CommunityPostCard(
     ) {
         PostAuthorHeader(
             author = post.author,
-            subtitle = post.createdAt,
+            subtitle = post.formattedCreatedAt,
         )
 
         PostCardTitle(title = post.title)
@@ -75,10 +75,7 @@ private fun PostAuthorHeader(
 }
 
 @Composable
-private fun PostCardTitle(
-    title: String,
-    modifier: Modifier = Modifier,
-) {
+private fun PostCardTitle(title: String) {
     Text(text = title, style = SoomjaeTheme.typography.title3, maxLines = 1)
 }
 

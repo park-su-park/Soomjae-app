@@ -10,6 +10,9 @@ val StringResource.value
     @Composable
     get() = stringResource(this)
 
+@Composable
+fun StringResource.value(vararg args: Any) = stringResource(this, *args)
+
 val DrawableResource.value
     @Composable
     get() = painterResource(this)

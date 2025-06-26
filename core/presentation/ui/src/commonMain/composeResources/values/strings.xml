@@ -6,4 +6,8 @@
     <string name="login_request_dialog_text">로그인 하시겠습니까?</string>
     <string name="login_request_dialog_confirm_button">로그인</string>
     <string name="login_request_dialog_cancel_button">취소</string>
+
+    <string name="datetime_soon">방금 전</string>
+    <string name="datetime_minutes_ago">%1$d분 전</string>
+    <string name="datetime_years_ago">%1$d년 전</string>
 </resources>
