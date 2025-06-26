@@ -17,6 +17,7 @@ import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.invoke
 import org.jetbrains.compose.ComposeExtension
 import org.jetbrains.compose.ComposePlugin
+import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.resources.ResourcesExtension
 import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
 import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag.Companion.OptimizeNonSkippingGroups
@@ -44,6 +45,7 @@ class MultiplatformComposeConventionPlugin : Plugin<Project> {
         kspDependencies(project, "ui")
     }
 
+    @OptIn(ExperimentalComposeLibrary::class)
     private fun KotlinMultiplatformExtension.configureSourceSets() {
         val compose = (this as ExtensionAware).extensions.getByType<ComposePlugin.Dependencies>()
 
@@ -74,6 +76,7 @@ class MultiplatformComposeConventionPlugin : Plugin<Project> {
             }
 
             commonTest.dependencies {
+                implementation(compose.uiTest)
                 bundleImplementation("ui-common-test")
             }
             androidUnitTest.dependencies {
@@ -83,6 +86,7 @@ class MultiplatformComposeConventionPlugin : Plugin<Project> {
                 bundleImplementation("ui-ios-test")
             }
             desktopTest.dependencies {
+                implementation(compose.desktop.currentOs)
                 bundleImplementation("ui-desktop-test")
             }
         }
