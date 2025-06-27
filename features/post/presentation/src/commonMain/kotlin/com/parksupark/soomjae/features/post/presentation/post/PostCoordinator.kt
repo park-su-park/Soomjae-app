@@ -16,6 +16,8 @@ internal class PostCoordinator(
             PostAction.OnClick -> { // Handle action
             }
 
+            is PostAction.NavigateToCommunityDetail -> navigator.navigateToCommunityDetail(action.postId)
+
             PostAction.NavigateToCommunityWrite -> navigator.navigateToCommunityWrite()
         }
     }

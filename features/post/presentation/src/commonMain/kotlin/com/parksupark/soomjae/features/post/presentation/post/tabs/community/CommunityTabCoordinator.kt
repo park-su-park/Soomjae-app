@@ -2,9 +2,11 @@ package com.parksupark.soomjae.features.post.presentation.post.tabs.community
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import com.parksupark.soomjae.features.post.presentation.post.PostAction
 import org.koin.compose.viewmodel.koinViewModel
 
 internal class CommunityTabCoordinator(
+    private val onPostAction: (PostAction) -> Unit,
     private val viewModel: CommunityTabViewModel,
 ) {
     val screenStateFlow = viewModel.stateFlow
@@ -20,9 +22,7 @@ internal class CommunityTabCoordinator(
                 // TODO
             }
 
-            is CommunityTabAction.OnPostClick -> {
-                // TODO
-            }
+            is CommunityTabAction.OnPostClick -> onPostAction(PostAction.NavigateToCommunityDetail(postId = action.postId))
 
             is CommunityTabAction.OnCommunityWriteClick -> viewModel.handleCommunityWriteClick()
 
@@ -34,9 +34,12 @@ internal class CommunityTabCoordinator(
 }
 
 @Composable
-internal fun rememberCommunityTabCoordinator(viewModel: CommunityTabViewModel = koinViewModel()): CommunityTabCoordinator =
-    remember(viewModel) {
-        CommunityTabCoordinator(
-            viewModel = viewModel,
-        )
-    }
+internal fun rememberCommunityTabCoordinator(
+    onPostAction: (PostAction) -> Unit,
+    viewModel: CommunityTabViewModel = koinViewModel(),
+): CommunityTabCoordinator = remember(viewModel) {
+    CommunityTabCoordinator(
+        onPostAction = onPostAction,
+        viewModel = viewModel,
+    )
+}

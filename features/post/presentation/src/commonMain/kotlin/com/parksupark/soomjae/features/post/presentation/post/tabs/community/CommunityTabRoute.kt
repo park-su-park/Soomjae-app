@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.map
 @Composable
 internal fun CommunityTabRoute(
     onPostAction: (PostAction) -> Unit,
-    coordinator: CommunityTabCoordinator = rememberCommunityTabCoordinator(),
+    coordinator: CommunityTabCoordinator = rememberCommunityTabCoordinator(onPostAction = onPostAction),
 ) {
     val uiState by coordinator.screenStateFlow.collectAsState(CommunityTabState())
     val posts = coordinator.screenStateFlow.map { it.posts }.collectAsLazyPagingItems()
