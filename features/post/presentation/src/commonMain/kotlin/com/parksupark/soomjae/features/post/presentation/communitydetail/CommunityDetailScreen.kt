@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
@@ -15,6 +16,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCircularProgressIndicator
@@ -39,18 +41,27 @@ internal fun CommunityDetailScreen(
     SoomjaeScaffold(
         topBar = { CommunityDetailTopBar(onBackClick = { onAction(CommunityDetailAction.OnBackClick) }) },
     ) { innerPadding ->
-        when (state) {
-            is CommunityDetailState.Error -> {
-                // Handle error state, e.g., show a snackbar or dialog
+        LazyColumn(
+            modifier = Modifier.fillMaxSize().padding(innerPadding),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            when (state) {
+                is CommunityDetailState.Error -> {
+                    // Handle error state, e.g., show a snackbar or dialog
+                }
+
+                is CommunityDetailState.InitialLoading -> item {
+                    SoomjaeCircularProgressIndicator()
+                }
+
+                is CommunityDetailState.Success -> item {
+                    PostContentScreen(
+                        state = state,
+                        onAction = onAction,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
             }
-
-            is CommunityDetailState.InitialLoading -> SoomjaeCircularProgressIndicator()
-
-            is CommunityDetailState.Success -> PostContentScreen(
-                state = state,
-                onAction = onAction,
-                modifier = Modifier.fillMaxSize().padding(innerPadding),
-            )
         }
     }
 }
