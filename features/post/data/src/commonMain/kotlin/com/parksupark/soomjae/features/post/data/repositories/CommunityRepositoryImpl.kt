@@ -38,10 +38,10 @@ internal class CommunityRepositoryImpl(
         content = content,
         categoryId = categoryId,
     ).map { response ->
-        NewPost(id = response.id.toString())
+        NewPost(id = response.id)
     }
 
-    override suspend fun getPostDetails(postId: String): Either<DataFailure.Network, CommunityPost> = remoteSource.getPostDetails(postId)
+    override suspend fun getPostDetails(postId: Long): Either<DataFailure.Network, CommunityPost> = remoteSource.getPostDetails(postId)
         .map { response ->
             response.toModel()
         }

@@ -22,7 +22,7 @@ internal class CommunityDetailViewModel(
     savedStateHandle: SavedStateHandle,
     private val repository: CommunityRepository,
 ) : ViewModel() {
-    val postId: String? = savedStateHandle[PostDestination.CommunityDetail::postId.name]
+    val postId: Long? = savedStateHandle[PostDestination.CommunityDetail::postId.name]
 
     private val _uiStateFlow: MutableStateFlow<CommunityDetailState> = MutableStateFlow(
         if (postId != null) {
@@ -45,7 +45,7 @@ internal class CommunityDetailViewModel(
             }.launchIn(viewModelScope)
     }
 
-    private fun fetchPostDetails(postId: String) {
+    private fun fetchPostDetails(postId: Long) {
         viewModelScope.launch {
             repository.getPostDetails(postId)
                 .fold(

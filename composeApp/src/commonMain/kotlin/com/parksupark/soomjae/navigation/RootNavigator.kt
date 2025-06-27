@@ -71,7 +71,7 @@ private class SoomjaeRootNavigator(
         navController.navigateToCommunityWrite()
     }
 
-    override fun navigateToCommunityDetail(postId: String) {
+    override fun navigateToCommunityDetail(postId: Long) {
         navController.navigateToCommunityDetail(postId)
     }
     // </editor-fold>

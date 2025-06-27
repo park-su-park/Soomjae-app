@@ -6,7 +6,7 @@ import com.parksupark.soomjae.features.post.presentation.communitydetail.models.
 internal sealed interface CommunityDetailState {
     data class Error(val error: UiText) : CommunityDetailState
 
-    data class InitialLoading(val postId: String) : CommunityDetailState
+    data class InitialLoading(val postId: Long) : CommunityDetailState
 
     data class Success(val postDetail: CommunityPostDetailUi) : CommunityDetailState
 }

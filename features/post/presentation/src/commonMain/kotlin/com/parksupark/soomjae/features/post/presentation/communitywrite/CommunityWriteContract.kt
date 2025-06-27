@@ -31,5 +31,5 @@ internal sealed interface CommunityWriteAction {
 internal sealed interface CommunityWriteEvent {
     data class Error(val message: UiText) : CommunityWriteEvent
 
-    data class PostSubmitted(val postId: String) : CommunityWriteEvent
+    data class PostSubmitted(val postId: Long) : CommunityWriteEvent
 }
