@@ -1,14 +1,18 @@
 package com.parksupark.soomjae.features.post.presentation.communitydetail
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.outlined.Comment
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -20,8 +24,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCircularProgressIndicator
+import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeHorizontalDivider
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeTopAppBar
+import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeVerticalDivider
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.features.post.presentation.components.PostDetailAuthorHeader
@@ -128,6 +134,7 @@ private fun CommunityDetailTopBar(onBackClick: () -> Unit) {
 private fun PostContent(content: String) {
     Text(
         text = content,
+        modifier = Modifier.padding(16.dp),
         style = SoomjaeTheme.typography.body1.copy(
             color = SoomjaeTheme.colorScheme.text2,
         ),
@@ -141,9 +148,13 @@ private fun PostAdditionalButtons(
     likeCount: Long,
     commentCount: Long,
 ) {
-    Row(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
+    SoomjaeHorizontalDivider()
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
         LikeButton(onToggleLikeClick = onToggleLikeClick, isLiked = isLiked, likeCount = likeCount)
-
+        SoomjaeVerticalDivider(modifier = Modifier.padding(vertical = 16.dp))
         CommentButton(commentCount = commentCount)
     }
 }
@@ -154,20 +165,26 @@ private fun RowScope.LikeButton(
     isLiked: Boolean,
     likeCount: Long,
 ) {
-    Row(modifier = Modifier.weight(1f)) {
-        IconButton(onClick = onToggleLikeClick) {
-            if (isLiked) {
-                Icon(
-                    imageVector = Icons.Default.Favorite,
-                    contentDescription = Res.string.community_detail_dislike_button_description.value,
-                    tint = SoomjaeTheme.colorScheme.primary,
-                )
-            } else {
-                Icon(
-                    imageVector = Icons.Default.FavoriteBorder,
-                    contentDescription = Res.string.community_detail_like_button_description.value,
-                )
-            }
+    Row(
+        modifier = Modifier.heightIn(min = 48.dp)
+            .weight(1f)
+            .clickable {
+                onToggleLikeClick()
+            },
+        horizontalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.CenterHorizontally),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        if (isLiked) {
+            Icon(
+                imageVector = Icons.Filled.Favorite,
+                contentDescription = Res.string.community_detail_dislike_button_description.value,
+                tint = SoomjaeTheme.colorScheme.primary,
+            )
+        } else {
+            Icon(
+                imageVector = Icons.Filled.FavoriteBorder,
+                contentDescription = Res.string.community_detail_like_button_description.value,
+            )
         }
 
         Text(
@@ -181,14 +198,16 @@ private fun RowScope.LikeButton(
 
 @Composable
 private fun RowScope.CommentButton(commentCount: Long) {
-    Row(modifier = Modifier.weight(1f)) {
-        IconButton(onClick = {}) {
-            Icon(
-                imageVector = Icons.Default.Favorite,
-                contentDescription = Res.string.community_detail_comment_button_description.value,
-                tint = SoomjaeTheme.colorScheme.primary,
-            )
-        }
+    Row(
+        modifier = Modifier.heightIn(min = 48.dp)
+            .weight(1f),
+        horizontalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.CenterHorizontally),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(
+            imageVector = Icons.AutoMirrored.Outlined.Comment,
+            contentDescription = Res.string.community_detail_comment_button_description.value,
+        )
 
         Text(
             text = "$commentCount",
