@@ -21,7 +21,7 @@ class MultiplatformCoreTestConventionPlugin : Plugin<Project> {
 
         with(extensions) {
             configure<KotlinMultiplatformExtension> { configureMultiplatform() }
-            configure<LibraryExtension> { configureAndroid(project.fullPackageName) }
+            configure<LibraryExtension> { configureAndroid(project) }
         }
 
         tasks.commonTasks()
@@ -30,6 +30,15 @@ class MultiplatformCoreTestConventionPlugin : Plugin<Project> {
     private fun KotlinMultiplatformExtension.configureMultiplatform() {
         hierarchy()
         configureSourceSets()
+    }
+
+    private fun LibraryExtension.configureAndroid(project: Project) {
+        configureAndroid(project.fullPackageName)
+
+        with(packagingOptions.resources.excludes) {
+            add("/META-INF/*")
+            add("DebugProbesKt.bin")
+        }
     }
 
     private fun KotlinMultiplatformExtension.configureSourceSets() {

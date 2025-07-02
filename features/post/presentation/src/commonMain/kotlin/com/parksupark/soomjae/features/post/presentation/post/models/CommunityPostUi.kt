@@ -3,8 +3,10 @@ package com.parksupark.soomjae.features.post.presentation.post.models
 import androidx.compose.runtime.Composable
 import com.parksupark.soomjae.core.presentation.ui.utils.toRelativeTimeString
 import com.parksupark.soomjae.features.post.domain.models.CommunityPost
-import kotlinx.datetime.Instant
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
+@OptIn(ExperimentalTime::class)
 internal data class CommunityPostUi(
     val id: Long,
     val title: String,
@@ -16,6 +18,7 @@ internal data class CommunityPostUi(
         @Composable get() = createdAt.toRelativeTimeString()
 }
 
+@OptIn(ExperimentalTime::class)
 internal fun CommunityPost.toUi(): CommunityPostUi = CommunityPostUi(
     id = id,
     title = title,

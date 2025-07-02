@@ -1,7 +1,9 @@
 package com.parksupark.soomjae.features.post.domain.models
 
-import kotlinx.datetime.Instant
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
+@OptIn(ExperimentalTime::class)
 data class CommunityPost(
     val id: Long,
     val title: String,
