@@ -4,6 +4,7 @@ import com.parksupark.soomjae.features.post.domain.models.CommunityPostDetail
 import com.parksupark.soomjae.features.post.domain.models.CommunityPostDetailWithLiked
 import com.parksupark.soomjae.features.post.presentation.post.models.CommunityPostUi
 import com.parksupark.soomjae.features.post.presentation.post.models.toUi
+import kotlin.time.ExperimentalTime
 
 internal data class CommunityPostDetailUi(
     val post: CommunityPostUi,
@@ -12,6 +13,7 @@ internal data class CommunityPostDetailUi(
     val commentCount: Long,
 )
 
+@OptIn(ExperimentalTime::class)
 private fun CommunityPostDetail.toUi(): CommunityPostUi = CommunityPostUi(
     id = this.id,
     title = this.title,

@@ -8,10 +8,12 @@ import com.parksupark.soomjae.features.post.presentation.communitydetail.Communi
 import com.parksupark.soomjae.features.post.presentation.communitydetail.models.CommunityPostDetailUi
 import com.parksupark.soomjae.features.post.presentation.post.models.AuthorUi
 import com.parksupark.soomjae.features.post.presentation.post.models.CommunityPostUi
+import kotlin.time.ExperimentalTime
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 
+@OptIn(ExperimentalTime::class)
 @Composable
 @Preview(name = "CommunityDetail")
 private fun CommunityDetailScreenPreview() {

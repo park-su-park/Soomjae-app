@@ -2,6 +2,7 @@ package com.parksupark.soomjae.features.post.data.dtos
 
 import com.parksupark.soomjae.features.post.domain.models.CommunityPost
 import com.parksupark.soomjae.features.post.domain.models.CommunityPostDetail
+import kotlin.time.ExperimentalTime
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
@@ -17,6 +18,7 @@ internal data class CommunityPostResponse(
     @SerialName("createdTime") val createdAt: LocalDateTime,
 )
 
+@OptIn(ExperimentalTime::class)
 internal fun CommunityPostResponse.toModel(): CommunityPost = CommunityPost(
     id = id,
     title = title,
@@ -25,6 +27,7 @@ internal fun CommunityPostResponse.toModel(): CommunityPost = CommunityPost(
     createdAt = createdAt.toInstant(TimeZone.UTC),
 )
 
+@OptIn(ExperimentalTime::class)
 internal fun CommunityPostResponse.toCommunityPostDetail(): CommunityPostDetail = CommunityPostDetail(
     id = id,
     title = title,

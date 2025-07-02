@@ -7,8 +7,10 @@ import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.features.post.presentation.post.models.AuthorUi
 import com.parksupark.soomjae.features.post.presentation.post.models.CommunityPostUi
 import com.parksupark.soomjae.features.post.presentation.post.tabs.community.components.CommunityPostCard
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 @Preview
 @Composable
 private fun CommunityPostCardPreview() {

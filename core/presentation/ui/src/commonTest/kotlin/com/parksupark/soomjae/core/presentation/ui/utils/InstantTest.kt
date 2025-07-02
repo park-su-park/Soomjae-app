@@ -12,7 +12,8 @@ import io.kotest.matchers.shouldBe
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
-import kotlinx.datetime.Instant
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
@@ -22,7 +23,7 @@ import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
 
-@OptIn(ExperimentalTestApi::class)
+@OptIn(ExperimentalTestApi::class, ExperimentalTime::class)
 internal class InstantTest : FunSpec({
     context("toRelativeTimeString") {
         val now = LocalDate(2025, 6, 26).atEndOfDayIn(TimeZone.UTC)
@@ -116,6 +117,7 @@ internal class InstantTest : FunSpec({
     }
 })
 
+@OptIn(ExperimentalTime::class)
 private fun LocalDate.atEndOfDayIn(timeZone: TimeZone): Instant = this.atStartOfDayIn(timeZone).plus(1.days - 1.seconds)
 
 private fun Number.toTwoDigitString(): String = this.toString().padStart(2, '0')

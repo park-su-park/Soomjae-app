@@ -20,7 +20,6 @@ import org.jetbrains.compose.ComposePlugin
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.resources.ResourcesExtension
 import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
-import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag.Companion.OptimizeNonSkippingGroups
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 class MultiplatformComposeConventionPlugin : Plugin<Project> {
@@ -93,8 +92,6 @@ class MultiplatformComposeConventionPlugin : Plugin<Project> {
     }
 
     private fun ComposeCompilerGradlePluginExtension.configureComposeCompiler(project: Project) {
-        featureFlags.add(OptimizeNonSkippingGroups)
-
         metricsDestination = project.file(project.composePluginDir("compose-metrics"))
         reportsDestination = project.file(project.composePluginDir("compose-reports"))
     }

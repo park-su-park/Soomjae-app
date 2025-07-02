@@ -6,8 +6,9 @@ import com.parksupark.soomjae.core.presentation.ui.resources.datetime_minutes_ag
 import com.parksupark.soomjae.core.presentation.ui.resources.datetime_soon
 import com.parksupark.soomjae.core.presentation.ui.resources.datetime_years_ago
 import com.parksupark.soomjae.core.presentation.ui.resources.value
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
@@ -19,6 +20,9 @@ private const val MINUTE_IN_SECONDS = 60
 private const val HOUR_IN_SECONDS = 60 * MINUTE_IN_SECONDS
 private const val YEAR_IN_SECONDS = 31_536_000
 
+private const val BASE_YEAR = 2000
+
+@OptIn(ExperimentalTime::class)
 @Composable
 fun Instant.toRelativeTimeString(
     now: Instant = Clock.System.now(),
@@ -48,17 +52,17 @@ fun Instant.toRelativeTimeString(
                     LocalDate.Format {
                         monthNumber()
                         char('/')
-                        dayOfMonth()
+                        day()
                     },
                 )
 
                 differenceInSeconds < YEAR_IN_SECONDS -> instantDateTime.date.format(
                     LocalDate.Format {
-                        yearTwoDigits(2000)
+                        yearTwoDigits(BASE_YEAR)
                         char('/')
                         monthNumber()
                         char('/')
-                        dayOfMonth()
+                        day()
                     },
                 )
 
