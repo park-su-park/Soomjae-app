@@ -24,7 +24,7 @@ sealed interface PostDestination : NavigationDestination {
 
     @Serializable
     data class CommunityDetail(
-        val postId: String,
+        val postId: Long,
     ) : PostDestination
 }
 
@@ -61,7 +61,7 @@ fun NavHostController.navigateToCommunityWrite() {
     navigate(PostDestination.CommunityWrite)
 }
 
-fun NavHostController.navigateToCommunityDetail(postId: String) {
+fun NavHostController.navigateToCommunityDetail(postId: Long) {
     navigate(PostDestination.CommunityDetail(postId)) {
         popUpTo(PostDestination.Root) {
             inclusive = true

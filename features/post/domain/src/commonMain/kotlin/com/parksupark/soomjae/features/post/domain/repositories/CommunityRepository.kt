@@ -4,6 +4,7 @@ import app.cash.paging.PagingData
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.features.post.domain.models.CommunityPost
+import com.parksupark.soomjae.features.post.domain.models.CommunityPostDetail
 import com.parksupark.soomjae.features.post.domain.models.NewPost
 import kotlinx.coroutines.flow.Flow
 
@@ -16,5 +17,7 @@ interface CommunityRepository {
         categoryId: Long,
     ): Either<DataFailure.Network, NewPost>
 
-    suspend fun getPostDetails(postId: String): Either<DataFailure.Network, CommunityPost>
+    suspend fun getPostDetails(postId: Long): Either<DataFailure.Network, CommunityPost>
+
+    fun postDetailStream(postId: Long): Flow<Either<DataFailure.Network, CommunityPostDetail>>
 }

@@ -5,24 +5,26 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.UiText
-import com.parksupark.soomjae.features.post.domain.repositories.CommunityRepository
+import com.parksupark.soomjae.features.post.domain.usecases.GetCommunityPostDetailWithLikedStream
+import com.parksupark.soomjae.features.post.presentation.communitydetail.models.toDetailUi
 import com.parksupark.soomjae.features.post.presentation.navigation.PostDestination
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 internal class CommunityDetailViewModel(
     savedStateHandle: SavedStateHandle,
-    private val repository: CommunityRepository,
+    private val getPostWithLikedStream: GetCommunityPostDetailWithLikedStream,
+
 ) : ViewModel() {
-    val postId: String? = savedStateHandle[PostDestination.CommunityDetail::postId.name]
+    val postId: Long? = savedStateHandle[PostDestination.CommunityDetail::postId.name]
 
     private val _uiStateFlow: MutableStateFlow<CommunityDetailState> = MutableStateFlow(
         if (postId != null) {
@@ -31,33 +33,36 @@ internal class CommunityDetailViewModel(
             CommunityDetailState.Error(UiText.DynamicString("Post ID is missing"))
         },
     )
-    val uiStateFlow: StateFlow<CommunityDetailState> = _uiStateFlow.asStateFlow()
+    val uiStateFlow: StateFlow<CommunityDetailState> = _uiStateFlow.onStart {
+        if (postId != null) {
+            fetchPostDetails(postId)
+        }
+    }.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5_000),
+        CommunityDetailState.InitialLoading(postId ?: -1),
+    )
 
     private val _eventChannel = Channel<CommunityDetailEvent>()
     val eventChannel = _eventChannel.receiveAsFlow()
 
-    init {
-        uiStateFlow.distinctUntilChangedBy { it::class }
-            .onEach { state ->
-                if (state is CommunityDetailState.InitialLoading) {
-                    fetchPostDetails(state.postId)
-                }
-            }.launchIn(viewModelScope)
-    }
-
-    private fun fetchPostDetails(postId: String) {
-        viewModelScope.launch {
-            repository.getPostDetails(postId)
-                .fold(
-                    ifLeft = { error ->
-                        _uiStateFlow.update { CommunityDetailState.Error(error.asUiText()) }
-                    },
-                    ifRight = { postDetails ->
-                        // TODO
-                        // _uiStateFlow.update { CommunityDetailState.Success(postDetails.toUi()) }
-                    },
-                )
-        }
+    private fun fetchPostDetails(postId: Long) {
+        getPostWithLikedStream(postId).onEach { result ->
+            result.fold(
+                ifLeft = { error ->
+                    _uiStateFlow.update {
+                        CommunityDetailState.Error(error.asUiText())
+                    }
+                },
+                ifRight = { post ->
+                    _uiStateFlow.update {
+                        CommunityDetailState.Success(
+                            postDetail = post.toDetailUi(),
+                        )
+                    }
+                },
+            )
+        }.launchIn(viewModelScope)
     }
 
     fun toggleLike() {
