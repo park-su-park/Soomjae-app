@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,7 +27,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeH
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaePullToRefreshBox
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.ui.resources.value
-import com.parksupark.soomjae.features.post.presentation.post.models.CommunityPostUi
+import com.parksupark.soomjae.features.post.presentation.models.CommunityPostUi
 import com.parksupark.soomjae.features.post.presentation.post.tabs.community.components.CommunityPostCard
 import com.parksupark.soomjae.features.post.presentation.resources.Res
 import com.parksupark.soomjae.features.post.presentation.resources.post_community_fab_description

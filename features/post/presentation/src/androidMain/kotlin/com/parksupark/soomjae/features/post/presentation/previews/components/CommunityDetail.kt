@@ -5,9 +5,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.features.post.presentation.communitydetail.CommunityDetailScreen
 import com.parksupark.soomjae.features.post.presentation.communitydetail.CommunityDetailState
-import com.parksupark.soomjae.features.post.presentation.communitydetail.models.CommunityPostDetailUi
-import com.parksupark.soomjae.features.post.presentation.post.models.AuthorUi
-import com.parksupark.soomjae.features.post.presentation.post.models.CommunityPostUi
+import com.parksupark.soomjae.features.post.presentation.models.AuthorUi
+import com.parksupark.soomjae.features.post.presentation.models.CommunityPostDetailUi
+import com.parksupark.soomjae.features.post.presentation.models.CommunityPostUi
 import kotlin.time.ExperimentalTime
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone

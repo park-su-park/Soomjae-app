@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.UiText
 import com.parksupark.soomjae.features.post.domain.usecases.GetCommunityPostDetailWithLikedStream
-import com.parksupark.soomjae.features.post.presentation.communitydetail.models.toDetailUi
+import com.parksupark.soomjae.features.post.presentation.models.toDetailUi
 import com.parksupark.soomjae.features.post.presentation.navigation.PostDestination
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

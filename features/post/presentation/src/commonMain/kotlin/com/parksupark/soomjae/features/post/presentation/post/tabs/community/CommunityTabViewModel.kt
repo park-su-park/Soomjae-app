@@ -8,7 +8,7 @@ import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEvent
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEventController
 import com.parksupark.soomjae.features.post.domain.repositories.CommunityRepository
-import com.parksupark.soomjae.features.post.presentation.post.models.toUi
+import com.parksupark.soomjae.features.post.presentation.models.toUi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

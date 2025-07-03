@@ -1,7 +1,7 @@
 package com.parksupark.soomjae.features.post.presentation.communitydetail
 
 import com.parksupark.soomjae.core.presentation.ui.utils.UiText
-import com.parksupark.soomjae.features.post.presentation.communitydetail.models.CommunityPostDetailUi
+import com.parksupark.soomjae.features.post.presentation.models.CommunityPostDetailUi
 
 internal sealed interface CommunityDetailState {
     data class Error(val error: UiText) : CommunityDetailState

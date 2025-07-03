@@ -1,7 +1,7 @@
 package com.parksupark.soomjae.features.post.presentation.post.tabs.community
 
 import androidx.paging.PagingData
-import com.parksupark.soomjae.features.post.presentation.post.models.CommunityPostUi
+import com.parksupark.soomjae.features.post.presentation.models.CommunityPostUi
 
 internal data class CommunityTabState(
     val isLoading: Boolean = false,
