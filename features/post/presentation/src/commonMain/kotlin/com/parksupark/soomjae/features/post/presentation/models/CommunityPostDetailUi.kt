@@ -1,9 +1,7 @@
-package com.parksupark.soomjae.features.post.presentation.communitydetail.models
+package com.parksupark.soomjae.features.post.presentation.models
 
 import com.parksupark.soomjae.features.post.domain.models.CommunityPostDetail
 import com.parksupark.soomjae.features.post.domain.models.CommunityPostDetailWithLiked
-import com.parksupark.soomjae.features.post.presentation.post.models.CommunityPostUi
-import com.parksupark.soomjae.features.post.presentation.post.models.toUi
 import kotlin.time.ExperimentalTime
 
 internal data class CommunityPostDetailUi(

@@ -43,7 +43,7 @@ fun NavGraphBuilder.postGraph(
             CommunityWriteRoute(navigator = navigator)
         }
 
-        composable<PostDestination.CommunityDetail> { backStackEntry ->
+        composable<PostDestination.CommunityDetail> {
             CommunityDetailRoute(navigator = navigator)
         }
     }
@@ -62,9 +62,5 @@ fun NavHostController.navigateToCommunityWrite() {
 }
 
 fun NavHostController.navigateToCommunityDetail(postId: Long) {
-    navigate(PostDestination.CommunityDetail(postId)) {
-        popUpTo(PostDestination.Root) {
-            inclusive = true
-        }
-    }
+    navigate(PostDestination.CommunityDetail(postId))
 }

@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.post.presentation.post.models
+package com.parksupark.soomjae.features.post.presentation.models
 
 import androidx.compose.runtime.Composable
 import com.parksupark.soomjae.core.presentation.ui.utils.toRelativeTimeString

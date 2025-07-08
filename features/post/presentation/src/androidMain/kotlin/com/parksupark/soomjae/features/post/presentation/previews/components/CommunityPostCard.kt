@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSurface
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
-import com.parksupark.soomjae.features.post.presentation.post.models.AuthorUi
-import com.parksupark.soomjae.features.post.presentation.post.models.CommunityPostUi
+import com.parksupark.soomjae.features.post.presentation.models.AuthorUi
+import com.parksupark.soomjae.features.post.presentation.models.CommunityPostUi
 import com.parksupark.soomjae.features.post.presentation.post.tabs.community.components.CommunityPostCard
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime

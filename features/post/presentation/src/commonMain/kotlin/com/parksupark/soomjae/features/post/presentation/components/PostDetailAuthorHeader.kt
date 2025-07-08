@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.utils.imageRequest
-import com.parksupark.soomjae.features.post.presentation.post.models.AuthorUi
+import com.parksupark.soomjae.features.post.presentation.models.AuthorUi
 
 @Composable
 internal fun PostDetailAuthorHeader(
