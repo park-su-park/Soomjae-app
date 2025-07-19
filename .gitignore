@@ -16,3 +16,4 @@ Pods/
 *.gpg
 *yarn.lock
 project.dot
+*.preferences_pb
