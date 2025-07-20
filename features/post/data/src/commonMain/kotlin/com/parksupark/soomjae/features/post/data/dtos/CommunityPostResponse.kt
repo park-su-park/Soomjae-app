@@ -34,4 +34,6 @@ internal fun CommunityPostResponse.toCommunityPostDetail(): CommunityPostDetail 
     content = content,
     author = author.toModel(),
     createdAt = createdAt.toInstant(TimeZone.UTC),
+    // TODO: Implement Logic to get comments
+    comments = emptyList(),
 )

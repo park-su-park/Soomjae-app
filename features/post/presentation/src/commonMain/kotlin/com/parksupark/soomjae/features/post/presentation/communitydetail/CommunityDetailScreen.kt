@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.Comment
@@ -30,6 +31,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeT
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeVerticalDivider
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.resources.value
+import com.parksupark.soomjae.features.post.presentation.components.CommentItem
 import com.parksupark.soomjae.features.post.presentation.components.PostDetailAuthorHeader
 import com.parksupark.soomjae.features.post.presentation.components.PostDetailTitleHeader
 import com.parksupark.soomjae.features.post.presentation.resources.Res
@@ -60,12 +62,18 @@ internal fun CommunityDetailScreen(
                     SoomjaeCircularProgressIndicator()
                 }
 
-                is CommunityDetailState.Success -> item {
-                    PostContentScreen(
-                        state = state,
-                        onAction = onAction,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
+                is CommunityDetailState.Success -> {
+                    item {
+                        PostContentScreen(
+                            state = state,
+                            onAction = onAction,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
+
+                    items(items = state.postDetail.comments, key = { it.id }) { comment ->
+                        CommentItem(comment = comment, modifier = Modifier.fillMaxWidth())
+                    }
                 }
             }
         }

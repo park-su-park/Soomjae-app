@@ -10,4 +10,5 @@ data class CommunityPostDetail(
     val content: String,
     val author: Member,
     val createdAt: Instant,
+    val comments: List<Comment>,
 )

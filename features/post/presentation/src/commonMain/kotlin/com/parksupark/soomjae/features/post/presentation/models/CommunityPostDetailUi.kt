@@ -3,12 +3,15 @@ package com.parksupark.soomjae.features.post.presentation.models
 import com.parksupark.soomjae.features.post.domain.models.CommunityPostDetail
 import com.parksupark.soomjae.features.post.domain.models.CommunityPostDetailWithLiked
 import kotlin.time.ExperimentalTime
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 internal data class CommunityPostDetailUi(
     val post: CommunityPostUi,
     val isLiked: Boolean,
     val likeCount: Long,
     val commentCount: Long,
+    val comments: ImmutableList<CommentUi>,
 )
 
 @OptIn(ExperimentalTime::class)
@@ -26,4 +29,5 @@ internal fun CommunityPostDetailWithLiked.toDetailUi(): CommunityPostDetailUi = 
     isLiked = this.isLiked,
     likeCount = 0,
     commentCount = 0,
+    comments = this.post.comments.map { it.toUi() }.toImmutableList(),
 )
