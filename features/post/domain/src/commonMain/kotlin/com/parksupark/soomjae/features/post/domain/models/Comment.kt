@@ -4,11 +4,9 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
 @OptIn(ExperimentalTime::class)
-data class CommunityPostDetail(
+data class Comment(
     val id: Long,
-    val title: String,
     val content: String,
     val author: Member,
     val createdAt: Instant,
-    val comments: List<Comment>,
 )

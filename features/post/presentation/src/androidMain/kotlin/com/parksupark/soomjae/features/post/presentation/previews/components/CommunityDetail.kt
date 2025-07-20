@@ -9,6 +9,7 @@ import com.parksupark.soomjae.features.post.presentation.models.AuthorUi
 import com.parksupark.soomjae.features.post.presentation.models.CommunityPostDetailUi
 import com.parksupark.soomjae.features.post.presentation.models.CommunityPostUi
 import kotlin.time.ExperimentalTime
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
@@ -35,6 +36,7 @@ private fun CommunityDetailScreenPreview() {
                     isLiked = false,
                     likeCount = 100,
                     commentCount = 100,
+                    comments = persistentListOf(),
                 ),
             ),
             onAction = {},
