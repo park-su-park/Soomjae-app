@@ -71,5 +71,6 @@ object SoomjaeTopAppBarDefaults {
         navigationIconContentColor = SoomjaeTheme.colorScheme.text2,
         titleContentColor = SoomjaeTheme.colorScheme.text2,
         actionIconContentColor = SoomjaeTheme.colorScheme.text2,
+        subtitleContentColor = SoomjaeTheme.colorScheme.text2,
     )
 }
