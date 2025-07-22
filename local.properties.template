@@ -4,3 +4,7 @@ sdk.dir=
 soomjae.flavor=dev
 # should contain protocol, ends with `/`
 base.url=https://example.com/
+
+## Keystore
+## Debug
+debugStoreFile=DEBUG_STORE_PASSWORD

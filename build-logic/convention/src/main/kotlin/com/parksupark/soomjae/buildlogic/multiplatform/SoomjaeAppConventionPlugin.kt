@@ -7,6 +7,7 @@ import bundleImplementation
 import com.android.build.api.dsl.ApplicationBuildType
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import configureAndroid
+import java.io.FileInputStream
 import java.util.Properties
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -91,6 +92,20 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
         }
 
         signingConfigs {
+            getByName("debug") {
+                val props = Properties().also { p ->
+                    runCatching {
+                        FileInputStream(project.rootProject.file("local.properties")).use { inputStream ->
+                            p.load(inputStream)
+                        }
+                    }
+                }
+
+                storeFile = props["debugStoreFile", "DEBUG_STORE_FILE"]?.let {
+                    val file = project.rootProject.file(it)
+                    if (file.exists()) file else storeFile
+                }
+            }
             register("release") {
             }
         }
@@ -101,6 +116,8 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
                 versionNameSuffix = "-dev"
 
                 configure(isDebug = true)
+
+                signingConfig = signingConfigs.getByName("debug")
                 resValue("string", "app_name", "Soomjae Dev")
             }
 
