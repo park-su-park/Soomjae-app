@@ -101,9 +101,11 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
                     }
                 }
 
-                storeFile = props["debugStoreFile", "DEBUG_STORE_FILE"]?.let {
+                props["debugStoreFile", "DEBUG_STORE_FILE"]?.let {
                     val file = project.rootProject.file(it)
-                    if (file.exists()) file else storeFile
+                    if (file.exists()) {
+                        storeFile = file
+                    }
                 }
             }
             register("release") {
