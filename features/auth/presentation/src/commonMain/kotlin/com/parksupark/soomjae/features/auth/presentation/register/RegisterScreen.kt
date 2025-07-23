@@ -78,6 +78,7 @@ private fun InputSection(
             modifier = Modifier.semantics {
                 contentType = ContentType.EmailAddress
             },
+            title = stringResource(Res.string.register_email_hint),
             hint = stringResource(Res.string.register_email_hint),
         )
         SoomjaeOutlinedTextField(
@@ -85,6 +86,7 @@ private fun InputSection(
             modifier = Modifier.semantics {
                 contentType = ContentType.Password
             },
+            title = stringResource(Res.string.register_password_hint),
             hint = stringResource(Res.string.register_password_hint),
         )
         SoomjaeOutlinedTextField(
@@ -92,6 +94,7 @@ private fun InputSection(
             modifier = Modifier.semantics {
                 contentType = ContentType.Password
             },
+            title = stringResource(Res.string.register_password_confirm_hint),
             hint = stringResource(Res.string.register_password_confirm_hint),
         )
     }
