@@ -13,4 +13,6 @@ interface AuthRepository {
         email: String,
         password: String,
     ): Either<DataFailure.Network, Unit>
+
+    suspend fun checkEmailAvailable(email: String): Either<DataFailure.Network, Boolean>
 }
