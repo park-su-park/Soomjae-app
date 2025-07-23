@@ -6,12 +6,15 @@ import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.collectAsFlow
 import com.parksupark.soomjae.features.auth.domain.AuthRepository
 import com.parksupark.soomjae.features.auth.domain.UserDataValidator
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -19,6 +22,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+@OptIn(FlowPreview::class)
 class RegisterViewModel(
     private val userDataValidator: UserDataValidator,
     private val authRepository: AuthRepository,
@@ -33,9 +37,19 @@ class RegisterViewModel(
         uiState.value.inputEmail.collectAsFlow().onEach { email ->
             val isValidEmail = userDataValidator.isValidEmail(email.toString())
             _uiState.update {
-                it.copy(isEmailValid = isValidEmail)
+                it.copy(isEmailFormatValid = isValidEmail)
             }
-        }.launchIn(viewModelScope)
+        }.debounce(500)
+            .filter {
+                uiState.value.isEmailFormatValid
+            }
+            .onEach { email ->
+                val isEmailAvailable = authRepository.checkEmailAvailable(email.toString())
+                _uiState.update {
+                    it.copy(isEmailAvailable = isEmailAvailable.isRight())
+                }
+            }
+            .launchIn(viewModelScope)
 
         val inputPasswordFlow = uiState.value.inputPassword.collectAsFlow()
         inputPasswordFlow.onEach { password ->
@@ -59,12 +73,17 @@ class RegisterViewModel(
         }.launchIn(viewModelScope)
 
         uiState.distinctUntilChanged { old, new ->
-            old.isEmailValid == new.isEmailValid &&
+            old.isEmailFormatValid == new.isEmailFormatValid &&
+                old.isEmailAvailable == new.isEmailAvailable &&
                 old.passwordValidationState == new.passwordValidationState &&
                 old.isPasswordMatch == new.isPasswordMatch &&
                 old.isRegistering == new.isRegistering
         }.map { state ->
-            state.isEmailValid && state.passwordValidationState.isValidPassword && state.isPasswordMatch && !state.isRegistering
+            state.isEmailFormatValid &&
+                state.isEmailAvailable &&
+                state.passwordValidationState.isValidPassword &&
+                state.isPasswordMatch &&
+                !state.isRegistering
         }.onEach { canRegister ->
             _uiState.update {
                 it.copy(canRegister = canRegister)

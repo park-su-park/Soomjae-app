@@ -6,7 +6,8 @@ import com.parksupark.soomjae.features.auth.domain.PasswordValidationState
 
 data class RegisterState(
     val inputEmail: TextFieldState = TextFieldState(),
-    val isEmailValid: Boolean = false,
+    val isEmailFormatValid: Boolean = false,
+    val isEmailAvailable: Boolean = false,
     val inputPassword: TextFieldState = TextFieldState(),
     val passwordValidationState: PasswordValidationState = PasswordValidationState(),
     val inputConfirmPassword: TextFieldState = TextFieldState(),
