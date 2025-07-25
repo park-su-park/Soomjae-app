@@ -6,7 +6,9 @@ import com.parksupark.soomjae.features.auth.domain.PasswordValidationState
 
 data class RegisterState(
     val inputEmail: TextFieldState = TextFieldState(),
-    val isEmailValid: Boolean = false,
+    val isEmailFormatValid: Boolean = false,
+    val isEmailAvailable: Boolean = false,
+    val isEmailValidating: Boolean = false,
     val inputPassword: TextFieldState = TextFieldState(),
     val passwordValidationState: PasswordValidationState = PasswordValidationState(),
     val inputConfirmPassword: TextFieldState = TextFieldState(),
@@ -21,6 +23,8 @@ sealed interface RegisterAction {
     data object OnRegisterClick : RegisterAction
 
     data object OnLoginClick : RegisterAction
+
+    data class OnInputEmailFocusChanged(val isFocused: Boolean) : RegisterAction
 }
 
 sealed interface RegisterEvent {

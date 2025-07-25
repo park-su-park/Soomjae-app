@@ -7,6 +7,7 @@
 
     <string name="register_title">회원가입</string>
     <string name="register_email_hint">이메일</string>
+    <string name="register_email_error">사용할 수 없는 이메일 입니다.</string>
     <string name="register_password_hint">비밀번호</string>
     <string name="register_password_confirm_hint">비밀번호 재확인</string>
     <string name="register_register_button">가입</string>
