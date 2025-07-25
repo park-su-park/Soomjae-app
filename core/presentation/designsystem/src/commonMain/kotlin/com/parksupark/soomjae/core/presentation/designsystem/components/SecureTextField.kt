@@ -111,7 +111,7 @@ fun SoomjaeSecureOutlinedTextField(
                         innerBox = it,
                     )
                 },
-                textObfuscationMode = if (isPasswordVisible) TextObfuscationMode.Visible else TextObfuscationMode.RevealLastTyped,
+                textObfuscationMode = getTextObfuscationMode(isPasswordVisible),
             )
         }
     }
@@ -166,4 +166,10 @@ private fun SecureOutlinedTextFieldDecorator(
                 },
         )
     }
+}
+
+private fun getTextObfuscationMode(passwordVisible: Boolean): TextObfuscationMode = if (passwordVisible) {
+    TextObfuscationMode.Visible
+} else {
+    TextObfuscationMode.RevealLastTyped
 }
