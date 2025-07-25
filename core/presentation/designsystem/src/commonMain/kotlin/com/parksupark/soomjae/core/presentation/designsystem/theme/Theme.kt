@@ -4,7 +4,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
@@ -40,8 +39,8 @@ fun ProvideSoomjaeColorsAndTypography(
     content: @Composable () -> Unit,
 ) {
     val textSelectionColors = TextSelectionColors(
-        handleColor = colors.cta,
-        backgroundColor = colors.cta.copy(alpha = 0.4f),
+        handleColor = colors.primary,
+        backgroundColor = colors.primary.copy(alpha = 0.4f),
     )
 
     CompositionLocalProvider(
@@ -68,19 +67,19 @@ fun AppTheme(
         )
     }
 
-    ProvideSoomjaeColorsAndTypography(
-        colors = if (isDarkState.value) DarkColorPalette else LightColorPalette,
-        typography = SoomjaeTypography,
+    CompositionLocalProvider(
+        LocalThemeIsDark provides isDarkState,
     ) {
-        CompositionLocalProvider(
-            LocalThemeIsDark provides isDarkState,
-        ) {
-            val isDark by isDarkState
-            SystemAppearance(!isDark)
+        val isDark by isDarkState
+        SystemAppearance(!isDark)
 
-            MaterialTheme(
-                colorScheme = debugColorScheme(isDarkState.value),
-                content = { Surface(content = content) },
+        MaterialTheme(
+            colorScheme = debugColorScheme(isDarkState.value),
+        ) {
+            ProvideSoomjaeColorsAndTypography(
+                colors = if (isDarkState.value) DarkColorPalette else LightColorPalette,
+                typography = SoomjaeTypography,
+                content = content,
             )
         }
     }
