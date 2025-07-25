@@ -12,9 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -34,23 +32,6 @@ class RegisterViewModel(
     val eventChannel = _eventChannel.receiveAsFlow()
 
     init {
-        uiState.value.inputEmail.collectAsFlow().onEach { email ->
-            val isValidEmail = userDataValidator.isValidEmail(email.toString())
-            _uiState.update {
-                it.copy(isEmailFormatValid = isValidEmail)
-            }
-        }.debounce(500)
-            .filter {
-                uiState.value.isEmailFormatValid
-            }
-            .onEach { email ->
-                val isEmailAvailable = authRepository.checkEmailAvailable(email.toString())
-                _uiState.update {
-                    it.copy(isEmailAvailable = isEmailAvailable.isRight())
-                }
-            }
-            .launchIn(viewModelScope)
-
         val inputPasswordFlow = uiState.value.inputPassword.collectAsFlow()
         inputPasswordFlow.onEach { password ->
             val passwordValidationState = userDataValidator.validatePassword(password.toString())
@@ -108,6 +89,27 @@ class RegisterViewModel(
                     _eventChannel.send(RegisterEvent.RegistrationSuccess)
                 },
             )
+        }
+    }
+
+    fun validateEmail() {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isEmailValidating = true) }
+
+            val email = uiState.value.inputEmail.text.toString().trim()
+
+            val isEmailFormatValid = userDataValidator.isValidEmail(email)
+            if (!isEmailFormatValid) {
+                _uiState.update {
+                    it.copy(isEmailFormatValid = false, isEmailAvailable = false, isEmailValidating = false)
+                }
+                return@launch
+            }
+
+            val isEmailAvailable = authRepository.checkEmailAvailable(email)
+            _uiState.update {
+                it.copy(isEmailFormatValid = true, isEmailAvailable = isEmailAvailable.isRight(), isEmailValidating = false)
+            }
         }
     }
 }

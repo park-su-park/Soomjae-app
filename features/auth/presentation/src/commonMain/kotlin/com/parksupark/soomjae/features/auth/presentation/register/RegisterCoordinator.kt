@@ -14,11 +14,13 @@ class RegisterCoordinator(
 
     fun handle(action: RegisterAction) {
         when (action) {
-            RegisterAction.OnBackClick -> navigator.navigateBack()
+            is RegisterAction.OnBackClick -> navigator.navigateBack()
 
-            RegisterAction.OnLoginClick -> navigator.navigateToEmailLogin()
+            is RegisterAction.OnLoginClick -> navigator.navigateToEmailLogin()
 
-            RegisterAction.OnRegisterClick -> viewModel.register()
+            is RegisterAction.OnRegisterClick -> viewModel.register()
+
+            is RegisterAction.OnInputEmailFocusChanged -> if (!action.isFocused) viewModel.validateEmail()
         }
     }
 }
