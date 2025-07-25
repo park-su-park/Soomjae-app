@@ -23,6 +23,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeB
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCenterAlignedTopAppBar
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeOutlinedTextField
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
+import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSecureOutlinedTextField
 import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.features.auth.presentation.resources.Res
 import com.parksupark.soomjae.features.auth.presentation.resources.email_login_button_login
@@ -80,7 +81,7 @@ private fun InputSection(state: EmailLoginState) {
             title = Res.string.email_login_textfield_email_hint.value,
         )
 
-        SoomjaeOutlinedTextField(
+        SoomjaeSecureOutlinedTextField(
             state = state.inputPassword,
             modifier = Modifier.semantics {
                 contentType = ContentType.Password

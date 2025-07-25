@@ -31,6 +31,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeB
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCenterAlignedTopAppBar
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeOutlinedTextField
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
+import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSecureOutlinedTextField
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeTextButton
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.features.auth.presentation.resources.Res
@@ -118,7 +119,7 @@ private fun InputSection(
                 onAction(RegisterAction.OnInputEmailFocusChanged(it.isFocused))
             },
         )
-        SoomjaeOutlinedTextField(
+        SoomjaeSecureOutlinedTextField(
             state = state.inputPassword,
             modifier = Modifier.semantics {
                 contentType = ContentType.Password
@@ -126,7 +127,7 @@ private fun InputSection(
             title = stringResource(Res.string.register_password_hint),
             hint = stringResource(Res.string.register_password_hint),
         )
-        SoomjaeOutlinedTextField(
+        SoomjaeSecureOutlinedTextField(
             state = state.inputConfirmPassword,
             modifier = Modifier.semantics {
                 contentType = ContentType.Password
