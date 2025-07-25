@@ -2,10 +2,10 @@ package com.parksupark.soomjae.features.post.presentation.previews.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.parksupark.soomjae.core.domain.models.Member
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSurface
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.features.post.domain.models.Comment
-import com.parksupark.soomjae.features.post.domain.models.Member
 import com.parksupark.soomjae.features.post.presentation.components.CommentItem
 import com.parksupark.soomjae.features.post.presentation.models.toUi
 import kotlin.time.Clock

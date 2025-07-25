@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.post.domain.models
+package com.parksupark.soomjae.core.domain.models
 
 data class Member(
     val id: String,
