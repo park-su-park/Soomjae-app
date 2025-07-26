@@ -22,7 +22,7 @@ sealed interface AuthDestination : NavigationDestination {
     data object Register : AuthDestination
 
     @Serializable
-    data object EmailLogin : AuthDestination
+    data class EmailLogin(val email: String? = null) : AuthDestination
 }
 
 fun NavGraphBuilder.authGraph(navigator: AuthNavigator) {
@@ -53,8 +53,8 @@ fun NavHostController.navigateToRegister() {
     navigate(AuthDestination.Register)
 }
 
-fun NavHostController.navigateToEmailLogin() {
-    navigate(AuthDestination.EmailLogin) {
+fun NavHostController.navigateToEmailLogin(email: String? = null) {
+    navigate(AuthDestination.EmailLogin(email)) {
         popUpTo(AuthDestination.Login) {
             inclusive = false
         }

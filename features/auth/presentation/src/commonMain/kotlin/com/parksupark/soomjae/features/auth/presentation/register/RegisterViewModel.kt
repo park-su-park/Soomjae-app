@@ -53,17 +53,26 @@ class RegisterViewModel(
             }
         }.launchIn(viewModelScope)
 
+        uiState.value.inputNickname.collectAsFlow().onEach { nickname ->
+            val isNicknameValid = userDataValidator.isValidNickname(nickname.toString())
+            _uiState.update {
+                it.copy(isNicknameValid = isNicknameValid)
+            }
+        }.launchIn(viewModelScope)
+
         uiState.distinctUntilChanged { old, new ->
             old.isEmailFormatValid == new.isEmailFormatValid &&
                 old.isEmailAvailable == new.isEmailAvailable &&
                 old.passwordValidationState == new.passwordValidationState &&
                 old.isPasswordMatch == new.isPasswordMatch &&
+                old.isNicknameValid == new.isNicknameValid &&
                 old.isRegistering == new.isRegistering
         }.map { state ->
             state.isEmailFormatValid &&
                 state.isEmailAvailable &&
                 state.passwordValidationState.isValidPassword &&
                 state.isPasswordMatch &&
+                state.isNicknameValid &&
                 !state.isRegistering
         }.onEach { canRegister ->
             _uiState.update {
@@ -75,9 +84,14 @@ class RegisterViewModel(
     fun register() {
         viewModelScope.launch {
             _uiState.update { it.copy(isRegistering = true) }
+
+            val email = uiState.value.inputEmail.text.toString().trim()
+            val password = uiState.value.inputPassword.text.toString().trim()
+            val nickname = uiState.value.inputNickname.text.toString().trim()
             val result = authRepository.register(
-                email = uiState.value.inputEmail.text.toString().trim(),
-                password = uiState.value.inputPassword.text.toString(),
+                email = email,
+                password = password,
+                nickname = nickname,
             )
             _uiState.update { it.copy(isRegistering = false) }
 
@@ -86,7 +100,7 @@ class RegisterViewModel(
                     _eventChannel.send(RegisterEvent.Error(it.asUiText()))
                 },
                 ifRight = {
-                    _eventChannel.send(RegisterEvent.RegistrationSuccess)
+                    _eventChannel.send(RegisterEvent.RegistrationSuccess(email))
                 },
             )
         }

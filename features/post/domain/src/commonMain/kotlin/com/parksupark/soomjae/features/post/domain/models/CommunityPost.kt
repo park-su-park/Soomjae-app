@@ -1,5 +1,6 @@
 package com.parksupark.soomjae.features.post.domain.models
 
+import com.parksupark.soomjae.core.domain.models.Member
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 

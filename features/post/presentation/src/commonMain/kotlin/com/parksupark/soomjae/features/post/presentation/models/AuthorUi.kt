@@ -1,6 +1,6 @@
 package com.parksupark.soomjae.features.post.presentation.models
 
-import com.parksupark.soomjae.features.post.domain.models.Member
+import com.parksupark.soomjae.core.domain.models.Member
 
 internal data class AuthorUi(
     val id: String,

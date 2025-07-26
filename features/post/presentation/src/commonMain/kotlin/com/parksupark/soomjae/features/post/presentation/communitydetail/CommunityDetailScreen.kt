@@ -153,8 +153,8 @@ private fun PostContent(content: String) {
 private fun PostAdditionalButtons(
     isLiked: Boolean,
     onToggleLikeClick: () -> Unit,
-    likeCount: Long,
-    commentCount: Long,
+    likeCount: Int,
+    commentCount: Int,
 ) {
     SoomjaeHorizontalDivider()
     Row(
@@ -171,7 +171,7 @@ private fun PostAdditionalButtons(
 private fun RowScope.LikeButton(
     onToggleLikeClick: () -> Unit,
     isLiked: Boolean,
-    likeCount: Long,
+    likeCount: Int,
 ) {
     Row(
         modifier = Modifier.heightIn(min = 48.dp)
@@ -205,7 +205,7 @@ private fun RowScope.LikeButton(
 }
 
 @Composable
-private fun RowScope.CommentButton(commentCount: Long) {
+private fun RowScope.CommentButton(commentCount: Int) {
     Row(
         modifier = Modifier.heightIn(min = 48.dp)
             .weight(1f),

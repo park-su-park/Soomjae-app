@@ -1,6 +1,6 @@
 package com.parksupark.soomjae.features.post.data.dtos
 
-import com.parksupark.soomjae.features.post.domain.models.Member
+import com.parksupark.soomjae.core.domain.models.Member
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

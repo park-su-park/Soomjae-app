@@ -15,6 +15,8 @@ data class RegisterState(
     val isPasswordMatch: Boolean = false,
     val canRegister: Boolean = false,
     val isRegistering: Boolean = false,
+    val inputNickname: TextFieldState = TextFieldState(),
+    val isNicknameValid: Boolean = false,
 )
 
 sealed interface RegisterAction {
@@ -28,7 +30,7 @@ sealed interface RegisterAction {
 }
 
 sealed interface RegisterEvent {
-    data object RegistrationSuccess : RegisterEvent
+    data class RegistrationSuccess(val email: String) : RegisterEvent
 
     data class Error(val error: UiText) : RegisterEvent
 }

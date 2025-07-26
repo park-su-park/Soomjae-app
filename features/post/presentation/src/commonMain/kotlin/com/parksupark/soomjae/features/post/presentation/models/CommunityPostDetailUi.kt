@@ -9,8 +9,8 @@ import kotlinx.collections.immutable.toImmutableList
 internal data class CommunityPostDetailUi(
     val post: CommunityPostUi,
     val isLiked: Boolean,
-    val likeCount: Long,
-    val commentCount: Long,
+    val likeCount: Int,
+    val commentCount: Int,
     val comments: ImmutableList<CommentUi>,
 )
 

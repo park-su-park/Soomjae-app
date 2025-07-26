@@ -16,12 +16,10 @@ internal expect val platformCoreDataModule: Module
 val coreDataModule = module {
     includes(platformCoreDataModule)
 
-    @Suppress("UndeclaredKoinUsage")
     single {
         SessionRepositoryImpl(get(named(SESSION_DATA_STORE)))
     }.bind<SessionRepository>()
 
-    @Suppress("UndeclaredKoinUsage")
     single {
         ColorThemeRepositoryImpl(get(named(SETTING_DATA_STORE)))
     }.bind<ColorThemeRepository>()

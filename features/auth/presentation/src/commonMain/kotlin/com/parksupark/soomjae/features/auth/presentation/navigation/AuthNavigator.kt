@@ -7,7 +7,7 @@ import com.parksupark.soomjae.core.presentation.ui.navigation.overridden
 interface AuthNavigator : SoomjaeNavigator {
     fun navigateToRegister()
 
-    fun navigateToEmailLogin()
+    fun navigateToEmailLogin(email: String? = null)
 
     fun popUpAuthGraph() {
         overridden()
@@ -25,7 +25,7 @@ private class SoomjaeAuthNavigator(
         overridden()
     }
 
-    override fun navigateToEmailLogin() {
+    override fun navigateToEmailLogin(email: String?) {
         overridden()
     }
 

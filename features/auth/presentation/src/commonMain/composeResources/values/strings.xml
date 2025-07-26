@@ -10,6 +10,8 @@
     <string name="register_email_error">사용할 수 없는 이메일 입니다.</string>
     <string name="register_password_hint">비밀번호</string>
     <string name="register_password_confirm_hint">비밀번호 재확인</string>
+    <string name="register_password_different_error">비밀번호가 일치하지 않습니다.</string>
+    <string name="register_nickname_hint">닉네임</string>
     <string name="register_register_button">가입</string>
     <string name="register_login_button_1">이미 계정이 있으신가요?</string>
     <string name="register_login_button_2">로그인</string>
@@ -18,6 +20,7 @@
     <string name="email_login_title">로그인</string>
     <string name="email_login_textfield_email_hint">이메일을 입력해주세요.</string>
     <string name="email_login_textfield_password_hint">비밀번호를 입력해주세요.</string>
+    <string name="email_login_checkbox_save_email">이메일을 저장하기</string>
     <string name="email_login_button_login">로그인</string>
     <string name="email_login_navigate_up_description">뒤로 가기</string>
 
