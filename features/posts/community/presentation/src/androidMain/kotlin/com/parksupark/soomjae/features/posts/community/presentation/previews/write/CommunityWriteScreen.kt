@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.aggregate.presentation.previews
+package com.parksupark.soomjae.features.posts.community.presentation.previews.write
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview

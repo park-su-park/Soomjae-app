@@ -1,13 +1,13 @@
-package com.parksupark.soomjae.features.posts.aggregate.presentation.previews.components
+package com.parksupark.soomjae.features.posts.community.presentation.previews.detail
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
-import com.parksupark.soomjae.features.posts.aggregate.presentation.previews.proviers.CommunityPostDetailUiPreviewParameterProvider
 import com.parksupark.soomjae.features.posts.community.presentation.detail.CommunityDetailScreen
 import com.parksupark.soomjae.features.posts.community.presentation.detail.CommunityDetailState
 import com.parksupark.soomjae.features.posts.community.presentation.models.CommunityPostDetailUi
+import com.parksupark.soomjae.features.posts.community.presentation.previews.providers.CommunityPostDetailUiPreviewParameterProvider
 import kotlin.time.ExperimentalTime
 import kotlinx.collections.immutable.ImmutableList
 

@@ -1,21 +1,24 @@
-package com.parksupark.soomjae.features.posts.aggregate.presentation.previews.proviers
+package com.parksupark.soomjae.features.posts.community.presentation.previews.providers
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.parksupark.soomjae.core.presentation.ui.previews.proviers.MemberPreviewParameterData
 import com.parksupark.soomjae.features.posts.community.domain.models.CommunityPost
+import com.parksupark.soomjae.features.posts.community.presentation.models.CommunityPostUi
+import com.parksupark.soomjae.features.posts.community.presentation.models.toUi
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 
-internal class CommunityPostPreviewParameterProvider : PreviewParameterProvider<ImmutableList<CommunityPost>> {
-    override val values: Sequence<ImmutableList<CommunityPost>> =
-        sequenceOf(CommunityPostPreviewParameterData.communityPosts.toImmutableList())
+class CommunityPostUiPreviewParameterProvider : PreviewParameterProvider<ImmutableList<CommunityPostUi>> {
+    override val values: Sequence<ImmutableList<CommunityPostUi>> =
+        sequenceOf(CommunityPostPreviewParameterData.communityPosts.map { it.toUi() }.toImmutableList())
 }
 
 object CommunityPostPreviewParameterData {
     @OptIn(ExperimentalTime::class)
-    val communityPosts = listOf(
+    val communityPosts = persistentListOf(
         CommunityPost(
             id = 1,
             title = "Show off your neighborhood cat photos",

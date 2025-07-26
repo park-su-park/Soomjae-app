@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.aggregate.presentation.previews
+package com.parksupark.soomjae.features.posts.community.presentation.previews.tab
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
@@ -6,9 +6,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import app.cash.paging.PagingData
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
-import com.parksupark.soomjae.features.posts.aggregate.presentation.previews.proviers.CommunityPostPreviewParameterProvider
-import com.parksupark.soomjae.features.posts.community.domain.models.CommunityPost
-import com.parksupark.soomjae.features.posts.community.presentation.models.toUi
+import com.parksupark.soomjae.features.posts.community.presentation.models.CommunityPostUi
+import com.parksupark.soomjae.features.posts.community.presentation.previews.providers.CommunityPostUiPreviewParameterProvider
 import com.parksupark.soomjae.features.posts.community.presentation.tab.CommunityTabScreen
 import com.parksupark.soomjae.features.posts.community.presentation.tab.CommunityTabState
 import kotlinx.collections.immutable.ImmutableList
@@ -17,13 +16,13 @@ import kotlinx.coroutines.flow.flowOf
 @Composable
 @Preview(name = "CommunityTab")
 private fun CommunityTabScreenPreview(
-    @PreviewParameter(CommunityPostPreviewParameterProvider::class) posts: ImmutableList<CommunityPost>,
+    @PreviewParameter(CommunityPostUiPreviewParameterProvider::class) posts: ImmutableList<CommunityPostUi>,
 ) {
     AppTheme {
         CommunityTabScreen(
             state = CommunityTabState(),
             onAction = {},
-            posts = flowOf(PagingData.from(posts.map { it.toUi() })).collectAsLazyPagingItems(),
+            posts = flowOf(PagingData.from(posts)).collectAsLazyPagingItems(),
         )
     }
 }

@@ -1,10 +1,10 @@
-package com.parksupark.soomjae.features.posts.aggregate.presentation.previews.proviers
+package com.parksupark.soomjae.features.posts.common.presentation.previews.providers
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.parksupark.soomjae.core.presentation.ui.previews.proviers.MemberPreviewParameterData.members
-import com.parksupark.soomjae.features.posts.aggregate.presentation.models.CommentUi
 import com.parksupark.soomjae.features.posts.common.domain.models.Comment
-import com.parksupark.soomjae.features.posts.community.presentation.models.toUi
+import com.parksupark.soomjae.features.posts.common.presentation.models.CommentUi
+import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
 import kotlin.time.ExperimentalTime
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -13,7 +13,7 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 
-internal class CommentUiPreviewParameterProvider : PreviewParameterProvider<ImmutableList<CommentUi>> {
+class CommentUiPreviewParameterProvider : PreviewParameterProvider<ImmutableList<CommentUi>> {
     override val values: Sequence<ImmutableList<CommentUi>> =
         sequenceOf(CommentPreviewParameterData.comments.map { it.toUi() }.toImmutableList())
 }
