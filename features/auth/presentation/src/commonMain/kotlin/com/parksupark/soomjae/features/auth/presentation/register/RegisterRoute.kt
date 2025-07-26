@@ -35,7 +35,7 @@ fun RegisterRoute(
                     snackbarHostState.showSnackbar(event.error, isError = true)
                 }
 
-                is RegistrationSuccess -> coordinator.navigator.navigateToEmailLogin()
+                is RegistrationSuccess -> coordinator.navigator.navigateToEmailLogin(event.email)
             }
         },
     )

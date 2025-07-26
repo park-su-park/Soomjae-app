@@ -1,11 +1,14 @@
 package com.parksupark.soomjae.features.auth.presentation.emaillogin
 
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.collectAsFlow
 import com.parksupark.soomjae.features.auth.domain.AuthRepository
 import com.parksupark.soomjae.features.auth.domain.UserDataValidator
+import com.parksupark.soomjae.features.auth.presentation.navigation.AuthDestination
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,10 +22,15 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class EmailLoginViewModel(
+    savedStateHandle: SavedStateHandle,
     private val userDataValidator: UserDataValidator,
     private val authRepository: AuthRepository,
 ) : ViewModel() {
-    private val _uiStateFlow: MutableStateFlow<EmailLoginState> = MutableStateFlow(EmailLoginState())
+    val email = savedStateHandle.get<String>(AuthDestination.EmailLogin::email.name) ?: ""
+
+    private val _uiStateFlow: MutableStateFlow<EmailLoginState> = MutableStateFlow(
+        EmailLoginState(inputEmail = TextFieldState(email)),
+    )
     val uiStateFlow: StateFlow<EmailLoginState> = _uiStateFlow.asStateFlow()
 
     private val _eventChannel = Channel<EmailLoginEvent>()

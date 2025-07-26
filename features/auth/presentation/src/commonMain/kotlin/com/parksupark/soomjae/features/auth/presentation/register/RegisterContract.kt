@@ -30,7 +30,7 @@ sealed interface RegisterAction {
 }
 
 sealed interface RegisterEvent {
-    data object RegistrationSuccess : RegisterEvent
+    data class RegistrationSuccess(val email: String) : RegisterEvent
 
     data class Error(val error: UiText) : RegisterEvent
 }

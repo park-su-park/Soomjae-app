@@ -57,8 +57,8 @@ private class SoomjaeRootNavigator(
         navController.navigateToRegister()
     }
 
-    override fun navigateToEmailLogin() {
-        navController.navigateToEmailLogin()
+    override fun navigateToEmailLogin(email: String?) {
+        navController.navigateToEmailLogin(email)
     }
 
     override fun popUpAuthGraph() {
