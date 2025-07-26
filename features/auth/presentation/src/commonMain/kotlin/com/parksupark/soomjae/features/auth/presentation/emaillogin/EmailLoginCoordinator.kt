@@ -17,6 +17,8 @@ class EmailLoginCoordinator(
             EmailLoginAction.OnBackClick -> navigator.navigateBack()
 
             EmailLoginAction.OnLoginClick -> viewModel.login()
+
+            EmailLoginAction.OnSaveEmailClick -> viewModel.toggleSaveEmail()
         }
     }
 }
