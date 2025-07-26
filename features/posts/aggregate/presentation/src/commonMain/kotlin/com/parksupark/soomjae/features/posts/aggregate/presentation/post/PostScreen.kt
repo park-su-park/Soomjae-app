@@ -18,13 +18,13 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeS
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeTab
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeTabRow
 import com.parksupark.soomjae.core.presentation.ui.resources.value
-import com.parksupark.soomjae.features.posts.aggregate.presentation.post.tabs.meeting.MeetingTabRoute
 import com.parksupark.soomjae.features.posts.aggregate.presentation.post.tabs.member.MemberTabRoute
 import com.parksupark.soomjae.features.posts.aggregate.presentation.resources.Res
 import com.parksupark.soomjae.features.posts.aggregate.presentation.resources.post_community_title
 import com.parksupark.soomjae.features.posts.aggregate.presentation.resources.post_feed_title
 import com.parksupark.soomjae.features.posts.aggregate.presentation.resources.post_meeting_title
 import com.parksupark.soomjae.features.posts.common.presentation.PostAction
+import com.parksupark.soomjae.features.posts.common.presentation.tab.MeetingTabRoute
 import com.parksupark.soomjae.features.posts.community.presentation.tab.CommunityTabRoute
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.StringResource

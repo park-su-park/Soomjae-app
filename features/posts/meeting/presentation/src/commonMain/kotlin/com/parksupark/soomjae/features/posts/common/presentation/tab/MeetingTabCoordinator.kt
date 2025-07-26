@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.aggregate.presentation.post.tabs.meeting
+package com.parksupark.soomjae.features.posts.common.presentation.tab
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
