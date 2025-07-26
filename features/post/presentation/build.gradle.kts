@@ -9,6 +9,7 @@ kotlin {
             implementation(projects.core.presentation.ui)
 
             implementation(projects.features.post.domain)
+            implementation(projects.features.posts.common.domain)
 
             implementation(libs.rich.editor)
         }

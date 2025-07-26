@@ -5,13 +5,7 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.core.domain)
-            implementation(projects.core.remote)
-
-            implementation(projects.features.post.domain)
-            implementation(projects.features.posts.common.domain)
             implementation(projects.features.posts.common.data)
-
             implementation(projects.features.posts.community.domain)
         }
     }
