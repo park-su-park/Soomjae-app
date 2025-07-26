@@ -40,7 +40,9 @@ import com.parksupark.soomjae.features.auth.presentation.resources.register_emai
 import com.parksupark.soomjae.features.auth.presentation.resources.register_login_button_1
 import com.parksupark.soomjae.features.auth.presentation.resources.register_login_button_2
 import com.parksupark.soomjae.features.auth.presentation.resources.register_navigate_up_description
+import com.parksupark.soomjae.features.auth.presentation.resources.register_nickname_hint
 import com.parksupark.soomjae.features.auth.presentation.resources.register_password_confirm_hint
+import com.parksupark.soomjae.features.auth.presentation.resources.register_password_different_error
 import com.parksupark.soomjae.features.auth.presentation.resources.register_password_hint
 import com.parksupark.soomjae.features.auth.presentation.resources.register_register_button
 import com.parksupark.soomjae.features.auth.presentation.resources.register_title
@@ -119,22 +121,9 @@ private fun InputSection(
                 onAction(RegisterAction.OnInputEmailFocusChanged(it.isFocused))
             },
         )
-        SoomjaeSecureOutlinedTextField(
-            state = state.inputPassword,
-            modifier = Modifier.semantics {
-                contentType = ContentType.Password
-            },
-            title = stringResource(Res.string.register_password_hint),
-            hint = stringResource(Res.string.register_password_hint),
-        )
-        SoomjaeSecureOutlinedTextField(
-            state = state.inputConfirmPassword,
-            modifier = Modifier.semantics {
-                contentType = ContentType.Password
-            },
-            title = stringResource(Res.string.register_password_confirm_hint),
-            hint = stringResource(Res.string.register_password_confirm_hint),
-        )
+        PasswordTextField(password = state.inputPassword)
+        ConfirmPasswordTextField(confirmPassword = state.inputConfirmPassword, arePasswordsMatching = state.isPasswordMatch)
+        NicknameTextField(nickname = state.inputNickname)
     }
 }
 
@@ -166,6 +155,53 @@ private fun EmailTextField(
         title = stringResource(Res.string.register_email_hint),
         hint = stringResource(Res.string.register_email_hint),
         error = if (showError) stringResource(Res.string.register_email_error) else null,
+    )
+}
+
+@Composable
+private fun PasswordTextField(password: TextFieldState) {
+    SoomjaeSecureOutlinedTextField(
+        state = password,
+        modifier = Modifier.semantics {
+            contentType = ContentType.Password
+        },
+        title = stringResource(Res.string.register_password_hint),
+        hint = stringResource(Res.string.register_password_hint),
+    )
+}
+
+@Composable
+private fun ConfirmPasswordTextField(
+    confirmPassword: TextFieldState,
+    arePasswordsMatching: Boolean,
+) {
+    var isFocused by remember { mutableStateOf(false) }
+    var wasEverFocused by remember { mutableStateOf(false) }
+
+    SoomjaeSecureOutlinedTextField(
+        state = confirmPassword,
+        modifier = Modifier.semantics {
+            contentType = ContentType.Password
+        }.onFocusChanged { focusState ->
+            if (isFocused != focusState.isFocused) {
+                isFocused = focusState.isFocused
+                if (isFocused) {
+                    wasEverFocused = true
+                }
+            }
+        },
+        title = stringResource(Res.string.register_password_confirm_hint),
+        hint = stringResource(Res.string.register_password_confirm_hint),
+        error = if (wasEverFocused && !arePasswordsMatching) stringResource(Res.string.register_password_different_error) else null,
+    )
+}
+
+@Composable
+private fun NicknameTextField(nickname: TextFieldState) {
+    SoomjaeOutlinedTextField(
+        state = nickname,
+        title = stringResource(Res.string.register_nickname_hint),
+        hint = stringResource(Res.string.register_nickname_hint),
     )
 }
 

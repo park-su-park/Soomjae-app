@@ -53,6 +53,13 @@ class RegisterViewModel(
             }
         }.launchIn(viewModelScope)
 
+        uiState.value.inputNickname.collectAsFlow().onEach { nickname ->
+            val isNicknameValid = userDataValidator.isValidNickname(nickname.toString())
+            _uiState.update {
+                it.copy(isNicknameValid = isNicknameValid)
+            }
+        }.launchIn(viewModelScope)
+
         uiState.distinctUntilChanged { old, new ->
             old.isEmailFormatValid == new.isEmailFormatValid &&
                 old.isEmailAvailable == new.isEmailAvailable &&

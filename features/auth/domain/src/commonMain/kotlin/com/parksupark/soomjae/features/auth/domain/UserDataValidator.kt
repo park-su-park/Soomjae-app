@@ -22,6 +22,9 @@ class UserDataValidator {
         confirmPassword: String,
     ): Boolean = password == confirmPassword
 
+    // TODO: implement real nickname validation logic
+    fun isValidNickname(nickname: String) = nickname.isNotBlank()
+
     companion object {
         const val MIN_PASSWORD_LENGTH = 9
 

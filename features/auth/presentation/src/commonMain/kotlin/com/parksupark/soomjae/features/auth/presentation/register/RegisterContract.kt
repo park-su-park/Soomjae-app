@@ -15,6 +15,8 @@ data class RegisterState(
     val isPasswordMatch: Boolean = false,
     val canRegister: Boolean = false,
     val isRegistering: Boolean = false,
+    val inputNickname: TextFieldState = TextFieldState(),
+    val isNicknameValid: Boolean = false,
 )
 
 sealed interface RegisterAction {
