@@ -22,7 +22,7 @@ import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationBarItem.
 import com.parksupark.soomjae.features.auth.presentation.navigation.authGraph
 import com.parksupark.soomjae.features.home.presentation.navigation.HomeDestination
 import com.parksupark.soomjae.features.home.presentation.navigation.homeGraph
-import com.parksupark.soomjae.features.post.presentation.navigation.postGraph
+import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.postGraph
 import com.parksupark.soomjae.features.profile.presentation.navigation.profileGraph
 import com.parksupark.soomjae.features.setting.presentation.navigation.settingGraph
 import com.parksupark.soomjae.navigation.isMainNavigationBarItem
