@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -42,18 +43,20 @@ class EmailLoginViewModel(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000L),
-        initialValue = EmailLoginState(),
+        initialValue = _uiStateFlow.value,
     )
 
     private val _eventChannel = Channel<EmailLoginEvent>()
     val eventChannel = _eventChannel.receiveAsFlow()
 
     init {
-        uiStateFlow.value.inputEmail.collectAsFlow().onEach { email ->
-            _uiStateFlow.update {
-                val isEmailValid = userDataValidator.isValidEmail(email.toString())
-                it.copy(isEmailValid = isEmailValid)
-            }
+        uiStateFlow.distinctUntilChangedBy { it.inputEmail }.onEach {
+            uiStateFlow.value.inputEmail.collectAsFlow().onEach { email ->
+                _uiStateFlow.update {
+                    val isEmailValid = userDataValidator.isValidEmail(email.toString())
+                    it.copy(isEmailValid = isEmailValid)
+                }
+            }.launchIn(viewModelScope)
         }.launchIn(viewModelScope)
 
         uiStateFlow.value.inputPassword.collectAsFlow().onEach { password ->
