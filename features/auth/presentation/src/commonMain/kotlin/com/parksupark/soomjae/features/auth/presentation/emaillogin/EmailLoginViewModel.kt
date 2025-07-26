@@ -31,13 +31,13 @@ class EmailLoginViewModel(
     private val userDataValidator: UserDataValidator,
     private val authRepository: AuthRepository,
 ) : ViewModel() {
-    val email = savedStateHandle.get<String>(AuthDestination.EmailLogin::email.name) ?: ""
+    val initialEmailFromNav = savedStateHandle.get<String>(AuthDestination.EmailLogin::email.name) ?: ""
 
     private val _uiStateFlow: MutableStateFlow<EmailLoginState> = MutableStateFlow(
-        EmailLoginState(inputEmail = TextFieldState(email)),
+        EmailLoginState(inputEmail = TextFieldState(initialEmailFromNav)),
     )
     val uiStateFlow: StateFlow<EmailLoginState> = _uiStateFlow.onStart {
-        if (email.isBlank()) {
+        if (initialEmailFromNav.isBlank()) {
             loadSavedEmail()
         }
     }.stateIn(
@@ -59,18 +59,11 @@ class EmailLoginViewModel(
             }.launchIn(viewModelScope)
         }.launchIn(viewModelScope)
 
-        uiStateFlow.value.inputPassword.collectAsFlow().onEach { password ->
-            _uiStateFlow.update {
-                val isPasswordValid = password.toString().isNotBlank()
-                it.copy(isPasswordValid = isPasswordValid)
-            }
-        }.launchIn(viewModelScope)
-
         uiStateFlow.distinctUntilChanged { old, new ->
             old.isEmailValid == new.isEmailValid &&
-                old.isPasswordValid == new.isPasswordValid
+                old.isLoggingIn == new.isLoggingIn
         }.map { state ->
-            state.isEmailValid && state.isPasswordValid
+            state.isEmailValid && !state.isLoggingIn
         }.onEach { canLogin ->
             _uiStateFlow.update {
                 it.copy(canLogin = canLogin)
@@ -92,19 +85,19 @@ class EmailLoginViewModel(
                     )
                 },
                 ifRight = {
-                    if (uiStateFlow.value.shouldSaveEmail) {
-                        authRepository.saveEmail(uiStateFlow.value.inputEmail.text.toString())
-                    } else {
-                        authRepository.clearSavedEmail()
+                    viewModelScope.launch {
+                        if (uiStateFlow.value.shouldSaveEmail) {
+                            authRepository.saveEmail(uiStateFlow.value.inputEmail.text.toString())
+                        } else {
+                            authRepository.clearSavedEmail()
+                        }
                     }
 
-                    _eventChannel.send(
-                        EmailLoginEvent.LoginSuccess,
-                    )
+                    _eventChannel.send(EmailLoginEvent.LoginSuccess)
                 },
             )
 
-            _uiStateFlow.update { it.copy(isLoggingIn = true) }
+            _uiStateFlow.update { it.copy(isLoggingIn = false) }
         }
     }
 
@@ -115,6 +108,11 @@ class EmailLoginViewModel(
     }
 
     private suspend fun loadSavedEmail() {
+        if (_uiStateFlow.value.inputEmail.text.isNotBlank() && _uiStateFlow.value.shouldSaveEmail) {
+            Logger.d(TAG) { "Email already loaded or set, skipping loadSavedEmail." }
+            return
+        }
+
         val savedEmail = authRepository.loadSavedEmail()
 
         savedEmail.fold(
@@ -122,7 +120,7 @@ class EmailLoginViewModel(
                 if (it == DataFailure.Local.NOT_FOUND) {
                     Logger.d(TAG) { "No saved email" }
                 } else {
-                    Logger.e(TAG) { "Failed to load saved email" }
+                    Logger.e(TAG) { "Failed to load saved email: $it" }
                 }
             },
             ifRight = { email ->
