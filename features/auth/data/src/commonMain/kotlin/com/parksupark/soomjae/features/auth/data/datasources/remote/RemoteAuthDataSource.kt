@@ -10,7 +10,7 @@ import com.parksupark.soomjae.features.auth.data.dto.EmailLoginResponse
 import com.parksupark.soomjae.features.auth.data.dto.RegisterRequest
 import io.ktor.client.HttpClient
 
-class RemoteAuthDataSource(
+internal class RemoteAuthDataSource(
     private val httpClient: HttpClient,
 ) {
     suspend fun register(

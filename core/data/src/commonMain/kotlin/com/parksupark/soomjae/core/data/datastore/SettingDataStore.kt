@@ -12,6 +12,7 @@ internal fun createSettingDataStore(producePath: () -> String): DataStore<Prefer
     produceFile = { producePath().toPath() },
 )
 
-internal object SettingDataStoreKey {
+object SettingDataStoreKey {
     val COLOR_THEME = stringPreferencesKey("color_theme")
+    val SAVED_EMAIL = stringPreferencesKey("saved_email")
 }

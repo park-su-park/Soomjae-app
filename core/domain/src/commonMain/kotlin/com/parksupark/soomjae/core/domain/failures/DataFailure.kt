@@ -15,6 +15,7 @@ sealed interface DataFailure {
 
     enum class Local : DataFailure {
         DISK_FULL,
+        NOT_FOUND,
         UNKNOWN,
     }
 }

@@ -5,11 +5,13 @@ import com.parksupark.soomjae.core.common.utils.mapToEmpty
 import com.parksupark.soomjae.core.domain.auth.models.AuthInfo
 import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
 import com.parksupark.soomjae.core.domain.failures.DataFailure
+import com.parksupark.soomjae.features.auth.data.datasources.local.LocalAuthDataSource
 import com.parksupark.soomjae.features.auth.data.datasources.remote.RemoteAuthDataSource
 import com.parksupark.soomjae.features.auth.domain.AuthRepository
 
-class AuthRepositoryImpl(
+internal class AuthRepositoryImpl(
     private val remoteAuthDataSource: RemoteAuthDataSource,
+    private val localAuthDataSource: LocalAuthDataSource,
     private val sessionRepository: SessionRepository,
 ) : AuthRepository {
     override suspend fun register(
@@ -36,4 +38,10 @@ class AuthRepositoryImpl(
 
     override suspend fun checkEmailAvailable(email: String): Either<DataFailure.Network, Boolean> =
         remoteAuthDataSource.checkEmailAvailable(email)
+
+    override suspend fun saveEmail(email: String): Either<DataFailure.Local, Unit> = localAuthDataSource.saveEmail(email)
+
+    override suspend fun loadSavedEmail(): Either<DataFailure.Local, String> = localAuthDataSource.loadSavedEmail()
+
+    override suspend fun deleteSavedEmail(): Either<DataFailure.Local, Unit> = localAuthDataSource.deleteSavedEmail()
 }
