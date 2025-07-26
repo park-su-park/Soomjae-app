@@ -41,7 +41,7 @@ internal class LocalAuthDataSource(
         Either.Left(DataFailure.Local.UNKNOWN)
     }
 
-    suspend fun deleteSavedEmail(): Either<DataFailure.Local, Unit> = try {
+    suspend fun clearSavedEmail(): Either<DataFailure.Local, Unit> = try {
         dataStore.edit { preferences ->
             preferences.remove(SettingDataStoreKey.SAVED_EMAIL)
         }

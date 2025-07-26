@@ -89,6 +89,12 @@ class EmailLoginViewModel(
                     )
                 },
                 ifRight = {
+                    if (uiStateFlow.value.shouldSaveEmail) {
+                        authRepository.saveEmail(uiStateFlow.value.inputEmail.text.toString())
+                    } else {
+                        authRepository.clearSavedEmail()
+                    }
+
                     _eventChannel.send(
                         EmailLoginEvent.LoginSuccess,
                     )

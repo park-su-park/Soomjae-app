@@ -43,5 +43,5 @@ internal class AuthRepositoryImpl(
 
     override suspend fun loadSavedEmail(): Either<DataFailure.Local, String> = localAuthDataSource.loadSavedEmail()
 
-    override suspend fun deleteSavedEmail(): Either<DataFailure.Local, Unit> = localAuthDataSource.deleteSavedEmail()
+    override suspend fun clearSavedEmail(): Either<DataFailure.Local, Unit> = localAuthDataSource.clearSavedEmail()
 }

@@ -21,5 +21,5 @@ interface AuthRepository {
 
     suspend fun loadSavedEmail(): Either<DataFailure.Local, String>
 
-    suspend fun deleteSavedEmail(): Either<DataFailure.Local, Unit>
+    suspend fun clearSavedEmail(): Either<DataFailure.Local, Unit>
 }
