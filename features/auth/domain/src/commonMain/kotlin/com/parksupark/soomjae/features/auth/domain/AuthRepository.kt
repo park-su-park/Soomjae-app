@@ -7,6 +7,7 @@ interface AuthRepository {
     suspend fun register(
         email: String,
         password: String,
+        nickname: String,
     ): Either<DataFailure.Network, Unit>
 
     suspend fun login(
