@@ -17,10 +17,10 @@ import com.parksupark.soomjae.features.auth.presentation.navigation.navigateToRe
 import com.parksupark.soomjae.features.auth.presentation.navigation.soomjaeAuthNavigator
 import com.parksupark.soomjae.features.home.presentation.navigation.HomeNavigator
 import com.parksupark.soomjae.features.home.presentation.navigation.soomjaeHomeNavigator
-import com.parksupark.soomjae.features.post.presentation.navigation.PostNavigator
-import com.parksupark.soomjae.features.post.presentation.navigation.navigateToCommunityDetail
-import com.parksupark.soomjae.features.post.presentation.navigation.navigateToCommunityWrite
-import com.parksupark.soomjae.features.post.presentation.navigation.soomjaePostNavigator
+import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.navigateToCommunityDetail
+import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.navigateToCommunityWrite
+import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.soomjaePostNavigator
+import com.parksupark.soomjae.features.posts.common.presentation.navigation.PostNavigator
 import com.parksupark.soomjae.features.profile.presentation.navigation.ProfileNavigator
 import com.parksupark.soomjae.features.profile.presentation.navigation.soomjaeProfileNavigator
 import com.parksupark.soomjae.features.setting.presentation.navigation.SettingNavigator

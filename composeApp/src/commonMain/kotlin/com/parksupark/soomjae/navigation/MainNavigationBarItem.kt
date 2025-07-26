@@ -15,7 +15,7 @@ import com.parksupark.soomjae.composeApp.resources.navigation_bar_profile
 import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationBarItem
 import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationDestination
 import com.parksupark.soomjae.features.home.presentation.navigation.HomeDestination
-import com.parksupark.soomjae.features.post.presentation.navigation.PostDestination
+import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.PostDestination
 import com.parksupark.soomjae.features.profile.presentation.navigation.ProfileDestination
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf

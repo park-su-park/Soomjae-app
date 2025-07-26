@@ -1,0 +1,4 @@
+<resources>
+    <string name="write_input_title_placeholder">제목 입력란</string>
+    <string name="write_input_content_placeholder">내용을 입력하세요.</string>
+</resources>
