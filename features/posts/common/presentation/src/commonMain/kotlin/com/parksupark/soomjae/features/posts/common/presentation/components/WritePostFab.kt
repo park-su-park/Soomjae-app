@@ -15,6 +15,9 @@ import androidx.compose.ui.unit.dp
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeButton
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.like
+import com.parksupark.soomjae.core.presentation.ui.resources.value
+import com.parksupark.soomjae.features.posts.common.presentation.resources.Res
+import com.parksupark.soomjae.features.posts.common.presentation.resources.write_post_button
 
 @Composable
 fun WritePostFab(
@@ -39,8 +42,6 @@ fun WritePostFab(
             tint = SoomjaeTheme.colorScheme.like,
         )
         Spacer(modifier = Modifier.width(8.dp))
-        Text(
-            text = "글 쓰기",
-        )
+        Text(text = Res.string.write_post_button.value)
     }
 }
