@@ -5,10 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -16,20 +13,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import app.cash.paging.LoadStateError
 import app.cash.paging.LoadStateLoading
 import app.cash.paging.LoadStateNotLoading
 import app.cash.paging.compose.LazyPagingItems
 import app.cash.paging.compose.itemKey
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCircularProgressIndicator
-import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeFab
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeHorizontalDivider
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaePullToRefreshBox
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
-import com.parksupark.soomjae.core.presentation.ui.resources.value
+import com.parksupark.soomjae.features.posts.common.presentation.components.WritePostFab
 import com.parksupark.soomjae.features.posts.community.presentation.models.CommunityPostUi
-import com.parksupark.soomjae.features.posts.community.presentation.resources.Res
-import com.parksupark.soomjae.features.posts.community.presentation.resources.post_community_fab_description
 import com.parksupark.soomjae.features.posts.community.presentation.tab.components.CommunityPostCard
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,20 +43,13 @@ internal fun CommunityTabScreen(
         }
     }
 
-    SoomjaeScaffold(
-        floatingActionButton = {
-            SoomjaeFab(
-                onClick = { onAction(CommunityTabAction.OnCommunityWriteClick) },
-                content = { Icon(Icons.Outlined.Edit, contentDescription = Res.string.post_community_fab_description.value) },
-            )
-        },
-    ) { innerPadding ->
+    SoomjaeScaffold(modifier = Modifier.fillMaxSize()) { _ ->
         val isRefreshing = state.isPostsRefreshing && posts.loadState.refresh is LoadStateLoading
 
         SoomjaePullToRefreshBox(
             isRefreshing = isRefreshing,
             onRefresh = { onAction(CommunityTabAction.OnPullToRefresh) },
-            modifier = Modifier.fillMaxSize().padding(innerPadding),
+            modifier = Modifier.fillMaxSize(),
         ) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
@@ -93,6 +81,11 @@ internal fun CommunityTabScreen(
                     }
                 }
             }
+
+            WritePostFab(
+                modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 8.dp),
+                onClick = { onAction(CommunityTabAction.OnCommunityWriteClick) },
+            )
         }
     }
 }
