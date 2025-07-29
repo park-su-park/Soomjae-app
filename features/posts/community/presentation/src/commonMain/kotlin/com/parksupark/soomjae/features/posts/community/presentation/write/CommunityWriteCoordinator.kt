@@ -2,11 +2,11 @@ package com.parksupark.soomjae.features.posts.community.presentation.write
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import com.parksupark.soomjae.features.posts.common.presentation.navigation.PostNavigator
+import com.parksupark.soomjae.features.posts.community.presentation.navigation.CommunityNavigator
 import org.koin.compose.viewmodel.koinViewModel
 
 class CommunityWriteCoordinator(
-    private val navigator: PostNavigator,
+    private val navigator: CommunityNavigator,
     val viewModel: CommunityWriteViewModel,
 ) {
     internal val screenStateFlow = viewModel.uiStateFlow
@@ -25,7 +25,7 @@ class CommunityWriteCoordinator(
 
 @Composable
 internal fun rememberCommunityWriteCoordinator(
-    navigator: PostNavigator,
+    navigator: CommunityNavigator,
     viewModel: CommunityWriteViewModel = koinViewModel(),
 ): CommunityWriteCoordinator = remember(viewModel) {
     CommunityWriteCoordinator(

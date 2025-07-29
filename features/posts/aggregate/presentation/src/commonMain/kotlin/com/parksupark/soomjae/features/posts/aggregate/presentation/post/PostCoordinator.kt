@@ -2,8 +2,8 @@ package com.parksupark.soomjae.features.posts.aggregate.presentation.post
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.PostNavigator
 import com.parksupark.soomjae.features.posts.common.presentation.PostAction
-import com.parksupark.soomjae.features.posts.common.presentation.navigation.PostNavigator
 import org.koin.compose.viewmodel.koinViewModel
 
 internal class PostCoordinator(

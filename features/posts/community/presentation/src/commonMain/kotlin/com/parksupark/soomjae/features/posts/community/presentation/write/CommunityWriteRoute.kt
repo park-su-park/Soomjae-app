@@ -9,12 +9,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import com.parksupark.soomjae.core.presentation.ui.ObserveAsEvents
 import com.parksupark.soomjae.core.presentation.ui.components.SoomjaeSnackbarHost
 import com.parksupark.soomjae.core.presentation.ui.components.showSnackbar
-import com.parksupark.soomjae.features.posts.common.presentation.navigation.PostNavigator
+import com.parksupark.soomjae.features.posts.community.presentation.navigation.CommunityNavigator
 import kotlinx.coroutines.launch
 
 @Composable
 fun CommunityWriteRoute(
-    navigator: PostNavigator,
+    navigator: CommunityNavigator,
     coordinator: CommunityWriteCoordinator = rememberCommunityWriteCoordinator(navigator),
 ) {
     val uiState by coordinator.screenStateFlow.collectAsState(CommunityWriteState())

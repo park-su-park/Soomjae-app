@@ -3,11 +3,11 @@ package com.parksupark.soomjae.features.posts.community.presentation.detail
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.parksupark.soomjae.features.posts.common.presentation.navigation.PostNavigator
+import com.parksupark.soomjae.features.posts.community.presentation.navigation.CommunityNavigator
 
 @Composable
 fun CommunityDetailRoute(
-    navigator: PostNavigator,
+    navigator: CommunityNavigator,
     coordinator: CommunityDetailCoordinator = rememberCommunityDetailCoordinator(navigator),
 ) {
     val uiState by coordinator.screenStateFlow.collectAsStateWithLifecycle()

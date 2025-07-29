@@ -2,11 +2,11 @@ package com.parksupark.soomjae.features.posts.community.presentation.detail
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import com.parksupark.soomjae.features.posts.common.presentation.navigation.PostNavigator
+import com.parksupark.soomjae.features.posts.community.presentation.navigation.CommunityNavigator
 import org.koin.compose.viewmodel.koinViewModel
 
 class CommunityDetailCoordinator(
-    private val navigator: PostNavigator,
+    private val navigator: CommunityNavigator,
     val viewModel: CommunityDetailViewModel,
 ) {
     internal val screenStateFlow = viewModel.uiStateFlow
@@ -22,7 +22,7 @@ class CommunityDetailCoordinator(
 
 @Composable
 internal fun rememberCommunityDetailCoordinator(
-    navigator: PostNavigator,
+    navigator: CommunityNavigator,
     viewModel: CommunityDetailViewModel = koinViewModel(),
 ): CommunityDetailCoordinator = remember(navigator, viewModel) {
     CommunityDetailCoordinator(

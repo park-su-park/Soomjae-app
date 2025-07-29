@@ -7,7 +7,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationDestination
 import com.parksupark.soomjae.features.posts.aggregate.presentation.post.PostRoute
-import com.parksupark.soomjae.features.posts.common.presentation.navigation.PostNavigator
 import com.parksupark.soomjae.features.posts.community.presentation.detail.CommunityDetailRoute
 import com.parksupark.soomjae.features.posts.community.presentation.write.CommunityWriteRoute
 import kotlinx.serialization.Serializable
@@ -46,14 +45,6 @@ fun NavGraphBuilder.postGraph(
 
         composable<PostDestination.CommunityDetail> {
             CommunityDetailRoute(navigator = navigator)
-        }
-    }
-}
-
-fun NavHostController.navigateToPost() {
-    navigate(PostDestination.Post) {
-        popUpTo(PostDestination.Root) {
-            inclusive = true
         }
     }
 }

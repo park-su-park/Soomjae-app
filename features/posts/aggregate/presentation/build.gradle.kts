@@ -10,8 +10,8 @@ kotlin {
 
             implementation(projects.features.posts.aggregate.domain)
 
-            api(projects.features.posts.common.presentation)
-            implementation(projects.features.posts.community.presentation)
+            implementation(projects.features.posts.common.presentation)
+            api(projects.features.posts.community.presentation)
             implementation(projects.features.posts.meeting.presentation)
 
             implementation(libs.rich.editor)
