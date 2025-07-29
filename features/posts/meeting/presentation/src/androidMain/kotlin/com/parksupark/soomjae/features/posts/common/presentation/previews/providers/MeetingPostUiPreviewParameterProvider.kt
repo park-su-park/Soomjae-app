@@ -53,5 +53,21 @@ object MeetingPostPreviewParameterData {
             author = members[2],
             category = categories[2],
         ),
+        MeetingPost(
+            id = 4L,
+            title = "Kotlin Multiplatform Discussion",
+            content = "Let's discuss the benefits and challenges of Kotlin Multiplatform. We'll share experiences and best practices.",
+            createdAt = LocalDateTime(2023, 1, 15, 11, 30, 0).toInstant(TimeZone.UTC),
+            author = members[3],
+            category = categories[3],
+        ),
+        MeetingPost(
+            id = 5L,
+            title = "Android Architecture Patterns",
+            content = "We'll explore various architecture patterns in Android development, including MVVM, MVI, and Clean Architecture. Bring your questions!",
+            createdAt = LocalDateTime(2023, 1, 20, 13, 0, 0).toInstant(TimeZone.UTC),
+            author = members[0],
+            category = categories[0],
+        ),
     )
 }
