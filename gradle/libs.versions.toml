@@ -41,7 +41,7 @@ turbine = "1.2.1"
 kotlinStdlib = "2.2.0"
 kotlinTest = "2.2.0"
 runner = "1.6.2"
-core = "1.6.1"
+core = "1.7.0"
 junit = "1.2.1"
 
 [plugins]
