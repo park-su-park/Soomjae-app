@@ -7,7 +7,8 @@ import org.koin.compose.viewmodel.koinViewModel
 class MeetingTabCoordinator(
     val viewModel: MeetingTabViewModel,
 ) {
-    val screenStateFlow = viewModel.stateFlow
+    internal val screenStateFlow = viewModel.stateFlow
+    internal val posts = viewModel.posts
 
     fun handle(action: MeetingTabAction) {
         when (action) {
