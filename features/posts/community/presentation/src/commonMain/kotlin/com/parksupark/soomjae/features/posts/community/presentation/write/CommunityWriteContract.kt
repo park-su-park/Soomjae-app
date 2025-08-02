@@ -28,10 +28,13 @@ internal sealed interface CommunityWriteAction {
     data object OnConfirmClick : CommunityWriteAction
 
     data class OnCategorySelected(val categoryId: Long) : CommunityWriteAction
+
+    data class OnLocationSelected(val locationCode: Long) : CommunityWriteAction
 }
 
 internal sealed interface CommunityWriteEvent {
     data class CategoryError(val message: UiText) : CommunityWriteEvent
+
     data class LocationError(val message: UiText) : CommunityWriteEvent
 
     data class PostSubmitted(val postId: Long) : CommunityWriteEvent

@@ -104,6 +104,11 @@ class CommunityWriteViewModel(
         _uiStateFlow.update { it.copy(selectedCategory = category) }
     }
 
+    fun selectLocation(locationCode: Long) {
+        val location = uiStateFlow.value.locations.find { it.code == locationCode } ?: return
+        _uiStateFlow.update { it.copy(selectedLocation = location) }
+    }
+
     private fun loadCategories() {
         viewModelScope.launch {
             categoryRepository.getAllCategories().fold(
