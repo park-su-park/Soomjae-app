@@ -10,7 +10,7 @@ class CommunityWriteCoordinator(
     val viewModel: CommunityWriteViewModel,
 ) {
     internal val screenStateFlow = viewModel.uiStateFlow
-    internal val eventFlow = viewModel.eventChannel
+    internal val eventFlow = viewModel.events
 
     internal fun handle(action: CommunityWriteAction) {
         when (action) {
