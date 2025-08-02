@@ -39,7 +39,9 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeS
 import com.parksupark.soomjae.core.presentation.designsystem.modifiers.bottomBorder
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.resources.value
-import com.parksupark.soomjae.features.posts.common.presentation.components.WriteInputSection
+import com.parksupark.soomjae.features.posts.common.presentation.components.PostWriter
+import com.parksupark.soomjae.features.posts.common.presentation.components.WriteInputContent
+import com.parksupark.soomjae.features.posts.common.presentation.components.WriteInputTitle
 import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
 import com.parksupark.soomjae.features.posts.community.presentation.resources.Res
 import com.parksupark.soomjae.features.posts.community.presentation.resources.community_write_button_confirm_description
@@ -64,20 +66,31 @@ internal fun CommunityWriteScreen(
         },
         snackbarHost = snackbarHost,
     ) { innerPadding ->
-        Column(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
-            WriteInputSection(
-                title = state.inputTitle,
-                content = state.inputContent,
-            )
-
-            AdditionalInfoSelection(
-                categories = state.categories,
-                selectedCategory = state.selectedCategory,
-                onCategorySelect = { categoryId ->
-                    onAction(CommunityWriteAction.OnCategorySelected(categoryId))
-                },
-            )
-        }
+        PostWriter(
+            title = {
+                WriteInputTitle(
+                    state = state.inputTitle,
+                )
+            },
+            body = {
+                WriteInputContent(
+                    state = state.inputContent,
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                )
+            },
+            modifier = Modifier.fillMaxSize()
+                .padding(innerPadding)
+                .padding(top = 12.dp),
+            extras = {
+                AdditionalInfoSelection(
+                    categories = state.categories,
+                    selectedCategory = state.selectedCategory,
+                    onCategorySelect = { categoryId ->
+                        onAction(CommunityWriteAction.OnCategorySelected(categoryId))
+                    },
+                )
+            },
+        )
     }
 }
 

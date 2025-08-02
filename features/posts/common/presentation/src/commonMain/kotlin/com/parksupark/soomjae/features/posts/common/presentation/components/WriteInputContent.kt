@@ -15,9 +15,10 @@ import com.parksupark.soomjae.features.posts.common.presentation.resources.write
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun WriteInputContent(
+fun WriteInputContent(
     state: TextFieldState,
     modifier: Modifier = Modifier,
+    hint: String = Res.string.write_input_content_placeholder.value,
 ) {
     BasicTextField(
         state = state,
@@ -26,7 +27,7 @@ internal fun WriteInputContent(
         decorator = { innerBox ->
             if (state.text.isEmpty()) {
                 Text(
-                    text = Res.string.write_input_content_placeholder.value,
+                    text = hint,
                     style = SoomjaeTheme.typography.body1.copy(color = SoomjaeTheme.colorScheme.text4),
                 )
             }

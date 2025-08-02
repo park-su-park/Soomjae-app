@@ -15,16 +15,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.dp
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
+import com.parksupark.soomjae.core.presentation.ui.resources.value
+import com.parksupark.soomjae.features.posts.common.presentation.resources.Res
+import com.parksupark.soomjae.features.posts.common.presentation.resources.write_input_title_placeholder
 
 @Composable
-internal fun WriteInputTitle(
+fun WriteInputTitle(
     state: TextFieldState,
-    hint: String,
+    hint: String = Res.string.write_input_title_placeholder.value,
+    modifier: Modifier = Modifier,
 ) {
     ProvideTextStyle(SoomjaeTheme.typography.title2) {
         BasicTextField(
             state = state,
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = modifier.padding(horizontal = 16.dp),
             textStyle = LocalTextStyle.current.copy(
                 color = SoomjaeTheme.colorScheme.text1,
             ),
