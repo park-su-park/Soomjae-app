@@ -5,6 +5,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import app.cash.paging.PagingData
 import app.cash.paging.compose.collectAsLazyPagingItems
+import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSurface
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.features.posts.common.presentation.previews.providers.MeetingPostUiPreviewParameterProvider
 import com.parksupark.soomjae.features.posts.common.presentation.tab.MeetingTabScreen
@@ -19,10 +20,12 @@ private fun MeetingTabScreenPreview(
     @PreviewParameter(MeetingPostUiPreviewParameterProvider::class, limit = 5) posts: ImmutableList<MeetingPostUi>,
 ) {
     AppTheme {
-        MeetingTabScreen(
-            state = MeetingTabState(),
-            onAction = { },
-            posts = MutableStateFlow(PagingData.from(posts)).collectAsLazyPagingItems(),
-        )
+        SoomjaeSurface {
+            MeetingTabScreen(
+                state = MeetingTabState(),
+                onAction = { },
+                posts = MutableStateFlow(PagingData.from(posts)).collectAsLazyPagingItems(),
+            )
+        }
     }
 }
