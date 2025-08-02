@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.common.data.sources
+package com.parksupark.soomjae.features.posts.common.data.like.sources
 
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure

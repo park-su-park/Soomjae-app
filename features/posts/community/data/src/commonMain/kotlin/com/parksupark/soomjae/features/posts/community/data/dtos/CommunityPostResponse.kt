@@ -1,7 +1,7 @@
 package com.parksupark.soomjae.features.posts.community.data.dtos
 
-import com.parksupark.soomjae.features.posts.common.data.dtos.MemberResponse
-import com.parksupark.soomjae.features.posts.common.data.dtos.toModel
+import com.parksupark.soomjae.features.posts.common.data.common.dtos.MemberResponse
+import com.parksupark.soomjae.features.posts.common.data.common.dtos.toModel
 import com.parksupark.soomjae.features.posts.community.domain.models.CommunityPost
 import com.parksupark.soomjae.features.posts.community.domain.models.CommunityPostDetail
 import kotlin.time.ExperimentalTime

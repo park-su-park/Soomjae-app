@@ -1,9 +1,9 @@
-package com.parksupark.soomjae.features.posts.common.data.sources
+package com.parksupark.soomjae.features.posts.common.data.location.sources
 
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.core.remote.networking.get
-import com.parksupark.soomjae.features.posts.common.data.dtos.LocationResponse
+import com.parksupark.soomjae.features.posts.common.data.location.dtos.LocationResponse
 import io.ktor.client.HttpClient
 
 internal class DefaultRemoteLocationSourceImpl(

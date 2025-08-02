@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.common.data.dtos
+package com.parksupark.soomjae.features.posts.common.data.location.dtos
 
 import com.parksupark.soomjae.features.posts.common.domain.models.Location
 import kotlinx.serialization.Serializable
