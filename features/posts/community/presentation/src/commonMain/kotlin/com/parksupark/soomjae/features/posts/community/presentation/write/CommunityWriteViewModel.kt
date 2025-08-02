@@ -6,7 +6,6 @@ import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.collectAsFlow
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CategoryRepository
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
-import com.parksupark.soomjae.features.posts.common.presentation.utils.collectAsHtmlFlow
 import com.parksupark.soomjae.features.posts.community.domain.repositories.CommunityRepository
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.channels.Channel
@@ -48,7 +47,7 @@ class CommunityWriteViewModel(
             }
         }.launchIn(viewModelScope)
 
-        uiStateFlow.value.inputContent.collectAsHtmlFlow().onEach { content ->
+        uiStateFlow.value.inputContent.collectAsFlow().onEach { content ->
             val isContentValid = content.isNotBlank()
             _uiStateFlow.update {
                 it.copy(isContentValid = isContentValid)
@@ -74,8 +73,8 @@ class CommunityWriteViewModel(
         viewModelScope.launch {
             _uiStateFlow.update { it.copy(isSubmitting = true) }
 
-            val title = uiStateFlow.value.inputTitle.text.toString().trim()
-            val content = uiStateFlow.value.inputContent.toHtml().trim()
+            val title = uiStateFlow.value.inputTitle.text.trim().toString()
+            val content = uiStateFlow.value.inputContent.text.trim().toString()
             val categoryId = uiStateFlow.value.selectedCategory?.id ?: return@launch
 
             communityRepository.createPost(

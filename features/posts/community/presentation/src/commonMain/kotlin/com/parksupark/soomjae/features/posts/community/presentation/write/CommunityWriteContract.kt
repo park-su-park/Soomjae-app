@@ -1,7 +1,6 @@
 package com.parksupark.soomjae.features.posts.community.presentation.write
 
 import androidx.compose.foundation.text.input.TextFieldState
-import com.mohamedrejeb.richeditor.model.RichTextState
 import com.parksupark.soomjae.core.presentation.ui.utils.UiText
 import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
 import kotlinx.collections.immutable.ImmutableList
@@ -10,7 +9,7 @@ import kotlinx.collections.immutable.persistentListOf
 internal data class CommunityWriteState(
     val inputTitle: TextFieldState = TextFieldState(),
     val isTitleValid: Boolean = false,
-    val inputContent: RichTextState = RichTextState(),
+    val inputContent: TextFieldState = TextFieldState(),
     val isContentValid: Boolean = false,
     val categories: ImmutableList<CategoryUi> = persistentListOf(),
     val selectedCategory: CategoryUi? = null,
