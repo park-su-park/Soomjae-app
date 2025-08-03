@@ -11,7 +11,7 @@ internal class RemoteMeetingPostSource(
 ) {
     suspend fun getMeetingPosts(page: Int): Either<DataFailure.Network, List<MeetingPostResponse>> =
         httpClient.get<List<MeetingPostResponse>>(
-            route = "/v1/boards/community/posts/list",
+            route = "/v1/boards/meeting/posts/list",
             queryParameters = mapOf("page" to page.toString()),
         )
 }
