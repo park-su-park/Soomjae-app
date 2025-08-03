@@ -92,7 +92,7 @@ private fun <T> ListItem(
     SoomjaeListItem(
         headlineContent = { Text(itemName(item)) },
         modifier = modifier.clickable {
-            onClick
+            onClick()
         },
         leadingContent = {
             SoomjaeRadioButton(
