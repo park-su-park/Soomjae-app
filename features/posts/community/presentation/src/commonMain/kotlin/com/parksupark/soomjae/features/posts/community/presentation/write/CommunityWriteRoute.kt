@@ -27,6 +27,10 @@ fun CommunityWriteRoute(
 
     ObserveAsEvents(flow = coordinator.eventFlow) {
         when (it) {
+            is CommunityWriteEvent.PostError -> coroutineScope.launch {
+                snackbarHostState.showSnackbar(it.message, isError = true)
+            }
+
             is CommunityWriteEvent.CategoryError -> coroutineScope.launch {
                 snackbarHostState.showSnackbar(it.message, isError = true)
             }

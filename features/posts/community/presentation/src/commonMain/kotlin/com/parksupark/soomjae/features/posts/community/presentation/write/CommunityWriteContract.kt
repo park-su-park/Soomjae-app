@@ -33,6 +33,8 @@ internal sealed interface CommunityWriteAction {
 }
 
 internal sealed interface CommunityWriteEvent {
+    data class PostError(val message: UiText) : CommunityWriteEvent
+
     data class CategoryError(val message: UiText) : CommunityWriteEvent
 
     data class LocationError(val message: UiText) : CommunityWriteEvent

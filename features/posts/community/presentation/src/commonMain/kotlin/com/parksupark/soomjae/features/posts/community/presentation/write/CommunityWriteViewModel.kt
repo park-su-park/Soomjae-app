@@ -90,7 +90,7 @@ class CommunityWriteViewModel(
                 locationCode = locationCode,
             ).fold(
                 ifLeft = {
-                    eventChannel.send(CommunityWriteEvent.CategoryError(it.asUiText()))
+                    eventChannel.send(CommunityWriteEvent.PostError(it.asUiText()))
                 },
                 ifRight = {
                     eventChannel.send(CommunityWriteEvent.PostSubmitted(it.id))
@@ -116,7 +116,7 @@ class CommunityWriteViewModel(
             categoryRepository.getAllCategories().fold(
                 ifLeft = {
                     Logger.e(TAG) { "Failed to load categories: $it" }
-                    eventChannel.send(CommunityWriteEvent.LocationError(it.asUiText()))
+                    eventChannel.send(CommunityWriteEvent.CategoryError(it.asUiText()))
                 },
                 ifRight = { categories ->
                     val categoryUiList = categories.map { it.value.toUi() }.toPersistentList()
@@ -136,7 +136,7 @@ class CommunityWriteViewModel(
             locationRepository.getAllLocations().fold(
                 ifLeft = {
                     Logger.e(TAG) { "Failed to load locations: $it" }
-                    eventChannel.send(CommunityWriteEvent.CategoryError(it.asUiText()))
+                    eventChannel.send(CommunityWriteEvent.LocationError(it.asUiText()))
                 },
                 ifRight = { locations ->
                     val locationUis = locations.map { it.toLocationUi() }.toPersistentList()
