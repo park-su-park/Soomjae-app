@@ -9,12 +9,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import com.parksupark.soomjae.core.presentation.ui.ObserveAsEvents
 import com.parksupark.soomjae.core.presentation.ui.components.SoomjaeSnackbarHost
 import com.parksupark.soomjae.core.presentation.ui.components.showSnackbar
-import com.parksupark.soomjae.features.posts.common.presentation.navigation.PostNavigator
+import com.parksupark.soomjae.features.posts.community.presentation.navigation.CommunityNavigator
 import kotlinx.coroutines.launch
 
 @Composable
 fun CommunityWriteRoute(
-    navigator: PostNavigator,
+    navigator: CommunityNavigator,
     coordinator: CommunityWriteCoordinator = rememberCommunityWriteCoordinator(navigator),
 ) {
     val uiState by coordinator.screenStateFlow.collectAsState(CommunityWriteState())
@@ -25,11 +25,17 @@ fun CommunityWriteRoute(
         coordinator.handle(action)
     }
 
-    ObserveAsEvents(
-        coordinator.eventFlow,
-    ) {
+    ObserveAsEvents(flow = coordinator.eventFlow) {
         when (it) {
-            is CommunityWriteEvent.Error -> coroutineScope.launch {
+            is CommunityWriteEvent.PostError -> coroutineScope.launch {
+                snackbarHostState.showSnackbar(it.message, isError = true)
+            }
+
+            is CommunityWriteEvent.CategoryError -> coroutineScope.launch {
+                snackbarHostState.showSnackbar(it.message, isError = true)
+            }
+
+            is CommunityWriteEvent.LocationError -> coroutineScope.launch {
                 snackbarHostState.showSnackbar(it.message, isError = true)
             }
 

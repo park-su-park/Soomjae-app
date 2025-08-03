@@ -1,18 +1,18 @@
-package com.parksupark.soomjae.features.posts.common.data.dtos
+package com.parksupark.soomjae.features.posts.common.data.category.dtos
 
 import com.parksupark.soomjae.features.posts.common.domain.models.Category
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class CategoryResponse(
+data class CategoryResponse(
     val id: Long,
     val name: String,
     val hierarchy: Int,
     @SerialName("childs") val children: List<CategoryResponse>,
 )
 
-internal fun CategoryResponse.toDomain(parentId: Long? = null): Category = Category(
+fun CategoryResponse.toDomain(parentId: Long? = null): Category = Category(
     id = id,
     name = name,
     hierarchy = hierarchy,

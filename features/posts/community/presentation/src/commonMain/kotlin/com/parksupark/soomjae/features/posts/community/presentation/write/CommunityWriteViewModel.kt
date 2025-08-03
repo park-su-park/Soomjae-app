@@ -2,11 +2,13 @@ package com.parksupark.soomjae.features.posts.community.presentation.write
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import co.touchlab.kermit.Logger
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.collectAsFlow
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CategoryRepository
+import com.parksupark.soomjae.features.posts.common.domain.repositories.LocationRepository
+import com.parksupark.soomjae.features.posts.common.presentation.models.toLocationUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
-import com.parksupark.soomjae.features.posts.common.presentation.utils.collectAsHtmlFlow
 import com.parksupark.soomjae.features.posts.community.domain.repositories.CommunityRepository
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.channels.Channel
@@ -26,19 +28,21 @@ import kotlinx.coroutines.launch
 class CommunityWriteViewModel(
     private val communityRepository: CommunityRepository,
     private val categoryRepository: CategoryRepository,
+    private val locationRepository: LocationRepository,
 ) : ViewModel() {
     private val _uiStateFlow: MutableStateFlow<CommunityWriteState> =
         MutableStateFlow(CommunityWriteState())
     internal val uiStateFlow: StateFlow<CommunityWriteState> = _uiStateFlow.onStart {
         loadCategories()
+        loadLocations()
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = _uiStateFlow.value,
     )
 
-    private val _eventChannel = Channel<CommunityWriteEvent>()
-    internal val eventChannel = _eventChannel.receiveAsFlow()
+    private val eventChannel = Channel<CommunityWriteEvent>()
+    internal val events = eventChannel.receiveAsFlow()
 
     init {
         uiStateFlow.value.inputTitle.collectAsFlow().onEach { title ->
@@ -48,7 +52,7 @@ class CommunityWriteViewModel(
             }
         }.launchIn(viewModelScope)
 
-        uiStateFlow.value.inputContent.collectAsHtmlFlow().onEach { content ->
+        uiStateFlow.value.inputContent.collectAsFlow().onEach { content ->
             val isContentValid = content.isNotBlank()
             _uiStateFlow.update {
                 it.copy(isContentValid = isContentValid)
@@ -71,23 +75,25 @@ class CommunityWriteViewModel(
     fun submitPost() {
         if (!uiStateFlow.value.canSubmit) return
 
+        val title = uiStateFlow.value.inputTitle.text.trim().toString()
+        val content = uiStateFlow.value.inputContent.text.trim().toString()
+        val categoryId = uiStateFlow.value.selectedCategory?.id
+        val locationCode = uiStateFlow.value.selectedLocation?.code
+
         viewModelScope.launch {
             _uiStateFlow.update { it.copy(isSubmitting = true) }
-
-            val title = uiStateFlow.value.inputTitle.text.toString().trim()
-            val content = uiStateFlow.value.inputContent.toHtml().trim()
-            val categoryId = uiStateFlow.value.selectedCategory?.id ?: return@launch
 
             communityRepository.createPost(
                 title = title,
                 content = content,
                 categoryId = categoryId,
+                locationCode = locationCode,
             ).fold(
                 ifLeft = {
-                    _eventChannel.send(CommunityWriteEvent.Error(it.asUiText()))
+                    eventChannel.send(CommunityWriteEvent.PostError(it.asUiText()))
                 },
                 ifRight = {
-                    _eventChannel.send(CommunityWriteEvent.PostSubmitted(it.id))
+                    eventChannel.send(CommunityWriteEvent.PostSubmitted(it.id))
                 },
             )
 
@@ -100,11 +106,17 @@ class CommunityWriteViewModel(
         _uiStateFlow.update { it.copy(selectedCategory = category) }
     }
 
+    fun selectLocation(locationCode: Long) {
+        val location = uiStateFlow.value.locations.find { it.code == locationCode } ?: return
+        _uiStateFlow.update { it.copy(selectedLocation = location) }
+    }
+
     private fun loadCategories() {
         viewModelScope.launch {
             categoryRepository.getAllCategories().fold(
                 ifLeft = {
-                    _eventChannel.send(CommunityWriteEvent.Error(it.asUiText()))
+                    Logger.e(TAG) { "Failed to load categories: $it" }
+                    eventChannel.send(CommunityWriteEvent.CategoryError(it.asUiText()))
                 },
                 ifRight = { categories ->
                     val categoryUiList = categories.map { it.value.toUi() }.toPersistentList()
@@ -118,4 +130,21 @@ class CommunityWriteViewModel(
             )
         }
     }
+
+    private fun loadLocations() {
+        viewModelScope.launch {
+            locationRepository.getAllLocations().fold(
+                ifLeft = {
+                    Logger.e(TAG) { "Failed to load locations: $it" }
+                    eventChannel.send(CommunityWriteEvent.LocationError(it.asUiText()))
+                },
+                ifRight = { locations ->
+                    val locationUis = locations.map { it.toLocationUi() }.toPersistentList()
+                    _uiStateFlow.update { it.copy(locations = locationUis) }
+                },
+            )
+        }
+    }
 }
+
+private const val TAG = "CommunityWriteViewModel"

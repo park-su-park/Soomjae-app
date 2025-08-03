@@ -1,10 +1,10 @@
-package com.parksupark.soomjae.features.posts.common.data.sources
+package com.parksupark.soomjae.features.posts.common.data.category.sources
 
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.core.remote.networking.get
-import com.parksupark.soomjae.features.posts.common.data.dtos.CategoryResponse
-import com.parksupark.soomjae.features.posts.common.data.dtos.toDomain
+import com.parksupark.soomjae.features.posts.common.data.category.dtos.CategoryResponse
+import com.parksupark.soomjae.features.posts.common.data.category.dtos.toDomain
 import com.parksupark.soomjae.features.posts.common.domain.models.Category
 import io.ktor.client.HttpClient
 

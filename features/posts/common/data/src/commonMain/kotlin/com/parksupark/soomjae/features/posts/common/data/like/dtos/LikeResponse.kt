@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.common.data.dtos
+package com.parksupark.soomjae.features.posts.common.data.like.dtos
 
 import com.parksupark.soomjae.features.posts.common.domain.models.Like
 import kotlinx.serialization.SerialName

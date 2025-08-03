@@ -66,7 +66,7 @@ internal fun PostScreen(
                 when (PostTabs.entries[it]) {
                     PostTabs.COMMUNITY -> CommunityTabRoute(onPostAction = onAction)
 
-                    PostTabs.MEETING -> MeetingTabRoute()
+                    PostTabs.MEETING -> MeetingTabRoute(onPostAction = onAction)
 
                     PostTabs.FEED -> MemberTabRoute()
                 }
