@@ -5,7 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class PostCommunityPostRequest(
-    val title: String,
-    val content: String,
-    @SerialName("category") val categoryId: Long,
+    @SerialName("title") val title: String,
+    @SerialName("content") val content: String,
+    @SerialName("category") val categoryId: Long?,
+    @SerialName("location") val locationCode: Long?,
 )

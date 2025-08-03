@@ -9,13 +9,14 @@ import com.parksupark.soomjae.features.posts.community.domain.models.CommunityPo
 import kotlinx.coroutines.flow.Flow
 
 interface CommunityRepository {
-    fun getAllPosts(): Flow<PagingData<CommunityPost>>
-
     suspend fun createPost(
         title: String,
         content: String,
-        categoryId: Long,
+        categoryId: Long? = null,
+        locationCode: Long? = null,
     ): Either<DataFailure.Network, NewPost>
+
+    fun getAllPosts(): Flow<PagingData<CommunityPost>>
 
     suspend fun getPostDetails(postId: Long): Either<DataFailure.Network, CommunityPost>
 

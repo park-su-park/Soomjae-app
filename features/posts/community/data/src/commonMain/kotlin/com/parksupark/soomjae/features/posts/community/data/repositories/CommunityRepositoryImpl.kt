@@ -20,6 +20,20 @@ import kotlinx.coroutines.flow.map
 internal class CommunityRepositoryImpl(
     private val remoteSource: CommunityRemoteSource,
 ) : CommunityRepository {
+    override suspend fun createPost(
+        title: String,
+        content: String,
+        categoryId: Long?,
+        locationCode: Long?,
+    ): Either<DataFailure.Network, NewPost> = remoteSource.postPost(
+        title = title,
+        content = content,
+        categoryId = categoryId,
+        locationCode = locationCode,
+    ).map { response ->
+        NewPost(id = response.id)
+    }
+
     override fun getAllPosts(): Flow<PagingData<CommunityPost>> = createPager(
         config = app.cash.paging.PagingConfig(
             pageSize = 20,
@@ -30,18 +44,6 @@ internal class CommunityRepositoryImpl(
         .map { pagingData ->
             pagingData.map { it.toModel() }
         }
-
-    override suspend fun createPost(
-        title: String,
-        content: String,
-        categoryId: Long,
-    ): Either<DataFailure.Network, NewPost> = remoteSource.postPost(
-        title = title,
-        content = content,
-        categoryId = categoryId,
-    ).map { response ->
-        NewPost(id = response.id)
-    }
 
     override suspend fun getPostDetails(postId: Long): Either<DataFailure.Network, CommunityPost> = remoteSource.getPostDetails(postId)
         .map { response ->

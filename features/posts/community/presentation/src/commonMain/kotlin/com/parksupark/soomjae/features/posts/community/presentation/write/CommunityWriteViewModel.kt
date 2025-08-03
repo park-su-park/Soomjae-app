@@ -75,17 +75,19 @@ class CommunityWriteViewModel(
     fun submitPost() {
         if (!uiStateFlow.value.canSubmit) return
 
+        val title = uiStateFlow.value.inputTitle.text.trim().toString()
+        val content = uiStateFlow.value.inputContent.text.trim().toString()
+        val categoryId = uiStateFlow.value.selectedCategory?.id
+        val locationCode = uiStateFlow.value.selectedLocation?.code
+
         viewModelScope.launch {
             _uiStateFlow.update { it.copy(isSubmitting = true) }
-
-            val title = uiStateFlow.value.inputTitle.text.trim().toString()
-            val content = uiStateFlow.value.inputContent.text.trim().toString()
-            val categoryId = uiStateFlow.value.selectedCategory?.id ?: return@launch
 
             communityRepository.createPost(
                 title = title,
                 content = content,
                 categoryId = categoryId,
+                locationCode = locationCode,
             ).fold(
                 ifLeft = {
                     eventChannel.send(CommunityWriteEvent.CategoryError(it.asUiText()))

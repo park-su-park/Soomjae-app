@@ -24,13 +24,15 @@ internal class CommunityRemoteSourceImpl(
     override suspend fun postPost(
         title: String,
         content: String,
-        categoryId: Long,
+        categoryId: Long?,
+        locationCode: Long?,
     ): Either<DataFailure.Network, PostCommunityPostResponse> = httpClient.post<PostCommunityPostRequest, PostCommunityPostResponse>(
         route = "/v1/boards/community/posts",
         body = PostCommunityPostRequest(
             title = title,
             content = content,
             categoryId = categoryId,
+            locationCode = locationCode,
         ),
     )
 
