@@ -14,6 +14,12 @@ class MeetingWriteCoordinator(
     internal fun handle(action: MeetingWriteAction) {
         when (action) {
             MeetingWriteAction.OnBackClick -> navigator.navigateBack()
+
+            MeetingWriteAction.OnConfirmClick -> viewModel.submitPost()
+
+            is MeetingWriteAction.OnCategorySelect -> viewModel.selectCategory(action.categoryId)
+
+            is MeetingWriteAction.OnLocationSelect -> viewModel.selectLocation(action.locationCode)
         }
     }
 }

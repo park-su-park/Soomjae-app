@@ -1,0 +1,12 @@
+<resources>
+    <string name="meeting_write_navigate_up_description">뒤로 가기</string>
+    <string name="meeting_write_button_confirm_description">완료</string>
+
+    <string name="meeting_write_meeting_label">모임</string>
+    <string name="meeting_write_meeting_placeholder">모임을 만들어주세요!</string>
+    <string name="meeting_write_category_label">카테고리</string>
+    <string name="meeting_write_category_placeholder">카테고리를 선택해주세요.</string>
+    <string name="meeting_write_location_label">지역</string>
+    <string name="meeting_write_location_placeholder">지역을 선택해주세요.</string>
+
+</resources>
