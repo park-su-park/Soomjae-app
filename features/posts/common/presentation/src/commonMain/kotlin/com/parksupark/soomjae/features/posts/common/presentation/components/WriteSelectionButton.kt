@@ -3,6 +3,7 @@ package com.parksupark.soomjae.features.posts.common.presentation.components
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,12 +18,38 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeH
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 
 @Composable
-fun WriteSelectionLayout(
+fun WriteSelectionButton(
     label: String,
     onClick: () -> Unit,
     buttonText: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+) {
+    WriteSelectionLayout(
+        label = label,
+        modifier = modifier,
+    ) {
+        OutlinedButton(
+            onClick = onClick,
+            modifier = Modifier.fillMaxWidth(),
+            enabled = enabled,
+            shape = RoundedCornerShape(8.dp),
+            colors = ButtonDefaults.outlinedButtonColors().copy(
+                containerColor = Color.Transparent,
+                contentColor = SoomjaeTheme.colorScheme.text2,
+            ),
+            border = BorderStroke(1.dp, SoomjaeTheme.colorScheme.divider1),
+        ) {
+            buttonText()
+        }
+    }
+}
+
+@Composable
+fun WriteSelectionLayout(
+    label: String,
+    modifier: Modifier = Modifier,
+    content: @Composable ColumnScope.() -> Unit,
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
         SoomjaeHorizontalDivider()
@@ -33,19 +60,7 @@ fun WriteSelectionLayout(
         ) {
             Text(label, style = SoomjaeTheme.typography.labelL)
 
-            OutlinedButton(
-                onClick = onClick,
-                modifier = Modifier.fillMaxWidth(),
-                enabled = enabled,
-                shape = RoundedCornerShape(8.dp),
-                colors = ButtonDefaults.outlinedButtonColors().copy(
-                    containerColor = Color.Transparent,
-                    contentColor = SoomjaeTheme.colorScheme.text2,
-                ),
-                border = BorderStroke(1.dp, SoomjaeTheme.colorScheme.divider1),
-            ) {
-                buttonText()
-            }
+            content()
         }
     }
 }

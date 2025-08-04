@@ -23,7 +23,7 @@ import com.parksupark.soomjae.features.posts.common.presentation.components.Post
 import com.parksupark.soomjae.features.posts.common.presentation.components.WriteDialogSelection
 import com.parksupark.soomjae.features.posts.common.presentation.components.WriteInputContent
 import com.parksupark.soomjae.features.posts.common.presentation.components.WriteInputTitle
-import com.parksupark.soomjae.features.posts.common.presentation.components.WriteSelectionLayout
+import com.parksupark.soomjae.features.posts.common.presentation.components.WriteSelectionButton
 import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.LocationUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.Res
@@ -151,7 +151,7 @@ private fun AdditionalInfoSelection(
 
 @Composable
 private fun MeetingSelection() {
-    WriteSelectionLayout(
+    WriteSelectionButton(
         label = Res.string.meeting_write_meeting_label.value,
         onClick = { /* TODO: Implement meeting selection logic */ },
         buttonText = {
