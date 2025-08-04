@@ -10,8 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowRight
+import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,6 +31,7 @@ import com.parksupark.soomjae.features.posts.common.presentation.components.Writ
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.Res
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_button_create_meeting
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_datetime_label
+import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_datetime_unselected
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_navigate_up_description
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_participant_count_display
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_participant_count_display_unlimited
@@ -87,7 +88,7 @@ private fun MeetingCreateTopBar(onBackClick: () -> Unit) {
                 onClick = onBackClick,
                 content = {
                     Icon(
-                        imageVector = Icons.AutoMirrored.Default.ArrowBack,
+                        imageVector = Icons.Default.Cancel,
                         contentDescription = Res.string.meeting_create_navigate_up_description.value,
                     )
                 },
@@ -161,14 +162,14 @@ private fun MeetingCreateDateTimeSection(
                     SoomjaeTextButton(
                         onClick = { /* TODO: Handle end date selection */ },
                         content = {
-                            Text(text = endDate?.format(dateFormatter) ?: "미정")
+                            Text(text = endDate?.format(dateFormatter) ?: Res.string.meeting_create_datetime_unselected.value)
                         },
                     )
 
                     SoomjaeTextButton(
                         onClick = { /* TODO: Handle end time selection */ },
                         content = {
-                            Text(text = endTime?.format(timeFormatter) ?: "미정")
+                            Text(text = endTime?.format(timeFormatter) ?: Res.string.meeting_create_datetime_unselected.value)
                         },
                     )
                 }
