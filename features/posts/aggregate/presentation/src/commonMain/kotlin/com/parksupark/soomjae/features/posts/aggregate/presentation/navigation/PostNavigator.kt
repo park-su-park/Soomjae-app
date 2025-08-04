@@ -5,6 +5,7 @@ import com.parksupark.soomjae.core.presentation.ui.navigation.SoomjaeNavigator
 import com.parksupark.soomjae.core.presentation.ui.navigation.overridden
 import com.parksupark.soomjae.features.posts.community.presentation.navigation.CommunityNavigator
 import com.parksupark.soomjae.features.posts.meeting.presentation.navigation.MeetingNavigator
+import com.parksupark.soomjae.features.posts.meeting.presentation.navigation.soomjaeMeetingNavigator
 
 interface PostNavigator : SoomjaeNavigator, CommunityNavigator, MeetingNavigator {
     override fun navigateToCommunityWrite()
@@ -12,7 +13,11 @@ interface PostNavigator : SoomjaeNavigator, CommunityNavigator, MeetingNavigator
     override fun navigateToCommunityDetail(postId: Long)
 }
 
-private class SoomjaePostNavigator(override val navController: NavHostController) : PostNavigator {
+private class SoomjaePostNavigator(
+    override val navController: NavHostController,
+    meetingNavigator: MeetingNavigator,
+) : PostNavigator,
+    MeetingNavigator by meetingNavigator {
 
     override fun navigateBack() {
         overridden()
@@ -29,6 +34,13 @@ private class SoomjaePostNavigator(override val navController: NavHostController
     override fun navigateToMeetingWrite() {
         overridden()
     }
+
+    override fun navigateToMeetingCreate() {
+        overridden()
+    }
 }
 
-fun soomjaePostNavigator(navController: NavHostController): PostNavigator = SoomjaePostNavigator(navController)
+fun soomjaePostNavigator(navController: NavHostController): PostNavigator = SoomjaePostNavigator(
+    navController = navController,
+    meetingNavigator = soomjaeMeetingNavigator(navController),
+)

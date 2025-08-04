@@ -6,6 +6,8 @@ import com.parksupark.soomjae.core.presentation.ui.navigation.overridden
 
 interface MeetingNavigator : SoomjaeNavigator {
     fun navigateToMeetingWrite()
+
+    fun navigateToMeetingCreate()
 }
 
 private class SoomjaeMeetingNavigator(
@@ -16,6 +18,10 @@ private class SoomjaeMeetingNavigator(
     }
 
     override fun navigateToMeetingWrite() {
+        overridden()
+    }
+
+    override fun navigateToMeetingCreate() {
         overridden()
     }
 }
