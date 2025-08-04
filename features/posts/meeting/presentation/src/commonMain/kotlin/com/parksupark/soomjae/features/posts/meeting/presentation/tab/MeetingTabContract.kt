@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.common.presentation.tab
+package com.parksupark.soomjae.features.posts.meeting.presentation.tab
 
 class MeetingTabState
 

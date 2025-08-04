@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.common.presentation.tab
+package com.parksupark.soomjae.features.posts.meeting.presentation.tab
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,8 +9,8 @@ import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEvent
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEventController
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
-import com.parksupark.soomjae.features.posts.common.presentation.tab.models.MeetingPostUi
-import com.parksupark.soomjae.features.posts.common.presentation.tab.models.toMeetingPostUi
+import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.MeetingPostUi
+import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.toMeetingPostUi
 import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow

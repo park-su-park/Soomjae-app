@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.common.presentation.navigation
+package com.parksupark.soomjae.features.posts.meeting.presentation.navigation
 
 import androidx.navigation.NavHostController
 import com.parksupark.soomjae.core.presentation.ui.navigation.SoomjaeNavigator

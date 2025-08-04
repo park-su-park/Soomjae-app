@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.common.presentation.tab.components
+package com.parksupark.soomjae.features.posts.meeting.presentation.tab.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -25,7 +25,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.theme.comment
 import com.parksupark.soomjae.core.presentation.designsystem.theme.like
 import com.parksupark.soomjae.core.presentation.ui.utils.toDp
 import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
-import com.parksupark.soomjae.features.posts.common.presentation.tab.models.MeetingPostUi
+import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.MeetingPostUi
 
 @Composable
 internal fun MeetingPostCard(

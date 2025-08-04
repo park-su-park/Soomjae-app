@@ -7,9 +7,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationDestination
 import com.parksupark.soomjae.features.posts.aggregate.presentation.post.PostRoute
-import com.parksupark.soomjae.features.posts.common.presentation.write.MeetingWriteRoute
 import com.parksupark.soomjae.features.posts.community.presentation.detail.CommunityDetailRoute
 import com.parksupark.soomjae.features.posts.community.presentation.write.CommunityWriteRoute
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingWriteRoute
 import kotlinx.serialization.Serializable
 
 sealed interface PostDestination : NavigationDestination {

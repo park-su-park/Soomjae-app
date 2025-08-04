@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.common.presentation.tab.models
+package com.parksupark.soomjae.features.posts.meeting.presentation.tab.models
 
 import androidx.compose.runtime.Composable
 import com.parksupark.soomjae.core.presentation.ui.utils.toRelativeTimeString

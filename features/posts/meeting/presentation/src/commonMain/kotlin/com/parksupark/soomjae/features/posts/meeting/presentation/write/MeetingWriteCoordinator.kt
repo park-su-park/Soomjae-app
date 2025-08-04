@@ -1,8 +1,8 @@
-package com.parksupark.soomjae.features.posts.common.presentation.write
+package com.parksupark.soomjae.features.posts.meeting.presentation.write
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import com.parksupark.soomjae.features.posts.common.presentation.navigation.MeetingNavigator
+import com.parksupark.soomjae.features.posts.meeting.presentation.navigation.MeetingNavigator
 import org.koin.compose.viewmodel.koinViewModel
 
 class MeetingWriteCoordinator(

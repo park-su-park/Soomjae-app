@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.common.presentation.write
+package com.parksupark.soomjae.features.posts.meeting.presentation.write
 
 import androidx.compose.foundation.text.input.TextFieldState
 import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi

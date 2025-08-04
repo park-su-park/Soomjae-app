@@ -1,9 +1,9 @@
-package com.parksupark.soomjae.features.posts.common.presentation.write
+package com.parksupark.soomjae.features.posts.meeting.presentation.write
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.parksupark.soomjae.features.posts.common.presentation.navigation.MeetingNavigator
+import com.parksupark.soomjae.features.posts.meeting.presentation.navigation.MeetingNavigator
 
 @Composable
 fun MeetingWriteRoute(

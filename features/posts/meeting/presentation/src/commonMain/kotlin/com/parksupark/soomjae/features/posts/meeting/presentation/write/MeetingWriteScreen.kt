@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.common.presentation.write
+package com.parksupark.soomjae.features.posts.meeting.presentation.write
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize

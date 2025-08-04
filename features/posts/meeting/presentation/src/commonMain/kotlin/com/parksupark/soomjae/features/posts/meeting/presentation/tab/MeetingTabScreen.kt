@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.common.presentation.tab
+package com.parksupark.soomjae.features.posts.meeting.presentation.tab
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -15,8 +15,8 @@ import app.cash.paging.compose.itemKey
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeHorizontalDivider
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaePullToRefreshBox
 import com.parksupark.soomjae.features.posts.common.presentation.components.WritePostFab
-import com.parksupark.soomjae.features.posts.common.presentation.tab.components.MeetingPostCard
-import com.parksupark.soomjae.features.posts.common.presentation.tab.models.MeetingPostUi
+import com.parksupark.soomjae.features.posts.meeting.presentation.tab.components.MeetingPostCard
+import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.MeetingPostUi
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
