@@ -21,6 +21,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -287,4 +289,20 @@ private inline fun OutlinedTextFieldDecorator(
             )
         }
     }
+}
+
+object SoomjaeTextFieldDefaults {
+    val defaultOutlinedTextFieldColors: TextFieldColors
+        @Composable get() = TextFieldDefaults.colors(
+            focusedContainerColor = SoomjaeTheme.colorScheme.background1,
+            unfocusedContainerColor = SoomjaeTheme.colorScheme.background1,
+            focusedIndicatorColor = Color.Companion.Transparent,
+            unfocusedIndicatorColor = Color.Companion.Transparent,
+            disabledIndicatorColor = Color.Companion.Transparent,
+            errorIndicatorColor = SoomjaeTheme.colorScheme.error,
+            focusedTextColor = SoomjaeTheme.colorScheme.text1,
+            unfocusedTextColor = SoomjaeTheme.colorScheme.text1,
+            disabledTextColor = SoomjaeTheme.colorScheme.text4,
+            errorTextColor = SoomjaeTheme.colorScheme.error,
+        )
 }
