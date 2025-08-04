@@ -14,6 +14,8 @@ class MeetingCreateCoordinator(
     internal fun handle(action: MeetingCreateAction) {
         when (action) {
             MeetingCreateAction.OnBackClick -> navigator.navigateToMeetingWrite()
+
+            MeetingCreateAction.OnCreateClick -> viewModel.createMeeting()
         }
     }
 }

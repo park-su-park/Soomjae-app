@@ -9,4 +9,12 @@
     <string name="meeting_write_location_label">지역</string>
     <string name="meeting_write_location_placeholder">지역을 선택해주세요.</string>
 
+    <string name="meeting_create_title">신규 모임</string>
+    <string name="meeting_create_navigate_up_description">뒤로 가기</string>
+    <string name="meeting_create_button_create_meeting">모임 생성</string>
+
+    <string name="meeting_create_datetime_label">모임 날짜</string>
+    <string name="meeting_create_participant_count_label">최대 참여 인원</string>
+    <string name="meeting_create_participant_count_display_unlimited">무제한</string>
+    <string name="meeting_create_participant_count_display">%d명</string>
 </resources>

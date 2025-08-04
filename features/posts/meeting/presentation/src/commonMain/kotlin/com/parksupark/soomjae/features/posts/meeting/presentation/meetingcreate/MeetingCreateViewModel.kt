@@ -9,8 +9,10 @@ import kotlinx.coroutines.flow.asStateFlow
 class MeetingCreateViewModel(
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-
     private val _stateFlow: MutableStateFlow<MeetingCreateState> = MutableStateFlow(MeetingCreateState())
-
     internal val stateFlow: StateFlow<MeetingCreateState> = _stateFlow.asStateFlow()
+
+    fun createMeeting() {
+        // TODO: Implement meeting creation logic
+    }
 }
