@@ -17,6 +17,8 @@ class MeetingWriteCoordinator(
 
             MeetingWriteAction.OnConfirmClick -> viewModel.submitPost()
 
+            MeetingWriteAction.OnCreateMeetingClick -> navigator.navigateToMeetingCreate()
+
             is MeetingWriteAction.OnCategorySelect -> viewModel.selectCategory(action.categoryId)
 
             is MeetingWriteAction.OnLocationSelect -> viewModel.selectLocation(action.locationCode)

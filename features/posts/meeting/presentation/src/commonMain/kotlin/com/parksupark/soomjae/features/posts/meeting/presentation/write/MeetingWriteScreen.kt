@@ -70,6 +70,7 @@ internal fun MeetingWriteScreen(
                 .padding(innerPadding),
             extras = {
                 AdditionalInfoSelection(
+                    onCreateMeetingClick = { onAction(MeetingWriteAction.OnCreateMeetingClick) },
                     categories = state.categories,
                     selectedCategory = state.selectedCategory,
                     onCategorySelect = { onAction(MeetingWriteAction.OnCategorySelect(it)) },
@@ -116,6 +117,7 @@ private fun MeetingWriteTopBar(
 
 @Composable
 private fun AdditionalInfoSelection(
+    onCreateMeetingClick: () -> Unit,
     categories: ImmutableList<CategoryUi>,
     selectedCategory: CategoryUi?,
     onCategorySelect: (categoryId: Long) -> Unit,
@@ -125,7 +127,7 @@ private fun AdditionalInfoSelection(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
-        MeetingSelection()
+        MeetingSelection(onClick = onCreateMeetingClick)
 
         WriteDialogSelection(
             items = categories,
@@ -150,10 +152,10 @@ private fun AdditionalInfoSelection(
 }
 
 @Composable
-private fun MeetingSelection() {
+private fun MeetingSelection(onClick: () -> Unit) {
     WriteSelectionButton(
         label = Res.string.meeting_write_meeting_label.value,
-        onClick = { /* TODO: Implement meeting selection logic */ },
+        onClick = onClick,
         buttonText = {
             Text(
                 text = Res.string.meeting_write_meeting_placeholder.value,

@@ -21,6 +21,8 @@ internal sealed interface MeetingWriteAction {
 
     data object OnConfirmClick : MeetingWriteAction
 
+    data object OnCreateMeetingClick : MeetingWriteAction
+
     data class OnCategorySelect(val categoryId: Long) : MeetingWriteAction
 
     data class OnLocationSelect(val locationCode: Long) : MeetingWriteAction
