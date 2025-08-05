@@ -16,6 +16,10 @@ class MeetingCreateCoordinator(
             MeetingCreateAction.OnBackClick -> navigator.navigateToMeetingWrite()
 
             MeetingCreateAction.OnCreateClick -> viewModel.createMeeting()
+
+            is MeetingCreateAction.OnStartDateSelected -> viewModel.updateStartDate(action.startDate)
+
+            is MeetingCreateAction.OnEndDateSelected -> viewModel.updateEndDate(action.endDate)
         }
     }
 }

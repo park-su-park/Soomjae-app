@@ -18,4 +18,7 @@
     <string name="meeting_create_participant_count_label">최대 참여 인원</string>
     <string name="meeting_create_participant_count_display_unlimited">무제한</string>
     <string name="meeting_create_participant_count_display">%d명</string>
+
+    <string name="meeting_create_datetime_dialog_cancel">취소</string>
+    <string name="meeting_create_datetime_dialog_confirm">확인</string>
 </resources>
