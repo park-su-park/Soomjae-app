@@ -1,5 +1,11 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.models
 
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.runtime.Composable
+import com.parksupark.soomjae.core.presentation.ui.resources.value
+import com.parksupark.soomjae.features.posts.meeting.presentation.resources.Res
+import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_participant_count_additional_info_unlimited
+import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_participant_count_display
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 import kotlinx.datetime.DateTimeUnit
@@ -14,8 +20,25 @@ data class MeetingCreateUi(
     val startTime: LocalTime,
     val endDate: LocalDate?,
     val endTime: LocalTime?,
-    val maxParticipantCount: Int?,
+    val inputMaxParticipantCount: TextFieldState,
 ) {
+
+    @Composable
+    fun toDisplayString(): String {
+        val startDateTime = "$startDate $startTime"
+        val endDateTime = if (endDate != null && endTime != null) {
+            "$endDate $endTime"
+        } else {
+            ""
+        }
+        val participantCount = if (inputMaxParticipantCount.text.isEmpty()) {
+            Res.string.meeting_create_participant_count_additional_info_unlimited.value
+        } else {
+            Res.string.meeting_create_participant_count_display.value(inputMaxParticipantCount.text)
+        }
+
+        return "$startDateTime - $endDateTime, $participantCount"
+    }
 
     companion object {
 
@@ -27,7 +50,7 @@ data class MeetingCreateUi(
                     startTime = dateTime.time.truncateTo(DateTimeUnit.MINUTE),
                     endDate = null,
                     endTime = null,
-                    maxParticipantCount = null,
+                    inputMaxParticipantCount = TextFieldState("0"),
                 )
             }
     }

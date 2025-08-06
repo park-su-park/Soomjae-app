@@ -9,28 +9,36 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowRight
 import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeButton
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCenterAlignedTopAppBar
+import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeOutlinedTextField
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeTextButton
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.core.presentation.ui.utils.rememberFutureDates
-import com.parksupark.soomjae.features.posts.common.presentation.components.WriteSelectionButton
 import com.parksupark.soomjae.features.posts.common.presentation.components.WriteSelectionLayout
 import com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate.components.DatePickerDialogButton
 import com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate.components.TimePickerDialogButton
@@ -39,6 +47,7 @@ import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meet
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_datetime_label
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_datetime_unselected
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_navigate_up_description
+import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_participant_count_additional_info_unlimited
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_participant_count_display
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_participant_count_display_unlimited
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_participant_count_label
@@ -85,7 +94,7 @@ internal fun MeetingCreateScreen(
                 endTime = state.meeting.endTime,
             )
 
-            MeetingParticipantCount(maxParticipantCount = state.meeting.maxParticipantCount)
+            MeetingParticipantCount(state = state.meeting.inputMaxParticipantCount)
         }
     }
 }
@@ -146,7 +155,7 @@ private fun MeetingCreateDateTimeSection(
 
     WriteSelectionLayout(
         label = Res.string.meeting_create_datetime_label.value,
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+        modifier = Modifier.fillMaxWidth(),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             StartDateTimeSelection(
@@ -264,21 +273,60 @@ private fun RowScope.EndDateTimeSelection(
 
 @Composable
 private fun MeetingParticipantCount(
-    maxParticipantCount: Int?,
+    state: TextFieldState,
     modifier: Modifier = Modifier,
 ) {
-    WriteSelectionButton(
+    WriteSelectionLayout(
         label = Res.string.meeting_create_participant_count_label.value,
-        modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp),
-        buttonText = {
-            if (maxParticipantCount == null) {
-                Text(text = Res.string.meeting_create_participant_count_display_unlimited.value())
-            } else {
-                Text(text = Res.string.meeting_create_participant_count_display.value(maxParticipantCount))
-            }
-        },
-        onClick = { /* TODO: Handle participant count selection */ },
-    )
+        modifier = modifier.fillMaxWidth(),
+    ) {
+        val participantUnlimitedText = Res.string.meeting_create_participant_count_display_unlimited.value
+        val participantCountText = Res.string.meeting_create_participant_count_display.value
+
+        var isFocused by remember { mutableStateOf(false) }
+
+        SoomjaeOutlinedTextField(
+            state = state,
+            modifier = Modifier.fillMaxWidth()
+                .onFocusChanged { focusState ->
+                    isFocused = focusState.isFocused
+
+                    if (focusState.isFocused) {
+                        state.edit {
+                            selection = TextRange(0, originalText.length)
+                        }
+                    }
+                },
+            startIcon = Icons.Outlined.Person,
+            keyboardType = KeyboardType.Number,
+            inputTransformation = {
+                val newText = originalText.filter { it.isDigit() }
+                if (newText.length != originalText.length) {
+                    replace(0, originalText.length, newText)
+                }
+            },
+            outputTransformation = {
+                if (!isFocused) {
+                    val num = originalText.toString().toLongOrNull() ?: -1
+
+                    val output = if (num == 0L) {
+                        participantUnlimitedText
+                    } else if (num > 0L) {
+                        participantCountText.replace("%d", num.toString())
+                    } else {
+                        originalText
+                    }
+
+                    replace(
+                        start = 0,
+                        end = originalText.length,
+                        text = output,
+                    )
+                }
+            },
+            additionalInfo = Res.string.meeting_create_participant_count_additional_info_unlimited.value,
+        )
+    }
 }
 
 @OptIn(ExperimentalTime::class)
