@@ -3,6 +3,7 @@ package com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -13,25 +14,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowRight
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.DatePickerDefaults
-import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeButton
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCenterAlignedTopAppBar
-import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeDatePicker
-import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeDatePickerDefaults
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeTextButton
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
@@ -39,10 +32,10 @@ import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.core.presentation.ui.utils.rememberFutureDates
 import com.parksupark.soomjae.features.posts.common.presentation.components.WriteSelectionButton
 import com.parksupark.soomjae.features.posts.common.presentation.components.WriteSelectionLayout
+import com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate.components.DatePickerDialogButton
+import com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate.components.TimePickerDialogButton
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.Res
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_button_create_meeting
-import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_datetime_dialog_cancel
-import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_datetime_dialog_confirm
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_datetime_label
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_datetime_unselected
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_navigate_up_description
@@ -56,6 +49,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.format
+import kotlinx.datetime.format.DateTimeFormat
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -153,108 +147,119 @@ private fun MeetingCreateDateTimeSection(
     WriteSelectionLayout(
         label = Res.string.meeting_create_datetime_label.value,
         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-        content = {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Column(
-                    modifier = Modifier.weight(1f),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    DatePickerDialogButton(
-                        onConfirm = { dateInMillis ->
-                            onAction(MeetingCreateAction.OnStartDateSelected(dateInMillis.toLocalDate(timeZone)))
-                        },
-                        selectableDates = DatePickerDefaults.rememberFutureDates(),
-                    ) { openDialog ->
-                        SoomjaeTextButton(
-                            onClick = openDialog,
-                            content = {
-                                Text(text = startDate.format(dateFormatter))
-                            },
-                        )
-                    }
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            StartDateTimeSelection(
+                onAction = onAction,
+                timeZone = timeZone,
+                startDate = startDate,
+                dateFormatter = dateFormatter,
+                startTime = startTime,
+                timeFormatter = timeFormatter,
+            )
 
-                    SoomjaeTextButton(
-                        onClick = { /* TODO: Handle start time selection */ },
-                        content = {
-                            Text(text = startTime.format(timeFormatter))
-                        },
-                    )
-                }
+            Icon(imageVector = Icons.AutoMirrored.Filled.ArrowRight, contentDescription = null)
 
-                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowRight, contentDescription = null)
-
-                Column(
-                    modifier = Modifier.weight(1f),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    DatePickerDialogButton(
-                        onConfirm = { dateInMillis ->
-                            onAction(MeetingCreateAction.OnEndDateSelected(dateInMillis.toLocalDate(timeZone)))
-                        },
-                        selectableDates = DatePickerDefaults.rememberFutureDates(startDate = startDate),
-                    ) { openDialog ->
-                        SoomjaeTextButton(
-                            onClick = openDialog,
-                            content = {
-                                Text(text = endDate?.format(dateFormatter) ?: Res.string.meeting_create_datetime_unselected.value)
-                            },
-                        )
-                    }
-
-                    SoomjaeTextButton(
-                        onClick = { /* TODO: Handle end time selection */ },
-                        content = {
-                            Text(text = endTime?.format(timeFormatter) ?: Res.string.meeting_create_datetime_unselected.value)
-                        },
-                    )
-                }
-            }
-        },
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun DatePickerDialogButton(
-    onConfirm: (dateInMillis: Long) -> Unit,
-    modifier: Modifier = Modifier,
-    selectableDates: SelectableDates = DatePickerDefaults.AllDates,
-    button: @Composable (openDialog: () -> Unit) -> Unit,
-) {
-    val datePickerState = rememberDatePickerState(
-        selectableDates = selectableDates,
-    )
-    var dialogOpen by remember { mutableStateOf(false) }
-
-    if (dialogOpen) {
-        DatePickerDialog(
-            onDismissRequest = { /* no-op */ },
-            confirmButton = {
-                SoomjaeTextButton(
-                    onClick = {
-                        datePickerState.selectedDateMillis?.let {
-                            onConfirm(it)
-                        }
-                        dialogOpen = false
-                    },
-                    enabled = datePickerState.selectedDateMillis != null,
-                    content = { Text(text = Res.string.meeting_create_datetime_dialog_confirm.value) },
-                )
-            },
-            modifier = modifier,
-            dismissButton = {
-                SoomjaeTextButton(
-                    onClick = { dialogOpen = false },
-                    content = { Text(text = Res.string.meeting_create_datetime_dialog_cancel.value) },
-                )
-            },
-            colors = SoomjaeDatePickerDefaults.colors(),
-        ) {
-            SoomjaeDatePicker(datePickerState)
+            EndDateTimeSelection(
+                onAction = onAction,
+                timeZone = timeZone,
+                startDate = startDate,
+                endDate = endDate,
+                dateFormatter = dateFormatter,
+                endTime = endTime,
+                timeFormatter = timeFormatter,
+            )
         }
     }
+}
 
-    button { dialogOpen = true }
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+private fun RowScope.StartDateTimeSelection(
+    onAction: (MeetingCreateAction) -> Unit,
+    timeZone: TimeZone,
+    startDate: LocalDate,
+    dateFormatter: DateTimeFormat<LocalDate>,
+    startTime: LocalTime,
+    timeFormatter: DateTimeFormat<LocalTime>,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier.weight(1f),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        DatePickerDialogButton(
+            onConfirm = { dateInMillis ->
+                onAction(MeetingCreateAction.OnStartDateSelected(dateInMillis.toLocalDate(timeZone)))
+            },
+            selectableDates = DatePickerDefaults.rememberFutureDates(),
+        ) { openDialog ->
+            SoomjaeTextButton(
+                onClick = openDialog,
+                content = {
+                    Text(text = startDate.format(dateFormatter))
+                },
+            )
+        }
+
+        TimePickerDialogButton(
+            onConfirm = { time ->
+                onAction(MeetingCreateAction.OnStartTimeSelected(time))
+            },
+        ) { openDialog ->
+            SoomjaeTextButton(
+                onClick = openDialog,
+                content = {
+                    Text(text = startTime.format(timeFormatter))
+                },
+            )
+        }
+    }
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+private fun RowScope.EndDateTimeSelection(
+    onAction: (MeetingCreateAction) -> Unit,
+    timeZone: TimeZone,
+    startDate: LocalDate,
+    endDate: LocalDate?,
+    dateFormatter: DateTimeFormat<LocalDate>,
+    endTime: LocalTime?,
+    timeFormatter: DateTimeFormat<LocalTime>,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier.weight(1f),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        DatePickerDialogButton(
+            onConfirm = { dateInMillis ->
+                onAction(MeetingCreateAction.OnEndDateSelected(dateInMillis.toLocalDate(timeZone)))
+            },
+            selectableDates = DatePickerDefaults.rememberFutureDates(startDate = startDate),
+        ) { openDialog ->
+            SoomjaeTextButton(
+                onClick = openDialog,
+                content = {
+                    Text(text = endDate?.format(dateFormatter) ?: Res.string.meeting_create_datetime_unselected.value)
+                },
+            )
+        }
+
+        TimePickerDialogButton(
+            onConfirm = { time ->
+                onAction(MeetingCreateAction.OnEndTimeSelected(time))
+            },
+        ) { openDialog ->
+            SoomjaeTextButton(
+                onClick = openDialog,
+                content = {
+                    Text(text = endTime?.format(timeFormatter) ?: Res.string.meeting_create_datetime_unselected.value)
+                },
+            )
+        }
+    }
 }
 
 @Composable

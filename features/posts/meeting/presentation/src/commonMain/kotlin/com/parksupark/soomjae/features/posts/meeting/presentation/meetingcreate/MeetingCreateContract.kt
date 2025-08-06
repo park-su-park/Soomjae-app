@@ -3,6 +3,7 @@ package com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate
 import com.parksupark.soomjae.features.posts.meeting.presentation.models.MeetingCreateUi
 import kotlin.time.ExperimentalTime
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalTime
 
 @OptIn(ExperimentalTime::class)
 internal data class MeetingCreateState(
@@ -16,5 +17,9 @@ internal sealed interface MeetingCreateAction {
 
     data class OnStartDateSelected(val startDate: LocalDate) : MeetingCreateAction
 
+    data class OnStartTimeSelected(val startTime: LocalTime) : MeetingCreateAction
+
     data class OnEndDateSelected(val endDate: LocalDate) : MeetingCreateAction
+
+    data class OnEndTimeSelected(val endTime: LocalTime) : MeetingCreateAction
 }

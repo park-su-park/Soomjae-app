@@ -19,7 +19,11 @@ class MeetingCreateCoordinator(
 
             is MeetingCreateAction.OnStartDateSelected -> viewModel.updateStartDate(action.startDate)
 
+            is MeetingCreateAction.OnStartTimeSelected -> viewModel.updateStartTime(action.startTime)
+
             is MeetingCreateAction.OnEndDateSelected -> viewModel.updateEndDate(action.endDate)
+
+            is MeetingCreateAction.OnEndTimeSelected -> viewModel.updateEndTime(action.endTime)
         }
     }
 }
