@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.InputTransformation
+import androidx.compose.foundation.text.input.OutputTransformation
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.Icon
@@ -174,6 +176,8 @@ fun SoomjaeOutlinedTextField(
     error: String? = null,
     keyboardType: KeyboardType = KeyboardType.Companion.Text,
     additionalInfo: String? = null,
+    inputTransformation: InputTransformation? = null,
+    outputTransformation: OutputTransformation? = null,
     enabled: Boolean = true,
 ) {
     var isFocused by remember { mutableStateOf(false) }
@@ -225,9 +229,11 @@ fun SoomjaeOutlinedTextField(
                     },
                 state = state,
                 enabled = enabled,
+                inputTransformation = inputTransformation,
                 textStyle = SoomjaeTheme.typography.captionL,
                 keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
                 lineLimits = TextFieldLineLimits.SingleLine,
+                outputTransformation = outputTransformation,
                 decorator = {
                     OutlinedTextFieldDecorator(
                         startIcon = startIcon,
