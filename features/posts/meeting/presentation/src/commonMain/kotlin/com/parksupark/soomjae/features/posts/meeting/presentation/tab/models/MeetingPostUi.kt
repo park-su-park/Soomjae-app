@@ -18,7 +18,7 @@ internal data class MeetingPostUi(
     val author: AuthorUi,
     val likeCount: Int,
     val commentCount: Int,
-    val category: CategoryUi,
+    val category: CategoryUi?,
 ) {
     val formattedCreatedAt: String
         @Composable get() = createdAt.toRelativeTimeString()
@@ -34,5 +34,5 @@ internal fun MeetingPost.toMeetingPostUi() = MeetingPostUi(
     author = author.toUi(),
     likeCount = 0,
     commentCount = 0,
-    category = category.toUi(),
+    category = category?.toUi(),
 )

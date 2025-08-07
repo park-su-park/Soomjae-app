@@ -2,8 +2,12 @@ package com.parksupark.soomjae.features.posts.meeting.presentation.write
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.collectAsFlow
+import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
 import com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate.MeetingCreateState
+import kotlin.time.ExperimentalTime
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,14 +15,24 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
+import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atTime
+import kotlinx.datetime.toInstant
 
-class MeetingWriteViewModel : ViewModel() {
+@OptIn(ExperimentalTime::class)
+class MeetingWriteViewModel(
+    private val meetingPostRepository: MeetingPostRepository,
+) : ViewModel() {
     private val _stateFlow: MutableStateFlow<MeetingWriteState> = MutableStateFlow(MeetingWriteState())
     internal val stateFlow: StateFlow<MeetingWriteState> = _stateFlow.asStateFlow()
+
+    private val eventChannel = Channel<MeetingWriteEvent>()
+    internal val events = eventChannel.receiveAsFlow()
 
     init {
         combine(
@@ -35,7 +49,35 @@ class MeetingWriteViewModel : ViewModel() {
     }
 
     fun submitPost() {
-        // TODO: Implement post submission logic
+        if (!_stateFlow.value.canSubmit) return
+
+        val meeting = _stateFlow.value.meeting ?: error("Meeting must be created before submitting a post.")
+        val startTime = meeting.startDate.atTime(meeting.startTime)
+        val endTime = if (meeting.endDate != null && meeting.endTime != null) {
+            meeting.endDate.atTime(meeting.endTime)
+        } else {
+            error("End date and time must be set before submitting a post.")
+        }
+        val timeZone = TimeZone.currentSystemDefault()
+
+        viewModelScope.launch {
+            meetingPostRepository.postPost(
+                title = _stateFlow.value.inputTitle.text.toString().trim(),
+                content = _stateFlow.value.inputContent.text.toString().trim(),
+                categoryId = _stateFlow.value.selectedCategory?.id,
+                locationCode = _stateFlow.value.selectedLocation?.code,
+                startAt = startTime.toInstant(timeZone),
+                endAt = endTime.toInstant(timeZone),
+                maxParticipants = meeting.inputMaxParticipantCount.text.toString().toLongOrNull() ?: 0L,
+            ).fold(
+                ifLeft = { failure ->
+                    eventChannel.send(MeetingWriteEvent.OnPostCreateFailure(failure.asUiText()))
+                },
+                ifRight = {
+                    eventChannel.send(MeetingWriteEvent.OnPostCreateSuccess(it.id))
+                },
+            )
+        }
     }
 
     fun selectCategory(categoryId: Long) {

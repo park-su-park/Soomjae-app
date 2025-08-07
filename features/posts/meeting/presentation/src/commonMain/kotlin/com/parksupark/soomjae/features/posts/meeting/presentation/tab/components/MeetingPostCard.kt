@@ -54,19 +54,21 @@ internal fun MeetingPostCard(
 }
 
 @Composable
-private fun PostCardHeader(category: CategoryUi) {
-    Text(
-        text = category.name,
-        style = SoomjaeTheme.typography.captionS,
-        color = SoomjaeTheme.colorScheme.text3,
-        modifier = Modifier.background(
-            color = SoomjaeTheme.colorScheme.background3,
-            shape = MaterialTheme.shapes.extraSmall,
-        ).padding(
-            horizontal = 8.dp,
-            vertical = 4.dp,
-        ),
-    )
+private fun PostCardHeader(category: CategoryUi?) {
+    category?.let {
+        Text(
+            text = it.name,
+            style = SoomjaeTheme.typography.captionS,
+            color = SoomjaeTheme.colorScheme.text3,
+            modifier = Modifier.background(
+                color = SoomjaeTheme.colorScheme.background3,
+                shape = MaterialTheme.shapes.extraSmall,
+            ).padding(
+                horizontal = 8.dp,
+                vertical = 4.dp,
+            ),
+        )
+    }
 }
 
 @Composable

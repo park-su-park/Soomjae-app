@@ -10,6 +10,7 @@ class MeetingWriteCoordinator(
     val viewModel: MeetingWriteViewModel,
 ) {
     internal val screenStateFlow = viewModel.stateFlow
+    internal val events = viewModel.events
 
     internal fun handle(action: MeetingWriteAction) {
         when (action) {

@@ -1,6 +1,7 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.write
 
 import androidx.compose.foundation.text.input.TextFieldState
+import com.parksupark.soomjae.core.presentation.ui.utils.UiText
 import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.LocationUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.models.MeetingCreateUi
@@ -28,4 +29,10 @@ internal sealed interface MeetingWriteAction {
     data class OnCategorySelect(val categoryId: Long) : MeetingWriteAction
 
     data class OnLocationSelect(val locationCode: Long) : MeetingWriteAction
+}
+
+internal sealed interface MeetingWriteEvent {
+    data class OnPostCreateSuccess(val postId: Long) : MeetingWriteEvent
+
+    data class OnPostCreateFailure(val error: UiText) : MeetingWriteEvent
 }

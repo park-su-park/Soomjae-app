@@ -11,5 +11,5 @@ data class MeetingPost(
     val content: String,
     val createdAt: Instant,
     val author: Member,
-    val category: Category,
+    val category: Category?,
 )

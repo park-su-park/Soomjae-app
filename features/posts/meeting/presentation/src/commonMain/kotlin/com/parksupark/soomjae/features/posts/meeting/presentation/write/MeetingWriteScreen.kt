@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCenterAlignedTopAppBar
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.designsystem.modifiers.bottomBorder
+import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.features.posts.common.presentation.components.PostWriter
@@ -37,11 +38,13 @@ import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meet
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_write_meeting_placeholder
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_write_navigate_up_description
 import kotlinx.collections.immutable.ImmutableList
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun MeetingWriteScreen(
     state: MeetingWriteState,
     onAction: (MeetingWriteAction) -> Unit,
+    snackbarHost: @Composable () -> Unit,
 ) {
     SoomjaeScaffold(
         topBar = {
@@ -51,6 +54,7 @@ internal fun MeetingWriteScreen(
                 canSubmit = state.canSubmit,
             )
         },
+        snackbarHost = snackbarHost,
     ) { innerPadding ->
         PostWriter(
             title = {
@@ -180,4 +184,16 @@ private fun MeetingSelection(
             }
         },
     )
+}
+
+@Composable
+@Preview
+private fun MeetingWriteScreenPreview() {
+    AppTheme {
+        MeetingWriteScreen(
+            state = MeetingWriteState(),
+            onAction = { },
+            snackbarHost = { },
+        )
+    }
 }
