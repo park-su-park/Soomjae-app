@@ -161,7 +161,7 @@ class MeetingWriteViewModel(
 }
 
 private fun LocalTime.minusHours(hours: Int): LocalTime = LocalTime(
-    hour = (this.hour - hours) % 24,
+    hour = ((this.hour - hours) % 24 + 24) % 24,
     minute = this.minute,
     second = this.second,
     nanosecond = this.nanosecond,
