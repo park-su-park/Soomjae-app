@@ -24,8 +24,8 @@ import com.parksupark.soomjae.features.posts.aggregate.presentation.resources.po
 import com.parksupark.soomjae.features.posts.aggregate.presentation.resources.post_feed_title
 import com.parksupark.soomjae.features.posts.aggregate.presentation.resources.post_meeting_title
 import com.parksupark.soomjae.features.posts.common.presentation.PostAction
-import com.parksupark.soomjae.features.posts.common.presentation.tab.MeetingTabRoute
 import com.parksupark.soomjae.features.posts.community.presentation.tab.CommunityTabRoute
+import com.parksupark.soomjae.features.posts.meeting.presentation.tab.MeetingTabRoute
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.StringResource
 

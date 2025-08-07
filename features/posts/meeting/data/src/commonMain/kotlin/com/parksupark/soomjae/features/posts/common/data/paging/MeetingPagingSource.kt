@@ -22,7 +22,8 @@ internal class MeetingPagingSource(
             val response = remoteSource.getMeetingPosts(currentPage)
             response.fold(
                 ifLeft = { failure -> LoadResult.Error(Exception(failure.toString())) },
-                ifRight = { posts ->
+                ifRight = { response ->
+                    val posts = response.posts
                     LoadResult.Page(
                         data = posts.map { it.toMeetingPost() },
                         prevKey = if (currentPage == 1) null else currentPage - 1,

@@ -1,0 +1,25 @@
+<resources>
+    <string name="meeting_write_navigate_up_description">뒤로 가기</string>
+    <string name="meeting_write_button_confirm_description">완료</string>
+
+    <string name="meeting_write_meeting_label">모임</string>
+    <string name="meeting_write_meeting_placeholder">모임을 만들어주세요!</string>
+    <string name="meeting_write_category_label">카테고리</string>
+    <string name="meeting_write_category_placeholder">카테고리를 선택해주세요.</string>
+    <string name="meeting_write_location_label">지역</string>
+    <string name="meeting_write_location_placeholder">지역을 선택해주세요.</string>
+
+    <string name="meeting_create_title">신규 모임</string>
+    <string name="meeting_create_navigate_up_description">뒤로 가기</string>
+    <string name="meeting_create_button_create_meeting">모임 생성</string>
+
+    <string name="meeting_create_datetime_label">모임 날짜</string>
+    <string name="meeting_create_datetime_unselected">미정</string>
+    <string name="meeting_create_participant_count_label">최대 참여 인원</string>
+    <string name="meeting_create_participant_count_display_unlimited">제한 없음</string>
+    <string name="meeting_create_participant_count_display">%1$d 명</string>
+    <string name="meeting_create_participant_count_additional_info_unlimited">0은 제한 없음</string>
+
+    <string name="meeting_create_datetime_dialog_cancel">취소</string>
+    <string name="meeting_create_datetime_dialog_confirm">확인</string>
+</resources>

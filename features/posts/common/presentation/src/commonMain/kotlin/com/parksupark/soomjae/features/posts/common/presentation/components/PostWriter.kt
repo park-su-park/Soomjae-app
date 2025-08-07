@@ -4,6 +4,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -17,15 +20,32 @@ fun PostWriter(
     modifier: Modifier = Modifier,
     extras: @Composable (ColumnScope.() -> Unit)? = null,
 ) {
+    val decoratedTitle: @Composable (() -> Unit) = {
+        ProvideTextStyle(
+            value = SoomjaeTheme.typography.title2,
+            content = { title() },
+        )
+    }
+
+    val decoratedBody: @Composable (() -> Unit) = {
+        ProvideTextStyle(
+            value = SoomjaeTheme.typography.body1,
+            content = { body() },
+        )
+    }
+
     Column(
-        modifier = modifier,
+        modifier = modifier.verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        title()
+        decoratedTitle()
 
-        SoomjaeHorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = SoomjaeTheme.colorScheme.background2)
+        SoomjaeHorizontalDivider(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            color = SoomjaeTheme.colorScheme.divider1,
+        )
 
-        body()
+        decoratedBody()
 
         extras?.invoke(this)
     }

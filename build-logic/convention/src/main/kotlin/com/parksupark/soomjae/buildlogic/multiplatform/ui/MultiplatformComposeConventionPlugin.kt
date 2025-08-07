@@ -52,6 +52,7 @@ class MultiplatformComposeConventionPlugin : Plugin<Project> {
             commonMain.dependencies {
                 implementation(compose.animation)
                 implementation(compose.components.resources)
+                implementation(compose.components.uiToolingPreview)
                 implementation(compose.foundation)
                 implementation(compose.material3)
                 implementation(compose.materialIconsExtended)

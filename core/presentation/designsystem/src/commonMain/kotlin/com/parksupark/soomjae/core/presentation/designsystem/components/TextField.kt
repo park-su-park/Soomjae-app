@@ -15,12 +15,16 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.InputTransformation
+import androidx.compose.foundation.text.input.OutputTransformation
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -172,6 +176,8 @@ fun SoomjaeOutlinedTextField(
     error: String? = null,
     keyboardType: KeyboardType = KeyboardType.Companion.Text,
     additionalInfo: String? = null,
+    inputTransformation: InputTransformation? = null,
+    outputTransformation: OutputTransformation? = null,
     enabled: Boolean = true,
 ) {
     var isFocused by remember { mutableStateOf(false) }
@@ -223,9 +229,11 @@ fun SoomjaeOutlinedTextField(
                     },
                 state = state,
                 enabled = enabled,
+                inputTransformation = inputTransformation,
                 textStyle = SoomjaeTheme.typography.captionL,
                 keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
                 lineLimits = TextFieldLineLimits.SingleLine,
+                outputTransformation = outputTransformation,
                 decorator = {
                     OutlinedTextFieldDecorator(
                         startIcon = startIcon,
@@ -287,4 +295,20 @@ private inline fun OutlinedTextFieldDecorator(
             )
         }
     }
+}
+
+object SoomjaeTextFieldDefaults {
+    val defaultOutlinedTextFieldColors: TextFieldColors
+        @Composable get() = TextFieldDefaults.colors(
+            focusedContainerColor = SoomjaeTheme.colorScheme.background1,
+            unfocusedContainerColor = SoomjaeTheme.colorScheme.background1,
+            focusedIndicatorColor = Color.Companion.Transparent,
+            unfocusedIndicatorColor = Color.Companion.Transparent,
+            disabledIndicatorColor = Color.Companion.Transparent,
+            errorIndicatorColor = SoomjaeTheme.colorScheme.error,
+            focusedTextColor = SoomjaeTheme.colorScheme.text1,
+            unfocusedTextColor = SoomjaeTheme.colorScheme.text1,
+            disabledTextColor = SoomjaeTheme.colorScheme.text4,
+            errorTextColor = SoomjaeTheme.colorScheme.error,
+        )
 }

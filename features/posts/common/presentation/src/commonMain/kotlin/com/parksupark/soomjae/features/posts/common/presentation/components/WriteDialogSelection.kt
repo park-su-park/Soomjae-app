@@ -36,7 +36,7 @@ fun <T> WriteDialogSelection(
     var showDialog by remember { mutableStateOf(false) }
     val getItemName = itemName ?: { it.toString() }
 
-    WriteSelectionLayout(
+    WriteSelectionButton(
         label = label,
         onClick = { if (items.isNotEmpty()) showDialog = true },
         enabled = items.isNotEmpty(),

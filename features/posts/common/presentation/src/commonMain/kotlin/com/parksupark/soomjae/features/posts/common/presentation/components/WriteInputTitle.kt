@@ -1,6 +1,5 @@
 package com.parksupark.soomjae.features.posts.common.presentation.components
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
@@ -13,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.unit.dp
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.features.posts.common.presentation.resources.Res
@@ -28,7 +26,7 @@ fun WriteInputTitle(
     ProvideTextStyle(SoomjaeTheme.typography.title2) {
         BasicTextField(
             state = state,
-            modifier = modifier.padding(horizontal = 16.dp),
+            modifier = modifier,
             textStyle = LocalTextStyle.current.copy(
                 color = SoomjaeTheme.colorScheme.text1,
             ),
