@@ -310,7 +310,7 @@ private fun MeetingParticipantCount(
                     val output = if (num == 0L) {
                         participantUnlimitedText
                     } else if (num > 0L) {
-                        participantCountText.replace("%d", num.toString())
+                        participantCountText.replace("%1\$d", num.toString())
                     } else {
                         originalText
                     }
