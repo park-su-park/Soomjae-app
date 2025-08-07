@@ -62,6 +62,12 @@ private fun LocalTime.truncateTo(timeUnit: DateTimeUnit.TimeBased): LocalTime = 
     DateTimeUnit.HOUR -> LocalTime(hour, 0, 0)
     DateTimeUnit.MINUTE -> LocalTime(hour, minute, 0)
     DateTimeUnit.SECOND -> LocalTime(hour, minute, second)
-    DateTimeUnit.MILLISECOND -> LocalTime(hour, minute, second, nanosecond / 1_000_000)
+    DateTimeUnit.MILLISECOND -> {
+        // eliminate nanoseconds by converting to milliseconds and back
+        LocalTime(hour, minute, second, nanosecond / NANOSECONDS_IN_MILLISECOND * NANOSECONDS_IN_MILLISECOND)
+    }
+
     else -> this
 }
+
+private const val NANOSECONDS_IN_MILLISECOND = 1_000_000
