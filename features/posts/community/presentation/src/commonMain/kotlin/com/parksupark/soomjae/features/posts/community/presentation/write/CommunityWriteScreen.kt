@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCenterAlignedTopAppBar
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.designsystem.modifiers.bottomBorder
+import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.features.posts.common.presentation.components.PostWriter
@@ -32,6 +33,7 @@ import com.parksupark.soomjae.features.posts.community.presentation.resources.wr
 import com.parksupark.soomjae.features.posts.community.presentation.resources.write_location_selection_label
 import com.parksupark.soomjae.features.posts.community.presentation.resources.write_location_selection_placeholder
 import kotlinx.collections.immutable.ImmutableList
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun CommunityWriteScreen(
@@ -53,6 +55,7 @@ internal fun CommunityWriteScreen(
             title = {
                 WriteInputTitle(
                     state = state.inputTitle,
+                    modifier = Modifier.padding(horizontal = 16.dp),
                 )
             },
             body = {
@@ -150,6 +153,18 @@ private fun AdditionalInfoSelection(
             selectedItem = selectedLocation,
             itemKey = { it.code },
             itemName = { it.name },
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun CommunityWriteScreenPreview() {
+    AppTheme {
+        CommunityWriteScreen(
+            state = CommunityWriteState(),
+            onAction = { },
+            snackbarHost = { },
         )
     }
 }
