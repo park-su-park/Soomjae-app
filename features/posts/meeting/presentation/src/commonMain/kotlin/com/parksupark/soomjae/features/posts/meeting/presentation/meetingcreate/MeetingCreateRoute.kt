@@ -10,7 +10,7 @@ fun MeetingCreateRoute(
     navigator: MeetingNavigator,
     coordinator: MeetingCreateCoordinator = rememberMeetingCreateCoordinator(navigator),
 ) {
-    val uiState by coordinator.screenStateFlow.collectAsStateWithLifecycle(MeetingCreateState())
+    val uiState by coordinator.screenStateFlow.collectAsStateWithLifecycle()
 
     val actionsHandler: (MeetingCreateAction) -> Unit = { action ->
         coordinator.handle(action)

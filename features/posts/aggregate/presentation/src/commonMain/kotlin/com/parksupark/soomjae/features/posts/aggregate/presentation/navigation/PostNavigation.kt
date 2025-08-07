@@ -10,8 +10,12 @@ import com.parksupark.soomjae.features.posts.aggregate.presentation.post.PostRou
 import com.parksupark.soomjae.features.posts.community.presentation.detail.CommunityDetailRoute
 import com.parksupark.soomjae.features.posts.community.presentation.write.CommunityWriteRoute
 import com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate.MeetingCreateRoute
+import com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate.rememberMeetingCreateCoordinator
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingWriteRoute
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingWriteViewModel
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.rememberMeetingWriteCoordinator
 import kotlinx.serialization.Serializable
+import org.koin.compose.viewmodel.sharedKoinViewModel
 
 sealed interface PostDestination : NavigationDestination {
 
@@ -55,10 +59,18 @@ fun NavGraphBuilder.postGraph(
         }
 
         composable<PostDestination.MeetingWrite> {
-            MeetingWriteRoute(navigator = navigator)
+            val viewModel = it.sharedKoinViewModel<MeetingWriteViewModel>(navigator.navController)
+            MeetingWriteRoute(
+                navigator = navigator,
+                coordinator = rememberMeetingWriteCoordinator(navigator, viewModel),
+            )
         }
         composable<PostDestination.MeetingCreate> {
-            MeetingCreateRoute(navigator = navigator)
+            val viewModel = it.sharedKoinViewModel<MeetingWriteViewModel>(navigator.navController)
+            MeetingCreateRoute(
+                navigator = navigator,
+                coordinator = rememberMeetingCreateCoordinator(navigator, viewModel),
+            )
         }
     }
 }

@@ -1,11 +1,9 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate
 
 import com.parksupark.soomjae.features.posts.meeting.presentation.models.MeetingCreateUi
-import kotlin.time.ExperimentalTime
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 
-@OptIn(ExperimentalTime::class)
 internal data class MeetingCreateState(
     val meeting: MeetingCreateUi = MeetingCreateUi.Empty,
 )

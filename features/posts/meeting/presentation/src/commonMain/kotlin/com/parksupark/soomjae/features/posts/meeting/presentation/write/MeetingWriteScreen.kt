@@ -26,6 +26,7 @@ import com.parksupark.soomjae.features.posts.common.presentation.components.Writ
 import com.parksupark.soomjae.features.posts.common.presentation.components.WriteSelectionButton
 import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.LocationUi
+import com.parksupark.soomjae.features.posts.meeting.presentation.models.MeetingCreateUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.Res
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_write_button_confirm_description
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_write_category_label
@@ -70,6 +71,7 @@ internal fun MeetingWriteScreen(
                 .padding(innerPadding),
             extras = {
                 AdditionalInfoSelection(
+                    meeting = state.meeting,
                     onCreateMeetingClick = { onAction(MeetingWriteAction.OnCreateMeetingClick) },
                     categories = state.categories,
                     selectedCategory = state.selectedCategory,
@@ -117,6 +119,7 @@ private fun MeetingWriteTopBar(
 
 @Composable
 private fun AdditionalInfoSelection(
+    meeting: MeetingCreateUi?,
     onCreateMeetingClick: () -> Unit,
     categories: ImmutableList<CategoryUi>,
     selectedCategory: CategoryUi?,
@@ -127,7 +130,10 @@ private fun AdditionalInfoSelection(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
-        MeetingSelection(onClick = onCreateMeetingClick)
+        MeetingSelection(
+            meeting = meeting,
+            onClick = onCreateMeetingClick,
+        )
 
         WriteDialogSelection(
             items = categories,
@@ -152,16 +158,26 @@ private fun AdditionalInfoSelection(
 }
 
 @Composable
-private fun MeetingSelection(onClick: () -> Unit) {
+private fun MeetingSelection(
+    meeting: MeetingCreateUi?,
+    onClick: () -> Unit,
+) {
     WriteSelectionButton(
         label = Res.string.meeting_write_meeting_label.value,
         onClick = onClick,
         buttonText = {
-            Text(
-                text = Res.string.meeting_write_meeting_placeholder.value,
-                modifier = Modifier.fillMaxWidth(),
-                color = SoomjaeTheme.colorScheme.text4,
-            )
+            if (meeting == null) {
+                Text(
+                    text = Res.string.meeting_write_meeting_placeholder.value,
+                    modifier = Modifier.fillMaxWidth(),
+                    color = SoomjaeTheme.colorScheme.text3,
+                )
+            } else {
+                Text(
+                    text = meeting.toDisplayString(),
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
         },
     )
 }

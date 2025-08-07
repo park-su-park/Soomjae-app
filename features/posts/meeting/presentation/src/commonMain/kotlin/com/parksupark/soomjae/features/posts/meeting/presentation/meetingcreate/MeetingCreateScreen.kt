@@ -21,6 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,6 +43,7 @@ import com.parksupark.soomjae.core.presentation.ui.utils.rememberFutureDates
 import com.parksupark.soomjae.features.posts.common.presentation.components.WriteSelectionLayout
 import com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate.components.DatePickerDialogButton
 import com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate.components.TimePickerDialogButton
+import com.parksupark.soomjae.features.posts.meeting.presentation.models.MeetingCreateUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.Res
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_button_create_meeting
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_datetime_label
@@ -87,11 +89,8 @@ internal fun MeetingCreateScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             MeetingCreateDateTimeSection(
+                meeting = state.meeting,
                 onAction = onAction,
-                startDate = state.meeting.startDate,
-                startTime = state.meeting.startTime,
-                endDate = state.meeting.endDate,
-                endTime = state.meeting.endTime,
             )
 
             MeetingParticipantCount(state = state.meeting.inputMaxParticipantCount)
@@ -133,11 +132,8 @@ private fun MeetingCreateBottomBar(onClick: () -> Unit) {
 @OptIn(ExperimentalTime::class, ExperimentalMaterial3Api::class)
 @Composable
 private fun MeetingCreateDateTimeSection(
+    meeting: MeetingCreateUi,
     onAction: (MeetingCreateAction) -> Unit,
-    startDate: LocalDate,
-    startTime: LocalTime,
-    endDate: LocalDate?,
-    endTime: LocalTime?,
 ) {
     val dateFormatter = LocalDate.Formats.ISO
 
@@ -161,9 +157,9 @@ private fun MeetingCreateDateTimeSection(
             StartDateTimeSelection(
                 onAction = onAction,
                 timeZone = timeZone,
-                startDate = startDate,
+                startDate = meeting.startDate,
                 dateFormatter = dateFormatter,
-                startTime = startTime,
+                startTime = meeting.startTime,
                 timeFormatter = timeFormatter,
             )
 
@@ -172,10 +168,10 @@ private fun MeetingCreateDateTimeSection(
             EndDateTimeSelection(
                 onAction = onAction,
                 timeZone = timeZone,
-                startDate = startDate,
-                endDate = endDate,
+                startDate = meeting.startDate,
+                endDate = meeting.endDate,
                 dateFormatter = dateFormatter,
-                endTime = endTime,
+                endTime = meeting.endTime,
                 timeFormatter = timeFormatter,
             )
         }
@@ -285,17 +281,19 @@ private fun MeetingParticipantCount(
 
         var isFocused by remember { mutableStateOf(false) }
 
+        if (isFocused) {
+            LaunchedEffect(Unit) {
+                state.edit {
+                    selection = TextRange(0, originalText.length)
+                }
+            }
+        }
+
         SoomjaeOutlinedTextField(
             state = state,
             modifier = Modifier.fillMaxWidth()
                 .onFocusChanged { focusState ->
                     isFocused = focusState.isFocused
-
-                    if (focusState.isFocused) {
-                        state.edit {
-                            selection = TextRange(0, originalText.length)
-                        }
-                    }
                 },
             startIcon = Icons.Outlined.Person,
             keyboardType = KeyboardType.Number,

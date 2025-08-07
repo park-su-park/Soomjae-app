@@ -3,19 +3,23 @@ package com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import com.parksupark.soomjae.features.posts.meeting.presentation.navigation.MeetingNavigator
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingWriteViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 class MeetingCreateCoordinator(
     private val navigator: MeetingNavigator,
-    private val viewModel: MeetingCreateViewModel,
+    private val viewModel: MeetingWriteViewModel,
 ) {
-    internal val screenStateFlow = viewModel.stateFlow
+    internal val screenStateFlow = viewModel.createStateFlow
 
     internal fun handle(action: MeetingCreateAction) {
         when (action) {
             MeetingCreateAction.OnBackClick -> navigator.navigateToMeetingWrite()
 
-            MeetingCreateAction.OnCreateClick -> viewModel.createMeeting()
+            MeetingCreateAction.OnCreateClick -> {
+                viewModel.createMeeting()
+                navigator.navigateBack()
+            }
 
             is MeetingCreateAction.OnStartDateSelected -> viewModel.updateStartDate(action.startDate)
 
@@ -31,7 +35,7 @@ class MeetingCreateCoordinator(
 @Composable
 fun rememberMeetingCreateCoordinator(
     navigator: MeetingNavigator,
-    viewModel: MeetingCreateViewModel = koinViewModel(),
+    viewModel: MeetingWriteViewModel = koinViewModel(),
 ): MeetingCreateCoordinator = remember(viewModel) {
     MeetingCreateCoordinator(
         navigator = navigator,

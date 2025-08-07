@@ -7,7 +7,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 class MeetingWriteCoordinator(
     private val navigator: MeetingNavigator,
-    private val viewModel: MeetingWriteViewModel,
+    val viewModel: MeetingWriteViewModel,
 ) {
     internal val screenStateFlow = viewModel.stateFlow
 
