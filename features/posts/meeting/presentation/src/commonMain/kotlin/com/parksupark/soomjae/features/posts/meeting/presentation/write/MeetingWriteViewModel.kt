@@ -143,7 +143,7 @@ class MeetingWriteViewModel(
             val startDateTime = state.meeting.startDate.atTime(state.meeting.startTime)
             val endDateTime = state.meeting.endDate?.atTime(newEndTime)
 
-            val newStartTime = if (endDateTime != null && endDateTime > startDateTime) {
+            val newStartTime = if (endDateTime != null && endDateTime < startDateTime) {
                 state.meeting.startTime.minusHours(1)
             } else {
                 state.meeting.startTime
