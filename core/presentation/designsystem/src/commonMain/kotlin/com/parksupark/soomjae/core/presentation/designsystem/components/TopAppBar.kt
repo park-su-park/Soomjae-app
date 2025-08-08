@@ -30,14 +30,7 @@ fun SoomjaeTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior? = null,
 ) {
     TopAppBar(
-        title = {
-            CompositionLocalProvider(
-                LocalTextStyle provides SoomjaeTheme.typography.labelL,
-                LocalContentColor provides SoomjaeTheme.colorScheme.text2,
-            ) {
-                title()
-            }
-        },
+        title = title,
         modifier = modifier,
         navigationIcon = navigationIcon,
         actions = actions,
@@ -85,8 +78,8 @@ object SoomjaeTopAppBarDefaults {
     fun topAppBarColors() = TopAppBarColors(
         containerColor = Color.Transparent,
         scrolledContainerColor = Color.Transparent,
-        navigationIconContentColor = SoomjaeTheme.colorScheme.text2,
+        navigationIconContentColor = SoomjaeTheme.colorScheme.icon,
         titleContentColor = SoomjaeTheme.colorScheme.text2,
-        actionIconContentColor = SoomjaeTheme.colorScheme.text2,
+        actionIconContentColor = SoomjaeTheme.colorScheme.icon,
     )
 }
