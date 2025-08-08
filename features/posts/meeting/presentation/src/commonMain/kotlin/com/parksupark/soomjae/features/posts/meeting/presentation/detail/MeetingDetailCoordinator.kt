@@ -14,6 +14,7 @@ class MeetingDetailCoordinator(
     fun handle(action: MeetingDetailAction) {
         when (action) {
             MeetingDetailAction.OnBackClick -> navigator.navigateBack()
+            MeetingDetailAction.OnToggleLikeClick -> viewModel.toggleLike()
         }
     }
 }

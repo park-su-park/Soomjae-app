@@ -22,7 +22,7 @@ fun PostDetailTitleHeader(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.padding(16.dp),
+        modifier = modifier.padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Text(title, maxLines = 2, style = SoomjaeTheme.typography.title2)
