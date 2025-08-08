@@ -99,5 +99,9 @@ fun NavHostController.navigateToMeetingCreate() {
 }
 
 fun NavHostController.navigateToMeetingDetail(postId: Long) {
-    navigate(PostDestination.MeetingDetail(postId))
+    navigate(PostDestination.MeetingDetail(postId)) {
+        popUpTo<PostDestination.MeetingWrite> {
+            inclusive = true
+        }
+    }
 }
