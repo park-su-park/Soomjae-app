@@ -1,5 +1,6 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.tab
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -36,7 +37,10 @@ internal fun MeetingTabScreen(
                 posts[index]?.let { post ->
                     MeetingPostCard(
                         post = post,
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier.fillMaxSize()
+                            .clickable {
+                                onAction(MeetingTabAction.OnPostClick(post.id))
+                            },
                     )
                     SoomjaeHorizontalDivider()
                 }
