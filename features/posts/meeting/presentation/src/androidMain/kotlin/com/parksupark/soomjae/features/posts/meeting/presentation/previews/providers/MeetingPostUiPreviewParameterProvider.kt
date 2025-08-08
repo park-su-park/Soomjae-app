@@ -4,6 +4,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.parksupark.soomjae.core.presentation.ui.previews.proviers.MemberPreviewParameterData.members
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPost
 import com.parksupark.soomjae.features.posts.common.presentation.previews.providers.CategoryUiPreviewParameterData.categories
+import com.parksupark.soomjae.features.posts.common.presentation.previews.providers.LocationPreviewParametersData.locations
 import com.parksupark.soomjae.features.posts.meeting.presentation.previews.providers.MeetingPostPreviewParameterData.posts
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.MeetingPostUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.toMeetingPostUi
@@ -31,6 +32,7 @@ object MeetingPostPreviewParameterData {
             createdAt = LocalDateTime(2023, 1, 1, 10, 15, 30).toInstant(TimeZone.UTC),
             author = members[0],
             category = categories[0],
+            location = locations[0],
         ),
         MeetingPost(
             id = 2L,
@@ -39,6 +41,7 @@ object MeetingPostPreviewParameterData {
             createdAt = LocalDateTime(2023, 1, 5, 14, 20, 5).toInstant(TimeZone.UTC),
             author = members[1],
             category = categories[1],
+            location = null,
         ),
         MeetingPost(
             id = 3L,
@@ -52,6 +55,7 @@ object MeetingPostPreviewParameterData {
             createdAt = LocalDateTime(2023, 1, 10, 9, 45, 55).toInstant(TimeZone.UTC),
             author = members[2],
             category = categories[2],
+            location = locations[5],
         ),
         MeetingPost(
             id = 4L,
@@ -60,6 +64,7 @@ object MeetingPostPreviewParameterData {
             createdAt = LocalDateTime(2023, 1, 15, 11, 30, 0).toInstant(TimeZone.UTC),
             author = members[3],
             category = categories[3],
+            location = locations[10],
         ),
         MeetingPost(
             id = 5L,
@@ -68,6 +73,7 @@ object MeetingPostPreviewParameterData {
             createdAt = LocalDateTime(2023, 1, 20, 13, 0, 0).toInstant(TimeZone.UTC),
             author = members[0],
             category = categories[0],
+            location = null,
         ),
     )
 }

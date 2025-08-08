@@ -5,18 +5,23 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import androidx.navigation.toRoute
 import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationDestination
 import com.parksupark.soomjae.features.posts.aggregate.presentation.post.PostRoute
 import com.parksupark.soomjae.features.posts.community.presentation.detail.CommunityDetailRoute
 import com.parksupark.soomjae.features.posts.community.presentation.write.CommunityWriteRoute
 import com.parksupark.soomjae.features.posts.meeting.presentation.detail.MeetingDetailRoute
+import com.parksupark.soomjae.features.posts.meeting.presentation.detail.MeetingDetailViewModel
+import com.parksupark.soomjae.features.posts.meeting.presentation.detail.rememberMeetingDetailCoordinator
 import com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate.MeetingCreateRoute
 import com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate.rememberMeetingCreateCoordinator
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingWriteRoute
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingWriteViewModel
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.rememberMeetingWriteCoordinator
 import kotlinx.serialization.Serializable
+import org.koin.compose.viewmodel.koinViewModel
 import org.koin.compose.viewmodel.sharedKoinViewModel
+import org.koin.core.parameter.parametersOf
 
 sealed interface PostDestination : NavigationDestination {
 
@@ -77,7 +82,16 @@ fun NavGraphBuilder.postGraph(
             )
         }
         composable<PostDestination.MeetingDetail> {
-            MeetingDetailRoute(navigator = navigator)
+            val postId = it.toRoute<PostDestination.MeetingDetail>().postId
+            MeetingDetailRoute(
+                navigator = navigator,
+                coordinator = rememberMeetingDetailCoordinator(
+                    navigator = navigator,
+                    viewModel = koinViewModel<MeetingDetailViewModel> {
+                        parametersOf(postId)
+                    },
+                ),
+            )
         }
     }
 }

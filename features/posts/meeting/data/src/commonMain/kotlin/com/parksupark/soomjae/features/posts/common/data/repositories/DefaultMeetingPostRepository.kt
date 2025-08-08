@@ -5,12 +5,16 @@ import app.cash.paging.PagingData
 import app.cash.paging.createPager
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
+import com.parksupark.soomjae.core.remote.networking.get
 import com.parksupark.soomjae.core.remote.networking.post
+import com.parksupark.soomjae.features.posts.common.data.dtos.MeetingPostDetailResponse
 import com.parksupark.soomjae.features.posts.common.data.dtos.PostMeetingPostRequest
 import com.parksupark.soomjae.features.posts.common.data.dtos.PostMeetingPostResponse
+import com.parksupark.soomjae.features.posts.common.data.dtos.toMeetingPostDetail
 import com.parksupark.soomjae.features.posts.common.data.paging.MeetingPagingSource
 import com.parksupark.soomjae.features.posts.common.data.sources.RemoteMeetingPostSource
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPost
+import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostDetail
 import com.parksupark.soomjae.features.posts.common.domain.models.NewPost
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
 import io.ktor.client.HttpClient
@@ -57,4 +61,11 @@ class DefaultMeetingPostRepository(
             )
         },
     ).flow
+
+    override suspend fun getMeetingPostDetail(postId: Long): Either<DataFailure, MeetingPostDetail> =
+        httpClient.get<MeetingPostDetailResponse>(
+            route = "/v1/boards/meeting/posts/$postId",
+        ).map { meetingPostDetail ->
+            meetingPostDetail.toMeetingPostDetail()
+        }
 }
