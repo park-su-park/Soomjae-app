@@ -38,6 +38,10 @@ private class SoomjaePostNavigator(
     override fun navigateToMeetingCreate() {
         overridden()
     }
+
+    override fun navigateToMeetingDetail(postId: Long) {
+        overridden()
+    }
 }
 
 fun soomjaePostNavigator(navController: NavHostController): PostNavigator = SoomjaePostNavigator(
