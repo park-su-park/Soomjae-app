@@ -22,6 +22,8 @@ internal class PostCoordinator(
             PostAction.NavigateToCommunityWrite -> navigator.navigateToCommunityWrite()
 
             PostAction.NavigateToMeetingWrite -> navigator.navigateToMeetingWrite()
+
+            is PostAction.NavigateToMeetingDetail -> navigator.navigateToMeetingDetail(action.postId)
         }
     }
 }

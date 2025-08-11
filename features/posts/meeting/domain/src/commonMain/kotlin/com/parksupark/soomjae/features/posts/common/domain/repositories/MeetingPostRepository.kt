@@ -4,6 +4,7 @@ import app.cash.paging.PagingData
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPost
+import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostDetail
 import com.parksupark.soomjae.features.posts.common.domain.models.NewPost
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
@@ -22,4 +23,6 @@ interface MeetingPostRepository {
     ): Either<DataFailure.Network, NewPost>
 
     fun getPostsStream(): Flow<PagingData<MeetingPost>>
+
+    suspend fun getMeetingPostDetail(postId: Long): Either<DataFailure, MeetingPostDetail>
 }

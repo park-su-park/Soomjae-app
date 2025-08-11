@@ -10,7 +10,7 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
 @OptIn(ExperimentalTime::class)
-internal data class MeetingPostUi(
+data class MeetingPostUi(
     val id: Long,
     val title: String,
     val content: String,

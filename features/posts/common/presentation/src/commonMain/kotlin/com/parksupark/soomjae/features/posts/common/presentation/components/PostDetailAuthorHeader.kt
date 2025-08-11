@@ -20,7 +20,7 @@ fun PostDetailAuthorHeader(
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier.padding(16.dp),
+        modifier = modifier.padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {

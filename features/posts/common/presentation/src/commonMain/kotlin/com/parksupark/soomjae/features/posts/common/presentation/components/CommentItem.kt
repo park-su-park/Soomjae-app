@@ -21,7 +21,7 @@ fun CommentItem(
 ) {
     Row(
         modifier = modifier.padding(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         AsyncImage(
             model = imageRequest { data(comment.author.profileImageUrl) },
