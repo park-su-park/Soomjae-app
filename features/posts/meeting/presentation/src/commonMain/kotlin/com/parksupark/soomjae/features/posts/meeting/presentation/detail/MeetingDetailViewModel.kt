@@ -39,6 +39,6 @@ class MeetingDetailViewModel(
     }
 
     fun toggleLike() {
-        TODO("Not yet implemented")
+        // TODO: Implement like toggle functionality
     }
 }
