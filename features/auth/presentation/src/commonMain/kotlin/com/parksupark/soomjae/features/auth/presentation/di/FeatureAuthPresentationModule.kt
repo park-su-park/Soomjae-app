@@ -1,10 +1,15 @@
 package com.parksupark.soomjae.features.auth.presentation.di
 
+import com.parksupark.soomjae.features.auth.libs.google.di.googleAuthModule
 import com.parksupark.soomjae.features.auth.presentation.emaillogin.EmailLoginViewModel
 import com.parksupark.soomjae.features.auth.presentation.login.LoginViewModel
 import com.parksupark.soomjae.features.auth.presentation.register.RegisterViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
+
+private val libsModule = module {
+    includes(googleAuthModule)
+}
 
 private val emailLoginModule = module {
     viewModelOf(::EmailLoginViewModel)
@@ -19,5 +24,5 @@ private val registerModule = module {
 }
 
 val featuresAuthPresentationModule = module {
-    includes(emailLoginModule, loginModule, registerModule)
+    includes(libsModule, emailLoginModule, loginModule, registerModule)
 }

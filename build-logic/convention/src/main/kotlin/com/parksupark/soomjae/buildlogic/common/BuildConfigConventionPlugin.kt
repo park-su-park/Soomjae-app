@@ -58,6 +58,9 @@ private fun loadLocalProperties(project: Project): Set<BuildConfig> = with(proje
         props.getProperty("base.url")?.let {
             BuildConfig(type = "String", name = "BASE_URL", value = it)
         },
+        props.getProperty("oauth.google.server.client.id")?.let {
+            BuildConfig(type = "String", name = "OAUTH_GOOGLE_SERVER_CLIENT_ID", value = it)
+        },
     ).toSet()
 }
 

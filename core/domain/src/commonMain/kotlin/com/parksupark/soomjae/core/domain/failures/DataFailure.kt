@@ -18,4 +18,10 @@ sealed interface DataFailure {
         NOT_FOUND,
         UNKNOWN,
     }
+
+    enum class Credential : DataFailure {
+        NOT_FOUND,
+        INVALID,
+        UNKNOWN,
+    }
 }
