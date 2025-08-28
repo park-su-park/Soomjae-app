@@ -22,7 +22,7 @@ internal class GoogleAuthUiAndroid(
     private val credentials: GoogleAuthCredential,
     private val credentialManager: CredentialManager,
 ) : GoogleAuthUi {
-    override suspend fun getUser(): Either<DataFailure.Credential, GoogleUser> {
+    override suspend fun getUser(scope: List<String>): Either<DataFailure.Credential, GoogleUser> {
         val googleIdOptions = GetGoogleIdOption.Builder()
             .setServerClientId(credentials.serverId)
             .setAutoSelectEnabled(false)

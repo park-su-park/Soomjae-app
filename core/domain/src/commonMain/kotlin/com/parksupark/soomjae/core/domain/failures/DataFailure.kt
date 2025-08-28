@@ -23,5 +23,6 @@ sealed interface DataFailure {
         NOT_FOUND,
         INVALID,
         UNKNOWN,
+        PORT_UNAVAILABLE,
     }
 }
