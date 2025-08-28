@@ -14,5 +14,10 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.core.domain)
         }
+
+        desktopMain.dependencies {
+            implementation(libs.bundles.ktor.server)
+            implementation(libs.auth0.jwt)
+        }
     }
 }
