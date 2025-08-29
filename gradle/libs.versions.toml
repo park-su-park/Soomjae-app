@@ -53,6 +53,7 @@ buildconfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildconfig
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 hotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "hotReload" }
+kotlin-cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
@@ -168,6 +169,7 @@ gradle-compose-compiler = { module = "org.jetbrains.kotlin.plugin.compose:org.je
 gradle-detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 gradle-kotest = { module = "io.kotest.multiplatform:io.kotest.multiplatform.gradle.plugin", version.ref = "kotest" }
 gradle-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+gradle-kotlin-cocoapods = { module = "org.jetbrains.kotlin.native.cocoapods:org.jetbrains.kotlin.native.cocoapods.gradle.plugin", version.ref = "kotlin"}
 gradle-ksp = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "ksp" }
 gradle-mokkery = { module = "dev.mokkery:mokkery-gradle", version.ref = "mokkery" }
 gradle-room = { module = "androidx.room:room-gradle-plugin", version.ref = "room" }
@@ -367,6 +369,7 @@ gradle = [
     "gradle-detekt",
     "gradle-kotest",
     "gradle-kotlin",
+    "gradle-kotlin-cocoapods",
     "gradle-ksp",
     "gradle-mokkery",
     "gradle-room",

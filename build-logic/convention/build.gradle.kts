@@ -29,6 +29,10 @@ gradlePlugin {
             implementationClass =
                 "com.parksupark.soomjae.buildlogic.common.BuildConfigConventionPlugin"
         }
+        register("cocoapods") {
+            id = "soomjae.cocoapods"
+            implementationClass = "com.parksupark.soomjae.buildlogic.ios.CocoapodsConventionPlugin"
+        }
         register("detekt") {
             id = "soomjae.detekt"
             implementationClass =
