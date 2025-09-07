@@ -20,9 +20,11 @@ class CocoapodsConventionPlugin : Plugin<Project> {
                 kotlinExtension?.apply {
                     configure<CocoapodsExtension> {
                         version = SoomjaeConfiguration.VERSION_NAME
+                        ios.deploymentTarget = SoomjaeConfiguration.IOS_DEPLOYMENT_TARGET
+                        podfile = project.file("../iosApp/Podfile")
 
                         framework {
-                            baseName = target.fullPackageName
+                            baseName = project.fullPackageName
                             isStatic = true
                         }
                     }

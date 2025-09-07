@@ -1,6 +1,7 @@
 plugins {
     id("soomjae.app")
     id("soomjae.build-config")
+    alias(libs.plugins.kotlin.cocoapods)
 }
 
 dependencies {
@@ -24,6 +25,26 @@ kotlin {
             implementation(projects.features.posts.aggregate.presentation)
             implementation(projects.features.profile.presentation)
             implementation(projects.features.setting.presentation)
+        }
+    }
+
+    cocoapods {
+        version = "1.0"
+        summary = "Kotlin project with CocoaPods Compose dependencies"
+        homepage = "https://github.com/park-su-park/SoomJae-app"
+
+        podfile = project.file("../iosApp/Podfile")
+
+        ios.deploymentTarget = "16.6"
+
+        pod("GoogleSignIn") {
+            version = libs.versions.cocoapods.google.sign.get()
+            linkOnly = true
+        }
+
+        framework {
+            baseName = "composeApp"
+            isStatic = true
         }
     }
 }
