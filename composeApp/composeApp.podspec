@@ -1,11 +1,11 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'composeApp'
-    spec.version                  = '1.0'
+    spec.version                  = '0.0.1'
     spec.homepage                 = 'https://github.com/park-su-park/SoomJae-app'
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
     spec.license                  = ''
-    spec.summary                  = 'Kotlin sample project with CocoaPods Compose dependencies'
+    spec.summary                  = 'Kotlin project with CocoaPods Compose dependencies'
     spec.vendored_frameworks      = 'build/cocoapods/framework/composeApp.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target    = '16.6'

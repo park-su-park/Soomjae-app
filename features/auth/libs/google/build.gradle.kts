@@ -1,9 +1,7 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
-
 plugins {
     id("soomjae.multiplatform.ui")
     id("soomjae.build-config")
-    alias(libs.plugins.kotlin.cocoapods)
+    id("soomjae.cocoapods.library")
 }
 
 kotlin {
@@ -25,10 +23,7 @@ kotlin {
     }
 
     cocoapods {
-        summary = "Kotlin sample project with CocoaPods Compose dependencies"
-        ios.deploymentTarget = "16.6"
-
-        noPodspec()
+        summary = "CocoaPods Library for GoogleSignIn"
 
         pod("GoogleSignIn") {
             version = libs.versions.cocoapods.google.sign.get()

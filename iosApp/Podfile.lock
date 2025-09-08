@@ -9,7 +9,7 @@ PODS:
     - GoogleUtilities/Environment (~> 8.0)
     - GoogleUtilities/UserDefaults (~> 8.0)
     - PromisesObjC (~> 2.4)
-  - composeApp (1.0):
+  - composeApp (0.0.1):
     - GoogleSignIn (= 9.0.0)
   - GoogleSignIn (9.0.0):
     - AppAuth (~> 2.0)
@@ -51,7 +51,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AppAuth: 1c1a8afa7e12f2ec3a294d9882dfa5ab7d3cb063
   AppCheckCore: cc8fd0a3a230ddd401f326489c99990b013f0c4f
-  composeApp: 77e6a0d7b760e73d13fd86225081288274b8f896
+  composeApp: 8fd4439a15ddd27150375fe05a0ada1523c6cc5c
   GoogleSignIn: c7f09cfbc85a1abf69187be091997c317cc33b77
   GoogleUtilities: 00c88b9a86066ef77f0da2fab05f65d7768ed8e1
   GTMAppAuth: 217a876b249c3c585a54fd6f73e6b58c4f5c4238
