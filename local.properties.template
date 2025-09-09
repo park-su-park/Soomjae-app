@@ -8,3 +8,7 @@ base.url=https://example.com/
 ## Keystore
 ## Debug
 debugStoreFile=DEBUG_STORE_PASSWORD
+
+## OAuth 2.0
+# Google
+oauth.google.server.client.id=OAUTH_GOOGLE_SERVER_CLIENT_ID
