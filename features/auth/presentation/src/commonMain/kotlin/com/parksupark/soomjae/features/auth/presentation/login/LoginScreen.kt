@@ -119,7 +119,7 @@ private fun OAuthSection(
         val googleAuthUi = googleAuthProvider.getUiProvider()
         GoogleOAuthButton(
             onClick = {
-                coroutineScope.launch(Dispatchers.IO) {
+                coroutineScope.launch {
                     val googleUser = googleAuthUi.getUser()
                     // TODO: Handle login result
                     Logger.v("googleUser: $googleUser")
