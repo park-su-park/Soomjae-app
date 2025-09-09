@@ -122,6 +122,7 @@ private fun OAuthSection(
                 coroutineScope.launch(Dispatchers.IO) {
                     val googleUser = googleAuthUi.getUser()
                     // TODO: Handle login result
+                    Logger.v("googleUser: $googleUser")
                 }
             },
         )

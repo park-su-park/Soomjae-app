@@ -1,5 +1,6 @@
 import UIKit
 import ComposeApp
+import GoogleSignIn
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,5 +16,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window.makeKeyAndVisible()
         }
         return true
+    }
+
+    func application(
+        _ app: UIApplication,
+        open url: URL,
+        options: [UIApplication.OpenURLOptionsKey : Any] = [:]
+    ) -> Bool {
+        // Try letting Google Sign-In SDK handle the URL
+        if GIDSignIn.sharedInstance.handle(url) {
+            return true
+        }
+
+        // Handle your other custom URLs if needed
+
+        return false
     }
 }
