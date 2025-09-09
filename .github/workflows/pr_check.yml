@@ -55,6 +55,7 @@ jobs:
         uses: ./.github/actions/local-properties
         with:
           base-url: ${{ secrets.BASE_URL }}
+          oauth-google-server-client-id: ${{ secrets.OAUTH_GOOGLE_SERVER_CLIENT_ID }}
 
       - name: Assemble
         run: ./gradlew :composeApp:assembleDebug --no-daemon --stacktrace
