@@ -19,17 +19,20 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import co.touchlab.kermit.Logger
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeButton
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSecondaryButton
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeTopAppBar
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.resources.value
+import com.parksupark.soomjae.features.auth.libs.google.authenticators.GoogleAuthProvider
 import com.parksupark.soomjae.features.auth.presentation.login.components.GoogleOAuthButton
 import com.parksupark.soomjae.features.auth.presentation.login.components.KakaoOAuthButton
 import com.parksupark.soomjae.features.auth.presentation.login.components.NaverOAuthButton
@@ -39,7 +42,11 @@ import com.parksupark.soomjae.features.auth.presentation.resources.login_divider
 import com.parksupark.soomjae.features.auth.presentation.resources.login_email_login_button
 import com.parksupark.soomjae.features.auth.presentation.resources.login_eula_text
 import com.parksupark.soomjae.features.auth.presentation.resources.login_register_button
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 
 @Composable
 internal fun LoginScreen(
@@ -95,7 +102,9 @@ private fun Logo(modifier: Modifier = Modifier) {
 private fun OAuthSection(
     onAction: (LoginAction) -> Unit,
     modifier: Modifier = Modifier,
+    googleAuthProvider: GoogleAuthProvider = koinInject(),
 ) {
+    val coroutineScope = rememberCoroutineScope()
     Column(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -107,8 +116,15 @@ private fun OAuthSection(
         KakaoOAuthButton(
             onClick = { /*TODO*/ },
         )
+        val googleAuthUi = googleAuthProvider.getUiProvider()
         GoogleOAuthButton(
-            onClick = { /*TODO*/ },
+            onClick = {
+                coroutineScope.launch {
+                    val googleUser = googleAuthUi.getUser()
+                    // TODO: Handle login result
+                    Logger.v("googleUser: $googleUser")
+                }
+            },
         )
     }
 }

@@ -1,0 +1,22 @@
+<!-- Copy the code below this line into a new file named Info.plist in the same directory and replace the placeholder values with your actual client IDs. -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+    <key>GIDClientID</key>
+    <string>YOUR_IOS_CLIENT_ID</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>YOUR_DOT_REVERSED_IOS_CLIENT_ID</string>
+            </array>
+        </dict>
+    </array>
+    <key>GIDServerClientID</key>
+    <string>YOUR_SERVER_CLIENT_ID</string>
+</dict>
+</plist>

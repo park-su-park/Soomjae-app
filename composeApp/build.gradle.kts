@@ -1,6 +1,7 @@
 plugins {
     id("soomjae.app")
     id("soomjae.build-config")
+    id("soomjae.cocoapods.app")
 }
 
 dependencies {
@@ -24,6 +25,13 @@ kotlin {
             implementation(projects.features.posts.aggregate.presentation)
             implementation(projects.features.profile.presentation)
             implementation(projects.features.setting.presentation)
+        }
+    }
+
+    cocoapods {
+        pod("GoogleSignIn") {
+            version = libs.versions.cocoapods.google.sign.get()
+            linkOnly = true
         }
     }
 }

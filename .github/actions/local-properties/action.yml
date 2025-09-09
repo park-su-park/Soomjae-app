@@ -6,6 +6,9 @@ inputs:
   base-url:
     description: 'Base Url for API request'
     required: true
+  oauth-google-server-client-id:
+    description: 'OAuth Google Server Client ID'
+    required: true
 
 runs:
   using: "composite"
@@ -23,3 +26,4 @@ runs:
       shell: bash
       run: |
         echo "base.url=${{ inputs.base-url }}" >> local.properties
+        echo "oauth.google.server.client.id=${{ inputs.oauth-google-server-client-id }}" >> local.properties
