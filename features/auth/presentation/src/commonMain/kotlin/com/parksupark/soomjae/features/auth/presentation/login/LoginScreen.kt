@@ -17,22 +17,28 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import arrow.core.Either
 import co.touchlab.kermit.Logger
+import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeButton
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSecondaryButton
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeTopAppBar
+import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
+import com.parksupark.soomjae.core.presentation.ui.components.SoomjaeSnackbarHost
 import com.parksupark.soomjae.core.presentation.ui.resources.value
-import com.parksupark.soomjae.features.auth.libs.google.authenticators.GoogleAuthProvider
+import com.parksupark.soomjae.features.auth.libs.google.authenticators.GoogleAuthUi
 import com.parksupark.soomjae.features.auth.presentation.login.components.GoogleOAuthButton
 import com.parksupark.soomjae.features.auth.presentation.login.components.KakaoOAuthButton
 import com.parksupark.soomjae.features.auth.presentation.login.components.NaverOAuthButton
@@ -42,19 +48,20 @@ import com.parksupark.soomjae.features.auth.presentation.resources.login_divider
 import com.parksupark.soomjae.features.auth.presentation.resources.login_email_login_button
 import com.parksupark.soomjae.features.auth.presentation.resources.login_eula_text
 import com.parksupark.soomjae.features.auth.presentation.resources.login_register_button
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.koinInject
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun LoginScreen(
     state: LoginState,
     onAction: (LoginAction) -> Unit,
+    snackbarHost: @Composable () -> Unit = { SoomjaeSnackbarHost(remember { SnackbarHostState() }) },
+    getGoogleAuthUi: @Composable () -> GoogleAuthUi?,
 ) {
     SoomjaeScaffold(
         topBar = { LoginScreenTopBar { onAction(LoginAction.OnCloseClick) } },
+        snackbarHost = snackbarHost,
     ) { innerPadding ->
         Column(
             modifier = Modifier.fillMaxSize().padding(innerPadding).padding(16.dp),
@@ -62,7 +69,7 @@ internal fun LoginScreen(
             verticalArrangement = Arrangement.spacedBy(24.dp, Alignment.Bottom),
         ) {
             Logo(modifier = Modifier.fillMaxWidth().weight(1f))
-            OAuthSection(onAction = onAction)
+            OAuthSection(onAction = onAction, getGoogleAuthUi = getGoogleAuthUi)
             LoginSectionDivider(Modifier.fillMaxWidth())
             OwnLoginSection(onAction = onAction)
             RegisterEulaText()
@@ -102,7 +109,7 @@ private fun Logo(modifier: Modifier = Modifier) {
 private fun OAuthSection(
     onAction: (LoginAction) -> Unit,
     modifier: Modifier = Modifier,
-    googleAuthProvider: GoogleAuthProvider = koinInject(),
+    getGoogleAuthUi: @Composable () -> GoogleAuthUi?,
 ) {
     val coroutineScope = rememberCoroutineScope()
     Column(
@@ -116,13 +123,17 @@ private fun OAuthSection(
         KakaoOAuthButton(
             onClick = { /*TODO*/ },
         )
-        val googleAuthUi = googleAuthProvider.getUiProvider()
+        val googleAuthUi = getGoogleAuthUi()
         GoogleOAuthButton(
             onClick = {
                 coroutineScope.launch {
-                    val googleUser = googleAuthUi.getUser()
-                    // TODO: Handle login result
-                    Logger.v("googleUser: $googleUser")
+                    if (googleAuthUi == null) {
+                        Logger.e(TAG) { "GoogleAuthUi is null" }
+                        onAction(LoginAction.GoogleLoginResult(Either.Left(DataFailure.Credential.UNKNOWN)))
+                    } else {
+                        val result = googleAuthUi.getUser()
+                        onAction(LoginAction.GoogleLoginResult(result))
+                    }
                 }
             },
         )
@@ -193,3 +204,17 @@ private fun RegisterEulaText(modifier: Modifier = Modifier) {
         textAlign = TextAlign.Center,
     )
 }
+
+@Preview
+@Composable
+private fun LoginScreenPreview() {
+    AppTheme {
+        LoginScreen(
+            state = LoginState(),
+            onAction = { },
+            getGoogleAuthUi = { null },
+        )
+    }
+}
+
+private const val TAG = "LoginScreen"
