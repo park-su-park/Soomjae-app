@@ -6,7 +6,7 @@ internal object SoomjaeConfiguration {
     const val COMPILE_SDK = 36
     const val BUILD_TOOLS = "36.0.0"
     const val PACKAGE_NAME = "com.parksupark.soomjae"
-    const val MIN_SDK = 21
+    const val MIN_SDK = 23
     const val TARGET_SDK = 36
     const val VERSION_NAME = "0.0.1"
     const val VERSION_CODE = 1
