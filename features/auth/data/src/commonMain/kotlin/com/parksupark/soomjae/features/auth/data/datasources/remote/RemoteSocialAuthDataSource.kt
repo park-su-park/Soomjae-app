@@ -9,17 +9,14 @@ import io.ktor.client.HttpClient
 internal class RemoteSocialAuthDataSource(
     private val httpClient: HttpClient,
 ) {
-    suspend fun signInWithGoogle(idToken: String): Either<DataFailure.Network, AuthInfo?> {
-        // TODO: ensure to replace the empty route with actual API endpoint
-        return httpClient.post<Map<String, String>, AuthInfo>(
-            route = "/api/v1/auth/google",
-            body = mapOf("idToken" to idToken),
-        ).map {
-            if (it.accessToken.isNotEmpty()) {
-                it
-            } else {
-                null
-            }
+    suspend fun signInWithGoogle(idToken: String): Either<DataFailure.Network, AuthInfo?> = httpClient.post<Map<String, String>, AuthInfo>(
+        route = "/v1/oauth2/google/id-token",
+        body = mapOf("idToken" to idToken),
+    ).map {
+        if (it.accessToken.isNotEmpty()) {
+            it
+        } else {
+            null
         }
     }
 }
