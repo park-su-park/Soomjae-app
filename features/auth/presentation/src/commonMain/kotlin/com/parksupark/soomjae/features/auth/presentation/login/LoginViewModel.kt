@@ -34,7 +34,16 @@ internal class LoginViewModel(
             },
             ifRight = { user ->
                 viewModelScope.launch(Dispatchers.IO) {
-                    socialAuthRepository.signInWithGoogle(user.idToken)
+                    socialAuthRepository.signInWithGoogle(user.idToken).fold(
+                        ifLeft = { failure ->
+                            Logger.e(TAG) { "Google Sign-In Failed: $failure" }
+                            eventChannel.send(LoginEvent.Error(failure.asUiText()))
+                        },
+                        ifRight = {
+                            Logger.i(TAG) { "Google Sign-In Succeeded" }
+                            eventChannel.send(LoginEvent.OnLoginSuccess)
+                        },
+                    )
                 }
             },
         )
