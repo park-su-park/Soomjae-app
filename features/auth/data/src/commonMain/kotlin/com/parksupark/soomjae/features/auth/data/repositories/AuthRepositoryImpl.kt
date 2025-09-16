@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.auth.data
+package com.parksupark.soomjae.features.auth.data.repositories
 
 import arrow.core.Either
 import com.parksupark.soomjae.core.common.utils.mapToEmpty

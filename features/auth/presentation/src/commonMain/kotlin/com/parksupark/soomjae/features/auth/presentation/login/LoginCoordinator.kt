@@ -10,12 +10,14 @@ internal class LoginCoordinator(
     val viewModel: LoginViewModel,
 ) {
     val uiStateFlow = viewModel.uiState
+    val events = viewModel.events
 
     fun handle(action: LoginAction) {
         when (action) {
             LoginAction.OnCloseClick -> navigator.navigateBack()
             LoginAction.OnRegisterClick -> navigator.navigateToRegister()
             LoginAction.OnEmailLoginClick -> navigator.navigateToEmailLogin()
+            is LoginAction.GoogleLoginResult -> viewModel.handleGoogleLoginResult(action.result)
         }
     }
 }
