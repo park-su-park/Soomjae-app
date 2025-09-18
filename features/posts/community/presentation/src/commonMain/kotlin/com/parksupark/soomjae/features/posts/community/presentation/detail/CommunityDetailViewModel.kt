@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.UiText
+import com.parksupark.soomjae.features.posts.common.domain.repositories.CommentRepository
 import com.parksupark.soomjae.features.posts.community.domain.usecases.GetCommunityPostDetailWithLikedStream
 import com.parksupark.soomjae.features.posts.community.presentation.models.toDetailUi
 import kotlinx.coroutines.channels.Channel
@@ -21,7 +22,7 @@ import kotlinx.coroutines.flow.update
 class CommunityDetailViewModel(
     savedStateHandle: SavedStateHandle,
     private val getPostWithLikedStream: GetCommunityPostDetailWithLikedStream,
-
+    private val commentRepository: CommentRepository,
 ) : ViewModel() {
     val postId: Long? = savedStateHandle["postId"] ?: error("Post ID is missing")
 
