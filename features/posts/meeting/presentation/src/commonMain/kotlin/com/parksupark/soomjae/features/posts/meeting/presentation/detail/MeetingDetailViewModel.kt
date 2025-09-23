@@ -2,6 +2,7 @@ package com.parksupark.soomjae.features.posts.meeting.presentation.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.parksupark.soomjae.features.posts.common.domain.repositories.CommentRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LikeRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
 import com.parksupark.soomjae.features.posts.meeting.presentation.detail.models.toMeetingPostDetailUi
@@ -16,6 +17,7 @@ import kotlinx.coroutines.launch
 class MeetingDetailViewModel(
     private val meetingPostRepository: MeetingPostRepository,
     private val postId: Long,
+    private val commentRepository: CommentRepository,
     private val likeRepository: LikeRepository,
 ) : ViewModel() {
     private val _stateFlow: MutableStateFlow<MeetingDetailState> = MutableStateFlow(MeetingDetailState.Loading)
