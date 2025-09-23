@@ -2,6 +2,7 @@ package com.parksupark.soomjae.features.posts.meeting.presentation.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.parksupark.soomjae.features.posts.common.domain.repositories.LikeRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
 import com.parksupark.soomjae.features.posts.meeting.presentation.detail.models.toMeetingPostDetailUi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 class MeetingDetailViewModel(
     private val meetingPostRepository: MeetingPostRepository,
     private val postId: Long,
+    private val likeRepository: LikeRepository,
 ) : ViewModel() {
     private val _stateFlow: MutableStateFlow<MeetingDetailState> = MutableStateFlow(MeetingDetailState.Loading)
     val stateFlow: StateFlow<MeetingDetailState> = _stateFlow.onStart {
@@ -39,6 +41,20 @@ class MeetingDetailViewModel(
     }
 
     fun toggleLike() {
-        // TODO: Implement like toggle functionality
+        val state = _stateFlow.value
+
+        if (state !is MeetingDetailState.Success) return
+
+        viewModelScope.launch {
+            _stateFlow.update { state.copy(isLikeLoading = true) }
+
+            if (state.postDetail.isLike) {
+                likeRepository.unlike(postId)
+            } else {
+                likeRepository.like(postId)
+            }
+
+            _stateFlow.update { state.copy(isLikeLoading = false) }
+        }
     }
 }

@@ -7,6 +7,7 @@ sealed interface MeetingDetailState {
 
     data class Success(
         val postDetail: MeetingPostDetailUi,
+        val isLikeLoading: Boolean = false,
     ) : MeetingDetailState
 }
 
