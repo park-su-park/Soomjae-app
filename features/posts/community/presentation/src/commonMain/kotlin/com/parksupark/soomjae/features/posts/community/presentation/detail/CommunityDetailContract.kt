@@ -8,7 +8,10 @@ sealed interface CommunityDetailState {
 
     data class InitialLoading(val postId: Long) : CommunityDetailState
 
-    data class Success(val postDetail: CommunityPostDetailUi) : CommunityDetailState
+    data class Success(
+        val postDetail: CommunityPostDetailUi,
+        val isLikeLoading: Boolean = false,
+    ) : CommunityDetailState
 }
 
 sealed interface CommunityDetailAction {

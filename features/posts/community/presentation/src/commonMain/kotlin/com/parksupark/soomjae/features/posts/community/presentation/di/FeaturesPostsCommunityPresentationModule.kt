@@ -1,6 +1,7 @@
 package com.parksupark.soomjae.features.posts.community.presentation.di
 
 import com.parksupark.soomjae.features.posts.community.domain.repositories.COMMUNITY_COMMENT_REPOSITORY
+import com.parksupark.soomjae.features.posts.community.domain.repositories.COMMUNITY_LIKE_REPOSITORY
 import com.parksupark.soomjae.features.posts.community.domain.usecases.GetCommunityPostDetailWithLikedStream
 import com.parksupark.soomjae.features.posts.community.presentation.detail.CommunityDetailViewModel
 import com.parksupark.soomjae.features.posts.community.presentation.tab.CommunityTabViewModel
@@ -22,6 +23,7 @@ private val detailModule = module {
             savedStateHandle = get(),
             getPostWithLikedStream = get(),
             commentRepository = get(named(COMMUNITY_COMMENT_REPOSITORY)),
+            likeRepository = get(named(COMMUNITY_LIKE_REPOSITORY)),
         )
     }
 }

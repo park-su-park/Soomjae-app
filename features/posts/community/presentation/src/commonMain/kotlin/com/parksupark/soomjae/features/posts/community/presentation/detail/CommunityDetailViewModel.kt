@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.UiText
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CommentRepository
+import com.parksupark.soomjae.features.posts.common.domain.repositories.LikeRepository
 import com.parksupark.soomjae.features.posts.community.domain.usecases.GetCommunityPostDetailWithLikedStream
 import com.parksupark.soomjae.features.posts.community.presentation.models.toDetailUi
 import kotlinx.coroutines.channels.Channel
@@ -18,13 +19,15 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class CommunityDetailViewModel(
     savedStateHandle: SavedStateHandle,
     private val getPostWithLikedStream: GetCommunityPostDetailWithLikedStream,
     private val commentRepository: CommentRepository,
+    private val likeRepository: LikeRepository,
 ) : ViewModel() {
-    val postId: Long? = savedStateHandle["postId"] ?: error("Post ID is missing")
+    val postId: Long = savedStateHandle["postId"] ?: error("Post ID is missing")
 
     private val _uiStateFlow: MutableStateFlow<CommunityDetailState> = MutableStateFlow(
         if (postId != null) {
@@ -66,6 +69,21 @@ class CommunityDetailViewModel(
     }
 
     fun toggleLike() {
-        // Todo
+        val state = _uiStateFlow.value
+        if (state !is CommunityDetailState.Success) return
+
+        val postDetail = state.postDetail
+
+        viewModelScope.launch {
+            _uiStateFlow.update { state -> if (state !is CommunityDetailState.Success) state else state.copy(isLikeLoading = true) }
+
+            if (postDetail.isLiked) {
+                likeRepository.unlike(postDetail.post.id)
+            } else {
+                likeRepository.like(postDetail.post.id)
+            }
+
+            _uiStateFlow.update { state -> if (state !is CommunityDetailState.Success) state else state.copy(isLikeLoading = false) }
+        }
     }
 }
