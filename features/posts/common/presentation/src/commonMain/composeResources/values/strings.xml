@@ -3,4 +3,7 @@
     <string name="write_input_content_placeholder">내용을 입력해주세요!</string>
 
     <string name="write_post_button">글 쓰기</string>
+
+    <string name="comment_bar_input_placeholder">댓글을 입력해주세요!</string>
+    <string name="comment_bar_send_button">전송</string>
 </resources>
