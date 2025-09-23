@@ -1,5 +1,6 @@
 package com.parksupark.soomjae.features.posts.community.presentation.detail
 
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -84,6 +85,34 @@ class CommunityDetailViewModel(
             }
 
             _uiStateFlow.update { state -> if (state !is CommunityDetailState.Success) state else state.copy(isLikeLoading = false) }
+        }
+    }
+
+    fun submitComment() {
+        val state = _uiStateFlow.value
+        if (state !is CommunityDetailState.Success) return
+
+        viewModelScope.launch {
+            _uiStateFlow.update { state ->
+                if (state is CommunityDetailState.Success) {
+                    state.copy(isCommentSubmitting = true)
+                } else {
+                    state
+                }
+            }
+
+            commentRepository.addComment(postId = postId, content = state.inputCommentState.text.toString())
+
+            _uiStateFlow.update { state ->
+                if (state is CommunityDetailState.Success) {
+                    state.copy(
+                        isCommentSubmitting = false,
+                        inputCommentState = TextFieldState(),
+                    )
+                } else {
+                    state
+                }
+            }
         }
     }
 }

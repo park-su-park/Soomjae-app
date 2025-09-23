@@ -16,6 +16,8 @@ class CommunityDetailCoordinator(
             CommunityDetailAction.OnBackClick -> navigator.navigateBack()
 
             is CommunityDetailAction.OnToggleLikeClick -> viewModel.toggleLike()
+
+            CommunityDetailAction.OnSendCommentClick -> viewModel.submitComment()
         }
     }
 }
