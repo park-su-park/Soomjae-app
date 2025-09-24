@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.Comment
@@ -35,6 +36,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeV
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.like
 import com.parksupark.soomjae.core.presentation.ui.resources.value
+import com.parksupark.soomjae.features.posts.common.presentation.components.CommentBar
 import com.parksupark.soomjae.features.posts.common.presentation.components.CommentItem
 import com.parksupark.soomjae.features.posts.common.presentation.components.PostDetailAuthorHeader
 import com.parksupark.soomjae.features.posts.common.presentation.components.PostDetailTitleHeader
@@ -49,22 +51,31 @@ internal fun MeetingDetailScreen(
     state: MeetingDetailState,
     onAction: (MeetingDetailAction) -> Unit,
 ) {
-    SoomjaeScaffold(
-        topBar = { MeetingDetailTopBar(onBackClick = { onAction(MeetingDetailAction.OnBackClick) }) },
-    ) { innerPadding ->
-        when (state) {
-            MeetingDetailState.Loading -> {
-                Spacer(modifier = Modifier.padding(innerPadding).height(24.dp))
-                SoomjaeCircularProgressIndicator()
-            }
+    when (state) {
+        MeetingDetailState.Loading -> Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Spacer(modifier = Modifier.height(24.dp))
+            SoomjaeCircularProgressIndicator()
+        }
 
-            is MeetingDetailState.Success ->
+        is MeetingDetailState.Success ->
+            SoomjaeScaffold(
+                topBar = { MeetingDetailTopBar(onBackClick = { onAction(MeetingDetailAction.OnBackClick) }) },
+                bottomBar = {
+                    MeetingDetailBottomBar(
+                        commentState = state.inputCommentState,
+                        onSendClick = { onAction(MeetingDetailAction.OnSendCommentClick) },
+                    )
+                },
+            ) { innerPadding ->
                 MeetingDetailContent(
                     state = state,
                     contentPadding = innerPadding,
                     onToggleLikeClick = { onAction(MeetingDetailAction.OnToggleLikeClick) },
                 )
-        }
+            }
     }
 }
 
@@ -131,6 +142,19 @@ internal fun MeetingDetailTopBar(onBackClick: () -> Unit) {
                 },
             )
         },
+    )
+}
+
+@Composable
+private fun MeetingDetailBottomBar(
+    commentState: TextFieldState,
+    onSendClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    CommentBar(
+        state = commentState,
+        onSendClick = onSendClick,
+        modifier = modifier.fillMaxWidth().padding(4.dp),
     )
 }
 

@@ -151,7 +151,7 @@ private fun CommunityDetailBottomBar(
     CommentBar(
         state = commentState,
         onSendClick = onSendClick,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().padding(4.dp),
     )
 }
 

@@ -15,6 +15,7 @@ class MeetingDetailCoordinator(
         when (action) {
             MeetingDetailAction.OnBackClick -> navigator.navigateBack()
             MeetingDetailAction.OnToggleLikeClick -> viewModel.toggleLike()
+            MeetingDetailAction.OnSendCommentClick -> viewModel.submitComment()
         }
     }
 }

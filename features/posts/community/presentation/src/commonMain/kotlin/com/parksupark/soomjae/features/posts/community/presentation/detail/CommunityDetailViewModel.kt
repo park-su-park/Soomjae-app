@@ -8,8 +8,10 @@ import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.UiText
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CommentRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LikeRepository
+import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
 import com.parksupark.soomjae.features.posts.community.domain.usecases.GetCommunityPostDetailWithLikedStream
 import com.parksupark.soomjae.features.posts.community.presentation.models.toDetailUi
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -101,18 +103,26 @@ class CommunityDetailViewModel(
                 }
             }
 
-            commentRepository.addComment(postId = postId, content = state.inputCommentState.text.toString())
-
-            _uiStateFlow.update { state ->
-                if (state is CommunityDetailState.Success) {
-                    state.copy(
-                        isCommentSubmitting = false,
-                        inputCommentState = TextFieldState(),
-                    )
-                } else {
-                    state
-                }
-            }
+            commentRepository.addComment(postId = postId, content = state.inputCommentState.text.toString()).fold(
+                ifLeft = {
+                    // TODO: error handling
+                },
+                ifRight = {
+                    _uiStateFlow.update { state ->
+                        if (state is CommunityDetailState.Success) {
+                            state.copy(
+                                postDetail = state.postDetail.copy(
+                                    comments = (listOf(it.toUi()) + state.postDetail.comments).toImmutableList(),
+                                ),
+                                isCommentSubmitting = false,
+                                inputCommentState = TextFieldState(),
+                            )
+                        } else {
+                            state
+                        }
+                    }
+                },
+            )
         }
     }
 }

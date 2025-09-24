@@ -1,11 +1,14 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.detail
 
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CommentRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LikeRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
+import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.detail.models.toMeetingPostDetailUi
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -57,6 +60,46 @@ class MeetingDetailViewModel(
             }
 
             _stateFlow.update { state.copy(isLikeLoading = false) }
+        }
+    }
+
+    fun submitComment() {
+        val state = _stateFlow.value
+
+        if (state !is MeetingDetailState.Success) return
+
+        viewModelScope.launch {
+            _stateFlow.update { state ->
+                if (state is MeetingDetailState.Success) {
+                    state.copy(isCommentSubmitting = true)
+                } else {
+                    state
+                }
+            }
+
+            commentRepository.addComment(
+                postId = postId,
+                content = state.inputCommentState.text.toString(),
+            ).fold(
+                ifLeft = {
+                    // TODO: error handling
+                },
+                ifRight = { newComment ->
+                    _stateFlow.update { state ->
+                        if (state is MeetingDetailState.Success) {
+                            state.copy(
+                                postDetail = state.postDetail.copy(
+                                    comments = (listOf(newComment.toUi()) + state.postDetail.comments).toImmutableList(),
+                                ),
+                                inputCommentState = TextFieldState(),
+                                isCommentSubmitting = false,
+                            )
+                        } else {
+                            state
+                        }
+                    }
+                },
+            )
         }
     }
 }
