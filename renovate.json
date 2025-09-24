@@ -45,6 +45,14 @@
             ]
         },
         {
+            "groupName": "Room",
+            "groupSlug": "room",
+            "matchPackagePrefixes": [
+                "androidx.room",
+                "androidx.sqlite"
+            ]
+        },
+        {
             "groupName": "GitHub Actions",
             "groupSlug": "actions",
             "matchManagers": [
