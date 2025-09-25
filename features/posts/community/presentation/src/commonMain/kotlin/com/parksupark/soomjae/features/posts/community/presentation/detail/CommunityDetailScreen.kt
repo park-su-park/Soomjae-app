@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.Comment
@@ -31,6 +32,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeT
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeVerticalDivider
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.resources.value
+import com.parksupark.soomjae.features.posts.common.presentation.components.CommentBar
 import com.parksupark.soomjae.features.posts.common.presentation.components.CommentItem
 import com.parksupark.soomjae.features.posts.common.presentation.components.PostDetailAuthorHeader
 import com.parksupark.soomjae.features.posts.common.presentation.components.PostDetailTitleHeader
@@ -46,34 +48,36 @@ internal fun CommunityDetailScreen(
     state: CommunityDetailState,
     onAction: (CommunityDetailAction) -> Unit,
 ) {
-    SoomjaeScaffold(
-        topBar = { CommunityDetailTopBar(onBackClick = { onAction(CommunityDetailAction.OnBackClick) }) },
-    ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(innerPadding),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            when (state) {
-                is CommunityDetailState.Error -> {
-                    // Handle error state, e.g., show a snackbar or dialog
+    when (state) {
+        is CommunityDetailState.Error -> {
+            // Handle error state, e.g., show a snackbar or dialog
+        }
+
+        is CommunityDetailState.InitialLoading -> SoomjaeCircularProgressIndicator()
+
+        is CommunityDetailState.Success -> SoomjaeScaffold(
+            topBar = { CommunityDetailTopBar(onBackClick = { onAction(CommunityDetailAction.OnBackClick) }) },
+            bottomBar = {
+                CommunityDetailBottomBar(
+                    commentState = state.inputCommentState,
+                    onSendClick = { onAction(CommunityDetailAction.OnSendCommentClick) },
+                )
+            },
+        ) { innerPadding ->
+            LazyColumn(
+                modifier = Modifier.fillMaxSize().padding(innerPadding),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                item {
+                    PostContentScreen(
+                        state = state,
+                        onAction = onAction,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
                 }
 
-                is CommunityDetailState.InitialLoading -> item {
-                    SoomjaeCircularProgressIndicator()
-                }
-
-                is CommunityDetailState.Success -> {
-                    item {
-                        PostContentScreen(
-                            state = state,
-                            onAction = onAction,
-                            modifier = Modifier.fillMaxWidth(),
-                        )
-                    }
-
-                    items(items = state.postDetail.comments, key = { it.id }) { comment ->
-                        CommentItem(comment = comment, modifier = Modifier.fillMaxWidth())
-                    }
+                items(items = state.postDetail.comments, key = { it.id }) { comment ->
+                    CommentItem(comment = comment, modifier = Modifier.fillMaxWidth())
                 }
             }
         }
@@ -135,6 +139,19 @@ private fun CommunityDetailTopBar(onBackClick: () -> Unit) {
                 },
             )
         },
+    )
+}
+
+@Composable
+private fun CommunityDetailBottomBar(
+    commentState: TextFieldState,
+    onSendClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    CommentBar(
+        state = commentState,
+        onSendClick = onSendClick,
+        modifier = modifier.fillMaxWidth().padding(4.dp),
     )
 }
 

@@ -1,13 +1,24 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.di
 
+import com.parksupark.soomjae.features.posts.common.domain.repositories.MEETING_COMMENT_REPOSITORY
+import com.parksupark.soomjae.features.posts.common.domain.repositories.MEETING_LIKE_REPOSITORY
 import com.parksupark.soomjae.features.posts.meeting.presentation.detail.MeetingDetailViewModel
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.MeetingTabViewModel
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingWriteViewModel
+import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 private val detailModule = module {
-    viewModelOf(::MeetingDetailViewModel)
+    viewModel { params ->
+        MeetingDetailViewModel(
+            meetingPostRepository = get(),
+            commentRepository = get(named(MEETING_COMMENT_REPOSITORY)),
+            likeRepository = get(named(MEETING_LIKE_REPOSITORY)),
+            postId = params.get(),
+        )
+    }
 }
 
 private val tabModule = module {
