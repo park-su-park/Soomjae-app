@@ -17,7 +17,7 @@ internal class DefaultMeetingCommentRepository(
         postId: Long,
         content: String,
     ): Either<DataFailure, Comment> = httpClient.get<AddCommentResponse>(
-        route = "/v1/boards/community/posts/$postId/comments",
+        route = "/v1/boards/meeting/posts/$postId/comments",
     ).map { response ->
         response.toComment()
     }
@@ -26,6 +26,6 @@ internal class DefaultMeetingCommentRepository(
         postId: Long,
         commentID: Long,
     ): Either<DataFailure, Unit> = httpClient.delete<Unit>(
-        route = "/v1/boards/community/posts/$postId/comments/$commentID",
+        route = "/v1/boards/meeting/posts/$postId/comments/$commentID",
     )
 }
