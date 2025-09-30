@@ -3,9 +3,11 @@ package com.parksupark.soomjae.features.posts.meeting.presentation.detail
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.parksupark.soomjae.core.common.coroutines.SoomjaeDispatcher
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CommentRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LikeRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
+import com.parksupark.soomjae.features.posts.common.domain.repositories.ParticipationRepository
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.detail.models.toMeetingPostDetailUi
 import kotlinx.collections.immutable.toImmutableList
@@ -18,10 +20,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MeetingDetailViewModel(
+    private val dispatcher: SoomjaeDispatcher,
     private val meetingPostRepository: MeetingPostRepository,
     private val postId: Long,
     private val commentRepository: CommentRepository,
     private val likeRepository: LikeRepository,
+    private val participationRepository: ParticipationRepository,
 ) : ViewModel() {
     private val _stateFlow: MutableStateFlow<MeetingDetailState> = MutableStateFlow(MeetingDetailState.Loading)
     val stateFlow: StateFlow<MeetingDetailState> = _stateFlow.onStart {
@@ -94,6 +98,71 @@ class MeetingDetailViewModel(
                                 inputCommentState = TextFieldState(),
                                 isCommentSubmitting = false,
                             )
+                        } else {
+                            state
+                        }
+                    }
+                },
+            )
+        }
+    }
+
+    fun joinMeeting() {
+        val state = _stateFlow.value
+
+        if (state !is MeetingDetailState.Success) return
+        if (state.isParticipating) return
+
+        viewModelScope.launch(dispatcher.io) {
+            _stateFlow.update { state.copy(isParticipationLoading = true) }
+
+            participationRepository.participate(postId).fold(
+                ifLeft = {
+                    _stateFlow.update { state ->
+                        if (state is MeetingDetailState.Success) {
+                            state.copy(isParticipationLoading = false)
+                        } else {
+                            state
+                        }
+                    }
+                },
+                ifRight = {
+                    _stateFlow.update { state ->
+                        if (state is MeetingDetailState.Success) {
+                            state.copy(isParticipating = true, isParticipationLoading = false)
+                        } else {
+                            state
+                        }
+                    }
+                },
+            )
+        }
+    }
+
+    fun leaveMeeting() {
+        val state = _stateFlow.value
+
+        if (state !is MeetingDetailState.Success) return
+        if (!state.isParticipating) return
+
+        viewModelScope.launch(dispatcher.io) {
+            _stateFlow.update { state.copy(isParticipationLoading = true) }
+
+            participationRepository.cancelParticipation(postId).fold(
+                ifLeft = {
+                    // TODO: error handling
+                    _stateFlow.update { state ->
+                        if (state is MeetingDetailState.Success) {
+                            state.copy(isParticipationLoading = false)
+                        } else {
+                            state
+                        }
+                    }
+                },
+                ifRight = {
+                    _stateFlow.update { state ->
+                        if (state is MeetingDetailState.Success) {
+                            state.copy(isParticipating = false, isParticipationLoading = false)
                         } else {
                             state
                         }

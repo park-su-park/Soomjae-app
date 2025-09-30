@@ -13,10 +13,12 @@ import org.koin.dsl.module
 private val detailModule = module {
     viewModel { params ->
         MeetingDetailViewModel(
+            dispatcher = get(),
             meetingPostRepository = get(),
             commentRepository = get(named(MEETING_COMMENT_REPOSITORY)),
             likeRepository = get(named(MEETING_LIKE_REPOSITORY)),
             postId = params.get(),
+            participationRepository = get(),
         )
     }
 }
