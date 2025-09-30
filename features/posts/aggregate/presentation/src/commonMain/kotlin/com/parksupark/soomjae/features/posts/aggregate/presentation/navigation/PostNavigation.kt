@@ -15,6 +15,8 @@ import com.parksupark.soomjae.features.posts.meeting.presentation.detail.Meeting
 import com.parksupark.soomjae.features.posts.meeting.presentation.detail.rememberMeetingDetailCoordinator
 import com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate.MeetingCreateRoute
 import com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate.rememberMeetingCreateCoordinator
+import com.parksupark.soomjae.features.posts.meeting.presentation.participant_list.ParticipantListRoute
+import com.parksupark.soomjae.features.posts.meeting.presentation.participant_list.rememberParticipantListCoordinator
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingWriteRoute
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingWriteViewModel
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.rememberMeetingWriteCoordinator
@@ -47,6 +49,9 @@ sealed interface PostDestination : NavigationDestination {
 
     @Serializable
     data class MeetingDetail(val postId: Long) : PostDestination
+
+    @Serializable
+    data class MeetingParticipantList(val meetingId: Long) : PostDestination
 }
 
 fun NavGraphBuilder.postGraph(
@@ -93,6 +98,18 @@ fun NavGraphBuilder.postGraph(
                 ),
             )
         }
+        composable<PostDestination.MeetingParticipantList> {
+            val meetingId = it.toRoute<PostDestination.MeetingParticipantList>().meetingId
+            ParticipantListRoute(
+                navigator = navigator,
+                coordinator = rememberParticipantListCoordinator(
+                    navigator = navigator,
+                    viewModel = koinViewModel {
+                        parametersOf(meetingId)
+                    },
+                ),
+            )
+        }
     }
 }
 
@@ -117,5 +134,11 @@ fun NavHostController.navigateToMeetingDetail(postId: Long) {
         popUpTo<PostDestination.MeetingWrite> {
             inclusive = true
         }
+    }
+}
+
+fun NavHostController.navigateToParticipantList(meetingId: Long) {
+    navigate(PostDestination.MeetingParticipantList(meetingId)) {
+        launchSingleTop = true
     }
 }

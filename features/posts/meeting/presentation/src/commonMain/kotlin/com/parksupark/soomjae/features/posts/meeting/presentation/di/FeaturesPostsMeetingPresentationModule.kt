@@ -3,6 +3,7 @@ package com.parksupark.soomjae.features.posts.meeting.presentation.di
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MEETING_COMMENT_REPOSITORY
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MEETING_LIKE_REPOSITORY
 import com.parksupark.soomjae.features.posts.meeting.presentation.detail.MeetingDetailViewModel
+import com.parksupark.soomjae.features.posts.meeting.presentation.participant_list.ParticipantListViewModel
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.MeetingTabViewModel
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingWriteViewModel
 import org.koin.core.module.dsl.viewModel
@@ -23,6 +24,10 @@ private val detailModule = module {
     }
 }
 
+private val participantListModule = module {
+    viewModelOf(::ParticipantListViewModel)
+}
+
 private val tabModule = module {
     viewModelOf(::MeetingTabViewModel)
 }
@@ -32,5 +37,5 @@ private val writeModule = module {
 }
 
 val featuresPostsMeetingPresentationModule = module {
-    includes(detailModule, tabModule, writeModule)
+    includes(detailModule, participantListModule, tabModule, writeModule)
 }
