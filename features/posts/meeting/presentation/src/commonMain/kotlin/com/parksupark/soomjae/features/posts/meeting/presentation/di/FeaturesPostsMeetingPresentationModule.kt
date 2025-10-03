@@ -25,7 +25,6 @@ private val detailModule = module {
 }
 
 private val participantListModule = module {
-    viewModelOf(::ParticipantListViewModel)
     viewModel { params ->
         ParticipantListViewModel(
             meetingId = params.get(),
