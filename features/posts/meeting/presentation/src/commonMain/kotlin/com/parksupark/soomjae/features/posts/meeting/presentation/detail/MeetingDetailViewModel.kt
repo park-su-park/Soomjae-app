@@ -115,7 +115,13 @@ class MeetingDetailViewModel(
         if (state.isParticipationLoading) return
 
         viewModelScope.launch(dispatcher.io) {
-            _stateFlow.update { state.copy(isParticipationLoading = true) }
+            _stateFlow.update { state ->
+                if (state is MeetingDetailState.Success) {
+                    state.copy(isParticipationLoading = true)
+                } else {
+                    state
+                }
+            }
 
             participationRepository.participate(postId).fold(
                 ifLeft = {
@@ -148,7 +154,13 @@ class MeetingDetailViewModel(
         if (state.isParticipationLoading) return
 
         viewModelScope.launch(dispatcher.io) {
-            _stateFlow.update { state.copy(isParticipationLoading = true) }
+            _stateFlow.update { state ->
+                if (state is MeetingDetailState.Success) {
+                    state.copy(isParticipationLoading = true)
+                } else {
+                    state
+                }
+            }
 
             participationRepository.cancelParticipation(postId).fold(
                 ifLeft = {
