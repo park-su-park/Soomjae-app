@@ -2,6 +2,7 @@ package com.parksupark.soomjae.features.posts.meeting.presentation.participant_l
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
@@ -72,7 +73,7 @@ private fun ParticipantListSuccessScreen(participants: ImmutableList<Participant
             ParticipantListItem(
                 participant = participant,
                 index = index + 1,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxWidth(),
             )
         }
     }
