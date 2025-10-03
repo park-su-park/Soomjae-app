@@ -112,6 +112,7 @@ class MeetingDetailViewModel(
 
         if (state !is MeetingDetailState.Success) return
         if (state.isParticipating) return
+        if (state.isParticipationLoading) return
 
         viewModelScope.launch(dispatcher.io) {
             _stateFlow.update { state.copy(isParticipationLoading = true) }
@@ -144,6 +145,7 @@ class MeetingDetailViewModel(
 
         if (state !is MeetingDetailState.Success) return
         if (!state.isParticipating) return
+        if (state.isParticipationLoading) return
 
         viewModelScope.launch(dispatcher.io) {
             _stateFlow.update { state.copy(isParticipationLoading = true) }
