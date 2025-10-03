@@ -1,5 +1,9 @@
 package com.parksupark.soomjae.features.posts.aggregate.presentation.navigation
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -98,7 +102,14 @@ fun NavGraphBuilder.postGraph(
                 ),
             )
         }
-        composable<PostDestination.MeetingParticipantList> {
+        composable<PostDestination.MeetingParticipantList>(
+            enterTransition = {
+                slideInVertically(initialOffsetY = { it }) + fadeIn()
+            },
+            exitTransition = {
+                slideOutVertically(targetOffsetY = { it }) + fadeOut()
+            },
+        ) {
             val meetingId = it.toRoute<PostDestination.MeetingParticipantList>().meetingId
             ParticipantListRoute(
                 navigator = navigator,

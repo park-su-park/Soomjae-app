@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.parksupark.soomjae.features.posts.common.domain.repositories.ParticipationRepository
 import com.parksupark.soomjae.features.posts.meeting.presentation.participant_list.model.toParticipantUi
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -49,7 +50,7 @@ class ParticipantListViewModel(
                     ParticipantListState.Success(
                         participants = participants.map { participant ->
                             participant.toParticipantUi(currentUserId = "NONE") // TODO: Use current user ID from auth module
-                        },
+                        }.toImmutableList(),
                     )
                 }
             },
