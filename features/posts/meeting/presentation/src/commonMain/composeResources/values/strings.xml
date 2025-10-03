@@ -30,5 +30,5 @@
 
     <string name="participant_list_title">참여자 목록</string>
     <string name="participant_list_close_description">닫기</string>
-    <string name="participant_list_item_nst_participant">%1$d번째 참여자</string>
+    <string name="participant_list_item_nth_participant">%1$d번째 참여자</string>
 </resources>

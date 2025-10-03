@@ -16,7 +16,7 @@ import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.core.presentation.ui.utils.imageRequest
 import com.parksupark.soomjae.features.posts.meeting.presentation.participant_list.model.ParticipantUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.Res
-import com.parksupark.soomjae.features.posts.meeting.presentation.resources.participant_list_item_nst_participant
+import com.parksupark.soomjae.features.posts.meeting.presentation.resources.participant_list_item_nth_participant
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -34,7 +34,7 @@ internal fun ParticipantListItem(
         },
         headlineContent = {
             Text(
-                text = Res.string.participant_list_item_nst_participant.value(index),
+                text = Res.string.participant_list_item_nth_participant.value(index),
                 style = SoomjaeTheme.typography.body2,
                 color = SoomjaeTheme.colorScheme.text3,
             )
