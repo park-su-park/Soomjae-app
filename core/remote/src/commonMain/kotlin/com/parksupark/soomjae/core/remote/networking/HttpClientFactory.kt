@@ -44,7 +44,7 @@ internal class HttpClientFactory(
                 loadTokens {
                     val info = sessionRepository.get()
                     BearerTokens(
-                        accessToken = info?.accessToken ?: "",
+                        accessToken = info?.accessToken.orEmpty(),
                         refreshToken = null,
                     )
                 }

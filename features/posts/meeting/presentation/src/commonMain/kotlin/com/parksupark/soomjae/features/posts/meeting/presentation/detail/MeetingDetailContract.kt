@@ -11,6 +11,8 @@ sealed interface MeetingDetailState {
         val isLikeLoading: Boolean = false,
         val inputCommentState: TextFieldState = TextFieldState(),
         val isCommentSubmitting: Boolean = false,
+        val isParticipating: Boolean = false,
+        val isParticipationLoading: Boolean = false,
     ) : MeetingDetailState
 }
 

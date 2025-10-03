@@ -10,6 +10,8 @@ interface MeetingNavigator : SoomjaeNavigator {
     fun navigateToMeetingCreate()
 
     fun navigateToMeetingDetail(postId: Long)
+
+    fun navigateToParticipantList(meetingId: Long)
 }
 
 private class SoomjaeMeetingNavigator(
@@ -28,6 +30,10 @@ private class SoomjaeMeetingNavigator(
     }
 
     override fun navigateToMeetingDetail(postId: Long) {
+        overridden()
+    }
+
+    override fun navigateToParticipantList(meetingId: Long) {
         overridden()
     }
 }
