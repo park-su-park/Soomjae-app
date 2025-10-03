@@ -11,9 +11,7 @@ interface MeetingNavigator : SoomjaeNavigator {
 
     fun navigateToMeetingDetail(postId: Long)
 
-    fun navigateToParticipantList(meetingId: Long) {
-        overridden()
-    }
+    fun navigateToParticipantList(meetingId: Long)
 }
 
 private class SoomjaeMeetingNavigator(
