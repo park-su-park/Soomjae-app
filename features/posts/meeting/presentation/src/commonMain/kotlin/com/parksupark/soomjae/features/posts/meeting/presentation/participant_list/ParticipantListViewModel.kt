@@ -28,17 +28,16 @@ class ParticipantListViewModel(
     )
 
     fun refreshParticipants() {
-        _stateFlow.value = ParticipantListState.Loading
         viewModelScope.launch {
-            _stateFlow.update {
-                ParticipantListState.Loading
-            }
-
             loadParticipants()
         }
     }
 
     private suspend fun loadParticipants() {
+        _stateFlow.update {
+            ParticipantListState.Loading
+        }
+
         participationRepository.getParticipants(meetingId = meetingId).fold(
             ifLeft = {
                 _stateFlow.update {
