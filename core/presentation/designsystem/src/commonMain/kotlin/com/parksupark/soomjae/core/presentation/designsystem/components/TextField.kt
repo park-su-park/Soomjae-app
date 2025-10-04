@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -49,8 +48,9 @@ fun SoomjaeTextField(
     title: String? = null,
     startIcon: ImageVector? = null,
     endIcon: ImageVector? = null,
+    endContent: (@Composable (() -> Unit))? = null,
     error: String? = null,
-    keyboardType: KeyboardType = KeyboardType.Companion.Text,
+    keyboardType: KeyboardType = KeyboardType.Text,
     additionalInfo: String? = null,
     enabled: Boolean = true,
 ) {
@@ -60,7 +60,7 @@ fun SoomjaeTextField(
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.Companion.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             if (title != null) {
                 Text(
@@ -111,55 +111,32 @@ fun SoomjaeTextField(
                 color = if (isFocused) {
                     SoomjaeTheme.colorScheme.divider1
                 } else {
-                    Color.Companion.Transparent
+                    Color.Transparent
                 },
-                shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
+                shape = RoundedCornerShape(16.dp),
             ).padding(12.dp).onFocusChanged {
                 isFocused = it.isFocused
             },
             decorator = { innerBox ->
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.Companion.CenterVertically,
-                ) {
-                    if (startIcon != null) {
-                        Icon(
-                            imageVector = startIcon,
-                            contentDescription = null,
-                            tint = SoomjaeTheme.colorScheme.text2,
-                        )
-                        Spacer(modifier = Modifier.width(16.dp))
-                    }
-                    Box(
-                        modifier = Modifier.weight(1f),
-                    ) {
-                        if (state.text.isEmpty() && !isFocused) {
-                            Text(
-                                text = hint,
-                                style = SoomjaeTheme.typography.labelM.copy(
-                                    color = SoomjaeTheme.colorScheme.text3,
-                                ),
-                                modifier = Modifier.fillMaxWidth().align(Alignment.CenterStart),
-                            )
-                        }
-                        innerBox()
-                    }
-                    if (endIcon != null) {
-                        Spacer(modifier = Modifier.width(16.dp))
-                        Icon(
-                            imageVector = endIcon,
-                            contentDescription = null,
-                            tint = SoomjaeTheme.colorScheme.text2,
-                            modifier = Modifier.padding(end = 8.dp),
-                        )
-                    }
-                }
+                OutlinedTextFieldDecorator(
+                    startIcon = startIcon,
+                    state = state,
+                    isFocused = isFocused,
+                    hint = hint,
+                    endIcon = endIcon,
+                    endContent = endContent,
+                    innerBox = innerBox,
+                )
             },
         )
 
         Spacer(
             modifier = Modifier.height(1.dp).fillMaxWidth().background(
-                color = SoomjaeTheme.colorScheme.divider1,
+                color = if (!isFocused) {
+                    SoomjaeTheme.colorScheme.divider1
+                } else {
+                    Color.Transparent
+                },
             ),
         )
     }
@@ -174,7 +151,7 @@ fun SoomjaeOutlinedTextField(
     startIcon: ImageVector? = null,
     endIcon: ImageVector? = null,
     error: String? = null,
-    keyboardType: KeyboardType = KeyboardType.Companion.Text,
+    keyboardType: KeyboardType = KeyboardType.Text,
     additionalInfo: String? = null,
     inputTransformation: InputTransformation? = null,
     outputTransformation: OutputTransformation? = null,
@@ -187,7 +164,7 @@ fun SoomjaeOutlinedTextField(
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Companion.CenterVertically,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 ProvideTextStyle(SoomjaeTheme.typography.captionS) {
                     if (title != null) {
@@ -250,17 +227,18 @@ fun SoomjaeOutlinedTextField(
 }
 
 @Composable
-private inline fun OutlinedTextFieldDecorator(
+private fun OutlinedTextFieldDecorator(
     startIcon: ImageVector?,
     state: TextFieldState,
     isFocused: Boolean,
     hint: String,
     endIcon: ImageVector?,
+    endContent: (@Composable (() -> Unit))? = null,
     innerBox: @Composable () -> Unit,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.Companion.CenterVertically,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         if (startIcon != null) {
             Icon(
@@ -271,21 +249,23 @@ private inline fun OutlinedTextFieldDecorator(
             Spacer(modifier = Modifier.width(16.dp))
         }
         Box(
-            modifier = Modifier.weight(1f)
-                .heightIn(min = 24.dp),
+            modifier = Modifier.weight(1f),
             contentAlignment = Alignment.CenterStart,
         ) {
             if (state.text.isEmpty() && !isFocused) {
                 Text(
-                    modifier = Modifier.fillMaxWidth(),
                     text = hint,
-                    color = SoomjaeTheme.colorScheme.text4,
-                    style = SoomjaeTheme.typography.captionL,
+                    style = SoomjaeTheme.typography.labelM.copy(
+                        color = SoomjaeTheme.colorScheme.text3,
+                    ),
+                    modifier = Modifier.fillMaxWidth().align(Alignment.CenterStart),
                 )
             }
             innerBox()
         }
-        if (endIcon != null) {
+        if (endContent != null) {
+            endContent()
+        } else if (endIcon != null) {
             Spacer(modifier = Modifier.width(16.dp))
             Icon(
                 imageVector = endIcon,
@@ -302,9 +282,9 @@ object SoomjaeTextFieldDefaults {
         @Composable get() = TextFieldDefaults.colors(
             focusedContainerColor = SoomjaeTheme.colorScheme.background1,
             unfocusedContainerColor = SoomjaeTheme.colorScheme.background1,
-            focusedIndicatorColor = Color.Companion.Transparent,
-            unfocusedIndicatorColor = Color.Companion.Transparent,
-            disabledIndicatorColor = Color.Companion.Transparent,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
             errorIndicatorColor = SoomjaeTheme.colorScheme.error,
             focusedTextColor = SoomjaeTheme.colorScheme.text1,
             unfocusedTextColor = SoomjaeTheme.colorScheme.text1,
