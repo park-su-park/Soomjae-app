@@ -2,16 +2,23 @@
 
 package com.parksupark.soomjae.features.auth.presentation.email_verification
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,11 +31,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeButton
+import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCenterAlignedTopAppBar
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSecondaryButton
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeTextField
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
+import com.parksupark.soomjae.core.presentation.ui.resources.value
+import com.parksupark.soomjae.features.auth.presentation.resources.Res
+import com.parksupark.soomjae.features.auth.presentation.resources.email_verification_available
+import com.parksupark.soomjae.features.auth.presentation.resources.email_verification_back
+import com.parksupark.soomjae.features.auth.presentation.resources.email_verification_check
+import com.parksupark.soomjae.features.auth.presentation.resources.email_verification_checking
+import com.parksupark.soomjae.features.auth.presentation.resources.email_verification_code_hint
+import com.parksupark.soomjae.features.auth.presentation.resources.email_verification_code_send_failed
+import com.parksupark.soomjae.features.auth.presentation.resources.email_verification_code_sent
+import com.parksupark.soomjae.features.auth.presentation.resources.email_verification_code_title
+import com.parksupark.soomjae.features.auth.presentation.resources.email_verification_email_hint
+import com.parksupark.soomjae.features.auth.presentation.resources.email_verification_email_title
+import com.parksupark.soomjae.features.auth.presentation.resources.email_verification_resend
+import com.parksupark.soomjae.features.auth.presentation.resources.email_verification_send
+import com.parksupark.soomjae.features.auth.presentation.resources.email_verification_submit_button
+import com.parksupark.soomjae.features.auth.presentation.resources.email_verification_title
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
@@ -42,13 +66,61 @@ internal fun EmailVerificationScreen(
     state: EmailVerificationState,
     onAction: (EmailVerificationAction) -> Unit,
 ) {
-    SoomjaeScaffold { innerPadding ->
+    SoomjaeScaffold(
+        topBar = {
+            EmailVerificationTopBar(
+                onBackClick = { onAction(EmailVerificationAction.OnClickBack) },
+            )
+        },
+        bottomBar = {
+            SubmitButton(
+                canSubmit = state.canSubmitVerification,
+                onSubmitClick = { onAction(EmailVerificationAction.OnClickVerify) },
+            )
+        },
+    ) { innerPadding ->
         EmailVerificationContent(
             state = state,
             onAction = onAction,
             modifier = Modifier.fillMaxSize().padding(innerPadding),
         )
     }
+}
+
+@Composable
+private fun SubmitButton(
+    canSubmit: Boolean,
+    onSubmitClick: () -> Unit,
+) {
+    SoomjaeButton(
+        onClick = onSubmitClick,
+        enabled = canSubmit,
+        modifier = Modifier
+            .fillMaxWidth()
+            .navigationBarsPadding()
+            .imePadding()
+            .padding(horizontal = 24.dp, vertical = 16.dp),
+    ) {
+        Text(Res.string.email_verification_submit_button.value)
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun EmailVerificationTopBar(onBackClick: () -> Unit) {
+    SoomjaeCenterAlignedTopAppBar(
+        title = {
+            Text(text = Res.string.email_verification_title.value)
+        },
+        navigationIcon = {
+            IconButton(onClick = onBackClick) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = Res.string.email_verification_back.value,
+                )
+            }
+        },
+    )
 }
 
 @Composable
@@ -76,36 +148,29 @@ private fun EmailVerificationContent(
 
     Column(
         modifier = modifier.padding(horizontal = 24.dp),
-        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         EmailInputField(
             state = emailState,
             isVerifying = state.isVerifying,
-            errorMessage = state.errorMessage,
+            errorMessage = state.emailErrorMessage,
+            isEmailFormatValid = state.isEmailFormatValid,
+            isEmailValidating = state.isEmailValidating,
+            isEmailAvailable = state.isEmailAvailable,
+            onValidateEmail = { onAction(EmailVerificationAction.OnClickValidateEmail) },
         )
         Spacer(modifier = Modifier.height(16.dp))
         CodeInputWithTimerAndResend(
             codeState = codeState,
             timerText = timerText,
             isVerifying = state.isVerifying,
-            errorMessage = state.errorMessage,
+            errorMessage = state.codeErrorMessage,
             resendStatus = state.resendStatus,
             isResendEnabled = state.isResendEnabled,
             onResend = { onAction(EmailVerificationAction.OnClickResend(Clock.System.now())) },
         )
         Spacer(modifier = Modifier.height(24.dp))
-        SoomjaeButton(
-            onClick = { onAction(EmailVerificationAction.OnClickVerify) },
-            enabled = state.canSubmitVerification,
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Text("인증하기")
-        }
-        if (state.errorMessage != null) {
-            Spacer(modifier = Modifier.height(12.dp))
-            Text(state.errorMessage, color = androidx.compose.ui.graphics.Color.Red)
-        }
+        // 인증하기 버튼은 bottomBar로 이동했으므로 Column에서는 제거
     }
 }
 
@@ -114,16 +179,37 @@ private fun EmailInputField(
     state: TextFieldState,
     isVerifying: Boolean,
     errorMessage: String?,
+    isEmailFormatValid: Boolean,
+    isEmailValidating: Boolean,
+    isEmailAvailable: Boolean,
+    onValidateEmail: () -> Unit,
 ) {
-    SoomjaeTextField(
-        state = state,
-        hint = "이메일을 입력하세요",
-        title = "이메일",
-        keyboardType = KeyboardType.Email,
-        enabled = !isVerifying,
-        error = errorMessage?.takeIf { state.text.isEmpty() },
+    Row(
         modifier = Modifier.fillMaxWidth(),
-    )
+        verticalAlignment = Alignment.Bottom,
+    ) {
+        SoomjaeTextField(
+            state = state,
+            hint = Res.string.email_verification_email_hint.value,
+            title = Res.string.email_verification_email_title.value,
+            keyboardType = KeyboardType.Email,
+            enabled = !isVerifying && !isEmailValidating,
+            error = errorMessage?.takeIf { errorMessage.isNotEmpty() },
+            modifier = Modifier.weight(1f),
+            endIcon = if (isEmailAvailable) Icons.Default.Check else null,
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        SoomjaeSecondaryButton(
+            onClick = onValidateEmail,
+            enabled = isEmailFormatValid && !isEmailValidating && !isEmailAvailable && !isVerifying,
+        ) {
+            when {
+                isEmailValidating -> Text(Res.string.email_verification_checking.value)
+                isEmailAvailable -> Text(Res.string.email_verification_available.value)
+                else -> Text(Res.string.email_verification_check.value)
+            }
+        }
+    }
 }
 
 @Composable
@@ -144,8 +230,8 @@ private fun CodeInputWithTimerAndResend(
     ) {
         SoomjaeTextField(
             state = codeState,
-            hint = "인증번호 6자리를 입력하세요",
-            title = "인증번호",
+            hint = Res.string.email_verification_code_hint.value,
+            title = Res.string.email_verification_code_title.value,
             keyboardType = KeyboardType.Text,
             enabled = !isVerifying,
             error = errorMessage?.takeIf { codeState.text.isEmpty() },
@@ -160,8 +246,8 @@ private fun CodeInputWithTimerAndResend(
             },
             additionalInfo = when (resendStatus) {
                 ResendStatus.Idle -> null
-                ResendStatus.Success -> "인증번호를 발송했어요."
-                is ResendStatus.Error -> "인증번호 발송에 실패했어요."
+                ResendStatus.Success -> Res.string.email_verification_code_sent.value
+                is ResendStatus.Error -> Res.string.email_verification_code_send_failed.value
             },
         )
         Spacer(modifier = Modifier.width(8.dp))
@@ -169,7 +255,13 @@ private fun CodeInputWithTimerAndResend(
             onClick = onResend,
             enabled = isResendEnabled && !isVerifying,
         ) {
-            Text(if (isFirstSend) "전송" else "재전송")
+            Text(
+                if (isFirstSend) {
+                    Res.string.email_verification_send.value
+                } else {
+                    Res.string.email_verification_resend.value
+                },
+            )
         }
     }
 }

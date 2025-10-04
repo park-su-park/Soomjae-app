@@ -16,8 +16,9 @@ class EmailVerificationCoordinator(
     fun handle(action: EmailVerificationAction) {
         when (action) {
             EmailVerificationAction.OnClickBack -> navigator.navigateBack()
-            is EmailVerificationAction.OnClickResend -> viewModel.onClickResend(action.now)
-            EmailVerificationAction.OnClickVerify -> viewModel.onClickVerify()
+            is EmailVerificationAction.OnClickResend -> viewModel.resendVerificationCode(action.now)
+            EmailVerificationAction.OnClickVerify -> viewModel.verifyCode()
+            EmailVerificationAction.OnClickValidateEmail -> viewModel.validateEmail()
             is EmailVerificationAction.OnTimerTick -> viewModel.onTimerTick(action.now)
         }
     }

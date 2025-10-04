@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.parksupark.soomjae.core.common.coroutines.SoomjaeDispatcher
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.collectAsFlow
+import com.parksupark.soomjae.features.auth.domain.UserDataValidator
 import com.parksupark.soomjae.features.auth.domain.failures.VerificationFailure
+import com.parksupark.soomjae.features.auth.domain.repositories.AuthRepository
 import com.parksupark.soomjae.features.auth.domain.repositories.EmailRepository
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.ExperimentalTime
@@ -15,6 +17,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
@@ -29,6 +32,8 @@ private val VERIFICATION_TIMEOUT = 5.minutes
 @OptIn(ExperimentalTime::class, ExperimentalCoroutinesApi::class)
 class EmailVerificationViewModel(
     private val dispatcher: SoomjaeDispatcher,
+    private val userDataValidator: UserDataValidator,
+    private val authRepository: AuthRepository,
     private val emailRepository: EmailRepository,
 ) : ViewModel() {
     private val _stateFlow: MutableStateFlow<EmailVerificationState> = MutableStateFlow(EmailVerificationState())
@@ -43,26 +48,79 @@ class EmailVerificationViewModel(
                 emailState.collectAsFlow()
             }
             .distinctUntilChanged()
-            .onEach {
-                resetTimerAndResendState()
+            .onEach { email ->
+                val isEmailFormatValid = userDataValidator.isValidEmail(email.toString())
+                _stateFlow.update {
+                    it.copy(
+                        isEmailFormatValid = isEmailFormatValid,
+                        isEmailAvailable = false,
+                        isEmailValidating = false,
+                        timerEnd = null,
+                        resendStatus = ResendStatus.Idle,
+                        emailErrorMessage = null, // 이메일 입력 변경 시 에러 초기화
+                    )
+                }
             }
             .launchIn(viewModelScope)
+
+        // 이메일 사용 가능 여부 변경 추적 및 재전송 버튼 활성화 관리
+        stateFlow.distinctUntilChangedBy { it.isEmailAvailable }
+            .onEach {
+                _stateFlow.update {
+                    it.copy(
+                        isResendEnabled = it.isEmailAvailable,
+                        timerEnd = null,
+                        resendStatus = ResendStatus.Idle,
+                    )
+                }
+            }.launchIn(viewModelScope)
 
         // 인증 코드 입력 변경 추적 및 버튼 활성화 여부 관리 (성능 개선)
         stateFlow
             .distinctUntilChanged { old, new ->
-                old.code == new.code && old.isVerifying == new.isVerifying
+                old.code == new.code && old.isVerifying == new.isVerifying && old.resendStatus == new.resendStatus
             }
-            .filter { !it.isVerifying }
+            .filter { !it.isVerifying && it.resendStatus == ResendStatus.Success }
             .flatMapLatest { it.code.collectAsFlow() }
             .onEach { code ->
                 val canSubmit = code.length == CODE_LENGTH
-                _stateFlow.update { it.copy(canSubmitVerification = canSubmit, errorMessage = null) }
+                _stateFlow.update { it.copy(canSubmitVerification = canSubmit, codeErrorMessage = null) }
             }
             .launchIn(viewModelScope)
     }
 
-    fun onClickResend(now: Instant) {
+    fun validateEmail() {
+        viewModelScope.launch(dispatcher.io) {
+            _stateFlow.update { state ->
+                state.copy(isEmailValidating = true, isEmailAvailable = false, emailErrorMessage = null)
+            }
+
+            val email = stateFlow.value.email.toString()
+            authRepository.checkEmailAvailable(email).fold(
+                ifLeft = { failure ->
+                    _stateFlow.update {
+                        it.copy(
+                            isEmailValidating = false,
+                            isEmailAvailable = false,
+                            emailErrorMessage = failure.asUiText().toString(),
+                        )
+                    }
+                },
+                ifRight = { isAvailable ->
+                    _stateFlow.update {
+                        it.copy(
+                            isEmailValidating = false,
+                            isEmailAvailable = isAvailable,
+                            emailErrorMessage = if (isAvailable) null else "이미 사용 중인 이메일입니다.",
+                        )
+                    }
+                },
+            )
+        }
+    }
+
+    fun resendVerificationCode(now: Instant) {
+        if (!stateFlow.value.isEmailAvailable) return
         if (stateFlow.value.isResending) return
 
         val end = now + VERIFICATION_TIMEOUT
@@ -72,7 +130,7 @@ class EmailVerificationViewModel(
                 it.copy(
                     isResendEnabled = false,
                     isResending = true,
-                    errorMessage = null,
+                    emailErrorMessage = null,
                     resendStatus = ResendStatus.Idle,
                 )
             }
@@ -86,7 +144,7 @@ class EmailVerificationViewModel(
                             isResendEnabled = true,
                             isResending = false,
                             timerEnd = null,
-                            errorMessage = "인증 코드 전송에 실패했습니다. 다시 시도해주세요.",
+                            emailErrorMessage = "인증 코드 전송에 실패했습니다. 다시 시도해주세요.",
                         )
                     }
                 },
@@ -97,7 +155,7 @@ class EmailVerificationViewModel(
                             isResending = false,
                             timerEnd = end,
                             resendStatus = ResendStatus.Success,
-                            errorMessage = null,
+                            emailErrorMessage = null,
                         )
                     }
                 },
@@ -105,11 +163,12 @@ class EmailVerificationViewModel(
         }
     }
 
-    fun onClickVerify() {
+    fun verifyCode() {
+        if (!stateFlow.value.canSubmitVerification) return
         if (stateFlow.value.isVerifying) return
 
         viewModelScope.launch {
-            _stateFlow.update { it.copy(isVerifying = true, errorMessage = null) }
+            _stateFlow.update { it.copy(isVerifying = true, codeErrorMessage = null) }
 
             val email = stateFlow.value.email.toString()
             val code = stateFlow.value.code.toString()
@@ -122,7 +181,7 @@ class EmailVerificationViewModel(
                     _stateFlow.update {
                         it.copy(
                             isVerifying = false,
-                            errorMessage = message,
+                            codeErrorMessage = message,
                         )
                     }
                 },
@@ -130,7 +189,7 @@ class EmailVerificationViewModel(
                     _stateFlow.update {
                         it.copy(
                             isVerifying = false,
-                            errorMessage = null,
+                            codeErrorMessage = null,
                         )
                     }
                 },
@@ -142,16 +201,6 @@ class EmailVerificationViewModel(
         val end = stateFlow.value.timerEnd ?: return
         if (now >= end) {
             _stateFlow.update { it.copy(isResendEnabled = true, timerEnd = null) }
-        }
-    }
-
-    fun resetTimerAndResendState() {
-        _stateFlow.update {
-            it.copy(
-                timerEnd = null,
-                isResendEnabled = true,
-                resendStatus = ResendStatus.Idle,
-            )
         }
     }
 }
