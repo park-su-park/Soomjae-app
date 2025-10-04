@@ -42,4 +42,6 @@
     <string name="email_verification_code_send_failed">인증번호 발송에 실패했어요.</string>
     <string name="email_verification_send">전송</string>
     <string name="email_verification_resend">재전송</string>
+
+    <string name="error_invalid_verification_code">유효하지 않은 인증번호입니다.</string>
 </resources>

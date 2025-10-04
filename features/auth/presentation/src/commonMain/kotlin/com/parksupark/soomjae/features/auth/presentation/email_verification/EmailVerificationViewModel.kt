@@ -6,13 +6,14 @@ import com.parksupark.soomjae.core.common.coroutines.SoomjaeDispatcher
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.collectAsFlow
 import com.parksupark.soomjae.features.auth.domain.UserDataValidator
-import com.parksupark.soomjae.features.auth.domain.failures.VerificationFailure
 import com.parksupark.soomjae.features.auth.domain.repositories.AuthRepository
 import com.parksupark.soomjae.features.auth.domain.repositories.EmailRepository
+import com.parksupark.soomjae.features.auth.presentation.failure.asUiText
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,12 +24,14 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 private const val CODE_LENGTH = 6
 private val VERIFICATION_TIMEOUT = 5.minutes
 
+// TODO: extract string resources
 @OptIn(ExperimentalTime::class, ExperimentalCoroutinesApi::class)
 class EmailVerificationViewModel(
     private val dispatcher: SoomjaeDispatcher,
@@ -38,6 +41,9 @@ class EmailVerificationViewModel(
 ) : ViewModel() {
     private val _stateFlow: MutableStateFlow<EmailVerificationState> = MutableStateFlow(EmailVerificationState())
     val stateFlow: StateFlow<EmailVerificationState> = _stateFlow.asStateFlow()
+
+    private val eventChannel = Channel<EmailVerificationEvent>()
+    val events = eventChannel.receiveAsFlow()
 
     init {
         // 이메일 변경 추적 및 타이머/재전송 초기화
@@ -174,24 +180,20 @@ class EmailVerificationViewModel(
             val code = stateFlow.value.code.toString()
             emailRepository.verifyCode(email, code).fold(
                 ifLeft = { failure ->
-                    val message = when (failure) {
-                        is VerificationFailure.InvalidCode -> "인증 코드가 올바르지 않습니다. 다시 확인해주세요."
-                        is VerificationFailure.DataFailure -> failure.error.asUiText().toString()
-                    }
                     _stateFlow.update {
                         it.copy(
                             isVerifying = false,
-                            codeErrorMessage = message,
                         )
                     }
+                    eventChannel.send(EmailVerificationEvent.Error(failure.asUiText()))
                 },
                 ifRight = {
                     _stateFlow.update {
                         it.copy(
                             isVerifying = false,
-                            codeErrorMessage = null,
                         )
                     }
+                    eventChannel.send(EmailVerificationEvent.VerificationSuccess)
                 },
             )
         }

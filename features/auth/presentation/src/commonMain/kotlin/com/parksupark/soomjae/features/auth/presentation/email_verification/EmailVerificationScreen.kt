@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -37,6 +38,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeS
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeTextField
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
+import com.parksupark.soomjae.core.presentation.ui.components.SoomjaeSnackbarHost
 import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.features.auth.presentation.resources.Res
 import com.parksupark.soomjae.features.auth.presentation.resources.email_verification_available
@@ -65,6 +67,7 @@ private const val SECONDS_PER_MINUTE = 60
 internal fun EmailVerificationScreen(
     state: EmailVerificationState,
     onAction: (EmailVerificationAction) -> Unit,
+    snackbarHostState: SnackbarHostState,
 ) {
     SoomjaeScaffold(
         topBar = {
@@ -77,6 +80,9 @@ internal fun EmailVerificationScreen(
                 canSubmit = state.canSubmitVerification,
                 onSubmitClick = { onAction(EmailVerificationAction.OnClickVerify) },
             )
+        },
+        snackbarHost = {
+            SoomjaeSnackbarHost(hostState = snackbarHostState)
         },
     ) { innerPadding ->
         EmailVerificationContent(
@@ -170,7 +176,6 @@ private fun EmailVerificationContent(
             onResend = { onAction(EmailVerificationAction.OnClickResend(Clock.System.now())) },
         )
         Spacer(modifier = Modifier.height(24.dp))
-        // 인증하기 버튼은 bottomBar로 이동했으므로 Column에서는 제거
     }
 }
 
@@ -286,6 +291,7 @@ private fun EmailVerificationScreenPreview() {
         EmailVerificationScreen(
             state = EmailVerificationState(),
             onAction = { },
+            snackbarHostState = remember { SnackbarHostState() },
         )
     }
 }

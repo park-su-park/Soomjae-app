@@ -34,6 +34,12 @@ sealed interface EmailVerificationAction {
     data class OnTimerTick(val now: Instant) : EmailVerificationAction
 }
 
+sealed interface EmailVerificationEvent {
+    data object VerificationSuccess : EmailVerificationEvent
+
+    data class Error(val message: UiText) : EmailVerificationEvent
+}
+
 sealed interface ResendStatus {
     data object Idle : ResendStatus
 

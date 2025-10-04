@@ -28,7 +28,7 @@ sealed interface AuthDestination : NavigationDestination {
     data object RegisterRoot : AuthDestination
 
     @Serializable
-    data class Register(val email: String) : AuthDestination
+    data class RegisterDetail(val email: String) : AuthDestination
 
     @Serializable
     data class EmailLogin(val email: String? = null) : AuthDestination
@@ -59,8 +59,8 @@ private fun NavGraphBuilder.emailRegistrationGraph(navigator: AuthNavigator) {
         composable<AuthDestination.EmailVerification> {
             EmailVerificationRoute(navigator)
         }
-        composable<AuthDestination.Register> { backStackEntry ->
-            val email = backStackEntry.toRoute<AuthDestination.Register>().email
+        composable<AuthDestination.RegisterDetail> { backStackEntry ->
+            val email = backStackEntry.toRoute<AuthDestination.RegisterDetail>().email
             val viewModel = koinViewModel<RegisterViewModel> {
                 parametersOf(email)
             }
@@ -75,13 +75,25 @@ private fun NavGraphBuilder.emailRegistrationGraph(navigator: AuthNavigator) {
 fun NavHostController.navigateToLogin() {
     navigate(AuthDestination.Login) {
         popUpTo(AuthDestination.Root) {
-            inclusive = true
+            inclusive = false
         }
     }
 }
 
 fun NavHostController.navigateToRegister() {
-    navigate(AuthDestination.RegisterRoot)
+    navigate(AuthDestination.RegisterRoot) {
+        popUpTo(AuthDestination.Root) {
+            inclusive = false
+        }
+    }
+}
+
+fun NavHostController.navigateToRegisterDetail(email: String) {
+    navigate(AuthDestination.RegisterDetail(email)) {
+        popUpTo(AuthDestination.Root) {
+            inclusive = false
+        }
+    }
 }
 
 fun NavHostController.navigateToEmailLogin(email: String? = null) {

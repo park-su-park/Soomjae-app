@@ -11,6 +11,7 @@ class EmailVerificationCoordinator(
     private val viewModel: EmailVerificationViewModel,
 ) {
     val screenStateFlow = viewModel.stateFlow
+    val events = viewModel.events
 
     @OptIn(ExperimentalTime::class)
     fun handle(action: EmailVerificationAction) {
