@@ -1,6 +1,7 @@
 package com.parksupark.soomjae.features.auth.presentation.di
 
 import com.parksupark.soomjae.features.auth.libs.google.di.googleAuthModule
+import com.parksupark.soomjae.features.auth.presentation.email_verification.EmailVerificationViewModel
 import com.parksupark.soomjae.features.auth.presentation.emaillogin.EmailLoginViewModel
 import com.parksupark.soomjae.features.auth.presentation.login.LoginViewModel
 import com.parksupark.soomjae.features.auth.presentation.register.RegisterViewModel
@@ -15,6 +16,10 @@ private val emailLoginModule = module {
     viewModelOf(::EmailLoginViewModel)
 }
 
+private val emailVerificationModule = module {
+    viewModelOf(::EmailVerificationViewModel)
+}
+
 private val loginModule = module {
     viewModelOf(::LoginViewModel)
 }
@@ -24,5 +29,11 @@ private val registerModule = module {
 }
 
 val featuresAuthPresentationModule = module {
-    includes(libsModule, emailLoginModule, loginModule, registerModule)
+    includes(
+        libsModule,
+        emailLoginModule,
+        emailVerificationModule,
+        loginModule,
+        registerModule,
+    )
 }

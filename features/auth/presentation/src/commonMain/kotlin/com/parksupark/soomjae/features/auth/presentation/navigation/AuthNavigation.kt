@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationDestination
+import com.parksupark.soomjae.features.auth.presentation.email_verification.EmailVerificationRoute
 import com.parksupark.soomjae.features.auth.presentation.emaillogin.EmailLoginRoute
 import com.parksupark.soomjae.features.auth.presentation.login.LoginRoute
 import com.parksupark.soomjae.features.auth.presentation.register.RegisterRoute
@@ -19,10 +20,16 @@ sealed interface AuthDestination : NavigationDestination {
     data object Login : AuthDestination
 
     @Serializable
+    data object RegisterRoot : AuthDestination
+
+    @Serializable
     data object Register : AuthDestination
 
     @Serializable
     data class EmailLogin(val email: String? = null) : AuthDestination
+
+    @Serializable
+    data object EmailVerification : AuthDestination
 }
 
 fun NavGraphBuilder.authGraph(navigator: AuthNavigator) {
@@ -32,11 +39,23 @@ fun NavGraphBuilder.authGraph(navigator: AuthNavigator) {
         composable<AuthDestination.Login> {
             LoginRoute(navigator)
         }
-        composable<AuthDestination.Register> {
-            RegisterRoute(navigator)
-        }
         composable<AuthDestination.EmailLogin> {
             EmailLoginRoute(navigator)
+        }
+
+        emailRegistrationGraph(navigator)
+    }
+}
+
+private fun NavGraphBuilder.emailRegistrationGraph(navigator: AuthNavigator) {
+    navigation<AuthDestination.RegisterRoot>(
+        startDestination = AuthDestination.EmailVerification,
+    ) {
+        composable<AuthDestination.EmailVerification> {
+            EmailVerificationRoute(navigator)
+        }
+        composable<AuthDestination.Register> {
+            RegisterRoute(navigator)
         }
     }
 }
@@ -50,7 +69,7 @@ fun NavHostController.navigateToLogin() {
 }
 
 fun NavHostController.navigateToRegister() {
-    navigate(AuthDestination.Register)
+    navigate(AuthDestination.RegisterRoot)
 }
 
 fun NavHostController.navigateToEmailLogin(email: String? = null) {
