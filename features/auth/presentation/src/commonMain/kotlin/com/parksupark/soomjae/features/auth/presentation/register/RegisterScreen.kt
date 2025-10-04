@@ -19,7 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.autofill.ContentType
-import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.semantics.contentType
 import androidx.compose.ui.semantics.semantics
@@ -35,7 +34,6 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeS
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeTextButton
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.features.auth.presentation.resources.Res
-import com.parksupark.soomjae.features.auth.presentation.resources.register_email_error
 import com.parksupark.soomjae.features.auth.presentation.resources.register_email_hint
 import com.parksupark.soomjae.features.auth.presentation.resources.register_login_button_1
 import com.parksupark.soomjae.features.auth.presentation.resources.register_login_button_2
@@ -63,13 +61,14 @@ internal fun RegisterScreen(
         },
     ) { innerPadding ->
         Column(
-            modifier = Modifier.fillMaxSize().padding(innerPadding).padding(16.dp),
+            modifier = Modifier.fillMaxSize()
+                .padding(innerPadding)
+                .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
             InputSection(
                 state = state,
                 modifier = Modifier.fillMaxWidth(),
-                onAction = onAction,
             )
 
             RegisterButton(state.canRegister, onAction)
@@ -106,21 +105,13 @@ private fun RegisterTopBar(
 @Composable
 private fun InputSection(
     state: RegisterState,
-    onAction: (RegisterAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        EmailTextField(
-            emailState = state.inputEmail,
-            emailError = !state.isEmailAvailable || !state.isEmailFormatValid,
-            emailValidating = state.isEmailValidating,
-            onFocusChanged = {
-                onAction(RegisterAction.OnInputEmailFocusChanged(it.isFocused))
-            },
-        )
+        EmailTextField(emailState = state.email)
         PasswordTextField(password = state.inputPassword)
         ConfirmPasswordTextField(confirmPassword = state.inputConfirmPassword, arePasswordsMatching = state.isPasswordMatch)
         NicknameTextField(nickname = state.inputNickname)
@@ -130,31 +121,14 @@ private fun InputSection(
 @Composable
 private fun EmailTextField(
     emailState: TextFieldState,
-    emailError: Boolean,
-    emailValidating: Boolean,
-    onFocusChanged: (FocusState) -> Unit,
 ) {
-    var isFocused by remember { mutableStateOf(false) }
-    var wasEverFocused by remember { mutableStateOf(false) }
-
-    val showError = !isFocused && wasEverFocused && emailError && !emailValidating
-
     SoomjaeOutlinedTextField(
         state = emailState,
         modifier = Modifier.semantics {
             contentType = ContentType.EmailAddress
-        }.onFocusChanged { focusState ->
-            if (isFocused != focusState.isFocused) {
-                isFocused = focusState.isFocused
-                if (isFocused) {
-                    wasEverFocused = true
-                }
-            }
-            onFocusChanged(focusState)
         },
         title = stringResource(Res.string.register_email_hint),
-        hint = stringResource(Res.string.register_email_hint),
-        error = if (showError) stringResource(Res.string.register_email_error) else null,
+        enabled = false,
     )
 }
 

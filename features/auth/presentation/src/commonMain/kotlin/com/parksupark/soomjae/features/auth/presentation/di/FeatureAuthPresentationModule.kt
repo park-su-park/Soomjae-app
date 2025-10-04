@@ -5,6 +5,7 @@ import com.parksupark.soomjae.features.auth.presentation.email_verification.Emai
 import com.parksupark.soomjae.features.auth.presentation.emaillogin.EmailLoginViewModel
 import com.parksupark.soomjae.features.auth.presentation.login.LoginViewModel
 import com.parksupark.soomjae.features.auth.presentation.register.RegisterViewModel
+import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -25,7 +26,13 @@ private val loginModule = module {
 }
 
 private val registerModule = module {
-    viewModelOf(::RegisterViewModel)
+    viewModel { params ->
+        RegisterViewModel(
+            email = params.get(),
+            userDataValidator = get(),
+            authRepository = get(),
+        )
+    }
 }
 
 val featuresAuthPresentationModule = module {

@@ -4,12 +4,17 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import androidx.navigation.toRoute
 import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationDestination
 import com.parksupark.soomjae.features.auth.presentation.email_verification.EmailVerificationRoute
 import com.parksupark.soomjae.features.auth.presentation.emaillogin.EmailLoginRoute
 import com.parksupark.soomjae.features.auth.presentation.login.LoginRoute
 import com.parksupark.soomjae.features.auth.presentation.register.RegisterRoute
+import com.parksupark.soomjae.features.auth.presentation.register.RegisterViewModel
+import com.parksupark.soomjae.features.auth.presentation.register.rememberRegisterCoordinator
 import kotlinx.serialization.Serializable
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Serializable
 sealed interface AuthDestination : NavigationDestination {
@@ -23,7 +28,7 @@ sealed interface AuthDestination : NavigationDestination {
     data object RegisterRoot : AuthDestination
 
     @Serializable
-    data object Register : AuthDestination
+    data class Register(val email: String) : AuthDestination
 
     @Serializable
     data class EmailLogin(val email: String? = null) : AuthDestination
@@ -54,8 +59,15 @@ private fun NavGraphBuilder.emailRegistrationGraph(navigator: AuthNavigator) {
         composable<AuthDestination.EmailVerification> {
             EmailVerificationRoute(navigator)
         }
-        composable<AuthDestination.Register> {
-            RegisterRoute(navigator)
+        composable<AuthDestination.Register> { backStackEntry ->
+            val email = backStackEntry.toRoute<AuthDestination.Register>().email
+            val viewModel = koinViewModel<RegisterViewModel> {
+                parametersOf(email)
+            }
+            RegisterRoute(
+                navigator = navigator,
+                coordinator = rememberRegisterCoordinator(navigator, viewModel),
+            )
         }
     }
 }
