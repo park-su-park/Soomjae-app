@@ -1,6 +1,6 @@
 package com.parksupark.soomjae.core.domain.failures
 
-sealed interface DataFailure {
+sealed interface DataFailure : Failure {
     enum class Network : DataFailure {
         BAD_REQUEST,
         UNAUTHORIZED,

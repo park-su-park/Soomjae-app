@@ -2,7 +2,11 @@ package com.parksupark.soomjae.features.auth.presentation.email_verification
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.parksupark.soomjae.core.common.coroutines.SoomjaeDispatcher
+import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.collectAsFlow
+import com.parksupark.soomjae.features.auth.domain.failures.VerificationFailure
+import com.parksupark.soomjae.features.auth.domain.repositories.EmailRepository
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
@@ -17,12 +21,16 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 private const val CODE_LENGTH = 6
 private val VERIFICATION_TIMEOUT = 5.minutes
 
 @OptIn(ExperimentalTime::class, ExperimentalCoroutinesApi::class)
-class EmailVerificationViewModel : ViewModel() {
+class EmailVerificationViewModel(
+    private val dispatcher: SoomjaeDispatcher,
+    private val emailRepository: EmailRepository,
+) : ViewModel() {
     private val _stateFlow: MutableStateFlow<EmailVerificationState> = MutableStateFlow(EmailVerificationState())
     val stateFlow: StateFlow<EmailVerificationState> = _stateFlow.asStateFlow()
 
@@ -55,21 +63,79 @@ class EmailVerificationViewModel : ViewModel() {
     }
 
     fun onClickResend(now: Instant) {
+        if (stateFlow.value.isResending) return
+
         val end = now + VERIFICATION_TIMEOUT
-        _stateFlow.update {
-            it.copy(
-                isResendEnabled = false,
-                timerEnd = end,
-                resendStatus = ResendStatus.Success,
-                errorMessage = null,
+
+        viewModelScope.launch(dispatcher.io) {
+            _stateFlow.update {
+                it.copy(
+                    isResendEnabled = false,
+                    isResending = true,
+                    errorMessage = null,
+                    resendStatus = ResendStatus.Idle,
+                )
+            }
+
+            val email = stateFlow.value.email.toString()
+            emailRepository.sendVerificationCode(email).fold(
+                ifLeft = { failure ->
+                    _stateFlow.update {
+                        it.copy(
+                            resendStatus = ResendStatus.Error(failure.asUiText()),
+                            isResendEnabled = true,
+                            isResending = false,
+                            timerEnd = null,
+                            errorMessage = "인증 코드 전송에 실패했습니다. 다시 시도해주세요.",
+                        )
+                    }
+                },
+                ifRight = {
+                    _stateFlow.update {
+                        it.copy(
+                            isResendEnabled = false,
+                            isResending = false,
+                            timerEnd = end,
+                            resendStatus = ResendStatus.Success,
+                            errorMessage = null,
+                        )
+                    }
+                },
             )
         }
-        // TODO: 실제 이메일 재전송 로직 호출 및 성공/실패에 따라 resendStatus 업데이트
     }
 
     fun onClickVerify() {
-        _stateFlow.update { it.copy(isVerifying = true, errorMessage = null) }
-        // TODO: 실제 인증 로직 호출 후 isVerifying=false로 되돌리고 결과 처리
+        if (stateFlow.value.isVerifying) return
+
+        viewModelScope.launch {
+            _stateFlow.update { it.copy(isVerifying = true, errorMessage = null) }
+
+            val email = stateFlow.value.email.toString()
+            val code = stateFlow.value.code.toString()
+            emailRepository.verifyCode(email, code).fold(
+                ifLeft = { failure ->
+                    val message = when (failure) {
+                        is VerificationFailure.InvalidCode -> "인증 코드가 올바르지 않습니다. 다시 확인해주세요."
+                        is VerificationFailure.DataFailure -> failure.error.asUiText().toString()
+                    }
+                    _stateFlow.update {
+                        it.copy(
+                            isVerifying = false,
+                            errorMessage = message,
+                        )
+                    }
+                },
+                ifRight = {
+                    _stateFlow.update {
+                        it.copy(
+                            isVerifying = false,
+                            errorMessage = null,
+                        )
+                    }
+                },
+            )
+        }
     }
 
     fun onTimerTick(now: Instant) {
