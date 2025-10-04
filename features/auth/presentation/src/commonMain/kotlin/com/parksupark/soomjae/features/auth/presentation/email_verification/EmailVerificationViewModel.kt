@@ -108,7 +108,7 @@ class EmailVerificationViewModel(
                         it.copy(
                             isEmailValidating = false,
                             isEmailAvailable = false,
-                            emailErrorMessage = failure.asUiText().toString(),
+                            emailErrorMessage = failure.asUiText().toString(), // todo: enhance UI text handling
                         )
                     }
                 },
