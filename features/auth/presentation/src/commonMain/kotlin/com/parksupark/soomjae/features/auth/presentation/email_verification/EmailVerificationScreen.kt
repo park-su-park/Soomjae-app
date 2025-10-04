@@ -2,6 +2,10 @@
 
 package com.parksupark.soomjae.features.auth.presentation.email_verification
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,11 +32,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.backhandler.BackHandler
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeButton
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCenterAlignedTopAppBar
+import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCircularProgressIndicator
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSecondaryButton
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeTextField
@@ -63,33 +71,56 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 private const val SECONDS_PER_MINUTE = 60
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun EmailVerificationScreen(
     state: EmailVerificationState,
     onAction: (EmailVerificationAction) -> Unit,
     snackbarHostState: SnackbarHostState,
 ) {
-    SoomjaeScaffold(
-        topBar = {
-            EmailVerificationTopBar(
-                onBackClick = { onAction(EmailVerificationAction.OnClickBack) },
+    if (state.isVerifying) {
+        BackHandler(enabled = true) { }
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        SoomjaeScaffold(
+            topBar = {
+                EmailVerificationTopBar(
+                    onBackClick = { if (!state.isVerifying) onAction(EmailVerificationAction.OnClickBack) },
+                    isVerifying = state.isVerifying,
+                )
+            },
+            bottomBar = {
+                SubmitButton(
+                    canSubmit = state.canSubmitVerification,
+                    onSubmitClick = { onAction(EmailVerificationAction.OnClickVerify) },
+                )
+            },
+            snackbarHost = {
+                SoomjaeSnackbarHost(hostState = snackbarHostState)
+            },
+        ) { innerPadding ->
+            EmailVerificationContent(
+                state = state,
+                onAction = onAction,
+                modifier = Modifier.fillMaxSize().padding(innerPadding),
             )
-        },
-        bottomBar = {
-            SubmitButton(
-                canSubmit = state.canSubmitVerification,
-                onSubmitClick = { onAction(EmailVerificationAction.OnClickVerify) },
-            )
-        },
-        snackbarHost = {
-            SoomjaeSnackbarHost(hostState = snackbarHostState)
-        },
-    ) { innerPadding ->
-        EmailVerificationContent(
-            state = state,
-            onAction = onAction,
-            modifier = Modifier.fillMaxSize().padding(innerPadding),
-        )
+        }
+        if (state.isVerifying) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.4f))
+                    .clickable(
+                        enabled = true,
+                        indication = null,
+                        interactionSource = remember { MutableInteractionSource() },
+                    ) { /* consume all touch events */ },
+                contentAlignment = Alignment.Center,
+            ) {
+                SoomjaeCircularProgressIndicator()
+            }
+        }
     }
 }
 
@@ -113,13 +144,16 @@ private fun SubmitButton(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun EmailVerificationTopBar(onBackClick: () -> Unit) {
+private fun EmailVerificationTopBar(
+    onBackClick: () -> Unit,
+    isVerifying: Boolean
+) {
     SoomjaeCenterAlignedTopAppBar(
         title = {
             Text(text = Res.string.email_verification_title.value)
         },
         navigationIcon = {
-            IconButton(onClick = onBackClick) {
+            IconButton(onClick = onBackClick, enabled = !isVerifying) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = Res.string.email_verification_back.value,
@@ -290,6 +324,18 @@ private fun EmailVerificationScreenPreview() {
     AppTheme {
         EmailVerificationScreen(
             state = EmailVerificationState(),
+            onAction = { },
+            snackbarHostState = remember { SnackbarHostState() },
+        )
+    }
+}
+
+@Composable
+@Preview(name = "EmailVerification")
+private fun EmailVerificationScreenPreview_Loading() {
+    AppTheme {
+        EmailVerificationScreen(
+            state = EmailVerificationState(isVerifying = true),
             onAction = { },
             snackbarHostState = remember { SnackbarHostState() },
         )
