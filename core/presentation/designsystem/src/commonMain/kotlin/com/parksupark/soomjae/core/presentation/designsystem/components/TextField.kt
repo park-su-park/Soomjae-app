@@ -200,6 +200,7 @@ fun SoomjaeOutlinedTextField(
                         },
                         shape = MaterialTheme.shapes.small,
                     )
+                    .background(color = if (enabled) Color.Transparent else SoomjaeTheme.colorScheme.background2)
                     .padding(8.dp)
                     .onFocusChanged {
                         isFocused = it.isFocused
@@ -207,7 +208,9 @@ fun SoomjaeOutlinedTextField(
                 state = state,
                 enabled = enabled,
                 inputTransformation = inputTransformation,
-                textStyle = SoomjaeTheme.typography.captionL,
+                textStyle = SoomjaeTheme.typography.captionL.copy(
+                    color = if (enabled) SoomjaeTheme.colorScheme.text1 else SoomjaeTheme.colorScheme.text4,
+                ),
                 keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
                 lineLimits = TextFieldLineLimits.SingleLine,
                 outputTransformation = outputTransformation,
