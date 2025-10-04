@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.collectAsFlow
-import com.parksupark.soomjae.features.auth.domain.AuthRepository
 import com.parksupark.soomjae.features.auth.domain.UserDataValidator
+import com.parksupark.soomjae.features.auth.domain.repositories.AuthRepository
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

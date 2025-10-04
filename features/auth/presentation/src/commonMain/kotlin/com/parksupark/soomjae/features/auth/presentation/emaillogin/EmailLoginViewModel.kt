@@ -8,8 +8,8 @@ import co.touchlab.kermit.Logger
 import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.collectAsFlow
-import com.parksupark.soomjae.features.auth.domain.AuthRepository
 import com.parksupark.soomjae.features.auth.domain.UserDataValidator
+import com.parksupark.soomjae.features.auth.domain.repositories.AuthRepository
 import com.parksupark.soomjae.features.auth.presentation.navigation.AuthDestination
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

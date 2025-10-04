@@ -6,7 +6,7 @@ import arrow.core.Either
 import co.touchlab.kermit.Logger
 import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
-import com.parksupark.soomjae.features.auth.domain.SocialAuthRepository
+import com.parksupark.soomjae.features.auth.domain.repositories.SocialAuthRepository
 import com.parksupark.soomjae.features.auth.libs.google.models.GoogleUser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO

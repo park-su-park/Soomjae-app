@@ -6,9 +6,9 @@ import com.parksupark.soomjae.features.auth.data.datasources.remote.RemoteAuthDa
 import com.parksupark.soomjae.features.auth.data.datasources.remote.RemoteSocialAuthDataSource
 import com.parksupark.soomjae.features.auth.data.repositories.AuthRepositoryImpl
 import com.parksupark.soomjae.features.auth.data.repositories.SocialAuthRepositoryImpl
-import com.parksupark.soomjae.features.auth.domain.AuthRepository
-import com.parksupark.soomjae.features.auth.domain.SocialAuthRepository
 import com.parksupark.soomjae.features.auth.domain.UserDataValidator
+import com.parksupark.soomjae.features.auth.domain.repositories.AuthRepository
+import com.parksupark.soomjae.features.auth.domain.repositories.SocialAuthRepository
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.bind

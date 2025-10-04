@@ -5,7 +5,7 @@ import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
 import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.features.auth.data.datasources.remote.RemoteSocialAuthDataSource
 import com.parksupark.soomjae.features.auth.data.dto.toAuthInfo
-import com.parksupark.soomjae.features.auth.domain.SocialAuthRepository
+import com.parksupark.soomjae.features.auth.domain.repositories.SocialAuthRepository
 
 internal class SocialAuthRepositoryImpl(
     private val remoteDataSource: RemoteSocialAuthDataSource,
