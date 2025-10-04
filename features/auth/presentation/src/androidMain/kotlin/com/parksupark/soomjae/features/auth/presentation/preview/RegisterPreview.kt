@@ -13,7 +13,7 @@ private fun RegisterScreenPreview() {
     AppTheme {
         RegisterScreen(
             state = RegisterState(
-                email = TextFieldState("exmaple@email.com"),
+                email = TextFieldState("example@email.com"),
             ),
             onAction = {},
             snackbarHost = {},
