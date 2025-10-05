@@ -7,7 +7,7 @@ import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
 import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.features.auth.data.datasources.local.LocalAuthDataSource
 import com.parksupark.soomjae.features.auth.data.datasources.remote.RemoteAuthDataSource
-import com.parksupark.soomjae.features.auth.domain.AuthRepository
+import com.parksupark.soomjae.features.auth.domain.repositories.AuthRepository
 
 internal class AuthRepositoryImpl(
     private val remoteAuthDataSource: RemoteAuthDataSource,

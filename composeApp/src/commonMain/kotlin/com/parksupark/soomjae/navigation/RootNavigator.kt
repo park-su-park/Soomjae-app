@@ -14,6 +14,7 @@ import com.parksupark.soomjae.features.auth.presentation.navigation.AuthNavigato
 import com.parksupark.soomjae.features.auth.presentation.navigation.navigateToEmailLogin
 import com.parksupark.soomjae.features.auth.presentation.navigation.navigateToLogin
 import com.parksupark.soomjae.features.auth.presentation.navigation.navigateToRegister
+import com.parksupark.soomjae.features.auth.presentation.navigation.navigateToRegisterDetail
 import com.parksupark.soomjae.features.auth.presentation.navigation.soomjaeAuthNavigator
 import com.parksupark.soomjae.features.home.presentation.navigation.HomeNavigator
 import com.parksupark.soomjae.features.home.presentation.navigation.soomjaeHomeNavigator
@@ -59,6 +60,10 @@ private class SoomjaeRootNavigator(
     // <editor-fold desc="AuthNavigator">
     override fun navigateToRegister() {
         navController.navigateToRegister()
+    }
+
+    override fun navigateToRegisterDetail(email: String) {
+        navController.navigateToRegisterDetail(email)
     }
 
     override fun navigateToEmailLogin(email: String?) {

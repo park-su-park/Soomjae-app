@@ -19,8 +19,6 @@ class RegisterCoordinator(
             is RegisterAction.OnLoginClick -> navigator.navigateToEmailLogin()
 
             is RegisterAction.OnRegisterClick -> viewModel.register()
-
-            is RegisterAction.OnInputEmailFocusChanged -> if (!action.isFocused) viewModel.validateEmail()
         }
     }
 }

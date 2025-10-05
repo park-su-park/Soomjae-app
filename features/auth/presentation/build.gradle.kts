@@ -11,6 +11,8 @@ kotlin {
 
             implementation(projects.features.auth.domain)
             implementation(projects.features.auth.libs.google)
+
+            implementation(libs.compose.ui.backhandler)
         }
     }
 }
