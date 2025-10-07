@@ -1,7 +1,6 @@
 package com.parksupark.soomjae.features.posts.aggregate.presentation.di
 
 import com.parksupark.soomjae.features.posts.aggregate.presentation.post.PostViewModel
-import com.parksupark.soomjae.features.posts.aggregate.presentation.post.tabs.member.MemberTabViewModel
 import com.parksupark.soomjae.features.posts.common.presentation.di.featuresPostsCommonPresentationModule
 import com.parksupark.soomjae.features.posts.community.presentation.di.featuresPostsCommunityPresentationModule
 import com.parksupark.soomjae.features.posts.meeting.presentation.di.featuresPostsMeetingPresentationModule
@@ -14,7 +13,6 @@ private val postModule = module {
     viewModelOf(::PostViewModel)
 
     viewModelOf(::MeetingTabViewModel)
-    viewModelOf(::MemberTabViewModel)
 }
 
 val featuresPostsAggregatePresentationModule = module {

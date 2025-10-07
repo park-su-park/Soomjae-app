@@ -18,7 +18,6 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeS
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeTab
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeTabRow
 import com.parksupark.soomjae.core.presentation.ui.resources.value
-import com.parksupark.soomjae.features.posts.aggregate.presentation.post.tabs.member.MemberTabRoute
 import com.parksupark.soomjae.features.posts.aggregate.presentation.resources.Res
 import com.parksupark.soomjae.features.posts.aggregate.presentation.resources.post_community_title
 import com.parksupark.soomjae.features.posts.aggregate.presentation.resources.post_feed_title
