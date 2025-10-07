@@ -6,6 +6,7 @@ import com.parksupark.soomjae.features.posts.common.presentation.di.featuresPost
 import com.parksupark.soomjae.features.posts.community.presentation.di.featuresPostsCommunityPresentationModule
 import com.parksupark.soomjae.features.posts.meeting.presentation.di.featuresPostsMeetingPresentationModule
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.MeetingTabViewModel
+import com.parksupark.soomjae.features.posts.member.presentation.di.featuresPostsMemberPresentationModule
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -18,5 +19,10 @@ private val postModule = module {
 
 val featuresPostsAggregatePresentationModule = module {
     includes(postModule)
-    includes(featuresPostsCommonPresentationModule, featuresPostsCommunityPresentationModule, featuresPostsMeetingPresentationModule)
+    includes(
+        featuresPostsCommonPresentationModule,
+        featuresPostsCommunityPresentationModule,
+        featuresPostsMeetingPresentationModule,
+        featuresPostsMemberPresentationModule,
+    )
 }

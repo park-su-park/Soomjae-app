@@ -11,6 +11,8 @@ interface PostNavigator : SoomjaeNavigator, CommunityNavigator, MeetingNavigator
     override fun navigateToCommunityWrite()
 
     override fun navigateToCommunityDetail(postId: Long)
+
+    fun navigateToMemberWrite()
 }
 
 private class SoomjaePostNavigator(
@@ -40,6 +42,10 @@ private class SoomjaePostNavigator(
     }
 
     override fun navigateToMeetingDetail(postId: Long) {
+        overridden()
+    }
+
+    override fun navigateToMemberWrite() {
         overridden()
     }
 }

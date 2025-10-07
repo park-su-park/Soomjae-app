@@ -153,3 +153,7 @@ fun NavHostController.navigateToParticipantList(meetingId: Long) {
         launchSingleTop = true
     }
 }
+
+fun NavHostController.navigateToMemberWrite() {
+    // TODO: Implement member write navigation
+}

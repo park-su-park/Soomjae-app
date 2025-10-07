@@ -26,6 +26,7 @@ import com.parksupark.soomjae.features.posts.aggregate.presentation.resources.po
 import com.parksupark.soomjae.features.posts.common.presentation.PostAction
 import com.parksupark.soomjae.features.posts.community.presentation.tab.CommunityTabRoute
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.MeetingTabRoute
+import com.parksupark.soomjae.features.posts.member.presentation.post_list.MemberPostListRoute
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.StringResource
 
@@ -68,7 +69,7 @@ internal fun PostScreen(
 
                     PostTabs.MEETING -> MeetingTabRoute(onPostAction = onAction)
 
-                    PostTabs.FEED -> MemberTabRoute()
+                    PostTabs.FEED -> MemberPostListRoute(onPostAction = onAction)
                 }
             }
         }
