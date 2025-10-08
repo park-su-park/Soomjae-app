@@ -12,8 +12,12 @@ sealed interface MemberPostListAction {
     data object OnPullToRefresh : MemberPostListAction
 
     data object OnWritePostClick : MemberPostListAction
+
+    data class OnRefreshChange(val isRefreshing: Boolean) : MemberPostListAction
 }
 
 sealed interface MemberPostListEvent {
     data object NavigateToWritePost : MemberPostListEvent
+
+    data object RefreshPosts : MemberPostListEvent
 }

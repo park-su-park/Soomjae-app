@@ -25,6 +25,10 @@ fun MemberPostListRoute(
         onEvent = {
             when (it) {
                 is MemberPostListEvent.NavigateToWritePost -> onPostAction(PostAction.OnNavigateToMemberWrite)
+                is MemberPostListEvent.RefreshPosts -> {
+                    actionHandler(MemberPostListAction.OnRefreshChange(true))
+                    posts.refresh()
+                }
             }
         },
     )

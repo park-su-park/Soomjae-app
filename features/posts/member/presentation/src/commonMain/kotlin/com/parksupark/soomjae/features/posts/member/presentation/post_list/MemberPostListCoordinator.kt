@@ -14,6 +14,7 @@ class MemberPostListCoordinator(
         when (action) {
             is MemberPostListAction.OnPullToRefresh -> viewModel.refreshPosts()
             is MemberPostListAction.OnWritePostClick -> viewModel.handleWritePostClick()
+            is MemberPostListAction.OnRefreshChange -> viewModel.setRefreshing(action.isRefreshing)
         }
     }
 }

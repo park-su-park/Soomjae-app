@@ -7,9 +7,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import app.cash.paging.compose.itemKey
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaePullToRefreshBox
@@ -30,6 +32,12 @@ internal fun MemberPostListTab(
     onPostAction: (PostAction) -> Unit,
     posts: LazyPagingItems<MemberPostUi>,
 ) {
+    RefreshEffect(
+        posts = posts,
+        isRefreshing = state.isPostsRefreshing,
+        onRefreshChange = { onAction(MemberPostListAction.OnRefreshChange(it)) },
+    )
+
     SoomjaeScaffold(
         modifier = Modifier.fillMaxSize(),
     ) { innerPadding ->
@@ -38,22 +46,47 @@ internal fun MemberPostListTab(
             onRefresh = { onAction(MemberPostListAction.OnPullToRefresh) },
             modifier = Modifier.fillMaxSize().padding(innerPadding),
         ) {
-            LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(count = posts.itemCount, key = posts.itemKey { it.id }) { index ->
-                    val post = posts[index] ?: return@items
-                    MemberPostListItem(
-                        post = post,
-                        modifier = Modifier.fillMaxWidth()
-                            .clickable {
-                                onPostAction(PostAction.OnNavigateToMemberPostDetail(post.id))
-                            },
-                    )
-                }
-            }
+            MemberPostList(posts = posts, onPostAction = onPostAction)
 
             WriteMeetingPostFab(
                 onWriteClick = { onAction(MemberPostListAction.OnWritePostClick) },
                 modifier = Modifier.align(Alignment.BottomCenter),
+            )
+        }
+    }
+}
+
+@Composable
+private fun RefreshEffect(
+    posts: LazyPagingItems<MemberPostUi>,
+    isRefreshing: Boolean,
+    onRefreshChange: (Boolean) -> Unit,
+) {
+    LaunchedEffect(posts.loadState.refresh, onRefreshChange) {
+        val refresh = posts.loadState.refresh
+        if (refresh is LoadState.NotLoading && isRefreshing) {
+            onRefreshChange(false)
+        }
+    }
+}
+
+@Composable
+private fun MemberPostList(
+    posts: LazyPagingItems<MemberPostUi>,
+    onPostAction: (PostAction) -> Unit,
+) {
+    LazyColumn(modifier = Modifier.fillMaxSize()) {
+        items(
+            count = posts.itemCount,
+            key = posts.itemKey { it.id },
+        ) { index ->
+            val post = posts[index] ?: return@items
+            MemberPostListItem(
+                post = post,
+                modifier = Modifier.fillMaxWidth()
+                    .clickable {
+                        onPostAction(PostAction.OnNavigateToMemberPostDetail(post.id))
+                    },
             )
         }
     }

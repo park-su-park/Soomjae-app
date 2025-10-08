@@ -43,7 +43,15 @@ class MemberPostListViewModel(
     val events = eventChannel.receiveAsFlow()
 
     fun refreshPosts() {
-        // TODO: Refresh logic
+        viewModelScope.launch {
+            eventChannel.send(MemberPostListEvent.RefreshPosts)
+        }
+    }
+
+    fun setRefreshing(isRefreshing: Boolean) {
+        _stateFlow.update {
+            it.copy(isPostsRefreshing = isRefreshing)
+        }
     }
 
     fun handleWritePostClick() {
