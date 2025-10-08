@@ -35,6 +35,7 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
         with(pluginManager) {
             apply("soomjae.multiplatform.compose")
             apply("org.jetbrains.compose.hot-reload")
+            apply("soomjae.crashlytics")
         }
 
         with(extensions) {
