@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -11,6 +12,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.parksupark.soomjae.core.analytics.helpers.AnalyticsHelper
+import com.parksupark.soomjae.core.analytics.ui.LocalAnalyticsHelper
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.ui.ObserveAsEvents
@@ -35,6 +38,7 @@ import org.koin.compose.viewmodel.koinViewModel
 internal fun App(
     viewModel: SoomjaeViewModel = koinViewModel(),
     soomjaeEventController: SoomjaeEventController = koinInject(),
+    analyticsHelper: AnalyticsHelper = koinInject(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var showLoginDialog by remember { mutableStateOf(false) }
@@ -65,35 +69,39 @@ internal fun App(
         )
     }
 
-    AppTheme(theme = uiState.theme) {
-        SoomjaeScaffold {
-            NavHost(
-                navController = navigator.navController,
-                startDestination = HomeDestination.Root,
-                enterTransition = { EnterTransition.None },
-                exitTransition = { ExitTransition.None },
-                popEnterTransition = { EnterTransition.None },
-                popExitTransition = { ExitTransition.None },
-            ) {
-                homeGraph(navigator, bottomBar)
-                authGraph(navigator)
-                postGraph(navigator, bottomBar)
-                profileGraph(navigator, bottomBar)
-                settingGraph(navigator)
+    CompositionLocalProvider(
+        LocalAnalyticsHelper provides analyticsHelper,
+    ) {
+        AppTheme(theme = uiState.theme) {
+            SoomjaeScaffold {
+                NavHost(
+                    navController = navigator.navController,
+                    startDestination = HomeDestination.Root,
+                    enterTransition = { EnterTransition.None },
+                    exitTransition = { ExitTransition.None },
+                    popEnterTransition = { EnterTransition.None },
+                    popExitTransition = { ExitTransition.None },
+                ) {
+                    homeGraph(navigator, bottomBar)
+                    authGraph(navigator)
+                    postGraph(navigator, bottomBar)
+                    profileGraph(navigator, bottomBar)
+                    settingGraph(navigator)
+                }
             }
-        }
 
-        AnimatedVisibility(
-            visible = showLoginDialog,
-            exit = ExitTransition.None,
-        ) {
-            LoginRequestDialog(
-                onCancelClick = { showLoginDialog = false },
-                onConfirmClick = {
-                    showLoginDialog = false
-                    navigator.navigateToLogin()
-                },
-            )
+            AnimatedVisibility(
+                visible = showLoginDialog,
+                exit = ExitTransition.None,
+            ) {
+                LoginRequestDialog(
+                    onCancelClick = { showLoginDialog = false },
+                    onConfirmClick = {
+                        showLoginDialog = false
+                        navigator.navigateToLogin()
+                    },
+                )
+            }
         }
     }
 }
