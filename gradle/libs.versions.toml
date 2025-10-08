@@ -175,6 +175,7 @@ paging-multiplatform-testing = { module = "app.cash.paging:paging-testing", vers
 
 # Rich Editor
 rich-editor = { module = "com.mohamedrejeb.richeditor:richeditor-compose", version.ref = "rich-editor" }
+rich-editor-Coil3 = { module = "com.mohamedrejeb.richeditor:richeditor-compose-coil3", version.ref = "rich-editor" }
 
 # Room
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }

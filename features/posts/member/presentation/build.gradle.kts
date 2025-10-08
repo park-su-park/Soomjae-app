@@ -9,6 +9,7 @@ kotlin {
             implementation(projects.features.posts.member.domain)
 
             implementation(libs.rich.editor)
+            implementation(libs.rich.editor.coil3)
         }
     }
 }
