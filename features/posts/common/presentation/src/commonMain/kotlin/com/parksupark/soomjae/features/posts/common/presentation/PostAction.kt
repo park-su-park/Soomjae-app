@@ -11,5 +11,7 @@ sealed interface PostAction {
 
     data class NavigateToMeetingDetail(val postId: Long) : PostAction
 
+    data class OnNavigateToMemberPostDetail(val postId: Long) : PostAction
+
     data object NavigateToMemberWrite : PostAction
 }

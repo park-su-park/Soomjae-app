@@ -1,17 +1,25 @@
 package com.parksupark.soomjae.features.posts.member.presentation.post_list
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import app.cash.paging.compose.LazyPagingItems
+import app.cash.paging.compose.itemKey
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaePullToRefreshBox
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
+import com.parksupark.soomjae.core.presentation.ui.utils.emptyLazyPagingItems
 import com.parksupark.soomjae.features.posts.common.presentation.PostAction
 import com.parksupark.soomjae.features.posts.common.presentation.components.WritePostFab
+import com.parksupark.soomjae.features.posts.member.presentation.post_list.components.MemberPostListItem
+import com.parksupark.soomjae.features.posts.member.presentation.post_list.models.MemberPostUi
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -20,6 +28,7 @@ internal fun MemberPostListTab(
     state: MemberPostListState,
     onAction: (MemberPostListAction) -> Unit,
     onPostAction: (PostAction) -> Unit,
+    posts: LazyPagingItems<MemberPostUi>,
 ) {
     SoomjaeScaffold(
         modifier = Modifier.fillMaxSize(),
@@ -29,6 +38,19 @@ internal fun MemberPostListTab(
             onRefresh = { onAction(MemberPostListAction.OnPullToRefresh) },
             modifier = Modifier.fillMaxSize().padding(innerPadding),
         ) {
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                items(count = posts.itemCount, key = posts.itemKey { it.id }) { index ->
+                    val post = posts[index] ?: return@items
+                    MemberPostListItem(
+                        post = post,
+                        modifier = Modifier.fillMaxWidth()
+                            .clickable {
+                                onPostAction(PostAction.OnNavigateToMemberPostDetail(post.id))
+                            },
+                    )
+                }
+            }
+
             WriteMeetingPostFab(
                 onWriteClick = { onAction(MemberPostListAction.OnWritePostClick) },
                 modifier = Modifier.align(Alignment.BottomCenter),
@@ -53,6 +75,7 @@ private fun MemberPostListScreenPreview() {
             state = MemberPostListState(),
             onAction = { },
             onPostAction = { },
+            posts = emptyLazyPagingItems(),
         )
     }
 }
