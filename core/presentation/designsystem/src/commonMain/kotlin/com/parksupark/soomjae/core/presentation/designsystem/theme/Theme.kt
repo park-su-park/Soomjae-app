@@ -30,6 +30,9 @@ object SoomjaeTheme {
     val typography: SoomjaeTypography
         @Composable
         get() = LocalSoomjaeTypography.current
+    val drawable: SoomjaeDrawable
+        @Composable
+        get() = SoomjaeDrawable
 }
 
 @Composable
