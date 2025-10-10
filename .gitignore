@@ -18,3 +18,5 @@ Pods/
 project.dot
 *.preferences_pb
 *.keystore
+
+composeApp/google-services.json

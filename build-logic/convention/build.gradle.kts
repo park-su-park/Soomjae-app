@@ -37,6 +37,10 @@ gradlePlugin {
             id = "soomjae.cocoapods.library"
             implementationClass = "com.parksupark.soomjae.buildlogic.ios.CocoapodsLibraryConventionPlugin"
         }
+        register("crashlytics") {
+            id = "soomjae.crashlytics"
+            implementationClass = "com.parksupark.soomjae.buildlogic.common.CrashlyticsConventionPlugin"
+        }
         register("detekt") {
             id = "soomjae.detekt"
             implementationClass =

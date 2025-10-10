@@ -1,5 +1,6 @@
 package com.parksupark.soomjae.di
 
+import com.parksupark.soomjae.core.analytics.di.coreAnalyticsModule
 import com.parksupark.soomjae.core.common.di.coreCommonModule
 import com.parksupark.soomjae.core.data.di.coreDataModule
 import com.parksupark.soomjae.core.presentation.ui.di.corePresentationUiModule
@@ -21,6 +22,8 @@ private val appModule = module {
 
 internal val soomjaeModule = module {
     includes(appModule)
+
+    includes(coreAnalyticsModule)
     includes(coreCommonModule)
     includes(coreDataModule)
     includes(coreRemoteModule)

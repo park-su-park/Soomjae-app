@@ -51,6 +51,10 @@ jobs:
         uses: ./.github/actions/common-steps
         with:
           gradle-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+      - name: Google Services
+        uses: ./.github/actions/google-services
+        with:
+          google-services-json-base64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
       - name: Local Properties
         uses: ./.github/actions/local-properties
         with:
