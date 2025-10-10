@@ -15,6 +15,7 @@ kotlin {
             implementation(projects.core.common)
             implementation(projects.core.data)
             implementation(projects.core.domain)
+            implementation(projects.core.image)
             implementation(projects.core.presentation.designsystem)
             implementation(projects.core.presentation.ui)
             implementation(projects.core.remote)
