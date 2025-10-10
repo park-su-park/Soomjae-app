@@ -10,7 +10,7 @@ import com.parksupark.soomjae.core.image.domain.models.UploadProgress
 import io.ktor.utils.io.InternalAPI
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.flowOn
 
 private const val TAG = "DefaultImageRepository"
@@ -20,19 +20,19 @@ internal class DefaultImageRepository(
     private val dispatcher: SoomjaeDispatcher,
     private val uploader: NetworkUploader,
 ) : ImageRepository {
-    override suspend fun uploadWithProgress(image: ImageData): Flow<UploadProgress> = flow {
-        emit(UploadProgress.InProgress(0f))
+    override fun uploadWithProgress(image: ImageData): Flow<UploadProgress> = channelFlow {
+        trySend(UploadProgress.InProgress(0f))
 
         val result = uploader.uploadBinaryData(image) { fraction ->
-            emit(UploadProgress.InProgress(fraction.coerceIn(0f, 1f)))
+            trySend(UploadProgress.InProgress(fraction.coerceIn(0f, 1f)))
         }
 
         result.fold(
             ifLeft = { failure ->
-                emit(UploadProgress.Error(failure))
+                trySend(UploadProgress.Error(failure))
             },
             ifRight = { response ->
-                emit(UploadProgress.Success(response))
+                trySend(UploadProgress.Success(response))
             },
         )
     }.catch { e ->
