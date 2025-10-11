@@ -117,29 +117,47 @@ fun SoomjaeTextButton(
     shape: Shape = SoomjaeButtonDefaults.shape,
     border: BorderStroke? = null,
     background: Color = Color.Transparent,
-    disabledBackground: Color = SoomjaeTheme.colorScheme.ctaDisabled,
-    contentColor: Color = SoomjaeTheme.colorScheme.text1,
+    disabledBackground: Color = Color.Transparent,
+    contentColor: Color = SoomjaeTheme.colorScheme.cta,
     disabledContentColor: Color = SoomjaeTheme.colorScheme.text4,
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     contentAlign: Alignment = Alignment.Center,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable RowScope.() -> Unit,
 ) {
-    SoomjaeButton(
+    SoomjaeSurface(
         shape = shape,
-        enabled = enabled,
-        contentColor = contentColor,
-        disabledContentColor = disabledContentColor,
+        color = Color.Companion.Transparent,
+        contentColor = if (enabled) contentColor else disabledContentColor,
         border = border,
-        modifier = modifier,
-        background = background,
-        disabledBackground = disabledBackground,
-        onClick = onClick,
-        interactionSource = interactionSource,
-        contentPadding = contentPadding,
+        modifier = modifier
+            .clip(shape = shape)
+            .background(if (enabled) background else disabledBackground)
+            .clickable(
+                onClick = onClick,
+                enabled = enabled,
+                role = Role.Companion.Button,
+                interactionSource = interactionSource,
+                indication = ripple(),
+            ),
         contentAlign = contentAlign,
-        content = content,
-    )
+    ) {
+        ProvideTextStyle(
+            value = SoomjaeTheme.typography.button2,
+        ) {
+            Row(
+                Modifier.Companion
+                    .defaultMinSize(
+                        minWidth = ButtonDefaults.MinWidth,
+                        minHeight = ButtonDefaults.MinHeight,
+                    )
+                    .padding(paddingValues = contentPadding),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+                content = content,
+            )
+        }
+    }
 }
 
 object SoomjaeButtonDefaults {
