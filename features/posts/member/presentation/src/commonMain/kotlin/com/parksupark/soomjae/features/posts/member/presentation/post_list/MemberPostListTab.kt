@@ -45,7 +45,7 @@ internal fun MemberPostListTab(
             onRefresh = { onAction(MemberPostListAction.OnPullToRefresh) },
             modifier = Modifier.fillMaxSize().padding(innerPadding),
         ) {
-            MemberPostList(posts = posts, onPostAction = onPostAction)
+            MemberPostList(posts = posts, onAction = onAction)
 
             WriteMeetingPostFab(
                 onWriteClick = { onAction(MemberPostListAction.OnWritePostClick) },
@@ -72,7 +72,7 @@ private fun RefreshEffect(
 @Composable
 private fun MemberPostList(
     posts: LazyPagingItems<MemberPostUi>,
-    onPostAction: (PostAction) -> Unit,
+    onAction: (MemberPostListAction) -> Unit,
 ) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         items(
@@ -86,7 +86,7 @@ private fun MemberPostList(
                     // TODO
                 },
                 onCommentClick = {
-                    // TODO
+                    onAction(MemberPostListAction.OnCommentClick(postId = post.id))
                 },
                 modifier = Modifier.fillMaxWidth(),
             )

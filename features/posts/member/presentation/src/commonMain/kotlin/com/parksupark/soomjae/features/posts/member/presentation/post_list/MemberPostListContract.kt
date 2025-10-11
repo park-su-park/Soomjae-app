@@ -6,6 +6,7 @@ import com.parksupark.soomjae.features.posts.member.presentation.post_list.model
 data class MemberPostListState(
     val isPostsRefreshing: Boolean = false,
     val posts: PagingData<MemberPostUi> = PagingData.empty(),
+    val selectedPostId: Long? = null,
 )
 
 sealed interface MemberPostListAction {
@@ -14,6 +15,10 @@ sealed interface MemberPostListAction {
     data object OnWritePostClick : MemberPostListAction
 
     data class OnRefreshChange(val isRefreshing: Boolean) : MemberPostListAction
+
+    data class OnCommentClick(val postId: Long) : MemberPostListAction
+
+    data object OnBottomSheetDismiss : MemberPostListAction
 }
 
 sealed interface MemberPostListEvent {

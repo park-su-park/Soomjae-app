@@ -76,4 +76,10 @@ class MemberPostListViewModel(
                 }
             }.launchIn(viewModelScope)
     }
+
+    fun setSelectedPostId(postId: Long?) {
+        _stateFlow.update {
+            it.copy(selectedPostId = postId)
+        }
+    }
 }

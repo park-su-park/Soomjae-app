@@ -2,27 +2,45 @@ package com.parksupark.soomjae.features.posts.member.presentation.post_list
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import com.parksupark.soomjae.features.posts.member.presentation.post_list.comment.MemberPostCommentViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 class MemberPostListCoordinator(
-    val viewModel: MemberPostListViewModel,
+    val postViewModel: MemberPostListViewModel,
+    private val commentViewModel: MemberPostCommentViewModel,
 ) {
-    val screenStateFlow = viewModel.stateFlow
-    val events = viewModel.events
+    val screenStateFlow = postViewModel.stateFlow
+    val commentStateFlow = commentViewModel.stateFlow
+    val events = postViewModel.events
 
     fun handle(action: MemberPostListAction) {
         when (action) {
-            is MemberPostListAction.OnPullToRefresh -> viewModel.refreshPosts()
-            is MemberPostListAction.OnWritePostClick -> viewModel.handleWritePostClick()
-            is MemberPostListAction.OnRefreshChange -> viewModel.setRefreshing(action.isRefreshing)
+            is MemberPostListAction.OnPullToRefresh -> postViewModel.refreshPosts()
+            is MemberPostListAction.OnWritePostClick -> postViewModel.handleWritePostClick()
+            is MemberPostListAction.OnRefreshChange -> postViewModel.setRefreshing(action.isRefreshing)
+            is MemberPostListAction.OnCommentClick -> handleCommentClick(action.postId)
+            is MemberPostListAction.OnBottomSheetDismiss -> handleBottomSheetDismiss()
         }
+    }
+
+    private fun handleCommentClick(postId: Long) {
+        postViewModel.setSelectedPostId(postId)
+        commentViewModel.loadCommentsForPost(postId)
+    }
+
+    private fun handleBottomSheetDismiss() {
+        postViewModel.setSelectedPostId(null)
+        commentViewModel.clearComments()
     }
 }
 
 @Composable
-fun rememberMemberPostListCoordinator(viewModel: MemberPostListViewModel = koinViewModel()): MemberPostListCoordinator =
-    remember(viewModel) {
-        MemberPostListCoordinator(
-            viewModel = viewModel,
-        )
-    }
+fun rememberMemberPostListCoordinator(
+    postViewModel: MemberPostListViewModel = koinViewModel(),
+    commentViewModel: MemberPostCommentViewModel = koinViewModel(),
+): MemberPostListCoordinator = remember(postViewModel, commentViewModel) {
+    MemberPostListCoordinator(
+        postViewModel = postViewModel,
+        commentViewModel = commentViewModel,
+    )
+}
