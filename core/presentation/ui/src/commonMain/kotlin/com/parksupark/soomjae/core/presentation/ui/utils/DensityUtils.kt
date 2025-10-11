@@ -12,5 +12,5 @@ fun TextUnit.toDp(): Dp = with(LocalDensity.current) {
 
 @Composable
 fun Int.pxToDp(): Dp = with(LocalDensity.current) {
-    (this@pxToDp / density).toDp()
+    this@pxToDp.toDp()
 }
