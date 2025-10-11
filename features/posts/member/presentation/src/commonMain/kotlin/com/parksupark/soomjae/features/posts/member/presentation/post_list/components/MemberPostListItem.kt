@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.mohamedrejeb.richeditor.annotation.ExperimentalRichTextApi
+import com.parksupark.soomjae.core.presentation.designsystem.components.ExpandableText
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSurface
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
@@ -244,7 +245,10 @@ private fun MemberPostListContent(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        Text(text = content)
+        ExpandableText(
+            text = content,
+            modifier = Modifier.fillMaxWidth(),
+        )
 
         Text(
             text = createdAt,
@@ -270,7 +274,36 @@ private fun MemberPostListItemPreview() {
                     ),
                     createdAt = Clock.System.now(),
                     isLiked = true,
-                    content = "안녕하세요 반갑습니다",
+                    content = "안녕하세요 반갑습니다.안녕하세요 반갑습니다.안녕하세요 반갑습니다.안녕하세요 반갑습니다.안녕하세요 반갑습니다.안녕하세요 반갑습니다.안녕하세요 반갑습니다.안녕하세요 반갑습니다.",
+                    images = persistentListOf(),
+                    likeCount = 12,
+                    commentCount = 34,
+                ),
+                onMenuClick = { },
+                onCommentClick = { },
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalTime::class)
+@Preview
+@Composable
+private fun MemberPostListItemPreview2() {
+    AppTheme {
+        SoomjaeSurface {
+            MemberPostListItem(
+                post = MemberPostUi(
+                    id = 1,
+                    author = AuthorUi(
+                        id = "1",
+                        nickname = "nickname",
+                        profileImageUrl = "https://picsum.photos/200",
+                    ),
+                    createdAt = Clock.System.now(),
+                    isLiked = true,
+                    content = "안녕하세요 반갑습니다.\n안녕하세요 반갑습니다.\n안녕하세요 반갑습니다.",
                     images = persistentListOf(),
                     likeCount = 12,
                     commentCount = 34,
