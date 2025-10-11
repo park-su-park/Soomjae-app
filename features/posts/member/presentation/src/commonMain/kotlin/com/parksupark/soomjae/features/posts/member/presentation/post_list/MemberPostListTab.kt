@@ -1,6 +1,5 @@
 package com.parksupark.soomjae.features.posts.member.presentation.post_list
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -83,10 +82,13 @@ private fun MemberPostList(
             val post = posts[index] ?: return@items
             MemberPostListItem(
                 post = post,
-                modifier = Modifier.fillMaxWidth()
-                    .clickable {
-                        onPostAction(PostAction.OnNavigateToMemberPostDetail(post.id))
-                    },
+                onMenuClick = {
+                    // TODO
+                },
+                onCommentClick = {
+                    // TODO
+                },
+                modifier = Modifier.fillMaxWidth(),
             )
         }
     }

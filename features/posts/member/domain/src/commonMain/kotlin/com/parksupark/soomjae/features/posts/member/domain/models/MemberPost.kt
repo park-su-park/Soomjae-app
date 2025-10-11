@@ -7,8 +7,11 @@ import kotlin.time.Instant
 @OptIn(ExperimentalTime::class)
 data class MemberPost(
     val id: Long,
-    val content: String,
     val author: Member,
+    val content: String,
+    val images: List<String>,
     val createdAt: Instant,
     val isLiked: Boolean,
+    val likeCount: Long,
+    val commentCount: Long,
 )

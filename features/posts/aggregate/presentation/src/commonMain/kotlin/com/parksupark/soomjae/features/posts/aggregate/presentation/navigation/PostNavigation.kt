@@ -157,7 +157,3 @@ fun NavHostController.navigateToParticipantList(meetingId: Long) {
 fun NavHostController.navigateToMemberWrite() {
     // TODO: Implement member write navigation
 }
-
-fun NavHostController.navigateToMemberPostDetail(postId: Long) {
-    // TODO: Implement member post detail navigation
-}

@@ -13,17 +13,23 @@ import kotlinx.serialization.Serializable
 @Serializable
 internal data class MemberPostResponse(
     @SerialName("id") val id: Long,
-    @SerialName("content") val content: String,
     @SerialName("author") val author: MemberResponse,
+    @SerialName("content") val content: String,
+    @SerialName("images") val images: List<String>,
     @SerialName("createdTime") val createdAt: Instant,
-    @SerialName("isLiked") val isLiked: Boolean = false,
+    @SerialName("isLiked") val isLiked: Boolean,
+    @SerialName("likeCount") val likeCount: Long,
+    @SerialName("commentCount") val commentCount: Long,
 )
 
 @OptIn(ExperimentalTime::class)
 internal fun MemberPostResponse.toMemberPost(): MemberPost = MemberPost(
     id = this.id,
-    content = this.content,
     author = this.author.toModel(),
+    content = this.content,
+    images = this.images,
     createdAt = this.createdAt.toStdlibInstant(),
     isLiked = this.isLiked,
+    likeCount = likeCount,
+    commentCount = commentCount,
 )

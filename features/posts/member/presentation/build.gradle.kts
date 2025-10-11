@@ -5,6 +5,7 @@ plugins {
 kotlin {
     sourceSets {
         commonMain.dependencies {
+            implementation(projects.core.image)
             implementation(projects.features.posts.common.presentation)
             implementation(projects.features.posts.member.domain)
 

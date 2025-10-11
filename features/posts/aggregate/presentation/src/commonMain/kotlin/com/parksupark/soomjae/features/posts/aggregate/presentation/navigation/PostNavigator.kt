@@ -54,10 +54,6 @@ private class SoomjaePostNavigator(
     override fun navigateToMemberWrite() {
         overridden()
     }
-
-    override fun navigateToMemberPostDetail(postId: Long) {
-        overridden()
-    }
 }
 
 fun soomjaePostNavigator(navController: NavHostController): PostNavigator = SoomjaePostNavigator(

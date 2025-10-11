@@ -6,8 +6,6 @@ import com.parksupark.soomjae.core.presentation.ui.navigation.overridden
 
 interface MemberNavigator : SoomjaeNavigator {
     fun navigateToMemberWrite()
-
-    fun navigateToMemberPostDetail(postId: Long)
 }
 
 private class SoomjaeMemberNavigator(
@@ -18,10 +16,6 @@ private class SoomjaeMemberNavigator(
     }
 
     override fun navigateToMemberWrite() {
-        overridden()
-    }
-
-    override fun navigateToMemberPostDetail(postId: Long) {
         overridden()
     }
 }
