@@ -28,4 +28,9 @@ internal class DefaultMeetingCommentRepository(
     ): Either<DataFailure, Unit> = httpClient.delete<Unit>(
         route = "/v1/boards/meeting/posts/$postId/comments/$commentID",
     )
+
+    override suspend fun getComments(postId: Long): Either<DataFailure, List<Comment>> {
+        // TODO: Implement this method
+        return Either.Left(DataFailure.Local.UNKNOWN)
+    }
 }
