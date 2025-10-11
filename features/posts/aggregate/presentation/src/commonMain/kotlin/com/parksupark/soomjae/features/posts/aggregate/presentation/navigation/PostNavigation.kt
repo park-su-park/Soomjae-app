@@ -24,6 +24,8 @@ import com.parksupark.soomjae.features.posts.meeting.presentation.participant_li
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingWriteRoute
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingWriteViewModel
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.rememberMeetingWriteCoordinator
+import com.parksupark.soomjae.features.posts.member.presentation.navigation.MemberDestination
+import com.parksupark.soomjae.features.posts.member.presentation.post_write.MemberPostWriteRoute
 import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.compose.viewmodel.sharedKoinViewModel
@@ -121,6 +123,11 @@ fun NavGraphBuilder.postGraph(
                 ),
             )
         }
+        composable<MemberDestination.MemberPostWrite> {
+            MemberPostWriteRoute(
+                navigator = navigator,
+            )
+        }
     }
 }
 
@@ -142,7 +149,7 @@ fun NavHostController.navigateToMeetingCreate() {
 
 fun NavHostController.navigateToMeetingDetail(postId: Long) {
     navigate(PostDestination.MeetingDetail(postId)) {
-        popUpTo<PostDestination.MeetingWrite> {
+        popUpTo<PostDestination.MeetingDetail> {
             inclusive = true
         }
     }
@@ -155,5 +162,7 @@ fun NavHostController.navigateToParticipantList(meetingId: Long) {
 }
 
 fun NavHostController.navigateToMemberWrite() {
-    // TODO: Implement member write navigation
+    navigate(MemberDestination.MemberPostWrite) {
+        launchSingleTop = true
+    }
 }

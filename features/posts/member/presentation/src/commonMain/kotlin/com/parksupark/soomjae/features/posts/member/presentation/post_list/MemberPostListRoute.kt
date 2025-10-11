@@ -36,7 +36,7 @@ fun MemberPostListRoute(
         flow = coordinator.events,
         onEvent = {
             when (it) {
-                is MemberPostListEvent.NavigateToWritePost -> onPostAction(PostAction.OnNavigateToMemberWrite)
+                is MemberPostListEvent.NavigateToWritePost -> onPostAction(PostAction.NavigateToMemberWrite)
                 is MemberPostListEvent.RefreshPosts -> {
                     actionHandler(MemberPostListAction.OnRefreshChange(true))
                     posts.refresh()

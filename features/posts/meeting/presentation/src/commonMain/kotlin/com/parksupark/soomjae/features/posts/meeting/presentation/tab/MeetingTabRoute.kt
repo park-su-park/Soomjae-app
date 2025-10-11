@@ -23,7 +23,7 @@ fun MeetingTabRoute(
         flow = coordinator.events,
     ) { event ->
         when (event) {
-            MeetingTabEvent.NavigateToMeetingWrite -> onPostAction(PostAction.OnNavigateToMemberWrite)
+            MeetingTabEvent.NavigateToMeetingWrite -> onPostAction(PostAction.NavigateToMeetingWrite)
         }
     }
 
