@@ -10,17 +10,26 @@ import com.parksupark.soomjae.core.presentation.ui.ObserveAsEvents
 import com.parksupark.soomjae.core.presentation.ui.components.SoomjaeSnackbarHost
 import com.parksupark.soomjae.core.presentation.ui.components.showSnackbar
 import com.parksupark.soomjae.features.posts.meeting.presentation.navigation.MeetingNavigator
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.compose.MeetingComposeScreen
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.create.MeetingCreateAction
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.create.MeetingCreateScreen
 import kotlinx.coroutines.launch
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun MeetingWriteRoute(
     navigator: MeetingNavigator,
-    coordinator: MeetingWriteCoordinator = rememberMeetingWriteCoordinator(navigator),
+    coordinator: MeetingWriteCoordinator = koinViewModel { parametersOf(navigator) },
 ) {
-    val uiState by coordinator.screenStateFlow.collectAsStateWithLifecycle(MeetingWriteState())
+    val uiState by coordinator.screenStateFlow.collectAsStateWithLifecycle()
 
-    val actionsHandler: (MeetingWriteAction) -> Unit = { action ->
+    val writeActionsHandler: (MeetingWriteAction) -> Unit = { action ->
         coordinator.handle(action)
+    }
+
+    val createActionHandler: (MeetingCreateAction) -> Unit = { action ->
+        // TODO: Handle create actions if needed
     }
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -37,9 +46,17 @@ fun MeetingWriteRoute(
         }
     }
 
-    MeetingWriteScreen(
-        state = uiState,
-        onAction = actionsHandler,
-        snackbarHost = { SoomjaeSnackbarHost(snackbarHostState) },
-    )
+    val screenState = uiState.screenState
+    when (screenState.screenState) {
+        MeetingPostWriteScreenState.COMPOSE -> MeetingComposeScreen(
+            state = uiState.composeState,
+            onAction = writeActionsHandler,
+            snackbarHost = { SoomjaeSnackbarHost(snackbarHostState) },
+        )
+
+        MeetingPostWriteScreenState.CREATE -> MeetingCreateScreen(
+            state = uiState.createState,
+            onAction = createActionHandler,
+        )
+    }
 }

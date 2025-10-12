@@ -1,39 +1,49 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.write
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.parksupark.soomjae.features.posts.meeting.presentation.navigation.MeetingNavigator
-import org.koin.compose.viewmodel.koinViewModel
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.compose.MeetingComposeViewModel
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.create.MeetingCreateViewModel
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 
 class MeetingWriteCoordinator(
     private val navigator: MeetingNavigator,
-    val viewModel: MeetingWriteViewModel,
-) {
-    internal val screenStateFlow = viewModel.stateFlow
-    internal val events = viewModel.events
+    val screenViewModel: MeetingWriteScreenViewModel,
+    val composeViewModel: MeetingComposeViewModel,
+    val createViewModel: MeetingCreateViewModel,
+) : ViewModel() {
+    internal val screenStateFlow = combine(
+        screenViewModel.stateFlow,
+        composeViewModel.stateFlow,
+        createViewModel.stateFlow,
+    ) { screenState, composeState, createState ->
+        MeetingWriteCoordinatorState(
+            screenState = screenState,
+            composeState = composeState,
+            createState = createState,
+        )
+    }.stateIn(
+        scope = this.viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = MeetingWriteCoordinatorState(),
+    )
+
+    internal val events = composeViewModel.events
 
     internal fun handle(action: MeetingWriteAction) {
         when (action) {
             MeetingWriteAction.OnBackClick -> navigator.navigateBack()
 
-            MeetingWriteAction.OnConfirmClick -> viewModel.submitPost()
+            MeetingWriteAction.OnConfirmClick -> composeViewModel.submitPost()
 
-            MeetingWriteAction.OnCreateMeetingClick -> navigator.navigateToMeetingCreate()
+            is MeetingWriteAction.OnCategorySelect -> composeViewModel.selectCategory(action.categoryId)
 
-            is MeetingWriteAction.OnCategorySelect -> viewModel.selectCategory(action.categoryId)
+            is MeetingWriteAction.OnLocationSelect -> composeViewModel.selectLocation(action.locationCode)
 
-            is MeetingWriteAction.OnLocationSelect -> viewModel.selectLocation(action.locationCode)
+            MeetingWriteAction.OnCreateMeetingClick -> screenViewModel.setScreenState(MeetingPostWriteScreenState.COMPOSE)
         }
     }
-}
-
-@Composable
-fun rememberMeetingWriteCoordinator(
-    navigator: MeetingNavigator,
-    viewModel: MeetingWriteViewModel = koinViewModel(),
-): MeetingWriteCoordinator = remember(viewModel) {
-    MeetingWriteCoordinator(
-        navigator = navigator,
-        viewModel = viewModel,
-    )
 }

@@ -1,11 +1,12 @@
-package com.parksupark.soomjae.features.posts.meeting.presentation.write
+package com.parksupark.soomjae.features.posts.meeting.presentation.write.compose
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.collectAsFlow
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
-import com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate.MeetingCreateState
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingWriteEvent
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.create.MeetingCreateState
 import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,11 +26,11 @@ import kotlinx.datetime.atTime
 import kotlinx.datetime.toInstant
 
 @OptIn(ExperimentalTime::class)
-class MeetingWriteViewModel(
+class MeetingComposeViewModel(
     private val meetingPostRepository: MeetingPostRepository,
 ) : ViewModel() {
-    private val _stateFlow: MutableStateFlow<MeetingWriteState> = MutableStateFlow(MeetingWriteState())
-    internal val stateFlow: StateFlow<MeetingWriteState> = _stateFlow.asStateFlow()
+    private val _stateFlow: MutableStateFlow<MeetingComposeState> = MutableStateFlow(MeetingComposeState())
+    internal val stateFlow: StateFlow<MeetingComposeState> = _stateFlow.asStateFlow()
 
     private val eventChannel = Channel<MeetingWriteEvent>()
     internal val events = eventChannel.receiveAsFlow()

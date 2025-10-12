@@ -1,14 +1,14 @@
-package com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate
+package com.parksupark.soomjae.features.posts.meeting.presentation.write.create
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import com.parksupark.soomjae.features.posts.meeting.presentation.navigation.MeetingNavigator
-import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingWriteViewModel
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.compose.MeetingComposeViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 class MeetingCreateCoordinator(
     private val navigator: MeetingNavigator,
-    private val viewModel: MeetingWriteViewModel,
+    private val viewModel: MeetingComposeViewModel,
 ) {
     internal val screenStateFlow = viewModel.createStateFlow
 
@@ -35,7 +35,7 @@ class MeetingCreateCoordinator(
 @Composable
 fun rememberMeetingCreateCoordinator(
     navigator: MeetingNavigator,
-    viewModel: MeetingWriteViewModel = koinViewModel(),
+    viewModel: MeetingComposeViewModel = koinViewModel(),
 ): MeetingCreateCoordinator = remember(viewModel) {
     MeetingCreateCoordinator(
         navigator = navigator,

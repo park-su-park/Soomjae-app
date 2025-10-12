@@ -17,18 +17,13 @@ import com.parksupark.soomjae.features.posts.community.presentation.write.Commun
 import com.parksupark.soomjae.features.posts.meeting.presentation.detail.MeetingDetailRoute
 import com.parksupark.soomjae.features.posts.meeting.presentation.detail.MeetingDetailViewModel
 import com.parksupark.soomjae.features.posts.meeting.presentation.detail.rememberMeetingDetailCoordinator
-import com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate.MeetingCreateRoute
-import com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate.rememberMeetingCreateCoordinator
 import com.parksupark.soomjae.features.posts.meeting.presentation.participant_list.ParticipantListRoute
 import com.parksupark.soomjae.features.posts.meeting.presentation.participant_list.rememberParticipantListCoordinator
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingWriteRoute
-import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingWriteViewModel
-import com.parksupark.soomjae.features.posts.meeting.presentation.write.rememberMeetingWriteCoordinator
 import com.parksupark.soomjae.features.posts.member.presentation.navigation.MemberDestination
 import com.parksupark.soomjae.features.posts.member.presentation.post_write.MemberPostWriteRoute
 import kotlinx.serialization.Serializable
 import org.koin.compose.viewmodel.koinViewModel
-import org.koin.compose.viewmodel.sharedKoinViewModel
 import org.koin.core.parameter.parametersOf
 
 sealed interface PostDestination : NavigationDestination {
@@ -49,9 +44,6 @@ sealed interface PostDestination : NavigationDestination {
 
     @Serializable
     data object MeetingWrite : PostDestination
-
-    @Serializable
-    data object MeetingCreate : PostDestination
 
     @Serializable
     data class MeetingDetail(val postId: Long) : PostDestination
@@ -79,17 +71,8 @@ fun NavGraphBuilder.postGraph(
         }
 
         composable<PostDestination.MeetingWrite> {
-            val viewModel = it.sharedKoinViewModel<MeetingWriteViewModel>(navigator.navController)
             MeetingWriteRoute(
                 navigator = navigator,
-                coordinator = rememberMeetingWriteCoordinator(navigator, viewModel),
-            )
-        }
-        composable<PostDestination.MeetingCreate> {
-            val viewModel = it.sharedKoinViewModel<MeetingWriteViewModel>(navigator.navController)
-            MeetingCreateRoute(
-                navigator = navigator,
-                coordinator = rememberMeetingCreateCoordinator(navigator, viewModel),
             )
         }
         composable<PostDestination.MeetingDetail> {
@@ -147,10 +130,6 @@ fun NavHostController.navigateToCommunityDetail(postId: Long) {
 
 fun NavHostController.navigateToMeetingWrite() {
     navigate(PostDestination.MeetingWrite)
-}
-
-fun NavHostController.navigateToMeetingCreate() {
-    navigate(PostDestination.MeetingCreate)
 }
 
 fun NavHostController.navigateToMeetingDetail(postId: Long) {

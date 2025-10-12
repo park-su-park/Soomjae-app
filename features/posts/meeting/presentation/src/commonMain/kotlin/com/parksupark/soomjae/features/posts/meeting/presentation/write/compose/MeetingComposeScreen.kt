@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.meeting.presentation.write
+package com.parksupark.soomjae.features.posts.meeting.presentation.write.compose
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,12 +37,13 @@ import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meet
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_write_meeting_label
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_write_meeting_placeholder
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_write_navigate_up_description
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingWriteAction
 import kotlinx.collections.immutable.ImmutableList
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-internal fun MeetingWriteScreen(
-    state: MeetingWriteState,
+internal fun MeetingComposeScreen(
+    state: MeetingComposeState,
     onAction: (MeetingWriteAction) -> Unit,
     snackbarHost: @Composable () -> Unit,
 ) {
@@ -190,8 +191,8 @@ private fun MeetingSelection(
 @Preview
 private fun MeetingWriteScreenPreview() {
     AppTheme {
-        MeetingWriteScreen(
-            state = MeetingWriteState(),
+        MeetingComposeScreen(
+            state = MeetingComposeState(),
             onAction = { },
             snackbarHost = { },
         )

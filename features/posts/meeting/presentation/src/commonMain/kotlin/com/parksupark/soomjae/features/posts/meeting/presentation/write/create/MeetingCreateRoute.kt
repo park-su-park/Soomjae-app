@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate
+package com.parksupark.soomjae.features.posts.meeting.presentation.write.create
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue

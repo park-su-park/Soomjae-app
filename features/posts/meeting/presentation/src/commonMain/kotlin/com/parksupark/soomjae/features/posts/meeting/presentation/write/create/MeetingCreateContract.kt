@@ -1,10 +1,10 @@
-package com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate
+package com.parksupark.soomjae.features.posts.meeting.presentation.write.create
 
 import com.parksupark.soomjae.features.posts.meeting.presentation.models.MeetingCreateUi
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 
-internal data class MeetingCreateState(
+data class MeetingCreateState(
     val meeting: MeetingCreateUi = MeetingCreateUi.Empty,
 )
 
