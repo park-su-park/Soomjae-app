@@ -1,5 +1,6 @@
 plugins {
     id("soomjae.multiplatform.data.preferences")
+    id("soomjae.multiplatform.data.remote")
 }
 
 kotlin {

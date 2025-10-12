@@ -1,6 +1,7 @@
 package com.parksupark.soomjae.core.remote.networking
 
-import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
+import com.parksupark.soomjae.core.domain.auth.datasources.SessionDataSource
+import com.parksupark.soomjae.core.remote.dtos.response.RefreshTokenResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngineConfig
 import io.ktor.client.engine.HttpClientEngineFactory
@@ -21,7 +22,7 @@ import co.touchlab.kermit.Logger as Kermit
 expect fun platformHttpClientEngine(): HttpClientEngineFactory<HttpClientEngineConfig>
 
 internal class HttpClientFactory(
-    private val sessionRepository: SessionRepository,
+    private val sessionRepository: SessionDataSource,
 ) {
     fun build(): HttpClient = HttpClient(platformHttpClientEngine()) {
         install(ContentNegotiation) {
@@ -43,9 +44,37 @@ internal class HttpClientFactory(
             bearer {
                 loadTokens {
                     val info = sessionRepository.get()
+
                     BearerTokens(
                         accessToken = info?.accessToken.orEmpty(),
                         refreshToken = null,
+                    ).also {
+                        Kermit.d(HTTPCLIENT_TAG) { "loadTokens(): ${it.accessToken}" }
+                    }
+                }
+                refreshTokens {
+                    client.post<Unit, RefreshTokenResponse>(
+                        route = "/v1/auth/refresh",
+                        body = Unit,
+                    ).fold(
+                        ifLeft = {
+                            Kermit.e(HTTPCLIENT_AUTH_TAG) { "Failed to refresh token: $it" }
+                            null
+                        },
+                        ifRight = {
+                            Kermit.d(HTTPCLIENT_AUTH_TAG) { "Successfully refreshed token" }
+                            val newAccessToken = it.accessToken
+                            val currentInfo = sessionRepository.get()
+                            if (currentInfo != null) {
+                                sessionRepository.set(
+                                    currentInfo.copy(accessToken = newAccessToken),
+                                )
+                            }
+                            BearerTokens(
+                                accessToken = newAccessToken,
+                                refreshToken = null,
+                            )
+                        },
                     )
                 }
             }
@@ -58,3 +87,4 @@ internal class HttpClientFactory(
 }
 
 private const val HTTPCLIENT_TAG = "HttpClient"
+private const val HTTPCLIENT_AUTH_TAG = "HttpClientAuth"
