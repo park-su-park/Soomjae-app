@@ -2,21 +2,23 @@ package com.parksupark.soomjae.features.posts.community.presentation.detail
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.Comment
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -26,20 +28,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCircularProgressIndicator
-import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeHorizontalDivider
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeTopAppBar
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeVerticalDivider
+import com.parksupark.soomjae.core.presentation.designsystem.modifiers.bottomBorder
+import com.parksupark.soomjae.core.presentation.designsystem.modifiers.topBorder
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.features.posts.common.presentation.components.CommentBar
 import com.parksupark.soomjae.features.posts.common.presentation.components.CommentItem
+import com.parksupark.soomjae.features.posts.common.presentation.components.PostActionItem
 import com.parksupark.soomjae.features.posts.common.presentation.components.PostDetailAuthorHeader
 import com.parksupark.soomjae.features.posts.common.presentation.components.PostDetailTitleHeader
+import com.parksupark.soomjae.features.posts.common.presentation.models.PostActionType
+import com.parksupark.soomjae.features.posts.common.presentation.models.PostActionUi
 import com.parksupark.soomjae.features.posts.community.presentation.resources.Res
 import com.parksupark.soomjae.features.posts.community.presentation.resources.community_detail_comment_button_description
-import com.parksupark.soomjae.features.posts.community.presentation.resources.community_detail_dislike_button_description
-import com.parksupark.soomjae.features.posts.community.presentation.resources.community_detail_like_button_description
 import com.parksupark.soomjae.features.posts.community.presentation.resources.community_detail_navigate_up_description
 import com.parksupark.soomjae.features.posts.community.presentation.resources.community_detail_title
 
@@ -53,7 +57,9 @@ internal fun CommunityDetailScreen(
             // Handle error state, e.g., show a snackbar or dialog
         }
 
-        is CommunityDetailState.InitialLoading -> SoomjaeCircularProgressIndicator()
+        is CommunityDetailState.InitialLoading -> Box {
+            SoomjaeCircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+        }
 
         is CommunityDetailState.Success -> SoomjaeScaffold(
             topBar = { CommunityDetailTopBar(onBackClick = { onAction(CommunityDetailAction.OnBackClick) }) },
@@ -173,13 +179,19 @@ private fun PostAdditionalButtons(
     likeCount: Int,
     commentCount: Int,
 ) {
-    SoomjaeHorizontalDivider()
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .topBorder(
+                color = SoomjaeTheme.colorScheme.divider1,
+                height = 1.dp,
+            ).bottomBorder(
+                color = SoomjaeTheme.colorScheme.divider1,
+                height = 1.dp,
+            ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         LikeButton(onToggleLikeClick = onToggleLikeClick, isLiked = isLiked, likeCount = likeCount)
-        SoomjaeVerticalDivider(modifier = Modifier.padding(vertical = 16.dp))
+        SoomjaeVerticalDivider(modifier = Modifier.width(1.dp).height(IntrinsicSize.Max))
         CommentButton(commentCount = commentCount)
     }
 }
@@ -199,23 +211,11 @@ private fun RowScope.LikeButton(
         horizontalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.CenterHorizontally),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        if (isLiked) {
-            Icon(
-                imageVector = Icons.Filled.Favorite,
-                contentDescription = Res.string.community_detail_dislike_button_description.value,
-                tint = SoomjaeTheme.colorScheme.primary,
-            )
-        } else {
-            Icon(
-                imageVector = Icons.Filled.FavoriteBorder,
-                contentDescription = Res.string.community_detail_like_button_description.value,
-            )
-        }
-
-        Text(
-            text = "$likeCount",
-            style = SoomjaeTheme.typography.body2.copy(
-                color = SoomjaeTheme.colorScheme.text2,
+        PostActionItem(
+            action = PostActionUi(
+                type = PostActionType.Like,
+                isSelected = isLiked,
+                count = likeCount.toLong(),
             ),
         )
     }

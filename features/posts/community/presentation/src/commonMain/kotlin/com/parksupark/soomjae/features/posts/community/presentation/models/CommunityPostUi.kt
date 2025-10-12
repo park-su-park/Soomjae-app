@@ -5,6 +5,7 @@ import com.parksupark.soomjae.core.presentation.ui.utils.toRelativeTimeString
 import com.parksupark.soomjae.features.posts.common.presentation.models.AuthorUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
 import com.parksupark.soomjae.features.posts.community.domain.models.CommunityPost
+import kotlin.random.Random
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
@@ -14,6 +15,9 @@ data class CommunityPostUi(
     val title: String,
     val content: String,
     val author: AuthorUi,
+    val likeCount: Int,
+    val isUserLiked: Boolean,
+    val commentCount: Int,
     val createdAt: Instant,
 ) {
     val formattedCreatedAt: String
@@ -27,4 +31,7 @@ internal fun CommunityPost.toUi(): CommunityPostUi = CommunityPostUi(
     content = content,
     author = author.toUi(),
     createdAt = createdAt,
+    likeCount = this.likeCount,
+    isUserLiked = this.isUserLiked,
+    commentCount = Random.nextInt(20),
 )

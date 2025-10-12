@@ -40,7 +40,7 @@ fun PostActionItem(
                 action.type::class.simpleName
             },
             tint = tint,
-            modifier = Modifier.size(22.dp),
+            modifier = Modifier.size(24.dp),
         )
 
         if (action.count != null) {

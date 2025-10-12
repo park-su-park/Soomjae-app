@@ -23,7 +23,7 @@ class GetCommunityPostDetailWithLikedStream(
             val like = liked.bind()
 
             CommunityPostDetailWithLiked(
-                post = post,
+                postDetail = post,
                 isLiked = like.liked,
             )
         }

@@ -2,6 +2,7 @@ package com.parksupark.soomjae.features.posts.community.data.sources
 
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
+import com.parksupark.soomjae.features.posts.community.data.dtos.CommunityPostDetailResponse
 import com.parksupark.soomjae.features.posts.community.data.dtos.CommunityPostResponse
 import com.parksupark.soomjae.features.posts.community.data.dtos.PostCommunityPostResponse
 
@@ -15,5 +16,5 @@ internal interface CommunityRemoteSource {
         locationCode: Long? = null,
     ): Either<DataFailure.Network, PostCommunityPostResponse>
 
-    suspend fun getPostDetails(postId: Long): Either<DataFailure.Network, CommunityPostResponse>
+    suspend fun getPostDetails(postId: Long): Either<DataFailure.Network, CommunityPostDetailResponse>
 }

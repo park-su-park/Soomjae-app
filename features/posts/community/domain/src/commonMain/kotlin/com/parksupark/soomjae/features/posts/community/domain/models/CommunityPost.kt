@@ -11,4 +11,10 @@ data class CommunityPost(
     val content: String,
     val author: Member,
     val createdAt: Instant,
+
+    val categoryName: String?,
+    val locationName: String?,
+
+    val likeCount: Int,
+    val isUserLiked: Boolean,
 )
