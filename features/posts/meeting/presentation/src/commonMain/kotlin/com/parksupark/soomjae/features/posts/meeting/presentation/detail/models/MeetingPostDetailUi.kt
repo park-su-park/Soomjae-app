@@ -12,13 +12,23 @@ import kotlinx.collections.immutable.toImmutableList
 data class MeetingPostDetailUi(
     val post: MeetingPostUi,
     val isLike: Boolean,
+
+    val maxParticipationCount: Long,
+    val currentParticipantCount: Long,
+    val isUserJoined: Boolean,
+    val recruitmentPeriod: RecruitmentPeriodUi,
+
     val comments: ImmutableList<CommentUi>,
 )
 
 @OptIn(ExperimentalTime::class)
 // TODO: implement likeCount and commentCount
 internal fun MeetingPostDetail.toMeetingPostDetailUi() = MeetingPostDetailUi(
-    post = post.toMeetingPostUi(),
-    isLike = false,
-    comments = comments.map { it.toUi() }.toImmutableList(),
+    post = this.post.toMeetingPostUi(),
+    isLike = this.post.isUserLiked,
+    maxParticipationCount = this.maxParticipationCount,
+    currentParticipantCount = this.currentParticipantCount,
+    isUserJoined = this.isUserJoined,
+    recruitmentPeriod = this.recruitmentPeriod.toRecruitmentPeriodUi(),
+    comments = this.comments.map { it.toUi() }.toImmutableList(),
 )

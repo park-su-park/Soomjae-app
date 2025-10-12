@@ -10,4 +10,22 @@
     <string name="datetime_soon">방금 전</string>
     <string name="datetime_minutes_ago">%1$d분 전</string>
     <string name="datetime_years_ago">%1$d년 전</string>
+
+    <!-- ============================================================= -->
+    <!-- Instant -->
+    <!-- ============================================================= -->
+
+    <!-- Date formats -->
+    <string name="datetime_friendly_today_time">오늘 %1$s</string>
+    <string name="datetime_friendly_month_day_time">%1$d/%2$d %3$s</string>
+    <string name="datetime_friendly_year_month_day">%1$d/%2$d/%3$d</string>
+
+    <!-- Remaining time -->
+    <string name="datetime_remaining_minutes">%1$d분 남음</string>
+    <string name="datetime_remaining_hours">%1$d시간 남음</string>
+    <string name="datetime_remaining_days">%1$d일 남음</string>
+    <string name="datetime_remaining_expired">지남</string>
+
+    <!-- Combined format -->
+    <string name="datetime_until_combined">%1$s (%2$s)</string>
 </resources>

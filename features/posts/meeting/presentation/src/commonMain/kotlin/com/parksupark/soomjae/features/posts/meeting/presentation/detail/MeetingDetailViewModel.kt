@@ -107,11 +107,23 @@ class MeetingDetailViewModel(
         }
     }
 
-    fun joinMeeting() {
+    fun toggleParticipation() {
         val state = _stateFlow.value
 
         if (state !is MeetingDetailState.Success) return
-        if (state.isParticipating) return
+
+        if (state.isUserJoined) {
+            leaveMeeting()
+        } else {
+            joinMeeting()
+        }
+    }
+
+    private fun joinMeeting() {
+        val state = _stateFlow.value
+
+        if (state !is MeetingDetailState.Success) return
+        if (state.isUserJoined) return
         if (state.isParticipationLoading) return
 
         viewModelScope.launch(dispatcher.io) {
@@ -136,7 +148,7 @@ class MeetingDetailViewModel(
                 ifRight = {
                     _stateFlow.update { state ->
                         if (state is MeetingDetailState.Success) {
-                            state.copy(isParticipating = true, isParticipationLoading = false)
+                            state.copy(isUserJoined = true, isParticipationLoading = false)
                         } else {
                             state
                         }
@@ -146,11 +158,11 @@ class MeetingDetailViewModel(
         }
     }
 
-    fun leaveMeeting() {
+    private fun leaveMeeting() {
         val state = _stateFlow.value
 
         if (state !is MeetingDetailState.Success) return
-        if (!state.isParticipating) return
+        if (!state.isUserJoined) return
         if (state.isParticipationLoading) return
 
         viewModelScope.launch(dispatcher.io) {
@@ -176,7 +188,7 @@ class MeetingDetailViewModel(
                 ifRight = {
                     _stateFlow.update { state ->
                         if (state is MeetingDetailState.Success) {
-                            state.copy(isParticipating = false, isParticipationLoading = false)
+                            state.copy(isUserJoined = false, isParticipationLoading = false)
                         } else {
                             state
                         }

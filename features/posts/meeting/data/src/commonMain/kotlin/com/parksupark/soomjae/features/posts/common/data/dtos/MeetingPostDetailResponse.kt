@@ -10,6 +10,7 @@ import com.parksupark.soomjae.features.posts.common.data.location.dtos.LocationR
 import com.parksupark.soomjae.features.posts.common.data.location.dtos.toLocation
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPost
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostDetail
+import com.parksupark.soomjae.features.posts.common.domain.models.RecruitmentPeriod
 import kotlin.time.ExperimentalTime
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toStdlibInstant
@@ -18,7 +19,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class MeetingPostDetailResponse(
-    @SerialName("postId") val id: Long,
+    @SerialName("postId") val postId: Long,
     @SerialName("title") val title: String,
     @SerialName("content") val content: String,
     @SerialName("author") val author: MemberResponse,
@@ -26,19 +27,37 @@ internal data class MeetingPostDetailResponse(
     @SerialName("category") val category: CategoryResponse?,
     @SerialName("location") val location: LocationResponse?,
 
+    @SerialName("likeNum") val likeCount: Long,
+    @SerialName("isLikedByMe") val isUserLiked: Boolean,
+
+    @SerialName("maximumParticipants") val maxParticipantCount: Long,
+    @SerialName("currentParticipantCount") val currentParticipantCount: Long,
+    @SerialName("isParticipatedByMe") val isUserJoined: Boolean,
+
+    @SerialName("startTime") val recruitmentStartTime: Instant,
+    @SerialName("endTime") val recruitmentEndTime: Instant,
+
     @SerialName("comments") val comments: List<CommentResponse>,
 )
 
 @OptIn(ExperimentalTime::class)
 internal fun MeetingPostDetailResponse.toMeetingPostDetail() = MeetingPostDetail(
     post = MeetingPost(
-        id = id,
+        id = postId,
         title = title,
         content = content,
         author = author.toModel(),
         createdAt = createdAt.toStdlibInstant(),
         category = category?.toDomain(),
         location = location?.toLocation(),
+        isUserLiked = isUserLiked,
+    ),
+    maxParticipationCount = this.maxParticipantCount,
+    currentParticipantCount = this.currentParticipantCount,
+    isUserJoined = this.isUserJoined,
+    recruitmentPeriod = RecruitmentPeriod(
+        startTime = this.recruitmentStartTime.toStdlibInstant(),
+        endTime = this.recruitmentEndTime.toStdlibInstant(),
     ),
     comments = comments.map { it.toComment() },
 )

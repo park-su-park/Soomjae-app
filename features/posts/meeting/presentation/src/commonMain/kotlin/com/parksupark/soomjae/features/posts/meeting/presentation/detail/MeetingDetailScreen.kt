@@ -1,8 +1,10 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.detail
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -12,14 +14,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.Comment
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.Mail
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,24 +35,32 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
+import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeButton
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCircularProgressIndicator
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeHorizontalDivider
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
+import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSecondaryButton
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeTopAppBar
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeVerticalDivider
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.like
 import com.parksupark.soomjae.core.presentation.ui.resources.value
+import com.parksupark.soomjae.core.presentation.ui.utils.imageRequest
 import com.parksupark.soomjae.features.posts.common.presentation.components.CommentBar
 import com.parksupark.soomjae.features.posts.common.presentation.components.CommentItem
-import com.parksupark.soomjae.features.posts.common.presentation.components.PostDetailAuthorHeader
 import com.parksupark.soomjae.features.posts.common.presentation.components.PostDetailTitleHeader
+import com.parksupark.soomjae.features.posts.meeting.presentation.detail.models.MeetingAuthorUi
+import com.parksupark.soomjae.features.posts.meeting.presentation.detail.models.MeetingReviewUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.Res
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_detail_comment_button_description
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_detail_dislike_button_description
+import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_detail_join_meeting_button_text
+import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_detail_leave_meeting_button_text
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_detail_like_button_description
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_detail_navigate_up_description
 
+// TODO: extract string resources
 @Composable
 internal fun MeetingDetailScreen(
     state: MeetingDetailState,
@@ -74,6 +89,8 @@ internal fun MeetingDetailScreen(
                     state = state,
                     contentPadding = innerPadding,
                     onToggleLikeClick = { onAction(MeetingDetailAction.OnToggleLikeClick) },
+                    onToggleParticipationClick = { onAction(MeetingDetailAction.OnToggleParticipationClick) },
+                    onMessageClick = { onAction(MeetingDetailAction.OnMessageClick) },
                 )
             }
     }
@@ -84,6 +101,8 @@ private fun MeetingDetailContent(
     state: MeetingDetailState.Success,
     contentPadding: PaddingValues,
     onToggleLikeClick: () -> Unit,
+    onToggleParticipationClick: () -> Unit,
+    onMessageClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val post = state.postDetail.post
@@ -93,11 +112,6 @@ private fun MeetingDetailContent(
         contentPadding = contentPadding,
     ) {
         item {
-            PostDetailAuthorHeader(
-                author = post.author,
-                modifier = Modifier.fillMaxWidth(),
-            )
-
             PostDetailTitleHeader(
                 title = post.title,
                 createdAt = post.formattedCreatedAt,
@@ -107,6 +121,24 @@ private fun MeetingDetailContent(
             PostDetailContent(
                 content = post.content,
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 24.dp),
+            )
+
+            PostDetailMeetingContent(
+                currentParticipantCount = state.postDetail.currentParticipantCount,
+                maxParticipantCount = state.postDetail.maxParticipationCount,
+                recruitmentEndTime = state.postDetail.recruitmentPeriod.formattedEndTime,
+                isUserJoined = state.isUserJoined,
+                onToggleParticipationClick = onToggleParticipationClick,
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+            )
+
+            PostDetailAuthorHeader(
+                meetingAuthor = MeetingAuthorUi(
+                    author = post.author,
+                    review = MeetingReviewUi(rating = 4.5f, reviewCount = 10),
+                ),
+                onMessageClick = onMessageClick,
+                modifier = Modifier.fillMaxWidth(),
             )
 
             PostAdditionalButtons(
@@ -122,6 +154,117 @@ private fun MeetingDetailContent(
                 comment = comment,
                 modifier = Modifier.fillMaxWidth(),
             )
+        }
+    }
+}
+
+@Composable
+private fun PostDetailAuthorHeader(
+    meetingAuthor: MeetingAuthorUi,
+    onMessageClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val author = meetingAuthor.author
+    val review = meetingAuthor.review
+
+    Row(
+        modifier = modifier.padding(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        AsyncImage(
+            model = imageRequest { data(author.profileImageUrl) },
+            contentDescription = null,
+            modifier = Modifier.size(48.dp),
+        )
+
+        Column(modifier = Modifier.weight(1f)) {
+            Text(text = author.nickname, maxLines = 1, style = SoomjaeTheme.typography.labelL)
+
+            if (review != null) {
+                Text(
+                    text = "${review.rating} (${review.reviewCount})",
+                    color = SoomjaeTheme.colorScheme.text3,
+                    style = SoomjaeTheme.typography.captionM,
+                )
+            }
+        }
+
+        IconButton(
+            onClick = onMessageClick,
+            modifier = Modifier.background(
+                color = SoomjaeTheme.colorScheme.background2,
+                shape = RoundedCornerShape(24.dp),
+            ),
+            content = {
+                Icon(
+                    imageVector = Icons.Outlined.Mail,
+                    contentDescription = "메시지 보내기",
+                    tint = SoomjaeTheme.colorScheme.icon,
+                )
+            },
+        )
+    }
+}
+
+@Composable
+private fun PostDetailMeetingContent(
+    currentParticipantCount: Long,
+    maxParticipantCount: Long,
+    recruitmentEndTime: String,
+    isUserJoined: Boolean,
+    onToggleParticipationClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                imageVector = Icons.Default.Person,
+                contentDescription = "참여자 수",
+                modifier = Modifier.height(IntrinsicSize.Max),
+                tint = SoomjaeTheme.colorScheme.icon,
+            )
+            Text(
+                text = "참여자: $currentParticipantCount / $maxParticipantCount",
+                style = SoomjaeTheme.typography.body2.copy(
+                    color = SoomjaeTheme.colorScheme.text2,
+                ),
+                modifier = Modifier.padding(start = 8.dp),
+            )
+        }
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                imageVector = Icons.Default.CalendarMonth,
+                contentDescription = "마감 시간",
+                modifier = Modifier.height(IntrinsicSize.Max),
+                tint = SoomjaeTheme.colorScheme.icon,
+            )
+            Text(
+                text = "신청 마감: $recruitmentEndTime",
+                style = SoomjaeTheme.typography.body2.copy(
+                    color = SoomjaeTheme.colorScheme.text2,
+                ),
+                modifier = Modifier.padding(start = 8.dp),
+            )
+        }
+
+        if (isUserJoined) {
+            SoomjaeSecondaryButton(
+                onClick = onToggleParticipationClick,
+                modifier = Modifier.fillMaxWidth().height(48.dp),
+            ) {
+                Text(text = Res.string.meeting_detail_leave_meeting_button_text.value)
+            }
+        } else {
+            SoomjaeButton(
+                onClick = onToggleParticipationClick,
+                modifier = Modifier.fillMaxWidth().height(48.dp),
+            ) {
+                Text(text = Res.string.meeting_detail_join_meeting_button_text.value)
+            }
         }
     }
 }
