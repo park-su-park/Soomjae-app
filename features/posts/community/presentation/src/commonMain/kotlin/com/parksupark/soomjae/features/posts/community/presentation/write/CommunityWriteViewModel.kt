@@ -62,10 +62,9 @@ class CommunityWriteViewModel(
         uiStateFlow.distinctUntilChanged { old, new ->
             old.isTitleValid == new.isTitleValid &&
                 old.isContentValid == new.isContentValid &&
-                old.isSubmitting == new.isSubmitting &&
-                old.selectedCategory == new.selectedCategory
+                old.isSubmitting == new.isSubmitting
         }.map {
-            val canSubmit = it.isTitleValid && it.isContentValid && !it.isSubmitting && it.selectedCategory != null
+            val canSubmit = it.isTitleValid && it.isContentValid && !it.isSubmitting
             canSubmit
         }.onEach { canSubmit ->
             _uiStateFlow.update { it.copy(canSubmit = canSubmit) }
