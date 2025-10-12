@@ -14,6 +14,16 @@ import kotlinx.coroutines.flow.Flow
 internal class DefaultMemberPostRepository(
     private val remoteDataSource: RemoteMemberPostDataSource,
 ) : MemberPostRepository {
+    override suspend fun createPost(
+        content: String,
+        imageUrls: List<String>,
+    ): Either<DataFailure, Long> = remoteDataSource.createPost(
+        content = content,
+        imageUrls = imageUrls,
+    ).map {
+        it.postId
+    }
+
     override fun getPostsStream(): Flow<PagingData<MemberPost>> = createPager(
         config = PagingConfig(pageSize = 20),
     ) {
