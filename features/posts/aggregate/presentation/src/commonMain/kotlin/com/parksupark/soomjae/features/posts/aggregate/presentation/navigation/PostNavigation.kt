@@ -123,6 +123,7 @@ fun NavGraphBuilder.postGraph(
                 ),
             )
         }
+
         composable<MemberDestination.MemberPostWrite> {
             MemberPostWriteRoute(
                 navigator = navigator,
@@ -136,7 +137,12 @@ fun NavHostController.navigateToCommunityWrite() {
 }
 
 fun NavHostController.navigateToCommunityDetail(postId: Long) {
-    navigate(PostDestination.CommunityDetail(postId))
+    navigate(PostDestination.CommunityDetail(postId)) {
+        popUpTo<PostDestination.Post> {
+            inclusive = false
+        }
+        launchSingleTop = true
+    }
 }
 
 fun NavHostController.navigateToMeetingWrite() {
@@ -149,9 +155,10 @@ fun NavHostController.navigateToMeetingCreate() {
 
 fun NavHostController.navigateToMeetingDetail(postId: Long) {
     navigate(PostDestination.MeetingDetail(postId)) {
-        popUpTo<PostDestination.MeetingDetail> {
-            inclusive = true
+        popUpTo<PostDestination.Post> {
+            inclusive = false
         }
+        launchSingleTop = true
     }
 }
 
