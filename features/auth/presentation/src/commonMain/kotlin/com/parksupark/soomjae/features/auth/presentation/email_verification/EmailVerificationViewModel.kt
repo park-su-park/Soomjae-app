@@ -101,14 +101,14 @@ class EmailVerificationViewModel(
                 state.copy(isEmailValidating = true, isEmailAvailable = false, emailErrorMessage = null)
             }
 
-            val email = stateFlow.value.email.toString()
+            val email = stateFlow.value.email.text.trim().toString()
             authRepository.checkEmailAvailable(email).fold(
                 ifLeft = { failure ->
                     _stateFlow.update {
                         it.copy(
                             isEmailValidating = false,
                             isEmailAvailable = false,
-                            emailErrorMessage = failure.asUiText().toString(), // todo: enhance UI text handling
+                            emailErrorMessage = failure.toString(), // todo: enhance UI text handling
                         )
                     }
                 },
@@ -141,7 +141,7 @@ class EmailVerificationViewModel(
                 )
             }
 
-            val email = stateFlow.value.email.toString()
+            val email = stateFlow.value.email.text.trim().toString()
             emailRepository.sendVerificationCode(email).fold(
                 ifLeft = { failure ->
                     _stateFlow.update {
@@ -150,7 +150,7 @@ class EmailVerificationViewModel(
                             isResendEnabled = true,
                             isResending = false,
                             timerEnd = null,
-                            emailErrorMessage = "인증 코드 전송에 실패했습니다. 다시 시도해주세요.",
+                            codeErrorMessage = "인증 코드 전송에 실패했습니다. 다시 시도해주세요.",
                         )
                     }
                 },
@@ -161,7 +161,7 @@ class EmailVerificationViewModel(
                             isResending = false,
                             timerEnd = end,
                             resendStatus = ResendStatus.Success,
-                            emailErrorMessage = null,
+                            codeErrorMessage = null,
                         )
                     }
                 },
@@ -176,8 +176,8 @@ class EmailVerificationViewModel(
         viewModelScope.launch {
             _stateFlow.update { it.copy(isVerifying = true, codeErrorMessage = null) }
 
-            val email = stateFlow.value.email.toString()
-            val code = stateFlow.value.code.toString()
+            val email = stateFlow.value.email.text.trim().toString()
+            val code = stateFlow.value.code.text.trim().toString()
             emailRepository.verifyCode(email, code).fold(
                 ifLeft = { failure ->
                     _stateFlow.update {
