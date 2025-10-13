@@ -11,10 +11,15 @@ class ProfileMemberPostCoordinator(
     val screenStateFlow = viewModel.stateFlow
     val posts = viewModel.posts
 
+    val events = viewModel.events
+
     fun handle(action: ProfileMemberPostAction) {
         when (action) {
             ProfileMemberPostAction.OnClick -> { // Handle action
             }
+
+            ProfileMemberPostAction.OnPullToRefresh -> viewModel.refreshPosts()
+            is ProfileMemberPostAction.RefreshChange -> viewModel.setRefreshing(action.isRefreshing)
         }
     }
 }

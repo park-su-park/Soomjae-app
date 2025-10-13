@@ -5,13 +5,16 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AuthInfoSerializable(
+    val memberId: Long,
     val accessToken: String,
 )
 
-fun AuthInfo.toAuthInfoSerializable(): AuthInfoSerializable = AuthInfoSerializable(
+internal fun AuthInfo.toAuthInfoSerializable(): AuthInfoSerializable = AuthInfoSerializable(
+    memberId = memberId,
     accessToken = accessToken,
 )
 
-fun AuthInfoSerializable.toAuthInfo(): AuthInfo = AuthInfo(
+internal fun AuthInfoSerializable.toAuthInfo(): AuthInfo = AuthInfo(
+    memberId = memberId,
     accessToken = accessToken,
 )

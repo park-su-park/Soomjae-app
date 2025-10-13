@@ -11,3 +11,7 @@ sealed interface ProfileMemberPostAction {
 
     data class RefreshChange(val isRefreshing: Boolean) : ProfileMemberPostAction
 }
+
+sealed interface ProfileMemberPostEvent {
+    data object RefreshPosts : ProfileMemberPostEvent
+}

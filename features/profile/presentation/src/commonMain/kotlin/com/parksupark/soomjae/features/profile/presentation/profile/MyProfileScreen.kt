@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
@@ -101,13 +102,15 @@ private fun MyProfileContent(
     val coroutineScope = rememberCoroutineScope()
 
     val parentState = rememberLazyListState()
-    val childListState = rememberLazyListState()
+    val memberPostTabGridState = rememberLazyGridState()
 
+    val stubState = rememberLazyListState()
     val nestedScrollConnection = rememberNestedScrollMediator(
         parentState = parentState,
         childAdapterProvider = {
             when (ProfileTab.entries[pagerState.currentPage]) {
-                else -> childListState.asAdapter()
+                ProfileTab.MEMBER_POSTS -> memberPostTabGridState.asAdapter()
+                else -> stubState.asAdapter()
             }
         },
     )
@@ -154,9 +157,7 @@ private fun MyProfileContent(
                         // TODO()
                     }
 
-                    ProfileTab.MEMBER_POSTS -> {
-                        ProfileMemberPostTab(listState = childListState)
-                    }
+                    ProfileTab.MEMBER_POSTS -> ProfileMemberPostTab(userId = user.id, listState = memberPostTabGridState)
 
                     ProfileTab.MEETING_POSTS -> {
                         // TODO()
