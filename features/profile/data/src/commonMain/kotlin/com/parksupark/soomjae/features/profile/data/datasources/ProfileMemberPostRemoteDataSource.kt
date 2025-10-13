@@ -1,0 +1,23 @@
+package com.parksupark.soomjae.features.profile.data.datasources
+
+import arrow.core.Either
+import com.parksupark.soomjae.core.domain.failures.DataFailure
+import com.parksupark.soomjae.core.remote.networking.get
+import com.parksupark.soomjae.features.profile.data.dtos.response.GetProfileMemberPostsResponse
+import com.parksupark.soomjae.features.profile.data.dtos.response.toProfileMemberPost
+import com.parksupark.soomjae.features.profile.domain.models.ProfileMemberPost
+import io.ktor.client.HttpClient
+
+internal class ProfileMemberPostRemoteDataSource(
+    private val httpClient: HttpClient,
+) {
+    suspend fun fetchPosts(
+        memberId: Long,
+        page: Int,
+    ): Either<DataFailure.Network, List<ProfileMemberPost>> = httpClient.get<GetProfileMemberPostsResponse>(
+        route = "/v1/boards/member/posts/$memberId/grid",
+        queryParameters = mapOf("page" to page),
+    ).map { response ->
+        response.posts.map { postResponse -> postResponse.toProfileMemberPost() }
+    }
+}

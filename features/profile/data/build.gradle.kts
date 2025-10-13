@@ -1,13 +1,12 @@
 plugins {
-    id("soomjae.multiplatform.ui")
+    id("soomjae.multiplatform.data.remote")
 }
 
 kotlin {
     sourceSets {
         commonMain.dependencies {
+            implementation(projects.core.remote)
             implementation(projects.core.domain)
-            implementation(projects.core.presentation.ui)
-
             implementation(projects.features.profile.domain)
         }
     }

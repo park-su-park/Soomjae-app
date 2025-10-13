@@ -25,6 +25,7 @@ kotlin {
             implementation(projects.features.home.presentation)
             implementation(projects.features.posts.aggregate.data)
             implementation(projects.features.posts.aggregate.presentation)
+            implementation(projects.features.profile.data)
             implementation(projects.features.profile.presentation)
             implementation(projects.features.setting.presentation)
         }

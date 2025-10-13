@@ -3,11 +3,13 @@ package com.parksupark.soomjae.features.profile.presentation.profile.tabs.member
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 class ProfileMemberPostCoordinator(
     val viewModel: ProfileMemberPostViewModel,
 ) {
     val screenStateFlow = viewModel.stateFlow
+    val posts = viewModel.posts
 
     fun handle(action: ProfileMemberPostAction) {
         when (action) {
@@ -18,9 +20,11 @@ class ProfileMemberPostCoordinator(
 }
 
 @Composable
-fun rememberProfileMemberPostCoordinator(viewModel: ProfileMemberPostViewModel = koinViewModel()): ProfileMemberPostCoordinator =
-    remember(viewModel) {
-        ProfileMemberPostCoordinator(
-            viewModel = viewModel,
-        )
-    }
+fun rememberProfileMemberPostCoordinator(
+    userId: Long,
+    viewModel: ProfileMemberPostViewModel = koinViewModel { parametersOf(userId) },
+): ProfileMemberPostCoordinator = remember(viewModel) {
+    ProfileMemberPostCoordinator(
+        viewModel = viewModel,
+    )
+}
