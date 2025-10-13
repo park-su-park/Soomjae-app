@@ -1,9 +1,11 @@
 package com.parksupark.soomjae.core.presentation.ui.components
 
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeNavigationBar
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeNavigationBarItem
 import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationBarItem
@@ -25,6 +27,7 @@ fun SoomjaeBottomNavigationBar(
                 selected = isSelected,
                 onClick = { onClick(item) },
                 icon = { NavigationBarIcon(item, isSelected) },
+                modifier = Modifier.height(56.dp),
                 label = { NavigationBarLabel(item) },
             )
         }
