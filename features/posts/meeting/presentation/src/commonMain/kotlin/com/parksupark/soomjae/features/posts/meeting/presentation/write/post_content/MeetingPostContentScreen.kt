@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.meeting.presentation.write.compose
+package com.parksupark.soomjae.features.posts.meeting.presentation.write.post_content
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,7 +27,7 @@ import com.parksupark.soomjae.features.posts.common.presentation.components.Writ
 import com.parksupark.soomjae.features.posts.common.presentation.components.WriteSelectionButton
 import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.LocationUi
-import com.parksupark.soomjae.features.posts.meeting.presentation.models.MeetingCreateUi
+import com.parksupark.soomjae.features.posts.meeting.presentation.models.MeetingCreationUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.Res
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_write_button_confirm_description
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_write_category_label
@@ -37,21 +37,21 @@ import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meet
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_write_meeting_label
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_write_meeting_placeholder
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_write_navigate_up_description
-import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingWriteAction
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingPostWriteAction
 import kotlinx.collections.immutable.ImmutableList
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-internal fun MeetingComposeScreen(
-    state: MeetingComposeState,
-    onAction: (MeetingWriteAction) -> Unit,
+internal fun MeetingPostContentScreen(
+    state: MeetingPostContentState,
+    onAction: (MeetingPostWriteAction) -> Unit,
     snackbarHost: @Composable () -> Unit,
 ) {
     SoomjaeScaffold(
         topBar = {
             MeetingWriteTopBar(
-                onBackClick = { onAction(MeetingWriteAction.OnBackClick) },
-                onConfirmClick = { onAction(MeetingWriteAction.OnConfirmClick) },
+                onBackClick = { onAction(MeetingPostWriteAction.OnBackClick) },
+                onConfirmClick = { onAction(MeetingPostWriteAction.OnSubmitClick) },
                 canSubmit = state.canSubmit,
             )
         },
@@ -77,13 +77,13 @@ internal fun MeetingComposeScreen(
             extras = {
                 AdditionalInfoSelection(
                     meeting = state.meeting,
-                    onCreateMeetingClick = { onAction(MeetingWriteAction.OnCreateMeetingClick) },
+                    onCreateMeetingClick = { onAction(MeetingPostWriteAction.OnCreateMeetingPostClick) },
                     categories = state.categories,
                     selectedCategory = state.selectedCategory,
-                    onCategorySelect = { onAction(MeetingWriteAction.OnCategorySelect(it)) },
+                    onCategorySelect = { onAction(MeetingPostWriteAction.OnCategorySelect(it)) },
                     locations = state.locations,
                     selectedLocation = state.selectedLocation,
-                    onLocationSelect = { onAction(MeetingWriteAction.OnLocationSelect(it)) },
+                    onLocationSelect = { onAction(MeetingPostWriteAction.OnLocationSelect(it)) },
                     modifier = Modifier.bottomBorder(SoomjaeTheme.colorScheme.divider1, 1.dp),
                 )
             },
@@ -124,7 +124,7 @@ private fun MeetingWriteTopBar(
 
 @Composable
 private fun AdditionalInfoSelection(
-    meeting: MeetingCreateUi?,
+    meeting: MeetingCreationUi?,
     onCreateMeetingClick: () -> Unit,
     categories: ImmutableList<CategoryUi>,
     selectedCategory: CategoryUi?,
@@ -164,7 +164,7 @@ private fun AdditionalInfoSelection(
 
 @Composable
 private fun MeetingSelection(
-    meeting: MeetingCreateUi?,
+    meeting: MeetingCreationUi?,
     onClick: () -> Unit,
 ) {
     WriteSelectionButton(
@@ -191,8 +191,8 @@ private fun MeetingSelection(
 @Preview
 private fun MeetingWriteScreenPreview() {
     AppTheme {
-        MeetingComposeScreen(
-            state = MeetingComposeState(),
+        MeetingPostContentScreen(
+            state = MeetingPostContentState(),
             onAction = { },
             snackbarHost = { },
         )

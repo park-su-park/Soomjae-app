@@ -15,7 +15,7 @@ import kotlinx.datetime.TimeZone.Companion.currentSystemDefault
 import kotlinx.datetime.toLocalDateTime
 
 @OptIn(ExperimentalTime::class)
-data class MeetingCreateUi(
+data class MeetingCreationUi(
     val startDate: LocalDate,
     val startTime: LocalTime,
     val endDate: LocalDate?,
@@ -44,10 +44,10 @@ data class MeetingCreateUi(
 
     companion object {
 
-        val Empty: MeetingCreateUi
+        val Empty: MeetingCreationUi
             get() = run {
                 val dateTime = Clock.System.now().toLocalDateTime(currentSystemDefault())
-                MeetingCreateUi(
+                MeetingCreationUi(
                     startDate = dateTime.date,
                     startTime = dateTime.time.truncateTo(DateTimeUnit.MINUTE),
                     endDate = null,

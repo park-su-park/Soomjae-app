@@ -5,10 +5,10 @@ import com.parksupark.soomjae.features.posts.common.domain.repositories.MEETING_
 import com.parksupark.soomjae.features.posts.meeting.presentation.detail.MeetingDetailViewModel
 import com.parksupark.soomjae.features.posts.meeting.presentation.participant_list.ParticipantListViewModel
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.MeetingTabViewModel
-import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingWriteCoordinator
-import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingWriteScreenViewModel
-import com.parksupark.soomjae.features.posts.meeting.presentation.write.compose.MeetingComposeViewModel
-import com.parksupark.soomjae.features.posts.meeting.presentation.write.create.MeetingCreateViewModel
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingPostWriteCoordinator
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.step.MeetingPostWriteStepViewModel
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.post_content.MeetingPostContentViewModel
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.creation.MeetingCreationViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.core.qualifier.named
@@ -41,10 +41,10 @@ private val tabModule = module {
 }
 
 private val writeModule = module {
-    viewModelOf(::MeetingWriteScreenViewModel)
-    viewModelOf(::MeetingCreateViewModel)
-    viewModelOf(::MeetingComposeViewModel)
-    viewModelOf(::MeetingWriteCoordinator)
+    viewModelOf(::MeetingPostWriteStepViewModel)
+    viewModelOf(::MeetingCreationViewModel)
+    viewModelOf(::MeetingPostContentViewModel)
+    viewModelOf(::MeetingPostWriteCoordinator)
 }
 
 val featuresPostsMeetingPresentationModule = module {

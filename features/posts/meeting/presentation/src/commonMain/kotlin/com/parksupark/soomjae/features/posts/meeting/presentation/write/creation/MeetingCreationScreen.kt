@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.meeting.presentation.write.create
+package com.parksupark.soomjae.features.posts.meeting.presentation.write.creation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -43,7 +43,7 @@ import com.parksupark.soomjae.core.presentation.ui.utils.rememberFutureDates
 import com.parksupark.soomjae.features.posts.common.presentation.components.WriteSelectionLayout
 import com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate.components.DatePickerDialogButton
 import com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate.components.TimePickerDialogButton
-import com.parksupark.soomjae.features.posts.meeting.presentation.models.MeetingCreateUi
+import com.parksupark.soomjae.features.posts.meeting.presentation.models.MeetingCreationUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.Res
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_button_create_meeting
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_datetime_label
@@ -66,19 +66,19 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalTime::class)
 @Composable
-internal fun MeetingCreateScreen(
-    state: MeetingCreateState,
-    onAction: (MeetingCreateAction) -> Unit,
+internal fun MeetingCreationScreen(
+    state: MeetingCreationState,
+    onAction: (MeetingCreationAction) -> Unit,
 ) {
     SoomjaeScaffold(
         topBar = {
             MeetingCreateTopBar(
-                onBackClick = { onAction(MeetingCreateAction.OnBackClick) },
+                onBackClick = { onAction(MeetingCreationAction.OnBackClick) },
             )
         },
         bottomBar = {
             MeetingCreateBottomBar(
-                onClick = { onAction(MeetingCreateAction.OnCreateClick) },
+                onClick = { onAction(MeetingCreationAction.OnCreateClick) },
             )
         },
     ) { innerPadding ->
@@ -132,8 +132,8 @@ private fun MeetingCreateBottomBar(onClick: () -> Unit) {
 @OptIn(ExperimentalTime::class, ExperimentalMaterial3Api::class)
 @Composable
 private fun MeetingCreateDateTimeSection(
-    meeting: MeetingCreateUi,
-    onAction: (MeetingCreateAction) -> Unit,
+    meeting: MeetingCreationUi,
+    onAction: (MeetingCreationAction) -> Unit,
 ) {
     val dateFormatter = LocalDate.Formats.ISO
 
@@ -181,7 +181,7 @@ private fun MeetingCreateDateTimeSection(
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 private fun RowScope.StartDateTimeSelection(
-    onAction: (MeetingCreateAction) -> Unit,
+    onAction: (MeetingCreationAction) -> Unit,
     timeZone: TimeZone,
     startDate: LocalDate,
     dateFormatter: DateTimeFormat<LocalDate>,
@@ -195,7 +195,7 @@ private fun RowScope.StartDateTimeSelection(
     ) {
         DatePickerDialogButton(
             onConfirm = { dateInMillis ->
-                onAction(MeetingCreateAction.OnStartDateSelected(dateInMillis.toLocalDate(timeZone)))
+                onAction(MeetingCreationAction.OnStartDateSelected(dateInMillis.toLocalDate(timeZone)))
             },
             selectableDates = DatePickerDefaults.rememberFutureDates(),
         ) { openDialog ->
@@ -209,7 +209,7 @@ private fun RowScope.StartDateTimeSelection(
 
         TimePickerDialogButton(
             onConfirm = { time ->
-                onAction(MeetingCreateAction.OnStartTimeSelected(time))
+                onAction(MeetingCreationAction.OnStartTimeSelected(time))
             },
         ) { openDialog ->
             SoomjaeTextButton(
@@ -225,7 +225,7 @@ private fun RowScope.StartDateTimeSelection(
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 private fun RowScope.EndDateTimeSelection(
-    onAction: (MeetingCreateAction) -> Unit,
+    onAction: (MeetingCreationAction) -> Unit,
     timeZone: TimeZone,
     startDate: LocalDate,
     endDate: LocalDate?,
@@ -240,7 +240,7 @@ private fun RowScope.EndDateTimeSelection(
     ) {
         DatePickerDialogButton(
             onConfirm = { dateInMillis ->
-                onAction(MeetingCreateAction.OnEndDateSelected(dateInMillis.toLocalDate(timeZone)))
+                onAction(MeetingCreationAction.OnEndDateSelected(dateInMillis.toLocalDate(timeZone)))
             },
             selectableDates = DatePickerDefaults.rememberFutureDates(startDate = startDate),
         ) { openDialog ->
@@ -254,7 +254,7 @@ private fun RowScope.EndDateTimeSelection(
 
         TimePickerDialogButton(
             onConfirm = { time ->
-                onAction(MeetingCreateAction.OnEndTimeSelected(time))
+                onAction(MeetingCreationAction.OnEndTimeSelected(time))
             },
         ) { openDialog ->
             SoomjaeTextButton(
@@ -336,8 +336,8 @@ private fun Long.toLocalDate(timeZone: TimeZone = TimeZone.currentSystemDefault(
 @Composable
 private fun MeetingCreateScreenPreview() {
     AppTheme {
-        MeetingCreateScreen(
-            state = MeetingCreateState(),
+        MeetingCreationScreen(
+            state = MeetingCreationState(),
             onAction = { },
         )
     }
