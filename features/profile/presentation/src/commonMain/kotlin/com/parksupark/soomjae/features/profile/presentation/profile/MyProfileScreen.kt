@@ -23,6 +23,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeS
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.features.profile.presentation.profile.components.UserProfileCard
+import com.parksupark.soomjae.features.profile.presentation.profile.mdoels.UserUi
 import com.parksupark.soomjae.features.profile.presentation.resources.Res
 import com.parksupark.soomjae.features.profile.presentation.resources.my_profile_login_button
 import com.parksupark.soomjae.features.profile.presentation.resources.my_profile_login_request
@@ -39,22 +40,51 @@ internal fun MyProfileScreen(
         topBar = { MyProfileTopBar { onAction(ProfileAction.OnSettingClick) } },
         bottomBar = bottomBar,
     ) { innerPadding ->
-        Column(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
-            if (state.isLoggedIn) {
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    UserProfileCard(
-                        user = state.user,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                }
-            } else {
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    Spacer(modifier = Modifier.weight(1f))
-                    LoginRequestSection(onLoginClick = { onAction(ProfileAction.OnLoginClick) })
-                    Spacer(modifier = Modifier.weight(2f))
-                }
-            }
+
+        if (state.isLoggedIn) {
+            MyProfileContent(
+                modifier = Modifier.padding(innerPadding),
+                user = state.user,
+            )
+        } else {
+            GuestProfileContent(
+                modifier = Modifier.padding(innerPadding),
+                onLoginClick = { onAction(ProfileAction.OnLoginClick) },
+            )
         }
+    }
+}
+
+@Composable
+private fun MyProfileContent(
+    user: UserUi,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp),
+    ) {
+        UserProfileCard(
+            user = user,
+            modifier = Modifier.fillMaxWidth(),
+        )
+    }
+}
+
+@Composable
+private fun GuestProfileContent(
+    onLoginClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp),
+    ) {
+        Spacer(modifier = Modifier.weight(1f))
+        LoginRequestSection(onLoginClick = onLoginClick)
+        Spacer(modifier = Modifier.weight(2f))
     }
 }
 
