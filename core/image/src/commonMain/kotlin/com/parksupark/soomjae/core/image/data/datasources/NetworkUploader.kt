@@ -43,7 +43,7 @@ internal class NetworkUploader(
 
     private fun createImageFormData(image: ImageData): List<PartData> = formData {
         append(
-            key = "file",
+            key = "images",
             value = image.bytes,
             headers = Headers.build {
                 append(HttpHeaders.ContentType, image.mimeType)

@@ -3,7 +3,8 @@ package com.parksupark.soomjae.features.posts.community.data.repositories
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.core.remote.networking.delete
-import com.parksupark.soomjae.core.remote.networking.get
+import com.parksupark.soomjae.core.remote.networking.post
+import com.parksupark.soomjae.features.posts.common.data.dtos.AddCommentRequest
 import com.parksupark.soomjae.features.posts.common.data.dtos.AddCommentResponse
 import com.parksupark.soomjae.features.posts.common.data.dtos.toComment
 import com.parksupark.soomjae.features.posts.common.domain.models.Comment
@@ -16,8 +17,11 @@ internal class CommunityCommentRepository(
     override suspend fun addComment(
         postId: Long,
         content: String,
-    ): Either<DataFailure, Comment> = httpClient.get<AddCommentResponse>(
+    ): Either<DataFailure, Comment> = httpClient.post<AddCommentRequest, AddCommentResponse>(
         route = "/v1/boards/community/posts/$postId/comments",
+        body = AddCommentRequest(
+            content = content,
+        ),
     ).map { response ->
         response.toComment()
     }
