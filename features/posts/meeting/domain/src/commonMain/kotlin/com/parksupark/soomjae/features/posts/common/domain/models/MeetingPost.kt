@@ -13,4 +13,5 @@ data class MeetingPost(
     val author: Member,
     val category: Category?,
     val location: Location?,
+    val isUserLiked: Boolean,
 )

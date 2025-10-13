@@ -6,7 +6,7 @@ import io.github.vinceglb.filekit.mimeType
 import io.github.vinceglb.filekit.name
 import io.github.vinceglb.filekit.readBytes
 
-private const val DEFAULT_MIME_TYPE = "image/png"
+private const val DEFAULT_MIME_TYPE = "image/jpeg"
 
 suspend fun PlatformFile.toImageData(): ImageData = ImageData(
     bytes = this.readBytes(),

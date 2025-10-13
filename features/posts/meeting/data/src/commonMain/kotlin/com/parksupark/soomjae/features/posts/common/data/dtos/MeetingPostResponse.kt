@@ -34,4 +34,5 @@ internal fun MeetingPostResponse.toMeetingPost(): MeetingPost = MeetingPost(
     createdAt = createdAt.toStdlibInstant(),
     category = category?.toDomain(),
     location = locationCode?.toLocation(),
+    isUserLiked = false, // TODO: implement this value
 )

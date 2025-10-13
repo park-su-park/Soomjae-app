@@ -20,9 +20,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MeetingDetailViewModel(
+    private val postId: Long,
     private val dispatcher: SoomjaeDispatcher,
     private val meetingPostRepository: MeetingPostRepository,
-    private val postId: Long,
     private val commentRepository: CommentRepository,
     private val likeRepository: LikeRepository,
     private val participationRepository: ParticipationRepository,
@@ -107,11 +107,23 @@ class MeetingDetailViewModel(
         }
     }
 
-    fun joinMeeting() {
+    fun toggleParticipation() {
         val state = _stateFlow.value
 
         if (state !is MeetingDetailState.Success) return
-        if (state.isParticipating) return
+
+        if (state.postDetail.isUserJoined) {
+            leaveMeeting()
+        } else {
+            joinMeeting()
+        }
+    }
+
+    private fun joinMeeting() {
+        val state = _stateFlow.value
+
+        if (state !is MeetingDetailState.Success) return
+        if (state.postDetail.isUserJoined) return
         if (state.isParticipationLoading) return
 
         viewModelScope.launch(dispatcher.io) {
@@ -133,10 +145,16 @@ class MeetingDetailViewModel(
                         }
                     }
                 },
-                ifRight = {
+                ifRight = { updatedParticipation ->
                     _stateFlow.update { state ->
                         if (state is MeetingDetailState.Success) {
-                            state.copy(isParticipating = true, isParticipationLoading = false)
+                            state.copy(
+                                postDetail = state.postDetail.copy(
+                                    isUserJoined = updatedParticipation.joined,
+                                    currentParticipantCount = updatedParticipation.participantCount,
+                                ),
+                                isParticipationLoading = false,
+                            )
                         } else {
                             state
                         }
@@ -146,11 +164,11 @@ class MeetingDetailViewModel(
         }
     }
 
-    fun leaveMeeting() {
+    private fun leaveMeeting() {
         val state = _stateFlow.value
 
         if (state !is MeetingDetailState.Success) return
-        if (!state.isParticipating) return
+        if (!state.postDetail.isUserJoined) return
         if (state.isParticipationLoading) return
 
         viewModelScope.launch(dispatcher.io) {
@@ -173,10 +191,16 @@ class MeetingDetailViewModel(
                         }
                     }
                 },
-                ifRight = {
+                ifRight = { updatedParticipation ->
                     _stateFlow.update { state ->
                         if (state is MeetingDetailState.Success) {
-                            state.copy(isParticipating = false, isParticipationLoading = false)
+                            state.copy(
+                                postDetail = state.postDetail.copy(
+                                    isUserJoined = updatedParticipation.joined,
+                                    currentParticipantCount = updatedParticipation.participantCount,
+                                ),
+                                isParticipationLoading = false,
+                            )
                         } else {
                             state
                         }

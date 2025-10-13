@@ -1,38 +1,30 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.write
 
-import androidx.compose.foundation.text.input.TextFieldState
 import com.parksupark.soomjae.core.presentation.ui.utils.UiText
-import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.LocationUi
-import com.parksupark.soomjae.features.posts.meeting.presentation.models.MeetingCreateUi
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.creation.MeetingCreationState
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.post_content.MeetingPostContentState
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.step.MeetingPostWriteStepState
 
-internal data class MeetingWriteState(
-    val inputTitle: TextFieldState = TextFieldState(),
-    val inputContent: TextFieldState = TextFieldState(),
-    val meeting: MeetingCreateUi? = null,
-    val categories: ImmutableList<CategoryUi> = persistentListOf(),
-    val selectedCategory: CategoryUi? = null,
-    val locations: ImmutableList<LocationUi> = persistentListOf(),
-    val selectedLocation: LocationUi? = null,
-    val canSubmit: Boolean = false,
+data class MeetingPostWriteCoordinatorState(
+    val stepState: MeetingPostWriteStepState = MeetingPostWriteStepState(),
+    val contentState: MeetingPostContentState = MeetingPostContentState(),
+    val creationState: MeetingCreationState = MeetingCreationState(),
 )
 
-internal sealed interface MeetingWriteAction {
-    data object OnBackClick : MeetingWriteAction
+internal sealed interface MeetingPostWriteAction {
+    data object OnBackClick : MeetingPostWriteAction
 
-    data object OnConfirmClick : MeetingWriteAction
+    data object OnSubmitClick : MeetingPostWriteAction
 
-    data object OnCreateMeetingClick : MeetingWriteAction
+    data object OnCreateMeetingPostClick : MeetingPostWriteAction
 
-    data class OnCategorySelect(val categoryId: Long) : MeetingWriteAction
+    data class OnCategorySelect(val categoryId: Long) : MeetingPostWriteAction
 
-    data class OnLocationSelect(val locationCode: Long) : MeetingWriteAction
+    data class OnLocationSelect(val locationCode: Long) : MeetingPostWriteAction
 }
 
-internal sealed interface MeetingWriteEvent {
-    data class OnPostCreateSuccess(val postId: Long) : MeetingWriteEvent
+internal sealed interface MeetingPostWriteEvent {
+    data class OnPostCreateSuccess(val postId: Long) : MeetingPostWriteEvent
 
-    data class OnPostCreateFailure(val error: UiText) : MeetingWriteEvent
+    data class OnPostCreateFailure(val error: UiText) : MeetingPostWriteEvent
 }

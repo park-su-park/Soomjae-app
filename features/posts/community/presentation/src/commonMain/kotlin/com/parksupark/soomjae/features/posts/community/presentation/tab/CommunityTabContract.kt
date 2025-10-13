@@ -7,6 +7,7 @@ internal data class CommunityTabState(
     val isLoading: Boolean = false,
     val isPostsRefreshing: Boolean = false,
     val posts: PagingData<CommunityPostUi> = PagingData.empty(),
+    val canLikePost: Boolean = true,
 )
 
 internal sealed interface CommunityTabAction {

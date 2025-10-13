@@ -13,9 +13,13 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSurface
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
@@ -32,6 +36,8 @@ fun CommentBar(
     onSendClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    var isFocused by remember { mutableStateOf(false) }
+
     Row(
         modifier = modifier
             .background(
@@ -46,7 +52,7 @@ fun CommentBar(
                 Row(
                     modifier = Modifier.padding(start = 8.dp, top = 8.dp, bottom = 8.dp),
                 ) {
-                    if (state.text.isEmpty()) {
+                    if (state.text.isEmpty() && !isFocused) {
                         Text(
                             text = Res.string.comment_bar_input_placeholder.value,
                             style = SoomjaeTheme.typography.body2.copy(
@@ -57,7 +63,9 @@ fun CommentBar(
                     innerTextField()
                 }
             },
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(1f).onFocusChanged {
+                isFocused = it.isFocused
+            },
             textStyle = SoomjaeTheme.typography.body2,
             lineLimits = TextFieldLineLimits.MultiLine(maxHeightInLines = 4),
         )

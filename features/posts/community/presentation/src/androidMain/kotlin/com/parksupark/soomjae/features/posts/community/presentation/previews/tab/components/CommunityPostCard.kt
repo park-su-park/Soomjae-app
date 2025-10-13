@@ -22,6 +22,7 @@ private fun CommunityPostCardPreview(
             CommunityPostCard(
                 post = posts[0],
                 onFavoriteClick = { },
+                canLike = true,
             )
         }
     }

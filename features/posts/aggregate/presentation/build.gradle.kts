@@ -13,6 +13,7 @@ kotlin {
             implementation(projects.features.posts.common.presentation)
             api(projects.features.posts.community.presentation)
             api(projects.features.posts.meeting.presentation)
+            api(projects.features.posts.member.presentation)
 
             implementation(libs.rich.editor)
         }

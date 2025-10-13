@@ -33,6 +33,7 @@ object MeetingPostPreviewParameterData {
             author = members[0],
             category = categories[0],
             location = locations[0],
+            isUserLiked = false,
         ),
         MeetingPost(
             id = 2L,
@@ -42,6 +43,7 @@ object MeetingPostPreviewParameterData {
             author = members[1],
             category = categories[1],
             location = null,
+            isUserLiked = true,
         ),
         MeetingPost(
             id = 3L,
@@ -56,6 +58,7 @@ object MeetingPostPreviewParameterData {
             author = members[2],
             category = categories[2],
             location = locations[5],
+            isUserLiked = false,
         ),
         MeetingPost(
             id = 4L,
@@ -65,6 +68,7 @@ object MeetingPostPreviewParameterData {
             author = members[3],
             category = categories[3],
             location = locations[10],
+            isUserLiked = true,
         ),
         MeetingPost(
             id = 5L,
@@ -74,6 +78,7 @@ object MeetingPostPreviewParameterData {
             author = members[0],
             category = categories[0],
             location = null,
+            isUserLiked = false,
         ),
     )
 }

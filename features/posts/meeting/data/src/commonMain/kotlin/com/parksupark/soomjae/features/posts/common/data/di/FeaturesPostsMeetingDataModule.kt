@@ -10,14 +10,22 @@ import com.parksupark.soomjae.features.posts.common.domain.repositories.MEETING_
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MEETING_LIKE_REPOSITORY
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.ParticipationRepository
-import org.koin.core.module.dsl.named
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.qualifier.named
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val featuresPostsMeetingDataModule = module {
     singleOf(::DefaultMeetingPostRepository).bind(MeetingPostRepository::class)
-    singleOf(::DefaultMeetingCommentRepository) { named(MEETING_COMMENT_REPOSITORY) }.bind<CommentRepository>()
-    singleOf(::DefaultMeetingLikeRepository) { named(MEETING_LIKE_REPOSITORY) }.bind<LikeRepository>()
+    single(named(MEETING_COMMENT_REPOSITORY)) {
+        DefaultMeetingCommentRepository(
+            httpClient = get(),
+        )
+    }.bind<CommentRepository>()
+    single(named(MEETING_LIKE_REPOSITORY)) {
+        DefaultMeetingLikeRepository(
+            httpClient = get(),
+        )
+    }.bind<LikeRepository>()
     singleOf(::DefaultParticipationRepository).bind<ParticipationRepository>()
 }

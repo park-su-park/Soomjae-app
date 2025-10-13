@@ -20,8 +20,16 @@ import org.koin.dsl.module
 private val repositoriesModule = module {
     singleOf(::OfflineFirstCommunityPostLikeRepository).bind<CommunityPostLikeRepository>()
     singleOf(::CommunityRepositoryImpl).bind<CommunityRepository>()
-    singleOf(::CommunityCommentRepository) { named(COMMUNITY_COMMENT_REPOSITORY) }.bind<CommentRepository>()
-    singleOf(::CommunityLikeRepository) { named(COMMUNITY_LIKE_REPOSITORY) }.bind<LikeRepository>()
+    single(named(COMMUNITY_COMMENT_REPOSITORY)) {
+        CommunityCommentRepository(
+            httpClient = get(),
+        )
+    }.bind<CommentRepository>()
+    single(named(COMMUNITY_LIKE_REPOSITORY)) {
+        CommunityLikeRepository(
+            httpClient = get(),
+        )
+    }.bind<LikeRepository>()
 }
 
 private val sourcesModule = module {

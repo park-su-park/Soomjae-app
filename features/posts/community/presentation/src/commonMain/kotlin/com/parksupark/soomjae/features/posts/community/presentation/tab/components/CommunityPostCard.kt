@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreHoriz
-import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -19,13 +19,17 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.utils.imageRequest
+import com.parksupark.soomjae.features.posts.common.presentation.components.PostActionItem
 import com.parksupark.soomjae.features.posts.common.presentation.components.PostCard
 import com.parksupark.soomjae.features.posts.common.presentation.models.AuthorUi
+import com.parksupark.soomjae.features.posts.common.presentation.models.PostActionType
+import com.parksupark.soomjae.features.posts.common.presentation.models.PostActionUi
 import com.parksupark.soomjae.features.posts.community.presentation.models.CommunityPostUi
 
 @Composable
 internal fun CommunityPostCard(
     post: CommunityPostUi,
+    canLike: Boolean,
     onFavoriteClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -42,7 +46,13 @@ internal fun CommunityPostCard(
             PostCardContent(contentPreview = post.content)
         },
         footer = {
-            AdditionalActions(onFavoriteClick = onFavoriteClick)
+            AdditionalActions(
+                isUserLiked = post.isUserLiked,
+                likeCount = post.likeCount.toLong(),
+                canLike = canLike,
+                commentCount = post.commentCount.toLong(),
+                onFavoriteClick = onFavoriteClick,
+            )
         },
     )
 }
@@ -112,6 +122,10 @@ private fun PostCardContent(
 
 @Composable
 private fun AdditionalActions(
+    isUserLiked: Boolean,
+    likeCount: Long,
+    canLike: Boolean,
+    commentCount: Long,
     onFavoriteClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -119,15 +133,23 @@ private fun AdditionalActions(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        IconButton(
-            onClick = onFavoriteClick,
-            content = {
-                Icon(
-                    Icons.Outlined.FavoriteBorder,
-                    contentDescription = "Favorite",
-                    tint = SoomjaeTheme.colorScheme.icon,
-                )
-            },
+        PostActionItem(
+            action = PostActionUi(
+                type = PostActionType.Like,
+                isSelected = isUserLiked,
+                count = likeCount,
+                isEnabled = canLike,
+                onClick = onFavoriteClick,
+            ),
+            modifier = Modifier.minimumInteractiveComponentSize(),
+        )
+
+        PostActionItem(
+            action = PostActionUi(
+                type = PostActionType.Comment,
+                count = commentCount,
+            ),
+            modifier = Modifier.minimumInteractiveComponentSize(),
         )
     }
 }

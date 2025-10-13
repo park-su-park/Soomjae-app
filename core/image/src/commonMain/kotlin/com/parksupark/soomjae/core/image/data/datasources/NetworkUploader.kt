@@ -16,7 +16,6 @@ import io.ktor.client.request.forms.submitFormWithBinaryData
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
 import io.ktor.http.content.PartData
-import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.InternalAPI
 
 @OptIn(InternalAPI::class)
@@ -45,7 +44,7 @@ internal class NetworkUploader(
     private fun createImageFormData(image: ImageData): List<PartData> = formData {
         append(
             key = "file",
-            value = ByteReadChannel(image.bytes),
+            value = image.bytes,
             headers = Headers.build {
                 append(HttpHeaders.ContentType, image.mimeType)
                 append(HttpHeaders.ContentDisposition, "filename=${image.fileName}")

@@ -12,6 +12,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
+import coil3.ImageLoader
+import coil3.compose.setSingletonImageLoaderFactory
 import com.parksupark.soomjae.core.analytics.helpers.AnalyticsHelper
 import com.parksupark.soomjae.core.analytics.ui.LocalAnalyticsHelper
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
@@ -31,6 +33,7 @@ import com.parksupark.soomjae.features.setting.presentation.navigation.settingGr
 import com.parksupark.soomjae.navigation.isMainNavigationBarItem
 import com.parksupark.soomjae.navigation.rememberSoomjaeNavigator
 import com.parksupark.soomjae.viewmodel.SoomjaeViewModel
+import io.github.vinceglb.filekit.coil.addPlatformFileSupport
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -40,6 +43,8 @@ internal fun App(
     soomjaeEventController: SoomjaeEventController = koinInject(),
     analyticsHelper: AnalyticsHelper = koinInject(),
 ) {
+    InitCoil()
+
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var showLoginDialog by remember { mutableStateOf(false) }
 
@@ -103,5 +108,16 @@ internal fun App(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun InitCoil() {
+    setSingletonImageLoaderFactory { context ->
+        ImageLoader.Builder(context)
+            .components {
+                addPlatformFileSupport()
+            }
+            .build()
     }
 }

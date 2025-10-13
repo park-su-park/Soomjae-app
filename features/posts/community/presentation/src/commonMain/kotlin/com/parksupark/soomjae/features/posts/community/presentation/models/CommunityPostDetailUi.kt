@@ -17,19 +17,12 @@ data class CommunityPostDetailUi(
 )
 
 @OptIn(ExperimentalTime::class)
-private fun CommunityPostDetail.toUi(): CommunityPostUi = CommunityPostUi(
-    id = this.id,
-    title = this.title,
-    content = this.content,
-    author = this.author.toUi(),
-    createdAt = this.createdAt,
-)
+private fun CommunityPostDetail.toUi(): CommunityPostUi = this.post.toUi()
 
-// TODO: Implement Logic to get like count and comment count
 internal fun CommunityPostDetailWithLiked.toDetailUi(): CommunityPostDetailUi = CommunityPostDetailUi(
-    post = this.post.toUi(),
+    post = this.postDetail.toUi(),
     isLiked = this.isLiked,
-    likeCount = 0,
-    commentCount = 0,
-    comments = this.post.comments.map { it.toUi() }.toImmutableList(),
+    likeCount = this.postDetail.post.likeCount,
+    commentCount = this.postDetail.comments.count(),
+    comments = this.postDetail.comments.map { it.toUi() }.toImmutableList(),
 )

@@ -1,6 +1,9 @@
 package com.parksupark.soomjae.core.image.domain.models
 
+import com.parksupark.soomjae.core.common.utils.NanoId
+
 data class ImageData(
+    val id: String = NanoId.generate(),
     val bytes: ByteArray,
     val fileName: String,
     val mimeType: String,

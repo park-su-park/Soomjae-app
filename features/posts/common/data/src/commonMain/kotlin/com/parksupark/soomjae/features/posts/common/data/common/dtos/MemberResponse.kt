@@ -8,12 +8,13 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class MemberResponse(
     @SerialName("memberId") val id: Long,
-    @SerialName("nickname") val nickname: String,
+    @SerialName("nickname") val nickname: String?,
+    @SerialName("email") val email: String?,
 //    val profileImageUrl: String? = null,
 )
 
 fun MemberResponse.toModel(): Member = Member(
     id = id.toString(),
-    nickname = nickname,
+    nickname = nickname ?: email ?: "Unknown", // TODO: Use real nickname when backend supports it
     profileImageUrl = "https://picsum.photos/200",
 )

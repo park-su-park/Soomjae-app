@@ -1,9 +1,11 @@
 package com.parksupark.soomjae.core.data.di
 
 import com.parksupark.soomjae.core.data.auth.repositories.SessionRepositoryImpl
+import com.parksupark.soomjae.core.data.datasource.PreferenceSessionDataSource
 import com.parksupark.soomjae.core.data.datastore.SESSION_DATA_STORE
 import com.parksupark.soomjae.core.data.datastore.SETTING_DATA_STORE
 import com.parksupark.soomjae.core.data.repository.ColorThemeRepositoryImpl
+import com.parksupark.soomjae.core.domain.auth.datasources.SessionDataSource
 import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
 import com.parksupark.soomjae.core.domain.repository.ColorThemeRepository
 import org.koin.core.module.Module
@@ -17,7 +19,16 @@ val coreDataModule = module {
     includes(platformCoreDataModule)
 
     single {
-        SessionRepositoryImpl(get(named(SESSION_DATA_STORE)))
+        PreferenceSessionDataSource(
+            get(named(SESSION_DATA_STORE)),
+        )
+    }.bind<SessionDataSource>()
+
+    single {
+        SessionRepositoryImpl(
+            sessionDataSource = get(),
+            httpClient = get(),
+        )
     }.bind<SessionRepository>()
 
     single {

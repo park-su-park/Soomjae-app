@@ -14,4 +14,6 @@ interface CommentRepository {
         postId: Long,
         commentID: Long,
     ): Either<DataFailure, Unit>
+
+    suspend fun getComments(postId: Long): Either<DataFailure, List<Comment>>
 }

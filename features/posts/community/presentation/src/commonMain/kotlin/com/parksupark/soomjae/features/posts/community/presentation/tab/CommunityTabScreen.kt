@@ -70,6 +70,7 @@ internal fun CommunityTabScreen(
                         if (post != null) {
                             CommunityPostCard(
                                 post = post,
+                                canLike = state.canLikePost,
                                 onFavoriteClick = { onAction(CommunityTabAction.OnFavoriteClick(post.id)) },
                                 modifier = Modifier.fillMaxWidth()
                                     .clickable {

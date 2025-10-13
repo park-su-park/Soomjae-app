@@ -11,7 +11,7 @@ internal object SoomjaeConfiguration {
     const val VERSION_NAME = "0.0.1"
     const val VERSION_CODE = 1
 
-    const val IOS_DEPLOYMENT_TARGET = "16.6"
+    const val IOS_DEPLOYMENT_TARGET = "26"
 
     val UseJavaVersion = JavaVersion.VERSION_21
     val JvmTarget = KtJvmTarget.fromTarget(UseJavaVersion.toString())

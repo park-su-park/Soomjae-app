@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ============================================================= -->
+    <!-- Common -->
+    <!-- ============================================================= -->
+
+    <string name="common_next">다음</string>
+    <string name="common_cancel">취소</string>
+    <string name="common_back">뒤로가기</string>
+    <string name="common_error">오류</string>
+
+    <!-- ============================================================= -->
+    <!-- Photo Picker -->
+    <!-- ============================================================= -->
+
+    <string name="photo_picker_title">사진 선택</string>
+
+    <!-- Empty state -->
+    <string name="photo_picker_empty_message">사진을 추가해주세요.</string>
+    <string name="photo_picker_empty_hint">추가 버튼을 눌러 사진을 선택할 수 있습니다.</string>
+
+    <!-- Actions -->
+    <string name="photo_picker_add_action">사진 추가</string>
+    <string name="photo_picker_select_action">사진 선택하기</string>
+    <string name="photo_picker_remove_action">사진 삭제</string>
+    <string name="photo_picker_next_action">다음 단계로 이동</string>
+
+    <!-- Accessibility -->
+    <string name="photo_picker_remove_desc">선택한 사진 삭제</string>
+    <string name="photo_picker_content_desc">선택된 사진 미리보기</string>
+
+    <!-- Toolbar -->
+    <string name="photo_picker_back_desc">사진 선택 화면 닫기</string>
+
+    <!-- ============================================================= -->
+    <!-- Post Write -->
+    <!-- ============================================================= -->
+
+    <string name="post_write_cancel_action">게시글 작성 취소</string>
+    <string name="post_write_next_action">게시글 작성 다음 단계</string>
+
+    <!-- ============================================================= -->
+    <!-- Post Compose -->
+    <!-- ============================================================= -->
+    <string name="post_compose_submit_action">게시하기</string>
+    <string name="post_compose_content_hint">내용 추가...</string>
+
+</resources>

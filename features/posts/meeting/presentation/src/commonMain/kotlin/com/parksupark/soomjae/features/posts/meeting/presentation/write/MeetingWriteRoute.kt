@@ -10,16 +10,26 @@ import com.parksupark.soomjae.core.presentation.ui.ObserveAsEvents
 import com.parksupark.soomjae.core.presentation.ui.components.SoomjaeSnackbarHost
 import com.parksupark.soomjae.core.presentation.ui.components.showSnackbar
 import com.parksupark.soomjae.features.posts.meeting.presentation.navigation.MeetingNavigator
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.creation.MeetingCreationAction
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.creation.MeetingCreationScreen
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.post_content.MeetingPostContentScreen
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.step.MeetingPostWriteStep
 import kotlinx.coroutines.launch
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun MeetingWriteRoute(
     navigator: MeetingNavigator,
-    coordinator: MeetingWriteCoordinator = rememberMeetingWriteCoordinator(navigator),
+    coordinator: MeetingPostWriteCoordinator = koinViewModel { parametersOf(navigator) },
 ) {
-    val uiState by coordinator.screenStateFlow.collectAsStateWithLifecycle(MeetingWriteState())
+    val uiState by coordinator.screenStateFlow.collectAsStateWithLifecycle()
 
-    val actionsHandler: (MeetingWriteAction) -> Unit = { action ->
+    val writeActionsHandler: (MeetingPostWriteAction) -> Unit = { action ->
+        coordinator.handle(action)
+    }
+
+    val createActionHandler: (MeetingCreationAction) -> Unit = { action ->
         coordinator.handle(action)
     }
 
@@ -29,17 +39,25 @@ fun MeetingWriteRoute(
         flow = coordinator.events,
     ) { event ->
         when (event) {
-            is MeetingWriteEvent.OnPostCreateSuccess -> navigator.navigateToMeetingDetail(event.postId)
+            is MeetingPostWriteEvent.OnPostCreateSuccess -> navigator.navigateToMeetingDetail(event.postId)
 
-            is MeetingWriteEvent.OnPostCreateFailure -> coroutineScope.launch {
+            is MeetingPostWriteEvent.OnPostCreateFailure -> coroutineScope.launch {
                 snackbarHostState.showSnackbar(event.error)
             }
         }
     }
 
-    MeetingWriteScreen(
-        state = uiState,
-        onAction = actionsHandler,
-        snackbarHost = { SoomjaeSnackbarHost(snackbarHostState) },
-    )
+    val stepState = uiState.stepState
+    when (stepState.step) {
+        MeetingPostWriteStep.CONTENT -> MeetingPostContentScreen(
+            state = uiState.contentState,
+            onAction = writeActionsHandler,
+            snackbarHost = { SoomjaeSnackbarHost(snackbarHostState) },
+        )
+
+        MeetingPostWriteStep.CREATE -> MeetingCreationScreen(
+            state = uiState.creationState,
+            onAction = createActionHandler,
+        )
+    }
 }

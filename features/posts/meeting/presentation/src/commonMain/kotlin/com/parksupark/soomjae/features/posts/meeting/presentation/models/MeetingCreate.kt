@@ -14,7 +14,7 @@ data class MeetingCreate(
     val inputMaxParticipantCount: Int,
 )
 
-internal fun MeetingCreate.toMeetingCreateUi(): MeetingCreateUi = MeetingCreateUi(
+internal fun MeetingCreate.toMeetingCreateUi(): MeetingCreationUi = MeetingCreationUi(
     startDate = startDate,
     startTime = startTime,
     endDate = endDate,
@@ -22,7 +22,7 @@ internal fun MeetingCreate.toMeetingCreateUi(): MeetingCreateUi = MeetingCreateU
     inputMaxParticipantCount = TextFieldState(inputMaxParticipantCount.toString()),
 )
 
-internal fun MeetingCreateUi.toMeetingCreate(): MeetingCreate = MeetingCreate(
+internal fun MeetingCreationUi.toMeetingCreate(): MeetingCreate = MeetingCreate(
     startDate = startDate,
     startTime = startTime,
     endDate = endDate,

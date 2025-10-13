@@ -4,6 +4,7 @@ import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.core.remote.networking.get
 import com.parksupark.soomjae.core.remote.networking.post
+import com.parksupark.soomjae.features.posts.community.data.dtos.CommunityPostDetailResponse
 import com.parksupark.soomjae.features.posts.community.data.dtos.CommunityPostResponse
 import com.parksupark.soomjae.features.posts.community.data.dtos.CommunityPostsResponse
 import com.parksupark.soomjae.features.posts.community.data.dtos.PostCommunityPostRequest
@@ -36,7 +37,7 @@ internal class CommunityRemoteSourceImpl(
         ),
     )
 
-    override suspend fun getPostDetails(postId: Long): Either<DataFailure.Network, CommunityPostResponse> = httpClient.get(
+    override suspend fun getPostDetails(postId: Long): Either<DataFailure.Network, CommunityPostDetailResponse> = httpClient.get(
         route = "/v1/boards/community/posts/$postId",
     )
 }

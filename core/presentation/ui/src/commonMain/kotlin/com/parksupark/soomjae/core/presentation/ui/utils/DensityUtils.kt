@@ -9,3 +9,8 @@ import androidx.compose.ui.unit.TextUnit
 fun TextUnit.toDp(): Dp = with(LocalDensity.current) {
     toDp()
 }
+
+@Composable
+fun Int.pxToDp(): Dp = with(LocalDensity.current) {
+    this@pxToDp.toDp()
+}

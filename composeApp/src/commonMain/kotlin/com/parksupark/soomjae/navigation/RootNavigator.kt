@@ -21,9 +21,9 @@ import com.parksupark.soomjae.features.home.presentation.navigation.soomjaeHomeN
 import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.PostNavigator
 import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.navigateToCommunityDetail
 import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.navigateToCommunityWrite
-import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.navigateToMeetingCreate
 import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.navigateToMeetingDetail
 import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.navigateToMeetingWrite
+import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.navigateToMemberWrite
 import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.navigateToParticipantList
 import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.soomjaePostNavigator
 import com.parksupark.soomjae.features.profile.presentation.navigation.ProfileNavigator
@@ -88,16 +88,16 @@ private class SoomjaeRootNavigator(
         navController.navigateToMeetingWrite()
     }
 
-    override fun navigateToMeetingCreate() {
-        navController.navigateToMeetingCreate()
-    }
-
     override fun navigateToMeetingDetail(postId: Long) {
         navController.navigateToMeetingDetail(postId)
     }
 
     override fun navigateToParticipantList(meetingId: Long) {
         navController.navigateToParticipantList(meetingId)
+    }
+
+    override fun navigateToMemberWrite() {
+        navController.navigateToMemberWrite()
     }
     // </editor-fold>
 

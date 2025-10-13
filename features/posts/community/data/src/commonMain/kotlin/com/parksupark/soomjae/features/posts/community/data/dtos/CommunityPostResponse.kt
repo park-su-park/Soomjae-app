@@ -3,7 +3,6 @@ package com.parksupark.soomjae.features.posts.community.data.dtos
 import com.parksupark.soomjae.features.posts.common.data.common.dtos.MemberResponse
 import com.parksupark.soomjae.features.posts.common.data.common.dtos.toModel
 import com.parksupark.soomjae.features.posts.community.domain.models.CommunityPost
-import com.parksupark.soomjae.features.posts.community.domain.models.CommunityPostDetail
 import kotlin.time.ExperimentalTime
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toStdlibInstant
@@ -15,29 +14,28 @@ import kotlinx.serialization.Serializable
 @OptIn(ExperimentalTime::class)
 @Serializable
 internal data class CommunityPostResponse(
-    @SerialName("postId") val id: Long,
+    @SerialName("postId") val postId: Long,
     @SerialName("title") val title: String,
     @SerialName("content") val content: String,
     @SerialName("author") val author: MemberResponse,
     @SerialName("createdTime") val createdAt: Instant,
+
+    @SerialName("category") val categoryName: String? = null,
+    @SerialName("location") val locationName: String? = null,
+
+    @SerialName("likeNum") val likeCount: Int,
+    @SerialName("isLikedByMe") val isUserLiked: Boolean,
 )
 
 @OptIn(ExperimentalTime::class)
 internal fun CommunityPostResponse.toModel(): CommunityPost = CommunityPost(
-    id = id,
+    id = postId,
     title = title,
     content = content,
     author = author.toModel(),
     createdAt = createdAt.toStdlibInstant(),
-)
-
-@OptIn(ExperimentalTime::class)
-internal fun CommunityPostResponse.toCommunityPostDetail(): CommunityPostDetail = CommunityPostDetail(
-    id = id,
-    title = title,
-    content = content,
-    author = author.toModel(),
-    createdAt = createdAt.toStdlibInstant(),
-    // TODO: Implement Logic to get comments
-    comments = emptyList(),
+    categoryName = categoryName,
+    locationName = locationName,
+    likeCount = likeCount,
+    isUserLiked = isUserLiked,
 )
