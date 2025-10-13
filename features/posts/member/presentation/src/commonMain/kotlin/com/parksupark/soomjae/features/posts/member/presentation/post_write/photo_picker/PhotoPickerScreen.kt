@@ -38,10 +38,12 @@ import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.core.presentation.ui.utils.pxToDp
 import com.parksupark.soomjae.features.posts.member.presentation.resources.Res
+import com.parksupark.soomjae.features.posts.member.presentation.resources.common_next
 import com.parksupark.soomjae.features.posts.member.presentation.resources.photo_picker_add_action
 import com.parksupark.soomjae.features.posts.member.presentation.resources.photo_picker_content_desc
 import com.parksupark.soomjae.features.posts.member.presentation.resources.photo_picker_empty_message
 import com.parksupark.soomjae.features.posts.member.presentation.resources.photo_picker_remove_desc
+import com.parksupark.soomjae.features.posts.member.presentation.resources.post_write_cancel_action
 import io.github.vinceglb.filekit.PlatformFile
 import io.github.vinceglb.filekit.dialogs.FileKitMode
 import io.github.vinceglb.filekit.dialogs.FileKitType
@@ -190,7 +192,7 @@ private fun PhotoPickerTopBar(
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "개시글 작성 취소",
+                    contentDescription = Res.string.post_write_cancel_action.value,
                 )
             }
         },
@@ -198,9 +200,7 @@ private fun PhotoPickerTopBar(
             SoomjaeTextButton(
                 onClick = onNextClick,
                 enabled = canGoNext(),
-                content = {
-                    Text(text = "다음")
-                },
+                content = { Text(text = Res.string.common_next.value) },
             )
         },
         modifier = modifier,
