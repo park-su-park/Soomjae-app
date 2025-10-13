@@ -127,7 +127,7 @@ private fun MeetingDetailContent(
                 currentParticipantCount = state.postDetail.currentParticipantCount,
                 maxParticipantCount = state.postDetail.maxParticipationCount,
                 recruitmentEndTime = state.postDetail.recruitmentPeriod.formattedEndTime,
-                isUserJoined = state.isUserJoined,
+                isUserJoined = state.postDetail.isUserJoined,
                 onToggleParticipationClick = onToggleParticipationClick,
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
             )
@@ -209,8 +209,8 @@ private fun PostDetailAuthorHeader(
 
 @Composable
 private fun PostDetailMeetingContent(
-    currentParticipantCount: Long,
-    maxParticipantCount: Long,
+    currentParticipantCount: Int,
+    maxParticipantCount: Int,
     recruitmentEndTime: String,
     isUserJoined: Boolean,
     onToggleParticipationClick: () -> Unit,

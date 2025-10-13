@@ -6,8 +6,8 @@ import kotlin.time.Instant
 data class MeetingPostDetail(
     val post: MeetingPost,
 
-    val maxParticipationCount: Long,
-    val currentParticipantCount: Long,
+    val maxParticipationCount: Int,
+    val currentParticipantCount: Int,
     val isUserJoined: Boolean,
     val recruitmentPeriod: RecruitmentPeriod,
 

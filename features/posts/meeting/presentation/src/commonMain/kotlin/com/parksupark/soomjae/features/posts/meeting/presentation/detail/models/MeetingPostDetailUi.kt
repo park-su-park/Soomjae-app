@@ -13,8 +13,8 @@ data class MeetingPostDetailUi(
     val post: MeetingPostUi,
     val isLike: Boolean,
 
-    val maxParticipationCount: Long,
-    val currentParticipantCount: Long,
+    val maxParticipationCount: Int,
+    val currentParticipantCount: Int,
     val isUserJoined: Boolean,
     val recruitmentPeriod: RecruitmentPeriodUi,
 

@@ -30,8 +30,8 @@ internal data class MeetingPostDetailResponse(
     @SerialName("likeNum") val likeCount: Long,
     @SerialName("isLikedByMe") val isUserLiked: Boolean,
 
-    @SerialName("maximumParticipants") val maxParticipantCount: Long,
-    @SerialName("currentParticipantCount") val currentParticipantCount: Long,
+    @SerialName("maximumParticipants") val maxParticipantCount: Int,
+    @SerialName("currentParticipantCount") val currentParticipantCount: Int,
     @SerialName("isParticipatedByMe") val isUserJoined: Boolean,
 
     @SerialName("startTime") val recruitmentStartTime: Instant,
