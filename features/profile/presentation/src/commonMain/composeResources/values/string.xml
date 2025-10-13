@@ -4,4 +4,13 @@
     <string name="my_profile_login_request">회원가입시 더 많은 기능을 이용할 수 있습니다.</string>
     <string name="my_profile_login_button">로그인 및 회원가입</string>
     <string name="my_profile_logout_button">로그아웃</string>
+
+    <!-- ============================================================= -->
+    <!-- Profile -->
+    <!-- ============================================================= -->
+
+    <string name="profile_tab_introduction">소개</string>
+    <string name="profile_tab_posts">게시글</string>
+    <string name="profile_tab_meetings">모임</string>
+    <string name="profile_tab_reviews">리뷰</string>
 </resources>
