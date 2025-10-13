@@ -1,3 +1,5 @@
+package com.parksupark.soomjae.features.profile.data.repositories
+
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData

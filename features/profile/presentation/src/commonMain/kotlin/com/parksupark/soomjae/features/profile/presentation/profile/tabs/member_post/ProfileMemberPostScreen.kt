@@ -1,6 +1,9 @@
 package com.parksupark.soomjae.features.profile.presentation.profile.tabs.member_post
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -13,8 +16,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
+import app.cash.paging.LoadStateLoading
+import app.cash.paging.LoadStateNotLoading
 import app.cash.paging.compose.LazyPagingItems
 import app.cash.paging.compose.itemKey
 import coil3.compose.AsyncImage
@@ -35,14 +41,14 @@ internal fun ProfileMemberPostScreen(
     listState: LazyGridState,
     posts: LazyPagingItems<MemberPostUi>,
 ) {
-    LaunchedEffect(posts.loadState.refresh) {
+    LaunchedEffect(posts.loadState.refresh, onAction) {
         val refresh = posts.loadState.refresh
-        if (refresh is LoadState.NotLoading && state.isRefreshing) {
+        if (refresh is LoadStateNotLoading && state.isRefreshing) {
             onAction(ProfileMemberPostAction.RefreshChange(false))
         }
     }
 
-    val isRefreshing = state.isRefreshing && posts.loadState.refresh is LoadState.Loading
+    val isRefreshing = state.isRefreshing && posts.loadState.refresh is LoadStateLoading
     SoomjaePullToRefreshBox(
         isRefreshing = isRefreshing,
         onRefresh = { onAction(ProfileMemberPostAction.OnPullToRefresh) },
@@ -69,6 +75,8 @@ internal fun ProfileMemberPostScreen(
                 columns = GridCells.Fixed(3),
                 modifier = Modifier.fillMaxSize(),
                 state = listState,
+                contentPadding = PaddingValues(top = 2.dp),
+                horizontalArrangement = Arrangement.spacedBy(2.dp),
             ) {
                 items(count = posts.itemCount, key = posts.itemKey { it.id }) { index ->
                     posts[index]?.let { post ->
@@ -89,8 +97,10 @@ private fun MemberPostGridItem(
         model = imageRequest { data(post.imageUrl) },
         contentDescription = null,
         modifier = modifier.fillMaxSize()
-            .background(SoomjaeTheme.colorScheme.background2),
+            .background(SoomjaeTheme.colorScheme.background2)
+            .aspectRatio(4 / 5f),
         placeholder = SoomjaeTheme.drawable.ic_sample_image.value,
+        contentScale = ContentScale.Crop,
     )
 }
 

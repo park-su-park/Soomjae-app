@@ -5,7 +5,7 @@ import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.core.remote.networking.get
 import com.parksupark.soomjae.core.remote.networking.post
 import com.parksupark.soomjae.features.posts.member.data.dtos.request.PostMemberPostRequest
-import com.parksupark.soomjae.features.posts.member.data.dtos.response.MemberPostsResponse
+import com.parksupark.soomjae.features.posts.member.data.dtos.response.MemberPostResponse
 import com.parksupark.soomjae.features.posts.member.data.dtos.response.PostMemberPostResponse
 import com.parksupark.soomjae.features.posts.member.data.dtos.response.toMemberPost
 import com.parksupark.soomjae.features.posts.member.domain.models.MemberPost
@@ -25,11 +25,11 @@ internal class RemoteMemberPostDataSource(
         ),
     )
 
-    suspend fun getMemberPosts(page: Int): Either<DataFailure.Network, List<MemberPost>> = httpClient.get<MemberPostsResponse>(
+    suspend fun getMemberPosts(page: Int): Either<DataFailure.Network, List<MemberPost>> = httpClient.get<List<MemberPostResponse>>(
         route = "/v1/boards/member/posts/list",
         queryParameters = mapOf("page" to page),
     ).map { response ->
-        response.posts.map {
+        response.map {
             it.toMemberPost()
         }
     }

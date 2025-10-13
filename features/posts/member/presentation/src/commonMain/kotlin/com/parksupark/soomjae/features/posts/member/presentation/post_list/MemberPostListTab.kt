@@ -1,5 +1,6 @@
 package com.parksupark.soomjae.features.posts.member.presentation.post_list
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -43,9 +44,9 @@ internal fun MemberPostListTab(
         SoomjaePullToRefreshBox(
             isRefreshing = state.isPostsRefreshing,
             onRefresh = { onAction(MemberPostListAction.OnPullToRefresh) },
-            modifier = Modifier.fillMaxSize().padding(innerPadding),
+            modifier = Modifier.fillMaxSize(),
         ) {
-            MemberPostList(posts = posts, onAction = onAction)
+            MemberPostList(posts = posts, onAction = onAction, contentPadding = innerPadding)
 
             WriteMeetingPostFab(
                 onWriteClick = { onAction(MemberPostListAction.OnWritePostClick) },
@@ -73,8 +74,12 @@ private fun RefreshEffect(
 private fun MemberPostList(
     posts: LazyPagingItems<MemberPostUi>,
     onAction: (MemberPostListAction) -> Unit,
+    contentPadding: PaddingValues,
 ) {
-    LazyColumn(modifier = Modifier.fillMaxSize()) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = contentPadding,
+    ) {
         items(
             count = posts.itemCount,
             key = posts.itemKey { it.id },

@@ -6,11 +6,11 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class GetProfileMemberPostResponse(
-    @SerialName("postId") val id: Long,
-    @SerialName("imageUrl") val image: String,
+    @SerialName("memberPostId") val postId: Long,
+    @SerialName("image") val imageUrl: String,
 )
 
 internal fun GetProfileMemberPostResponse.toProfileMemberPost(): ProfileMemberPost = ProfileMemberPost(
-    id = this.id,
-    imageUrl = this.image,
+    id = this.postId,
+    imageUrl = this.imageUrl,
 )

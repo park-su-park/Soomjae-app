@@ -27,8 +27,11 @@ class ProfileMemberPostCoordinator(
 @Composable
 fun rememberProfileMemberPostCoordinator(
     userId: Long,
-    viewModel: ProfileMemberPostViewModel = koinViewModel { parametersOf(userId) },
-): ProfileMemberPostCoordinator = remember(viewModel) {
+    viewModel: ProfileMemberPostViewModel = koinViewModel(
+        key = "profile_member_post_view_model_$userId",
+        parameters = { parametersOf(userId) },
+    ),
+): ProfileMemberPostCoordinator = remember(userId, viewModel) {
     ProfileMemberPostCoordinator(
         viewModel = viewModel,
     )

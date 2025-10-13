@@ -3,7 +3,6 @@ package com.parksupark.soomjae.core.image.data.datasources
 import arrow.core.Either
 import arrow.core.raise.either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
-import com.parksupark.soomjae.core.image.data.dto.response.UploadResponse
 import com.parksupark.soomjae.core.image.data.dto.response.toRemoteFile
 import com.parksupark.soomjae.core.image.domain.models.ImageData
 import com.parksupark.soomjae.core.image.domain.models.RemoteFile
@@ -26,7 +25,7 @@ internal class NetworkUploader(
         image: ImageData,
         onProgress: suspend (Float) -> Unit,
     ): Either<DataFailure.Network, RemoteFile> = either {
-        safeCall<UploadResponse> {
+        safeCall<List<String>> {
             httpClient.submitFormWithBinaryData(
                 url = constructRoute("/v1/images"),
                 formData = createImageFormData(image),
@@ -37,8 +36,9 @@ internal class NetworkUploader(
                     }
                 }
             }
-        }.bind()
-            .toRemoteFile()
+        }.bind().map { url ->
+            url.toRemoteFile()
+        }.first()
     }
 
     private fun createImageFormData(image: ImageData): List<PartData> = formData {

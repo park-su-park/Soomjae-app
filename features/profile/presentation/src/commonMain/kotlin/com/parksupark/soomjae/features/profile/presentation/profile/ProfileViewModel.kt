@@ -35,7 +35,11 @@ internal class ProfileViewModel(
                             // TODO: Fetch Real User Data From Server
                             ProfileState.MyProfileState(
                                 isLoggedIn = true,
-                                user = UserUi.Default,
+                                user = UserUi(
+                                    id = authInfo.memberId,
+                                    nickname = "Username",
+                                    profileImageUrl = "",
+                                ),
                             )
                         }
                     } else {
