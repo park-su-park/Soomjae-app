@@ -3,6 +3,7 @@ package com.parksupark.soomjae.features.posts.community.presentation.models
 import androidx.compose.runtime.Composable
 import com.parksupark.soomjae.core.presentation.ui.utils.toRelativeTimeString
 import com.parksupark.soomjae.features.posts.common.presentation.models.AuthorUi
+import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
 import com.parksupark.soomjae.features.posts.community.domain.models.CommunityPost
 import kotlin.random.Random
@@ -19,6 +20,7 @@ data class CommunityPostUi(
     val isUserLiked: Boolean,
     val commentCount: Int,
     val createdAt: Instant,
+    val category: CategoryUi?,
 ) {
     val formattedCreatedAt: String
         @Composable get() = createdAt.toRelativeTimeString()
@@ -34,4 +36,5 @@ internal fun CommunityPost.toUi(): CommunityPostUi = CommunityPostUi(
     likeCount = this.likeCount,
     isUserLiked = this.isUserLiked,
     commentCount = Random.nextInt(20),
+    category = null,
 )

@@ -37,7 +37,14 @@ private val participantListModule = module {
 }
 
 private val tabModule = module {
-    viewModelOf(::MeetingTabViewModel)
+    viewModel {
+        MeetingTabViewModel(
+            meetingRepository = get(),
+            sessionRepository = get(),
+            likeRepository = get(named(MEETING_LIKE_REPOSITORY)),
+            soomjaeEventController = get(),
+        )
+    }
 }
 
 private val writeModule = module {

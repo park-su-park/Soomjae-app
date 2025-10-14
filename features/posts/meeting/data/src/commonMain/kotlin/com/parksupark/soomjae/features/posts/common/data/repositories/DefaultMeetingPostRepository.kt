@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.toDeprecatedInstant
 
 @OptIn(ExperimentalTime::class)
-class DefaultMeetingPostRepository(
+internal class DefaultMeetingPostRepository(
     private val httpClient: HttpClient,
 ) : MeetingPostRepository {
 

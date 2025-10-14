@@ -3,13 +3,13 @@ package com.parksupark.soomjae.features.profile.presentation.profile.mdoels
 data class UserUi(
     val id: Long,
     val nickname: String,
-    val profileImageUrl: String? = null,
+    val profileImageUrl: String? = "https://picsum.photos/id/$id",
 ) {
     companion object {
         val Default = UserUi(
             id = 1,
             nickname = "Username",
-            profileImageUrl = "https://picsum.photos/200",
+            profileImageUrl = "https://picsum.photos/id/1",
         )
     }
 }

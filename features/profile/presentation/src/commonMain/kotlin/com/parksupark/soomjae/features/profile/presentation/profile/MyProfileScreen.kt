@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
@@ -154,7 +155,11 @@ private fun MyProfileContent(
             ) { page ->
                 when (ProfileTab.entries[page]) {
                     ProfileTab.INTRODUCTION -> {
-                        // TODO()
+                        LazyColumn(state = stubState, modifier = Modifier.fillMaxSize()) {
+                            items(count = 1000) {
+                                Spacer(modifier = Modifier.height(16.dp).fillMaxWidth())
+                            }
+                        }
                     }
 
                     ProfileTab.MEMBER_POSTS -> ProfileMemberPostTab(userId = user.id, listState = memberPostTabGridState)

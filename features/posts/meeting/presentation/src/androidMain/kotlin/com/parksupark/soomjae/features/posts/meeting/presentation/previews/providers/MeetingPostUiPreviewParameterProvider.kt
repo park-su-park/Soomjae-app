@@ -3,11 +3,14 @@ package com.parksupark.soomjae.features.posts.meeting.presentation.previews.prov
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.parksupark.soomjae.core.presentation.ui.previews.proviers.MemberPreviewParameterData.members
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPost
+import com.parksupark.soomjae.features.posts.common.domain.models.RecruitmentPeriod
 import com.parksupark.soomjae.features.posts.common.presentation.previews.providers.CategoryUiPreviewParameterData.categories
 import com.parksupark.soomjae.features.posts.common.presentation.previews.providers.LocationPreviewParametersData.locations
 import com.parksupark.soomjae.features.posts.meeting.presentation.previews.providers.MeetingPostPreviewParameterData.posts
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.MeetingPostUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.toMeetingPostUi
+import kotlin.time.Clock
+import kotlin.time.Duration.Companion.days
 import kotlin.time.ExperimentalTime
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -34,6 +37,13 @@ object MeetingPostPreviewParameterData {
             category = categories[0],
             location = locations[0],
             isUserLiked = false,
+            likeCount = 128,
+            maxParticipationCount = 100,
+            currentParticipantCount = 12,
+            recruitmentPeriod = RecruitmentPeriod(
+                startTime = Clock.System.now(),
+                endTime = Clock.System.now().plus(7.days),
+            ),
         ),
         MeetingPost(
             id = 2L,
@@ -44,6 +54,13 @@ object MeetingPostPreviewParameterData {
             category = categories[1],
             location = null,
             isUserLiked = true,
+            likeCount = 128,
+            maxParticipationCount = 100,
+            currentParticipantCount = 12,
+            recruitmentPeriod = RecruitmentPeriod(
+                startTime = Clock.System.now(),
+                endTime = Clock.System.now().plus(7.days),
+            ),
         ),
         MeetingPost(
             id = 3L,
@@ -59,6 +76,13 @@ object MeetingPostPreviewParameterData {
             category = categories[2],
             location = locations[5],
             isUserLiked = false,
+            likeCount = 128,
+            maxParticipationCount = 100,
+            currentParticipantCount = 12,
+            recruitmentPeriod = RecruitmentPeriod(
+                startTime = Clock.System.now(),
+                endTime = Clock.System.now().plus(7.days),
+            ),
         ),
         MeetingPost(
             id = 4L,
@@ -69,6 +93,13 @@ object MeetingPostPreviewParameterData {
             category = categories[3],
             location = locations[10],
             isUserLiked = true,
+            likeCount = 128,
+            maxParticipationCount = 100,
+            currentParticipantCount = 12,
+            recruitmentPeriod = RecruitmentPeriod(
+                startTime = Clock.System.now(),
+                endTime = Clock.System.now().plus(7.days),
+            ),
         ),
         MeetingPost(
             id = 5L,
@@ -79,6 +110,13 @@ object MeetingPostPreviewParameterData {
             category = categories[0],
             location = null,
             isUserLiked = false,
+            likeCount = 128,
+            maxParticipationCount = 100,
+            currentParticipantCount = 12,
+            recruitmentPeriod = RecruitmentPeriod(
+                startTime = Clock.System.now(),
+                endTime = Clock.System.now().plus(7.days),
+            ),
         ),
     )
 }
