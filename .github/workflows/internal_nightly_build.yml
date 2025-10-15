@@ -87,14 +87,14 @@ jobs:
           echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
 
       - name: Upload APK Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: internal-nightly-apk
           path: ${{ steps.resolve_apk.outputs.apk_path }}
           retention-days: 3
 
       - name: Distribute to Firebase
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        uses: wzieba/Firebase-Distribution-Github-Action@bd494989dd4bec0343f78adee87fe66e48279ad6 # v1
         with:
           appId: ${{ secrets.FIREBASE_APP_ID_INTERNAL }}
           serviceCredentialsFileContent: ${{ secrets.GOOGLE_CLOUD_CREDENTIAL_FILE_CONTENT }}
