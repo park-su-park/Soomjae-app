@@ -83,6 +83,6 @@ jobs:
       - name: Distribute to Firebase
         run: |
           firebase appdistribution:distribute ${{ env.APP_MODULE }}/build/outputs/apk/internal/*.apk \
-            --app ${{ secrets.FIREBASE_APP_ID }} \
+            --app ${{ secrets.FIREBASE_APP_ID_INTERNAL }} \
             --token ${{ secrets.FIREBASE_TOKEN }} \
             --release-notes "Nightly build - ${{ steps.version.outputs.version_name }} ($(date +'%Y-%m-%d %H:%M'))"
