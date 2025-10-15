@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.profile.data.dtos.response
+package com.parksupark.soomjae.features.profile.data.dto.response
 
 import com.parksupark.soomjae.features.profile.domain.models.ProfileMemberPost
 import kotlinx.serialization.SerialName

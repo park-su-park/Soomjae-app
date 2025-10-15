@@ -51,6 +51,6 @@ class MeetingTabViewModel(
     }
 
     fun handlePostLikeClick(postId: Long) {
-        // TODO: imlement logic to like the post by optimistic updating
+        // TODO: implement logic to like the post by optimistic updating
     }
 }

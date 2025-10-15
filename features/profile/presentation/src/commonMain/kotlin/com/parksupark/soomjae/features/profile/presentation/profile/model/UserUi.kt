@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.profile.presentation.profile.mdoels
+package com.parksupark.soomjae.features.profile.presentation.profile.model
 
 data class UserUi(
     val id: Long,

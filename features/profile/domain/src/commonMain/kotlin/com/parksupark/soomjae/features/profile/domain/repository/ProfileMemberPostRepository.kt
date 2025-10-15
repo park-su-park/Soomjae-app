@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.profile.domain.repositores
+package com.parksupark.soomjae.features.profile.domain.repository
 
 import androidx.paging.PagingData
 import com.parksupark.soomjae.features.profile.domain.models.ProfileMemberPost

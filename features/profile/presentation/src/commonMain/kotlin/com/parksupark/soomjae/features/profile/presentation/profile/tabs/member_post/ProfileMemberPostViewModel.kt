@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.parksupark.soomjae.features.profile.domain.repositores.ProfileMemberPostRepository
+import com.parksupark.soomjae.features.profile.domain.repository.ProfileMemberPostRepository
 import com.parksupark.soomjae.features.profile.presentation.profile.tabs.model.toMemberPostUi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -50,7 +50,7 @@ import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.features.profile.presentation.profile.adapter.ScrollableStateAdapter
 import com.parksupark.soomjae.features.profile.presentation.profile.adapter.asAdapter
 import com.parksupark.soomjae.features.profile.presentation.profile.components.UserProfileCard
-import com.parksupark.soomjae.features.profile.presentation.profile.mdoels.UserUi
+import com.parksupark.soomjae.features.profile.presentation.profile.model.UserUi
 import com.parksupark.soomjae.features.profile.presentation.profile.tabs.member_post.ProfileMemberPostTab
 import com.parksupark.soomjae.features.profile.presentation.resources.Res
 import com.parksupark.soomjae.features.profile.presentation.resources.my_profile_login_button

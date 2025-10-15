@@ -1,7 +1,7 @@
 package com.parksupark.soomjae.features.profile.data.di
 
-import com.parksupark.soomjae.features.profile.data.repositories.DefaultProfileMemberPostRepository
-import com.parksupark.soomjae.features.profile.domain.repositores.ProfileMemberPostRepository
+import com.parksupark.soomjae.features.profile.data.repository.DefaultProfileMemberPostRepository
+import com.parksupark.soomjae.features.profile.domain.repository.ProfileMemberPostRepository
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module

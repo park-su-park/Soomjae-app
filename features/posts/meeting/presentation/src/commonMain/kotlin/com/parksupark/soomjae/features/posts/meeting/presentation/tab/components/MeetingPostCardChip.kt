@@ -13,7 +13,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 @Composable
 internal fun MeetingPostCardChip(
     text: String,
-    modifier: Modifier = Modifier.Companion,
+    modifier: Modifier = Modifier,
     backgroundColor: Color = SoomjaeTheme.colorScheme.background3,
     contentColor: Color = SoomjaeTheme.colorScheme.text3,
 ) {
@@ -25,7 +25,7 @@ internal fun MeetingPostCardChip(
     ) {
         Text(
             text = text,
-            modifier = Modifier.Companion.padding(horizontal = 8.dp, vertical = 4.dp),
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
             style = SoomjaeTheme.typography.labelM,
         )
     }

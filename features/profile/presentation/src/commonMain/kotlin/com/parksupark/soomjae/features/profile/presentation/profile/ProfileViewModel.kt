@@ -3,7 +3,7 @@ package com.parksupark.soomjae.features.profile.presentation.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
-import com.parksupark.soomjae.features.profile.presentation.profile.mdoels.UserUi
+import com.parksupark.soomjae.features.profile.presentation.profile.model.UserUi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

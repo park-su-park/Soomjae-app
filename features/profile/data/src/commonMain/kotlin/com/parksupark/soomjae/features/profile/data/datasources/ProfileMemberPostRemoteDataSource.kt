@@ -3,8 +3,8 @@ package com.parksupark.soomjae.features.profile.data.datasources
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.core.remote.networking.get
-import com.parksupark.soomjae.features.profile.data.dtos.response.GetProfileMemberPostResponse
-import com.parksupark.soomjae.features.profile.data.dtos.response.toProfileMemberPost
+import com.parksupark.soomjae.features.profile.data.dto.response.GetProfileMemberPostResponse
+import com.parksupark.soomjae.features.profile.data.dto.response.toProfileMemberPost
 import com.parksupark.soomjae.features.profile.domain.models.ProfileMemberPost
 import io.ktor.client.HttpClient
 

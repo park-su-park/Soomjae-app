@@ -1,6 +1,6 @@
 package com.parksupark.soomjae.features.profile.presentation.profile
 
-import com.parksupark.soomjae.features.profile.presentation.profile.mdoels.UserUi
+import com.parksupark.soomjae.features.profile.presentation.profile.model.UserUi
 
 internal sealed interface ProfileState {
     data class MyProfileState(
