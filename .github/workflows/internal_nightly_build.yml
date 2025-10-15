@@ -70,14 +70,14 @@ jobs:
         id: version
         run: |
           VERSION=$(grep "versionName" gradle.properties | cut -d'=' -f2 | xargs)
-          NIGHTLY_VERSION="${VERSION}-nightly-$(date +'%Y%m%d')"
+          NIGHTLY_VERSION="${VERSION}-nightly-$(date +'%Y%m%d%H%M')"
           echo "version_name=${NIGHTLY_VERSION}" >> $GITHUB_OUTPUT
 
       - name: Assemble internal APK
         run: |
-          ./gradlew clean :${{ env.APP_MODULE }}:assembleInternal \
+          ./gradlew :${{ env.APP_MODULE }}:assembleInternal \
             -PversionName=${{ steps.version.outputs.version_name }} \
-            --no-daemon --stacktrace --info
+            --no-daemon --stacktrace
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
@@ -87,8 +87,9 @@ jobs:
           retention-days: 3
 
       - name: Distribute to Firebase
-        run: |
-          firebase appdistribution:distribute ${{ env.APP_MODULE }}/build/outputs/apk/internal/*.apk \
-            --app ${{ secrets.FIREBASE_APP_ID_INTERNAL }} \
-            --token ${{ secrets.FIREBASE_TOKEN }} \
-            --release-notes "Nightly build - ${{ steps.version.outputs.version_name }} ($(date +'%Y-%m-%d %H:%M'))"
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{secrets.FIREBASE_APP_ID_INTERNAL}}
+          serviceCredentialsFileContent: ${{ secrets.GOOGLE_CLOUD_CREDENTIAL_FILE_CONTENT }}
+          file: ${{ env.APP_MODULE }}/build/outputs/apk/internal/*.apk
+          releaseNotes: "Nightly build - ${{ steps.version.outputs.version_name }} ($(date +'%Y-%m-%d %H:%M'))"
