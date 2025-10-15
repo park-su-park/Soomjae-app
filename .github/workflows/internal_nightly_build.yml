@@ -79,17 +79,24 @@ jobs:
             -PversionName=${{ steps.version.outputs.version_name }} \
             --no-daemon --stacktrace
 
+      - name: Resolve APK Path
+        id: resolve_apk
+        run: |
+          APK_PATH=$(find ${{ env.APP_MODULE }}/build/outputs/apk/internal -name "*.apk" | head -n 1)
+          echo "Found APK at: $APK_PATH"
+          echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
+
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: internal-nightly-apk
-          path: ${{ env.APP_MODULE }}/build/outputs/apk/internal/*.apk
+          path: ${{ steps.resolve_apk.outputs.apk_path }}
           retention-days: 3
 
       - name: Distribute to Firebase
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
-          appId: ${{secrets.FIREBASE_APP_ID_INTERNAL}}
+          appId: ${{ secrets.FIREBASE_APP_ID_INTERNAL }}
           serviceCredentialsFileContent: ${{ secrets.GOOGLE_CLOUD_CREDENTIAL_FILE_CONTENT }}
-          file: ${{ env.APP_MODULE }}/build/outputs/apk/internal/*.apk
+          file: ${{ steps.resolve_apk.outputs.apk_path }}
           releaseNotes: "Nightly build - ${{ steps.version.outputs.version_name }} ($(date +'%Y-%m-%d %H:%M'))"
