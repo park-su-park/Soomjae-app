@@ -75,7 +75,7 @@ jobs:
 
       - name: Assemble internal APK
         run: |
-          ./gradlew clean :${{ env.APP_MODULE }}:assembleInternal \
+          ./gradlew :${{ env.APP_MODULE }}:assembleInternal \
             -PversionName=${{ steps.version.outputs.version_name }} \
             --no-daemon --stacktrace --info
 
