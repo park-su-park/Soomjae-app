@@ -16,7 +16,9 @@ fun SoomjaeTab(
     text: @Composable (() -> Unit)? = null,
     icon: @Composable (() -> Unit)? = null,
     selectedContentColor: Color = LocalContentColor.current,
-    unselectedContentColor: Color = selectedContentColor,
+    unselectedContentColor: Color = selectedContentColor.copy(
+        alpha = 0.5f,
+    ),
     interactionSource: MutableInteractionSource? = null,
 ) {
     Tab(

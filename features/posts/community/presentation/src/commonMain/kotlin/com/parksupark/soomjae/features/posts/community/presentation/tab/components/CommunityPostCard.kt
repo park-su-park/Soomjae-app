@@ -1,119 +1,89 @@
 package com.parksupark.soomjae.features.posts.community.presentation.tab.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreHoriz
-import androidx.compose.material3.minimumInteractiveComponentSize
+import androidx.compose.material.icons.automirrored.outlined.Comment
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
+import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSurface
+import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeVerticalDivider
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
-import com.parksupark.soomjae.core.presentation.ui.utils.imageRequest
-import com.parksupark.soomjae.features.posts.common.presentation.components.PostActionItem
-import com.parksupark.soomjae.features.posts.common.presentation.components.PostCard
-import com.parksupark.soomjae.features.posts.common.presentation.models.AuthorUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.PostActionType
-import com.parksupark.soomjae.features.posts.common.presentation.models.PostActionUi
+import com.parksupark.soomjae.core.presentation.designsystem.theme.comment
+import com.parksupark.soomjae.core.presentation.designsystem.theme.like
+import com.parksupark.soomjae.core.presentation.ui.utils.toDp
+import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
 import com.parksupark.soomjae.features.posts.community.presentation.models.CommunityPostUi
 
 @Composable
 internal fun CommunityPostCard(
     post: CommunityPostUi,
-    canLike: Boolean,
-    onFavoriteClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    PostCard(
-        title = { PostCardTitle(title = post.title) },
-        modifier = modifier,
-        header = {
-            PostAuthorHeader(
-                author = post.author,
-                subtitle = post.formattedCreatedAt,
+    SoomjaeSurface(modifier = modifier) {
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            PostCardHeader(category = post.category)
+
+            PostCardTitle(title = post.title)
+
+            PostCardContent(content = post.content)
+
+            PostCardAdditionalInfos(
+                likeCount = post.likeCount,
+                commentCount = post.commentCount,
+                createdAt = post.formattedCreatedAt,
+                author = post.author.nickname,
             )
-        },
-        body = {
-            PostCardContent(contentPreview = post.content)
-        },
-        footer = {
-            AdditionalActions(
-                isUserLiked = post.isUserLiked,
-                likeCount = post.likeCount.toLong(),
-                canLike = canLike,
-                commentCount = post.commentCount.toLong(),
-                onFavoriteClick = onFavoriteClick,
-            )
-        },
-    )
+        }
+    }
 }
 
 @Composable
-private fun PostAuthorHeader(
-    author: AuthorUi,
-    subtitle: String,
-    modifier: Modifier = Modifier,
-) {
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            AsyncImage(
-                model = imageRequest { data(author.profileImageUrl) },
-                contentDescription = null,
-                modifier = Modifier.size(36.dp),
-            )
-
-            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Text(text = author.nickname, style = SoomjaeTheme.typography.labelL, maxLines = 1)
-                Text(
-                    text = subtitle,
-                    style = SoomjaeTheme.typography.labelS.copy(
-                        color = SoomjaeTheme.colorScheme.text4,
-                    ),
-                    maxLines = 1,
-                )
-            }
-        }
-
-        IconButton(
-            onClick = { },
-            content = {
-                Icon(
-                    imageVector = Icons.Default.MoreHoriz,
-                    contentDescription = "More options",
-                )
-            },
+private fun PostCardHeader(category: CategoryUi?) {
+    category?.let {
+        Text(
+            text = it.name,
+            style = SoomjaeTheme.typography.captionS,
+            color = SoomjaeTheme.colorScheme.text3,
+            modifier = Modifier.background(
+                color = SoomjaeTheme.colorScheme.background3,
+                shape = MaterialTheme.shapes.extraSmall,
+            ).padding(
+                horizontal = 8.dp,
+                vertical = 4.dp,
+            ),
         )
     }
 }
 
 @Composable
 private fun PostCardTitle(title: String) {
-    Text(text = title, maxLines = 1)
+    Text(text = title, style = SoomjaeTheme.typography.title3, maxLines = 1)
 }
 
 @Composable
 private fun PostCardContent(
-    contentPreview: String,
+    content: String,
     modifier: Modifier = Modifier,
 ) {
     Text(
-        text = contentPreview,
+        text = content,
+        style = SoomjaeTheme.typography.captionL,
         maxLines = 2,
         modifier = modifier,
         overflow = TextOverflow.Ellipsis,
@@ -121,35 +91,73 @@ private fun PostCardContent(
 }
 
 @Composable
-private fun AdditionalActions(
-    isUserLiked: Boolean,
-    likeCount: Long,
-    canLike: Boolean,
-    commentCount: Long,
-    onFavoriteClick: () -> Unit,
+private fun PostCardAdditionalInfos(
+    likeCount: Int,
+    commentCount: Int,
+    createdAt: String,
+    author: String,
     modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        PostActionItem(
-            action = PostActionUi(
-                type = PostActionType.Like,
-                isSelected = isUserLiked,
-                count = likeCount,
-                isEnabled = canLike,
-                onClick = onFavoriteClick,
-            ),
-            modifier = Modifier.minimumInteractiveComponentSize(),
+        val height = SoomjaeTheme.typography.captionS.fontSize.toDp()
+
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.FavoriteBorder,
+                contentDescription = null,
+                modifier = Modifier.size(height),
+                tint = SoomjaeTheme.colorScheme.like,
+            )
+            Text(
+                text = likeCount.toString(),
+                style = SoomjaeTheme.typography.captionS,
+                color = SoomjaeTheme.colorScheme.like,
+            )
+        }
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Outlined.Comment,
+                contentDescription = null,
+                modifier = Modifier.size(height),
+                tint = SoomjaeTheme.colorScheme.comment,
+            )
+            Text(
+                text = commentCount.toString(),
+                style = SoomjaeTheme.typography.captionS,
+                color = SoomjaeTheme.colorScheme.comment,
+            )
+        }
+
+        SoomjaeVerticalDivider(
+            modifier = Modifier.height(height),
+            color = SoomjaeTheme.colorScheme.divider2,
         )
 
-        PostActionItem(
-            action = PostActionUi(
-                type = PostActionType.Comment,
-                count = commentCount,
-            ),
-            modifier = Modifier.minimumInteractiveComponentSize(),
+        Text(
+            text = createdAt,
+            style = SoomjaeTheme.typography.captionS,
+            color = SoomjaeTheme.colorScheme.text3,
+        )
+
+        SoomjaeVerticalDivider(
+            modifier = Modifier.height(height),
+            color = SoomjaeTheme.colorScheme.divider2,
+        )
+
+        Text(
+            text = author,
+            style = SoomjaeTheme.typography.captionS,
+            color = SoomjaeTheme.colorScheme.text3,
         )
     }
 }

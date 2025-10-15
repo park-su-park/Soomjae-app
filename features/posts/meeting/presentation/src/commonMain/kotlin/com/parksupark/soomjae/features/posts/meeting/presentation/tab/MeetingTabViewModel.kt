@@ -8,6 +8,7 @@ import app.cash.paging.cachedIn
 import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEvent
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEventController
+import com.parksupark.soomjae.features.posts.common.domain.repositories.LikeRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.MeetingPostUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.toMeetingPostUi
@@ -25,6 +26,7 @@ import kotlinx.coroutines.launch
 class MeetingTabViewModel(
     private val meetingRepository: MeetingPostRepository,
     private val sessionRepository: SessionRepository,
+    private val likeRepository: LikeRepository,
     private val soomjaeEventController: SoomjaeEventController,
 ) : ViewModel() {
     private val _stateFlow: MutableStateFlow<MeetingTabState> = MutableStateFlow(MeetingTabState())
@@ -46,5 +48,9 @@ class MeetingTabViewModel(
                 soomjaeEventController.sendEvent(SoomjaeEvent.LoginRequest)
             }
         }
+    }
+
+    fun handlePostLikeClick(postId: Long) {
+        // TODO: implement logic to like the post by optimistic updating
     }
 }

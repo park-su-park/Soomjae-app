@@ -17,6 +17,7 @@ private fun MeetingPostCardPreview(
     AppTheme {
         MeetingPostCard(
             post = posts.first(),
+            onFavoriteClick = { },
         )
     }
 }

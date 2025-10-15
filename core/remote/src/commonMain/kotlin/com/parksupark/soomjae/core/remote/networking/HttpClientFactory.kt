@@ -45,11 +45,12 @@ internal class HttpClientFactory(
                 loadTokens {
                     val info = sessionRepository.get()
 
-                    BearerTokens(
-                        accessToken = info?.accessToken.orEmpty(),
-                        refreshToken = null,
-                    ).also {
-                        Kermit.d(HTTPCLIENT_TAG) { "loadTokens(): ${it.accessToken}" }
+                    info?.accessToken?.let {
+                        Kermit.d(HTTPCLIENT_TAG) { "Existing access token found" }
+                        BearerTokens(
+                            accessToken = it,
+                            refreshToken = null,
+                        )
                     }
                 }
                 refreshTokens {

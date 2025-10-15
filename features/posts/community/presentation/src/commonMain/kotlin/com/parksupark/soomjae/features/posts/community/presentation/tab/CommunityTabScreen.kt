@@ -66,12 +66,9 @@ internal fun CommunityTabScreen(
                     }
                 } else {
                     items(count = posts.itemCount, key = posts.itemKey { it.id }) { index ->
-                        val post = posts[index]
-                        if (post != null) {
+                        posts[index]?.let { post ->
                             CommunityPostCard(
                                 post = post,
-                                canLike = state.canLikePost,
-                                onFavoriteClick = { onAction(CommunityTabAction.OnFavoriteClick(post.id)) },
                                 modifier = Modifier.fillMaxWidth()
                                     .clickable {
                                         onAction(CommunityTabAction.OnPostClick(post.id))

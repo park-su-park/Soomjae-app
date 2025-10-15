@@ -21,7 +21,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeB
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSecondaryButton
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.utils.imageRequest
-import com.parksupark.soomjae.features.profile.presentation.profile.mdoels.UserUi
+import com.parksupark.soomjae.features.profile.presentation.profile.model.UserUi
 
 @Composable
 internal fun UserProfileCard(

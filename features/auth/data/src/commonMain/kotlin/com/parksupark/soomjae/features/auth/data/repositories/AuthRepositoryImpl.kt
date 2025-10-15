@@ -2,11 +2,11 @@ package com.parksupark.soomjae.features.auth.data.repositories
 
 import arrow.core.Either
 import com.parksupark.soomjae.core.common.utils.mapToEmpty
-import com.parksupark.soomjae.core.domain.auth.models.AuthInfo
 import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
 import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.features.auth.data.datasources.local.LocalAuthDataSource
 import com.parksupark.soomjae.features.auth.data.datasources.remote.RemoteAuthDataSource
+import com.parksupark.soomjae.features.auth.data.dto.toAuthInfo
 import com.parksupark.soomjae.features.auth.domain.repositories.AuthRepository
 
 internal class AuthRepositoryImpl(
@@ -32,7 +32,7 @@ internal class AuthRepositoryImpl(
         password = password,
     ).also { result ->
         result.onRight { response ->
-            sessionRepository.set(AuthInfo(accessToken = response.accessToken))
+            sessionRepository.set(response.toAuthInfo())
         }
     }.mapToEmpty()
 

@@ -5,7 +5,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSurface
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.features.profile.presentation.profile.components.UserProfileCard
-import com.parksupark.soomjae.features.profile.presentation.profile.mdoels.UserUi
+import com.parksupark.soomjae.features.profile.presentation.profile.model.UserUi
 
 @Preview
 @Composable

@@ -12,13 +12,12 @@ import kotlinx.serialization.Serializable
 // TODO: Add other fields as necessary
 @Serializable
 internal data class MemberPostResponse(
-    @SerialName("id") val id: Long,
+    @SerialName("memberPostId") val id: Long,
     @SerialName("author") val author: MemberResponse,
     @SerialName("content") val content: String,
     @SerialName("images") val images: List<String>,
-    @SerialName("createdTime") val createdAt: Instant,
-    @SerialName("isLiked") val isLiked: Boolean,
-    @SerialName("likeCount") val likeCount: Long,
+    @SerialName("createdAt") val createdAt: Instant,
+    @SerialName("likeStatusResponse") val likeStatus: LikeStatusResponse,
     @SerialName("commentCount") val commentCount: Long,
 )
 
@@ -29,7 +28,7 @@ internal fun MemberPostResponse.toMemberPost(): MemberPost = MemberPost(
     content = this.content,
     images = this.images,
     createdAt = this.createdAt.toStdlibInstant(),
-    isLiked = this.isLiked,
-    likeCount = likeCount,
+    isLiked = false,
+    likeCount = 0,
     commentCount = commentCount,
 )

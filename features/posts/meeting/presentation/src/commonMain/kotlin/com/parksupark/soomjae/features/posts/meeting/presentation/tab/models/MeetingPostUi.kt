@@ -6,6 +6,9 @@ import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPost
 import com.parksupark.soomjae.features.posts.common.presentation.models.AuthorUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
+import com.parksupark.soomjae.features.posts.meeting.presentation.detail.models.RecruitmentPeriodUi
+import com.parksupark.soomjae.features.posts.meeting.presentation.detail.models.toRecruitmentPeriodUi
+import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
@@ -16,13 +19,28 @@ data class MeetingPostUi(
     val content: String,
     val createdAt: Instant,
     val author: AuthorUi,
+    val isUserLiked: Boolean,
     val likeCount: Int,
     val commentCount: Int,
     val category: CategoryUi?,
+
+    val maxParticipantCount: Int,
+    val currentParticipantCount: Int,
+
+    val recruitmentPeriod: RecruitmentPeriodUi,
 ) {
     val formattedCreatedAt: String
         @Composable get() = createdAt.toRelativeTimeString()
+
+    val isExpired: Boolean
+        get() = recruitmentPeriod.endTime.isBefore(Clock.System.now())
+
+    val isFull: Boolean
+        get() = currentParticipantCount >= maxParticipantCount
 }
+
+@OptIn(ExperimentalTime::class)
+private fun Instant.isBefore(now: Instant) = this < now
 
 // TODO: implement likeCount and commentCount
 @ExperimentalTime
@@ -32,7 +50,11 @@ internal fun MeetingPost.toMeetingPostUi() = MeetingPostUi(
     content = content,
     createdAt = createdAt,
     author = author.toUi(),
-    likeCount = 0,
+    isUserLiked = isUserLiked,
+    likeCount = likeCount,
     commentCount = 0,
     category = category?.toUi(),
+    maxParticipantCount = maxParticipationCount,
+    currentParticipantCount = currentParticipantCount,
+    recruitmentPeriod = recruitmentPeriod.toRecruitmentPeriodUi(),
 )

@@ -16,5 +16,5 @@ data class MemberResponse(
 fun MemberResponse.toModel(): Member = Member(
     id = id.toString(),
     nickname = nickname ?: email ?: "Unknown", // TODO: Use real nickname when backend supports it
-    profileImageUrl = "https://picsum.photos/200",
+    profileImageUrl = "https://picsum.photos/seed/${id.toString() + nickname}/200/200", // TODO: Use real profileImageUrl when backend supports it
 )

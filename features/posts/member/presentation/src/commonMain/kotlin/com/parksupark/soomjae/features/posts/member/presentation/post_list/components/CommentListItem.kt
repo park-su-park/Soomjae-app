@@ -96,7 +96,7 @@ private fun CommentListItemPreview() {
             comment = CommentUi(
                 id = 0,
                 content = "우와 정말 유용한 정보네요! 저도 한번 시도해봐야겠어요. 혹시 추가적인 팁이 있다면 알려주실 수 있나요?",
-                author = AuthorUi(id = "", nickname = "숨숨숨"),
+                author = AuthorUi(id = "", nickname = "숨숨숨", profileImageUrl = null),
                 createdAt = Clock.System.now().minus(5.minutes),
             ),
             onLikeClick = { },

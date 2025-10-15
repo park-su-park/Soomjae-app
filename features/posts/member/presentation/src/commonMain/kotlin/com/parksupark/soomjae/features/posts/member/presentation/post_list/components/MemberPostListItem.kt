@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -171,6 +172,7 @@ private fun MemberPostListItemBody(
             model = imageRequest { data(images[page]) },
             contentDescription = null,
             modifier = Modifier.fillMaxWidth(),
+            contentScale = ContentScale.FillWidth,
         )
     }
 }

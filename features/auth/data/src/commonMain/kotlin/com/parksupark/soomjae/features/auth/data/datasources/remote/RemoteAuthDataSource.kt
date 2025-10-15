@@ -30,7 +30,7 @@ internal class RemoteAuthDataSource(
         email: String,
         password: String,
     ): Either<DataFailure.Network, EmailLoginResponse> = httpClient.post<EmailLoginRequest, EmailLoginResponse>(
-        route = "/auth/login",
+        route = "/v1/auth/login",
         body = EmailLoginRequest(
             email = email,
             password = password,

@@ -39,11 +39,11 @@ internal fun MemberPostListTab(
 
     SoomjaeScaffold(
         modifier = Modifier.fillMaxSize(),
-    ) { innerPadding ->
+    ) {
         SoomjaePullToRefreshBox(
             isRefreshing = state.isPostsRefreshing,
             onRefresh = { onAction(MemberPostListAction.OnPullToRefresh) },
-            modifier = Modifier.fillMaxSize().padding(innerPadding),
+            modifier = Modifier.fillMaxSize(),
         ) {
             MemberPostList(posts = posts, onAction = onAction)
 

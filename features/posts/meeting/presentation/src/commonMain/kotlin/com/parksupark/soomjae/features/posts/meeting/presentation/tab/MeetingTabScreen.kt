@@ -37,6 +37,7 @@ internal fun MeetingTabScreen(
                 posts[index]?.let { post ->
                     MeetingPostCard(
                         post = post,
+                        onFavoriteClick = { onAction(MeetingTabAction.OnPostLikeClick(post.id)) },
                         modifier = Modifier.fillMaxSize()
                             .clickable {
                                 onAction(MeetingTabAction.OnPostClick(post.id))
