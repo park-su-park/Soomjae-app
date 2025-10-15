@@ -9,6 +9,10 @@ inputs:
   oauth-google-server-client-id:
     description: 'OAuth Google Server Client ID'
     required: true
+  build-flavor:
+    description: 'Build flavor (optional)'
+    required: false
+    default: 'dev'
 
 runs:
   using: "composite"
@@ -27,3 +31,4 @@ runs:
       run: |
         echo "base.url=${{ inputs.base-url }}" >> local.properties
         echo "oauth.google.server.client.id=${{ inputs.oauth-google-server-client-id }}" >> local.properties
+        echo "soomjae.flavor=${{ inputs.build-flavor }}" >> local.properties

@@ -1,0 +1,88 @@
+name: Internal Nightly Build
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TZ: UTC
+  APP_MODULE: composeApp
+
+jobs:
+  check-changes:
+    name: Check for recent changes
+    runs-on: ubuntu-latest
+    outputs:
+      should_build: ${{ steps.check.outputs.should_build }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: dev
+
+      - name: Check if commits exist in last 24h
+        id: check
+        run: |
+          if git log --since="24 hours ago" --oneline | grep .; then
+            echo "should_build=true" >> $GITHUB_OUTPUT
+          else
+            echo "No changes in last 24h."
+            echo "should_build=false" >> $GITHUB_OUTPUT
+          fi
+
+  build-and-deploy:
+    name: Build & Deploy Internal
+    needs: check-changes
+    if: needs.check-changes.outputs.should_build == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: dev
+
+      - name: Common Steps
+        uses: ./.github/actions/common-steps
+        with:
+          gradle-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+          build-flavor: "internal"
+
+      - name: Google Services
+        uses: ./.github/actions/google-services
+        with:
+          google-services-json-base64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
+
+      - name: Set nightly version name
+        id: version
+        run: |
+          VERSION=$(grep "versionName" gradle.properties | cut -d'=' -f2 | xargs)
+          NIGHTLY_VERSION="${VERSION}-nightly-$(date +'%Y%m%d')"
+          echo "version_name=${NIGHTLY_VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Assemble internal APK
+        run: |
+          ./gradlew :${{ env.APP_MODULE }}:assembleInternal \
+            -PversionName=${{ steps.version.outputs.version_name }} \
+            --no-daemon --stacktrace
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: internal-nightly-apk
+          path: ${{ env.APP_MODULE }}/build/outputs/apk/internal/*.apk
+          retention-days: 3
+
+      - name: Distribute to Firebase
+        run: |
+          firebase appdistribution:distribute ${{ env.APP_MODULE }}/build/outputs/apk/internal/*.apk \
+            --app ${{ secrets.FIREBASE_APP_ID }} \
+            --token ${{ secrets.FIREBASE_TOKEN }} \
+            --release-notes "Nightly build - ${{ steps.version.outputs.version_name }} ($(date +'%Y-%m-%d %H:%M'))"
