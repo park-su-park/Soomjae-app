@@ -124,6 +124,18 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
                 resValue("string", "app_name", "Soomjae Dev")
             }
 
+            create("internal") {
+                initWith(getByName("debug"))
+                matchingFallbacks += listOf("debug")
+                applicationIdSuffix = ".internal"
+                versionNameSuffix = "-internal"
+
+                configure(isDebug = true)
+
+                signingConfig = signingConfigs.getByName("debug")
+                resValue("string", "app_name", "Soomjae Internal")
+            }
+
             release {
                 configure(isDebug = false)
 

@@ -11,6 +11,10 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 
+private const val STRING = "String"
+
+private const val BOOLEAN = "Boolean"
+
 class BuildConfigConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
@@ -31,8 +35,8 @@ class BuildConfigConventionPlugin : Plugin<Project> {
 
                 (buildConfig + localProps).forEach {
                     when (it.type) {
-                        "String" -> buildConfigField("String", it.name, "\"${it.value}\"")
-                        "Boolean" -> buildConfigField("Boolean", it.name, it.value.toBoolean())
+                        STRING -> buildConfigField(STRING, it.name, "\"${it.value}\"")
+                        BOOLEAN -> buildConfigField(BOOLEAN, it.name, it.value.toBoolean())
                         else -> throw IllegalArgumentException("Unsupported type: ${it.type}")
                     }
                 }
@@ -41,7 +45,7 @@ class BuildConfigConventionPlugin : Plugin<Project> {
     }
 }
 
-private fun loadBuildConfig(config: File): Environment = Yaml.default.decodeFromString<Environment>(
+private fun loadBuildConfig(config: File): Environment = Yaml.default.decodeFromString(
     serializer(),
     config.readText(),
 )
@@ -56,10 +60,10 @@ private fun loadLocalProperties(project: Project): Set<BuildConfig> = with(proje
 
     return listOfNotNull(
         props.getProperty("base.url")?.let {
-            BuildConfig(type = "String", name = "BASE_URL", value = it)
+            BuildConfig(type = STRING, name = "BASE_URL", value = it)
         },
         props.getProperty("oauth.google.server.client.id")?.let {
-            BuildConfig(type = "String", name = "OAUTH_GOOGLE_SERVER_CLIENT_ID", value = it)
+            BuildConfig(type = STRING, name = "OAUTH_GOOGLE_SERVER_CLIENT_ID", value = it)
         },
     ).toSet()
 }
@@ -67,6 +71,7 @@ private fun loadLocalProperties(project: Project): Set<BuildConfig> = with(proje
 @Serializable
 internal data class Environment(
     @SerialName("dev") val dev: Set<BuildConfig>,
+    @SerialName("internal") val internal: Set<BuildConfig>,
     @SerialName("release") val release: Set<BuildConfig>,
 ) {
     @Serializable
@@ -78,6 +83,7 @@ internal data class Environment(
 
     fun fromFlavor(flavor: String) = when (flavor) {
         "dev" -> dev
+        "internal" -> internal
         "release" -> release
         else -> dev
     }

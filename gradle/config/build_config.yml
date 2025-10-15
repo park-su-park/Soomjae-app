@@ -2,6 +2,10 @@ dev:
   - type: Boolean
     name: isDebug
     value: true
+internal:
+  - type: Boolean
+    name: isDebug
+    value: true
 release:
   - type: Boolean
     name: isDebug
