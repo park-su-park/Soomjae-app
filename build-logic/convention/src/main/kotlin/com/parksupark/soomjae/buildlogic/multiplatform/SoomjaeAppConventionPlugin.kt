@@ -119,6 +119,7 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
                 versionNameSuffix = "-dev"
 
                 configure(isDebug = true)
+                isDefault = true
 
                 signingConfig = signingConfigs.getByName("debug")
                 resValue("string", "app_name", "Soomjae Dev")

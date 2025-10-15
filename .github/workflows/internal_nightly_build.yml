@@ -75,9 +75,9 @@ jobs:
 
       - name: Assemble internal APK
         run: |
-          ./gradlew :${{ env.APP_MODULE }}:assembleInternal \
+          ./gradlew clean :${{ env.APP_MODULE }}:assembleInternal \
             -PversionName=${{ steps.version.outputs.version_name }} \
-            --no-daemon --stacktrace
+            --no-daemon --stacktrace --info
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
