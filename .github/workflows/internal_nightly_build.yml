@@ -69,7 +69,7 @@ jobs:
 
       - name: Assemble internal APK
         run: |
-          ./gradlew :composeApp:assembleInternal \
+          ./gradlew :${{ env.APP_MODULE }}:assembleInternal \
             -PversionName=${{ steps.version.outputs.version_name }} \
             --no-daemon --stacktrace
 
@@ -82,7 +82,7 @@ jobs:
 
       - name: Distribute to Firebase
         run: |
-          firebase appdistribution:distribute $composeApp/build/outputs/apk/internal/*.apk \
+          firebase appdistribution:distribute ${{ env.APP_MODULE }}/build/outputs/apk/internal/*.apk \
             --app ${{ secrets.FIREBASE_APP_ID }} \
             --token ${{ secrets.FIREBASE_TOKEN }} \
             --release-notes "Nightly build - ${{ steps.version.outputs.version_name }} ($(date +'%Y-%m-%d %H:%M'))"
