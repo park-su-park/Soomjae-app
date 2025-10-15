@@ -53,7 +53,13 @@ jobs:
         uses: ./.github/actions/common-steps
         with:
           gradle-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
-          build-flavor: "internal"
+
+      - name: Local Properties
+        uses: ./.github/actions/local-properties
+        with:
+          base-url: ${{ secrets.BASE_URL }}
+          oauth-google-server-client-id: ${{ secrets.OAUTH_GOOGLE_SERVER_CLIENT_ID }}
+          build-flavor: 'internal'
 
       - name: Google Services
         uses: ./.github/actions/google-services
