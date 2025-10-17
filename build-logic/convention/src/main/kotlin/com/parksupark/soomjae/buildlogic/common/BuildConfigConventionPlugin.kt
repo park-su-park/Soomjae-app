@@ -31,7 +31,7 @@ class BuildConfigConventionPlugin : Plugin<Project> {
                     rootProject.file(BUILD_CONFIG),
                 ).fromFlavor(flavor)
 
-                val localProps = loadLocalProperties(project)
+                val localProps = loadLocalProperties(project, flavor)
 
                 (buildConfig + localProps).forEach {
                     when (it.type) {
@@ -50,22 +50,61 @@ private fun loadBuildConfig(config: File): Environment = Yaml.default.decodeFrom
     config.readText(),
 )
 
-private fun loadLocalProperties(project: Project): Set<BuildConfig> = with(project) {
-    val propertiesFile = rootProject.file(LOCAL_PROPERTIES)
-    if (!propertiesFile.exists()) return emptySet()
+private fun loadLocalProperties(
+    project: Project,
+    flavor: String,
+): Set<BuildConfig> = with(project) {
+    val props = java.util.Properties()
 
-    val props = java.util.Properties().apply {
-        propertiesFile.reader().use { load(it) }
+    val commonFile = rootProject.file(LOCAL_PROPERTIES)
+    val flavorFile = rootProject.file("local-$flavor.properties")
+
+    if (!commonFile.exists()) return emptySet()
+
+    val commonProps = java.util.Properties().apply {
+        commonFile.reader().use { load(it) }
     }
 
-    return listOfNotNull(
-        props.getProperty("base.url")?.let {
-            BuildConfig(type = STRING, name = "BASE_URL", value = it)
-        },
-        props.getProperty("oauth.google.server.client.id")?.let {
-            BuildConfig(type = STRING, name = "OAUTH_GOOGLE_SERVER_CLIENT_ID", value = it)
-        },
-    ).toSet()
+    val flavorProps = java.util.Properties().apply {
+        if (flavorFile.exists()) {
+            flavorFile.reader().use { load(it) }
+        }
+    }
+
+    val duplicates = flavorProps.keys.filter { it in commonProps.keys }
+    if (duplicates.isNotEmpty()) {
+        duplicates.forEach { key ->
+            logger.info(
+                "i: Duplicate key '$key' found in local properties for flavor '$flavor'. " +
+                    "Using value from 'local-$flavor.properties'.",
+            )
+        }
+    }
+
+    props.apply {
+        putAll(commonProps)
+        putAll(flavorProps)
+    }
+
+    val configKeys = listOf(
+        Triple("base.url", STRING, "BASE_URL"),
+        Triple("oauth.google.server.client.id", STRING, "OAUTH_GOOGLE_SERVER_CLIENT_ID"),
+    )
+
+    val buildConfigs = configKeys.mapNotNull { (propKey, type, buildConfigName) ->
+        props.getProperty(propKey)?.let {
+            BuildConfig(
+                type = type,
+                name = buildConfigName,
+                value = it,
+            )
+        } ?: run {
+            logger.warn("⚠\uFE0F w: Key '$propKey' not found in local properties for flavor '$flavor'.")
+            null
+        }
+    }
+
+    return buildConfigs.toSet()
 }
 
 @Serializable
