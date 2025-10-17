@@ -84,10 +84,9 @@ class PostComposeViewModel(
     }
 
     fun submitPost() {
+        val state = stateFlow.value
+        if (!state.canSubmit) return
         viewModelScope.launch(dispatcher.io) {
-            val state = stateFlow.value
-            if (!state.canSubmit) return@launch
-
             _stateFlow.update { it.copy(isSubmitting = true) }
 
             val imageUrls = state.photos.mapNotNull { photo ->
@@ -110,7 +109,7 @@ class PostComposeViewModel(
                 },
                 ifRight = {
                     _stateFlow.update { it.copy(isSubmitting = false) }
-                    eventChannel.send(PostComposeEvent.OnPostUploaded)
+                    eventChannel.send(PostComposeEvent.OnPostUploadSuccess)
                 },
             )
         }

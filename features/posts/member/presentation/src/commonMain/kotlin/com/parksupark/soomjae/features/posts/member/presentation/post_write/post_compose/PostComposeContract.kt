@@ -20,5 +20,5 @@ sealed interface PostComposeAction : MemberPostWriteAction {
 }
 
 sealed interface PostComposeEvent {
-    data object OnPostUploaded : PostComposeEvent
+    data object OnPostUploadSuccess : PostComposeEvent
 }

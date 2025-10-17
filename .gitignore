@@ -20,3 +20,5 @@ project.dot
 *.keystore
 
 composeApp/google-services.json
+/local-debug.properties
+/local-internal.properties
