@@ -69,9 +69,14 @@ jobs:
       - name: Set nightly version name
         id: version
         run: |
-          VERSION=$(grep "versionName" gradle.properties | cut -d'=' -f2 | xargs)
+          VERSION=$(grep -E '^versionName=' gradle.properties | cut -d'=' -f2 | xargs)
+          if [ -z "$VERSION" ]; then
+            echo "⚠️ versionName not found in gradle.properties. Using fallback."
+            VERSION="0.0.0"
+          fi
           NIGHTLY_VERSION="${VERSION}-nightly-$(date +'%Y%m%d%H%M')"
           echo "version_name=${NIGHTLY_VERSION}" >> $GITHUB_OUTPUT
+          echo "Resolved version: ${NIGHTLY_VERSION}"
 
       - name: Assemble internal APK
         run: |
@@ -98,5 +103,8 @@ jobs:
         with:
           appId: ${{ secrets.FIREBASE_APP_ID_INTERNAL }}
           serviceCredentialsFileContent: ${{ secrets.GOOGLE_CLOUD_CREDENTIAL_FILE_CONTENT }}
+          groups: admin
           file: ${{ steps.resolve_apk.outputs.apk_path }}
-          releaseNotes: "Nightly build - ${{ steps.version.outputs.version_name }} ($(date +'%Y-%m-%d %H:%M'))"
+          releaseNotes: |
+            Nightly build - ${{ steps.version.outputs.version_name }}
+            Released on $(date +'%Y-%m-%d %H:%M UTC')
