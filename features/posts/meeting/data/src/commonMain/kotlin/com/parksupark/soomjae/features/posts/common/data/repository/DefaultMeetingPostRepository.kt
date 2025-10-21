@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.common.data.repositories
+package com.parksupark.soomjae.features.posts.common.data.repository
 
 import app.cash.paging.PagingConfig
 import app.cash.paging.PagingData
@@ -7,10 +7,10 @@ import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.core.remote.networking.get
 import com.parksupark.soomjae.core.remote.networking.post
-import com.parksupark.soomjae.features.posts.common.data.dtos.MeetingPostDetailResponse
-import com.parksupark.soomjae.features.posts.common.data.dtos.PostMeetingPostRequest
-import com.parksupark.soomjae.features.posts.common.data.dtos.PostMeetingPostResponse
-import com.parksupark.soomjae.features.posts.common.data.dtos.toMeetingPostDetail
+import com.parksupark.soomjae.features.posts.common.data.dto.request.PostMeetingPostRequest
+import com.parksupark.soomjae.features.posts.common.data.dto.response.MeetingPostDetailResponse
+import com.parksupark.soomjae.features.posts.common.data.dto.response.PostMeetingPostResponse
+import com.parksupark.soomjae.features.posts.common.data.dto.response.toMeetingPostDetail
 import com.parksupark.soomjae.features.posts.common.data.paging.MeetingPagingSource
 import com.parksupark.soomjae.features.posts.common.data.sources.RemoteMeetingPostSource
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPost

@@ -180,7 +180,7 @@ class MeetingDetailViewModel(
                 }
             }
 
-            participationRepository.cancelParticipation(postId).fold(
+            participationRepository.deleteParticipation(postId).fold(
                 ifLeft = {
                     // TODO: error handling
                     _stateFlow.update { state ->

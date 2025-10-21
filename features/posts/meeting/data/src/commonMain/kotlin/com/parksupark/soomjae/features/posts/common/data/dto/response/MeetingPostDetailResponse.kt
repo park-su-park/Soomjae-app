@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.common.data.dtos
+package com.parksupark.soomjae.features.posts.common.data.dto.response
 
 import com.parksupark.soomjae.features.posts.common.data.category.dtos.CategoryResponse
 import com.parksupark.soomjae.features.posts.common.data.category.dtos.toDomain

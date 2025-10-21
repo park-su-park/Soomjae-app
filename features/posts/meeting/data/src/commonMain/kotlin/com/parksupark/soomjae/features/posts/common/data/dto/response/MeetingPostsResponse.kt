@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.common.data.dtos
+package com.parksupark.soomjae.features.posts.common.data.dto.response
 
 import kotlin.time.ExperimentalTime
 import kotlinx.serialization.SerialName

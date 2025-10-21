@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.common.data.dtos
+package com.parksupark.soomjae.features.posts.common.data.dto.response
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
