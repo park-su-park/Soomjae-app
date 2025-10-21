@@ -3,7 +3,7 @@ package com.parksupark.soomjae.features.posts.common.data.paging
 import androidx.paging.PagingState
 import app.cash.paging.PagingSource
 import co.touchlab.kermit.Logger
-import com.parksupark.soomjae.features.posts.common.data.dtos.toMeetingPost
+import com.parksupark.soomjae.features.posts.common.data.dto.response.toMeetingPost
 import com.parksupark.soomjae.features.posts.common.data.sources.RemoteMeetingPostSource
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPost
 import kotlinx.io.IOException

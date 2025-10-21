@@ -8,7 +8,7 @@ import com.parksupark.soomjae.features.posts.common.domain.models.UpdatedPartici
 interface ParticipationRepository {
     suspend fun participate(meetingId: Long): Either<DataFailure, UpdatedParticipation>
 
-    suspend fun cancelParticipation(meetingId: Long): Either<DataFailure, UpdatedParticipation>
+    suspend fun deleteParticipation(meetingId: Long): Either<DataFailure, UpdatedParticipation>
 
     suspend fun getParticipants(meetingId: Long): Either<DataFailure, List<Participant>>
 }

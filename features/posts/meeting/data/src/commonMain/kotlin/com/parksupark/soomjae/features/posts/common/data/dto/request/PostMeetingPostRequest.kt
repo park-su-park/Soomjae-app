@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.common.data.dtos
+package com.parksupark.soomjae.features.posts.common.data.dto.request
 
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
