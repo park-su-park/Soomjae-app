@@ -54,12 +54,28 @@ jobs:
         with:
           gradle-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
+      - name: Create Keystore
+        uses: ./.github/actions/create-flavor-keystore
+        with:
+          build-flavor: 'internal'
+          keystore-path: ${{ secrets.INTERNAL_KEYSTORE_PATH }}
+          keystore-base64: ${{ secrets.INTERNAL_KEYSTORE_BASE64 }}
+
       - name: Local Properties
         uses: ./.github/actions/local-properties
         with:
           base-url: ${{ secrets.INTERNAL_BASE_URL }}
           oauth-google-server-client-id: ${{ secrets.INTERNAL_OAUTH_GOOGLE_SERVER_CLIENT_ID }}
           build-flavor: 'internal'
+
+      - name: Generate build flavored local.properties
+        uses: ./.github/actions/local-internal-properties
+        with:
+          build-flavor: 'internal'
+          keystore-path: ${{ secrets.INTERNAL_KEYSTORE_PATH }}
+          keystore-password: ${{ secrets.INTERNAL_KEYSTORE_PASSWORD }}
+          key-alias: ${{ secrets.INTERNAL_KEY_ALIAS }}
+          key-password: ${{ secrets.INTERNAL_KEY_PASSWORD }}
 
       - name: Google Services
         uses: ./.github/actions/google-services

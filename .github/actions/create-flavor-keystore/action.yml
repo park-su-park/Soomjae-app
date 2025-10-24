@@ -1,0 +1,41 @@
+name: Create keystore from base64
+description: 'Decodes a base64-encoded keystore and writes it to the given path for the specified build flavor'
+
+inputs:
+  build-flavor:
+    description: 'Target build flavor (e.g., dev, internal, release)'
+    required: true
+    default: 'dev'
+
+  keystore-path:
+    description: 'Relative path (from repo root) where the decoded keystore file will be created'
+    required: true
+
+  keystore-base64:
+    description: 'Base64-encoded keystore content'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Define environment variables
+      shell: bash
+      run: |
+        echo "FLAVOR=${{ inputs.build-flavor }}" >> $GITHUB_ENV
+        echo "KEYSTORE_PATH=${{ inputs.keystore-path }}" >> $GITHUB_ENV
+
+    - name: Create directory if needed
+      shell: bash
+      run: |
+        DIR_PATH=$(dirname "${KEYSTORE_PATH}")
+        if [ ! -d "$DIR_PATH" ]; then
+          echo "📁 Creating directory: $DIR_PATH"
+          mkdir -p "$DIR_PATH"
+        fi
+
+    - name: Decode keystore for $FLAVOR
+      shell: bash
+      run: |
+        echo "🔐 Generating keystore for flavor '${FLAVOR}' at '${KEYSTORE_PATH}'"
+        echo "${{ inputs.keystore-base64 }}" | base64 --decode > "${KEYSTORE_PATH}"
+        echo "✅ Keystore successfully written to ${KEYSTORE_PATH}"

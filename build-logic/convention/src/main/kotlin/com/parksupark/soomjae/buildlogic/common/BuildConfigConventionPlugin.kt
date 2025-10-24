@@ -4,6 +4,7 @@ import com.charleskorn.kaml.Yaml
 import com.github.gmazzo.buildconfig.BuildConfigExtension
 import com.parksupark.soomjae.buildlogic.common.Environment.BuildConfig
 import java.io.File
+import java.util.Properties
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.serializer
@@ -54,18 +55,18 @@ private fun loadLocalProperties(
     project: Project,
     flavor: String,
 ): Set<BuildConfig> = with(project) {
-    val props = java.util.Properties()
+    val props = Properties()
 
     val commonFile = rootProject.file(LOCAL_PROPERTIES)
     val flavorFile = rootProject.file("local-$flavor.properties")
 
     if (!commonFile.exists()) return emptySet()
 
-    val commonProps = java.util.Properties().apply {
+    val commonProps = Properties().apply {
         commonFile.reader().use { load(it) }
     }
 
-    val flavorProps = java.util.Properties().apply {
+    val flavorProps = Properties().apply {
         if (flavorFile.exists()) {
             flavorFile.reader().use { load(it) }
         }
