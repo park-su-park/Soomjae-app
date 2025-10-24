@@ -57,8 +57,8 @@ jobs:
       - name: Local Properties
         uses: ./.github/actions/local-properties
         with:
-          base-url: ${{ secrets.BASE_URL }}
-          oauth-google-server-client-id: ${{ secrets.OAUTH_GOOGLE_SERVER_CLIENT_ID }}
+          base-url: ${{ secrets.INTERNAL_BASE_URL }}
+          oauth-google-server-client-id: ${{ secrets.INTERNAL_OAUTH_GOOGLE_SERVER_CLIENT_ID }}
           build-flavor: 'internal'
 
       - name: Google Services
