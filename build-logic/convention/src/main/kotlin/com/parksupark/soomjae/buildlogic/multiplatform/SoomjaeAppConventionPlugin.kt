@@ -7,11 +7,11 @@ import bundleImplementation
 import com.android.build.api.dsl.ApplicationBuildType
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import configureAndroid
-import java.io.FileInputStream
 import java.util.Properties
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
+import org.gradle.internal.cc.base.logger
 import org.gradle.kotlin.dsl.assign
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.get
@@ -75,7 +75,6 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
     private fun BaseAppModuleExtension.configureAndroid(project: Project) {
         fun ApplicationBuildType.configure(isDebug: Boolean) {
             isDebuggable = isDebug
-            isDefault = isDebug
             isMinifyEnabled = !isDebug
             isShrinkResources = !isDebug
             enableUnitTestCoverage = isDebug
@@ -94,21 +93,40 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
 
         signingConfigs {
             getByName("debug") {
-                val props = Properties().also { p ->
-                    runCatching {
-                        FileInputStream(
-                            project.rootProject.file("local.properties"),
-                        ).use { inputStream ->
-                            p.load(inputStream)
-                        }
-                    }
+                val props = with(project) {
+                    loadProperties("debug")
                 }
 
-                props["debugStoreFile", "DEBUG_STORE_FILE"]?.let {
+                props["keystorePath", "KEYSTORE_PATH"]?.let {
                     val file = project.rootProject.file(it)
                     if (file.exists()) {
                         storeFile = file
+                    } else {
+                        logger.warn(KEYSTORE_FILE_NOT_FOUND)
                     }
+                }
+            }
+            register("internal") {
+                val props = with(project) {
+                    loadProperties("internal")
+                }
+
+                props["keystorePath", "KEYSTORE_PATH"]?.let {
+                    val file = project.rootProject.file(it)
+                    if (file.exists()) {
+                        storeFile = file
+                    } else {
+                        logger.warn(KEYSTORE_FILE_NOT_FOUND)
+                    }
+                }
+                props["keystorePassword", "KEYSTORE_PASSWORD"]?.let {
+                    storePassword = it
+                }
+                props["keyAlias", "KEY_ALIAS"]?.let {
+                    keyAlias = it
+                }
+                props["keyPassword", "KEY_PASSWORD"]?.let {
+                    keyPassword = it
                 }
             }
             register("release") {
@@ -135,7 +153,7 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
 
                 configure(isDebug = true)
 
-                signingConfig = signingConfigs.getByName("debug")
+                signingConfig = signingConfigs.getByName("internal")
                 resValue("string", "app_name", "Soomjae Internal")
             }
 
@@ -196,6 +214,19 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
             }
         }
     }
+
+    fun Project.loadProperties(flavor: String): Properties {
+        val props = Properties()
+        val fileName = "local-$flavor.properties"
+        val propFile = project.rootProject.file(fileName)
+        if (propFile.exists()) {
+            propFile.inputStream().use { props.load(it) }
+            logger.lifecycle("✅ Loaded $fileName")
+        } else {
+            logger.warn("⚠️ $fileName not found")
+        }
+        return props
+    }
 }
 
 private operator fun Properties.get(
@@ -204,3 +235,5 @@ private operator fun Properties.get(
 ) = getOrElse(key) { System.getenv(env) } as? String
 
 private const val ANDROID_DIR = "src/androidMain"
+
+private const val KEYSTORE_FILE_NOT_FOUND = "⚠️ Keystore file not found"
