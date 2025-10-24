@@ -39,9 +39,12 @@ internal class AuthRepositoryImpl(
     override suspend fun checkEmailAvailable(email: String): Either<DataFailure.Network, Boolean> =
         remoteAuthDataSource.checkEmailAvailable(email)
 
-    override suspend fun saveEmail(email: String): Either<DataFailure.Local, Unit> = localAuthDataSource.saveEmail(email)
+    override suspend fun saveEmail(email: String): Either<DataFailure.Local, Unit> =
+        localAuthDataSource.saveEmail(email)
 
-    override suspend fun loadSavedEmail(): Either<DataFailure.Local, String> = localAuthDataSource.loadSavedEmail()
+    override suspend fun loadSavedEmail(): Either<DataFailure.Local, String> =
+        localAuthDataSource.loadSavedEmail()
 
-    override suspend fun clearSavedEmail(): Either<DataFailure.Local, Unit> = localAuthDataSource.clearSavedEmail()
+    override suspend fun clearSavedEmail(): Either<DataFailure.Local, Unit> =
+        localAuthDataSource.clearSavedEmail()
 }

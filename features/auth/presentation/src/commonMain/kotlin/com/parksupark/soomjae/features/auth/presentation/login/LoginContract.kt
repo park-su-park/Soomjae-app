@@ -14,7 +14,8 @@ internal sealed interface LoginAction {
 
     data object OnEmailLoginClick : LoginAction
 
-    data class GoogleLoginResult(val result: Either<DataFailure.Credential, GoogleUser>) : LoginAction
+    data class GoogleLoginResult(val result: Either<DataFailure.Credential, GoogleUser>) :
+        LoginAction
 }
 
 internal sealed interface LoginEvent {

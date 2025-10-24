@@ -75,7 +75,12 @@ internal fun MyProfileScreen(
 
     SoomjaeScaffold(
         modifier = Modifier.fillMaxSize().nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = { MyProfileTopBar(onSettingClick = { onAction(ProfileAction.OnSettingClick) }, scrollBehavior = scrollBehavior) },
+        topBar = {
+            MyProfileTopBar(
+                onSettingClick = { onAction(ProfileAction.OnSettingClick) },
+                scrollBehavior = scrollBehavior,
+            )
+        },
         bottomBar = bottomBar,
     ) { innerPadding ->
         if (state.isLoggedIn) {
@@ -162,7 +167,10 @@ private fun MyProfileContent(
                         }
                     }
 
-                    ProfileTab.MEMBER_POSTS -> ProfileMemberPostTab(userId = user.id, listState = memberPostTabGridState)
+                    ProfileTab.MEMBER_POSTS -> ProfileMemberPostTab(
+                        userId = user.id,
+                        listState = memberPostTabGridState,
+                    )
 
                     ProfileTab.MEETING_POSTS -> {
                         // TODO()
@@ -228,7 +236,8 @@ private fun handleScrollDown(
     return Offset(0f, -consumed)
 }
 
-private fun canScrollUp(state: LazyListState): Boolean = !(state.firstVisibleItemIndex == 0 && state.firstVisibleItemScrollOffset == 0)
+private fun canScrollUp(state: LazyListState): Boolean =
+    !(state.firstVisibleItemIndex == 0 && state.firstVisibleItemScrollOffset == 0)
 
 private fun canScrollDown(state: LazyListState): Boolean {
     val layout = state.layoutInfo
@@ -236,7 +245,8 @@ private fun canScrollDown(state: LazyListState): Boolean {
     val lastVisibleIndex = layout.visibleItemsInfo.lastOrNull()?.index ?: return false
     // 마지막 아이템이 보이고 & 이미 끝까지 내려간 상태면 false
     val atListEnd = lastVisibleIndex == layout.totalItemsCount - 1 &&
-        state.firstVisibleItemScrollOffset >= (layout.viewportEndOffset - layout.viewportStartOffset)
+        state.firstVisibleItemScrollOffset >=
+        (layout.viewportEndOffset - layout.viewportStartOffset)
     return !atListEnd
 }
 

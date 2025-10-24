@@ -18,9 +18,13 @@ class CommunityWriteCoordinator(
 
             CommunityWriteAction.OnConfirmClick -> viewModel.submitPost()
 
-            is CommunityWriteAction.OnCategorySelected -> viewModel.selectCategory(action.categoryId)
+            is CommunityWriteAction.OnCategorySelected -> viewModel.selectCategory(
+                action.categoryId,
+            )
 
-            is CommunityWriteAction.OnLocationSelected -> viewModel.selectLocation(action.locationCode)
+            is CommunityWriteAction.OnLocationSelected -> viewModel.selectLocation(
+                action.locationCode,
+            )
         }
     }
 }

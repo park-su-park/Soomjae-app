@@ -10,10 +10,11 @@ import com.parksupark.soomjae.features.posts.common.domain.repositories.Location
 internal class DefaultLocationRepository(
     private val remoteLocationSource: RemoteLocationSource,
 ) : LocationRepository {
-    override suspend fun getAllLocations(): Either<DataFailure.Network, List<Location>> = remoteLocationSource.getAllLocations()
-        .map { locations ->
-            locations.map {
-                it.toLocation()
+    override suspend fun getAllLocations(): Either<DataFailure.Network, List<Location>> =
+        remoteLocationSource.getAllLocations()
+            .map { locations ->
+                locations.map {
+                    it.toLocation()
+                }
             }
-        }
 }

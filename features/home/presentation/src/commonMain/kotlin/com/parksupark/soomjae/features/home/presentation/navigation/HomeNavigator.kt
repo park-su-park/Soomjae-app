@@ -14,4 +14,5 @@ private class SoomjaeHomeNavigator(
     }
 }
 
-fun soomjaeHomeNavigator(navController: NavHostController): HomeNavigator = SoomjaeHomeNavigator(navController)
+fun soomjaeHomeNavigator(navController: NavHostController): HomeNavigator =
+    SoomjaeHomeNavigator(navController)

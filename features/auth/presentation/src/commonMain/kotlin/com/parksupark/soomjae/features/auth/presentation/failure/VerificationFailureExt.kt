@@ -8,5 +8,7 @@ import com.parksupark.soomjae.features.auth.presentation.resources.error_invalid
 
 fun VerificationFailure.asUiText(): UiText = when (this) {
     is VerificationFailure.DataFailure -> this.error.asUiText()
-    VerificationFailure.InvalidCode -> UiText.StringResource(Res.string.error_invalid_verification_code)
+    VerificationFailure.InvalidCode -> UiText.StringResource(
+        Res.string.error_invalid_verification_code,
+    )
 }

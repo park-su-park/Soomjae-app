@@ -15,7 +15,8 @@ import kotlinx.collections.immutable.ImmutableList
 @Composable
 @Preview(name = "CommunityDetail")
 private fun CommunityDetailScreenPreview(
-    @PreviewParameter(CommunityPostDetailUiPreviewParameterProvider::class) postDetails: ImmutableList<CommunityPostDetailUi>,
+    @PreviewParameter(CommunityPostDetailUiPreviewParameterProvider::class) postDetails:
+        ImmutableList<CommunityPostDetailUi>,
 ) {
     AppTheme {
         CommunityDetailScreen(

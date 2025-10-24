@@ -65,7 +65,9 @@ suspend inline fun <reified Response : Any> HttpClient.delete(
     }
 }
 
-suspend inline fun <reified T> safeCall(execute: () -> HttpResponse): Either<DataFailure.Network, T> = try {
+suspend inline fun <reified T> safeCall(
+    execute: () -> HttpResponse,
+): Either<DataFailure.Network, T> = try {
     responseToResult(execute())
 } catch (e: Exception) {
     Logger.e(e, TAG) { "Network request failed: ${e.message}" }
@@ -82,7 +84,9 @@ suspend inline fun <reified T> safeCall(execute: () -> HttpResponse): Either<Dat
     }
 }
 
-suspend inline fun <reified T> responseToResult(response: HttpResponse): Either<DataFailure.Network, T> = when (response.status.value) {
+suspend inline fun <reified T> responseToResult(
+    response: HttpResponse,
+): Either<DataFailure.Network, T> = when (response.status.value) {
     in 200..299 -> Either.Right(response.body<T>())
     400 -> Either.Left(DataFailure.Network.BAD_REQUEST)
     401 -> Either.Left(DataFailure.Network.UNAUTHORIZED)

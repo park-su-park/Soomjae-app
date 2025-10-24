@@ -19,10 +19,11 @@ data class CommunityPostDetailUi(
 @OptIn(ExperimentalTime::class)
 private fun CommunityPostDetail.toUi(): CommunityPostUi = this.post.toUi()
 
-internal fun CommunityPostDetailWithLiked.toDetailUi(): CommunityPostDetailUi = CommunityPostDetailUi(
-    post = this.postDetail.toUi(),
-    isLiked = this.isLiked,
-    likeCount = this.postDetail.post.likeCount,
-    commentCount = this.postDetail.comments.count(),
-    comments = this.postDetail.comments.map { it.toUi() }.toImmutableList(),
-)
+internal fun CommunityPostDetailWithLiked.toDetailUi(): CommunityPostDetailUi =
+    CommunityPostDetailUi(
+        post = this.postDetail.toUi(),
+        isLiked = this.isLiked,
+        likeCount = this.postDetail.post.likeCount,
+        commentCount = this.postDetail.comments.count(),
+        comments = this.postDetail.comments.map { it.toUi() }.toImmutableList(),
+    )

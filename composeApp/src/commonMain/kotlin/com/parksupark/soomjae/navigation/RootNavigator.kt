@@ -32,7 +32,12 @@ import com.parksupark.soomjae.features.setting.presentation.navigation.SettingNa
 import com.parksupark.soomjae.features.setting.presentation.navigation.navigateToSetting
 import com.parksupark.soomjae.features.setting.presentation.navigation.soomjaeSettingNavigator
 
-internal sealed interface RootNavigator : AuthNavigator, HomeNavigator, PostNavigator, ProfileNavigator, SettingNavigator {
+internal sealed interface RootNavigator :
+    AuthNavigator,
+    HomeNavigator,
+    PostNavigator,
+    ProfileNavigator,
+    SettingNavigator {
     fun onNavigationBarItemClicked(item: NavigationBarItem)
 }
 

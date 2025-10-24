@@ -39,7 +39,8 @@ class EmailVerificationViewModel(
     private val authRepository: AuthRepository,
     private val emailRepository: EmailRepository,
 ) : ViewModel() {
-    private val _stateFlow: MutableStateFlow<EmailVerificationState> = MutableStateFlow(EmailVerificationState())
+    private val _stateFlow: MutableStateFlow<EmailVerificationState> =
+        MutableStateFlow(EmailVerificationState())
     val stateFlow: StateFlow<EmailVerificationState> = _stateFlow.asStateFlow()
 
     private val eventChannel = Channel<EmailVerificationEvent>()
@@ -84,13 +85,19 @@ class EmailVerificationViewModel(
         // 인증 코드 입력 변경 추적 및 버튼 활성화 여부 관리 (성능 개선)
         stateFlow
             .distinctUntilChanged { old, new ->
-                old.code == new.code && old.isVerifying == new.isVerifying && old.resendStatus == new.resendStatus
+                old.code == new.code && old.isVerifying == new.isVerifying &&
+                    old.resendStatus == new.resendStatus
             }
             .filter { !it.isVerifying && it.resendStatus == ResendStatus.Success }
             .flatMapLatest { it.code.collectAsFlow() }
             .onEach { code ->
                 val canSubmit = code.length == CODE_LENGTH
-                _stateFlow.update { it.copy(canSubmitVerification = canSubmit, codeErrorMessage = null) }
+                _stateFlow.update {
+                    it.copy(
+                        canSubmitVerification = canSubmit,
+                        codeErrorMessage = null,
+                    )
+                }
             }
             .launchIn(viewModelScope)
     }
@@ -98,7 +105,11 @@ class EmailVerificationViewModel(
     fun validateEmail() {
         viewModelScope.launch(dispatcher.io) {
             _stateFlow.update { state ->
-                state.copy(isEmailValidating = true, isEmailAvailable = false, emailErrorMessage = null)
+                state.copy(
+                    isEmailValidating = true,
+                    isEmailAvailable = false,
+                    emailErrorMessage = null,
+                )
             }
 
             val email = stateFlow.value.email.text.trim().toString()

@@ -20,4 +20,5 @@ private class SoomjaeMemberNavigator(
     }
 }
 
-fun soomjaeMemberNavigator(navController: NavHostController): MemberNavigator = SoomjaeMemberNavigator(navController = navController)
+fun soomjaeMemberNavigator(navController: NavHostController): MemberNavigator =
+    SoomjaeMemberNavigator(navController = navController)

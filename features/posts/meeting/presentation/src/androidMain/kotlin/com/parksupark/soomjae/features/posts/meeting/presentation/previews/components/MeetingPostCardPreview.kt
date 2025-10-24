@@ -12,7 +12,8 @@ import kotlinx.collections.immutable.ImmutableList
 @PreviewLightDark
 @Composable
 private fun MeetingPostCardPreview(
-    @PreviewParameter(MeetingPostUiPreviewParameterProvider::class) posts: ImmutableList<MeetingPostUi>,
+    @PreviewParameter(MeetingPostUiPreviewParameterProvider::class) posts:
+        ImmutableList<MeetingPostUi>,
 ) {
     AppTheme {
         MeetingPostCard(

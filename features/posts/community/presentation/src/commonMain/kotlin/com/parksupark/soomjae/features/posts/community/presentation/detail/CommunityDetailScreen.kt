@@ -62,7 +62,9 @@ internal fun CommunityDetailScreen(
         }
 
         is CommunityDetailState.Success -> SoomjaeScaffold(
-            topBar = { CommunityDetailTopBar(onBackClick = { onAction(CommunityDetailAction.OnBackClick) }) },
+            topBar = {
+                CommunityDetailTopBar(onBackClick = { onAction(CommunityDetailAction.OnBackClick) })
+            },
             bottomBar = {
                 CommunityDetailBottomBar(
                     commentState = state.inputCommentState,
@@ -208,7 +210,10 @@ private fun RowScope.LikeButton(
             .clickable {
                 onToggleLikeClick()
             },
-        horizontalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.CenterHorizontally),
+        horizontalArrangement = Arrangement.spacedBy(
+            8.dp,
+            alignment = Alignment.CenterHorizontally,
+        ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         PostActionItem(
@@ -226,7 +231,10 @@ private fun RowScope.CommentButton(commentCount: Int) {
     Row(
         modifier = Modifier.heightIn(min = 48.dp)
             .weight(1f),
-        horizontalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.CenterHorizontally),
+        horizontalArrangement = Arrangement.spacedBy(
+            8.dp,
+            alignment = Alignment.CenterHorizontally,
+        ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(

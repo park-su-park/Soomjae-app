@@ -8,9 +8,10 @@ import okio.Path.Companion.toPath
 
 const val SETTING_DATA_STORE = "setting.preferences_pb"
 
-internal fun createSettingDataStore(producePath: () -> String): DataStore<Preferences> = PreferenceDataStoreFactory.createWithPath(
-    produceFile = { producePath().toPath() },
-)
+internal fun createSettingDataStore(producePath: () -> String): DataStore<Preferences> =
+    PreferenceDataStoreFactory.createWithPath(
+        produceFile = { producePath().toPath() },
+    )
 
 object SettingDataStoreKey {
     val COLOR_THEME = stringPreferencesKey("color_theme")

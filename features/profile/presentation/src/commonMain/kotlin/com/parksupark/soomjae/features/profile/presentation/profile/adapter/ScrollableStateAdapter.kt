@@ -37,7 +37,8 @@ fun LazyListState.asAdapter(): ScrollableStateAdapter = object : ScrollableState
 
 /** LazyVerticalGrid 용 */
 fun LazyGridState.asAdapter(): ScrollableStateAdapter = object : ScrollableStateAdapter {
-    override fun canScrollUp(): Boolean = !(firstVisibleItemIndex == 0 && firstVisibleItemScrollOffset == 0)
+    override fun canScrollUp(): Boolean =
+        !(firstVisibleItemIndex == 0 && firstVisibleItemScrollOffset == 0)
 
     override fun canScrollDown(): Boolean {
         val layout = layoutInfo

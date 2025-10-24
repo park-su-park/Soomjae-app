@@ -10,10 +10,11 @@ import io.ktor.client.HttpClient
 internal class DefaultMeetingLikeRepository(
     private val httpClient: HttpClient,
 ) : LikeRepository {
-    override suspend fun like(postId: Long): Either<DataFailure, Unit> = httpClient.post<Unit, Unit>(
-        route = "/v1/boards/meeting/posts/$postId/like",
-        body = Unit,
-    )
+    override suspend fun like(postId: Long): Either<DataFailure, Unit> =
+        httpClient.post<Unit, Unit>(
+            route = "/v1/boards/meeting/posts/$postId/like",
+            body = Unit,
+        )
 
     override suspend fun unlike(postId: Long): Either<DataFailure, Unit> = httpClient.delete(
         route = "/v1/boards/meeting/posts/$postId/like",

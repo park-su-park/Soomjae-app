@@ -26,4 +26,5 @@ private class SoomjaeCommunityNavigator(
     }
 }
 
-fun soomjaeCommunityNavigator(navController: NavHostController): CommunityNavigator = SoomjaeCommunityNavigator(navController)
+fun soomjaeCommunityNavigator(navController: NavHostController): CommunityNavigator =
+    SoomjaeCommunityNavigator(navController)

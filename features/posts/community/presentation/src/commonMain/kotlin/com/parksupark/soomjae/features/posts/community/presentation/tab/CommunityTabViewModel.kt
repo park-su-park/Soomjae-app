@@ -25,7 +25,8 @@ class CommunityTabViewModel(
     private val sessionRepository: SessionRepository,
     private val soomjaeEventController: SoomjaeEventController,
 ) : ViewModel() {
-    private val _stateFlow: MutableStateFlow<CommunityTabState> = MutableStateFlow(CommunityTabState())
+    private val _stateFlow: MutableStateFlow<CommunityTabState> =
+        MutableStateFlow(CommunityTabState())
     internal val stateFlow: StateFlow<CommunityTabState> = _stateFlow.asStateFlow()
 
     private val _eventChannel = Channel<CommunityTabEvent>()

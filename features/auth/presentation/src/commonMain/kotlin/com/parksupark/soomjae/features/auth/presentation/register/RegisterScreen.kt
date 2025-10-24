@@ -113,15 +113,16 @@ private fun InputSection(
     ) {
         EmailTextField(emailState = state.email)
         PasswordTextField(password = state.inputPassword)
-        ConfirmPasswordTextField(confirmPassword = state.inputConfirmPassword, arePasswordsMatching = state.isPasswordMatch)
+        ConfirmPasswordTextField(
+            confirmPassword = state.inputConfirmPassword,
+            arePasswordsMatching = state.isPasswordMatch,
+        )
         NicknameTextField(nickname = state.inputNickname)
     }
 }
 
 @Composable
-private fun EmailTextField(
-    emailState: TextFieldState,
-) {
+private fun EmailTextField(emailState: TextFieldState) {
     SoomjaeOutlinedTextField(
         state = emailState,
         modifier = Modifier.semantics {
@@ -166,7 +167,13 @@ private fun ConfirmPasswordTextField(
         },
         title = stringResource(Res.string.register_password_confirm_hint),
         hint = stringResource(Res.string.register_password_confirm_hint),
-        error = if (wasEverFocused && !arePasswordsMatching) stringResource(Res.string.register_password_different_error) else null,
+        error = if (wasEverFocused &&
+            !arePasswordsMatching
+        ) {
+            stringResource(Res.string.register_password_different_error)
+        } else {
+            null
+        },
     )
 }
 

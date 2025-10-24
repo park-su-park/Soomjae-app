@@ -16,5 +16,7 @@ internal interface CommunityRemoteSource {
         locationCode: Long? = null,
     ): Either<DataFailure.Network, CreateCommunityPostResponse>
 
-    suspend fun getPostDetails(postId: Long): Either<DataFailure.Network, CommunityPostDetailResponse>
+    suspend fun getPostDetails(
+        postId: Long,
+    ): Either<DataFailure.Network, CommunityPostDetailResponse>
 }

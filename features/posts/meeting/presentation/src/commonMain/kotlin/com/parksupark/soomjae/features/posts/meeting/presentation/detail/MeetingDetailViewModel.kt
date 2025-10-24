@@ -27,7 +27,8 @@ class MeetingDetailViewModel(
     private val likeRepository: LikeRepository,
     private val participationRepository: ParticipationRepository,
 ) : ViewModel() {
-    private val _stateFlow: MutableStateFlow<MeetingDetailState> = MutableStateFlow(MeetingDetailState.Loading)
+    private val _stateFlow: MutableStateFlow<MeetingDetailState> =
+        MutableStateFlow(MeetingDetailState.Loading)
     val stateFlow: StateFlow<MeetingDetailState> = _stateFlow.onStart {
         fetchMeetingPostDetails()
     }.stateIn(
@@ -93,7 +94,10 @@ class MeetingDetailViewModel(
                         if (state is MeetingDetailState.Success) {
                             state.copy(
                                 postDetail = state.postDetail.copy(
-                                    comments = (listOf(newComment.toUi()) + state.postDetail.comments).toImmutableList(),
+                                    comments = (
+                                        listOf(newComment.toUi()) +
+                                            state.postDetail.comments
+                                    ).toImmutableList(),
                                 ),
                                 inputCommentState = TextFieldState(),
                                 isCommentSubmitting = false,

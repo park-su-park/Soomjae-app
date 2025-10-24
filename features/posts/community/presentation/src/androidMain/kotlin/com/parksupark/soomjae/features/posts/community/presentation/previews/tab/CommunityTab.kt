@@ -16,7 +16,8 @@ import kotlinx.coroutines.flow.flowOf
 @Composable
 @Preview(name = "CommunityTab")
 private fun CommunityTabScreenPreview(
-    @PreviewParameter(CommunityPostUiPreviewParameterProvider::class) posts: ImmutableList<CommunityPostUi>,
+    @PreviewParameter(CommunityPostUiPreviewParameterProvider::class) posts:
+        ImmutableList<CommunityPostUi>,
 ) {
     AppTheme {
         CommunityTabScreen(

@@ -14,7 +14,9 @@ import io.ktor.client.HttpClient
 internal class CommunityRemoteSourceImpl(
     private val httpClient: HttpClient,
 ) : CommunityRemoteSource {
-    override suspend fun getPosts(page: Int): Either<DataFailure.Network, List<CommunityPostResponse>> =
+    override suspend fun getPosts(
+        page: Int,
+    ): Either<DataFailure.Network, List<CommunityPostResponse>> =
         httpClient.get<CommunityPostsResponse>(
             route = "/v1/boards/community/posts/list",
             queryParameters = mapOf("page" to page),
@@ -27,17 +29,20 @@ internal class CommunityRemoteSourceImpl(
         content: String,
         categoryId: Long?,
         locationCode: Long?,
-    ): Either<DataFailure.Network, CreateCommunityPostResponse> = httpClient.post<CreateCommunityPostRequest, CreateCommunityPostResponse>(
-        route = "/v1/boards/community/posts",
-        body = CreateCommunityPostRequest(
-            title = title,
-            content = content,
-            categoryId = categoryId,
-            locationCode = locationCode,
-        ),
-    )
+    ): Either<DataFailure.Network, CreateCommunityPostResponse> =
+        httpClient.post<CreateCommunityPostRequest, CreateCommunityPostResponse>(
+            route = "/v1/boards/community/posts",
+            body = CreateCommunityPostRequest(
+                title = title,
+                content = content,
+                categoryId = categoryId,
+                locationCode = locationCode,
+            ),
+        )
 
-    override suspend fun getPostDetails(postId: Long): Either<DataFailure.Network, CommunityPostDetailResponse> = httpClient.get(
+    override suspend fun getPostDetails(
+        postId: Long,
+    ): Either<DataFailure.Network, CommunityPostDetailResponse> = httpClient.get(
         route = "/v1/boards/community/posts/$postId",
     )
 }

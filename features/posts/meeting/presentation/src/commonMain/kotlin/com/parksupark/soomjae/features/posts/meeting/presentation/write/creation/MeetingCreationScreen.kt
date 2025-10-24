@@ -195,7 +195,9 @@ private fun RowScope.StartDateTimeSelection(
     ) {
         DatePickerDialogButton(
             onConfirm = { dateInMillis ->
-                onAction(MeetingCreationAction.OnStartDateSelected(dateInMillis.toLocalDate(timeZone)))
+                onAction(
+                    MeetingCreationAction.OnStartDateSelected(dateInMillis.toLocalDate(timeZone)),
+                )
             },
             selectableDates = DatePickerDefaults.rememberFutureDates(),
         ) { openDialog ->
@@ -240,14 +242,19 @@ private fun RowScope.EndDateTimeSelection(
     ) {
         DatePickerDialogButton(
             onConfirm = { dateInMillis ->
-                onAction(MeetingCreationAction.OnEndDateSelected(dateInMillis.toLocalDate(timeZone)))
+                onAction(
+                    MeetingCreationAction.OnEndDateSelected(dateInMillis.toLocalDate(timeZone)),
+                )
             },
             selectableDates = DatePickerDefaults.rememberFutureDates(startDate = startDate),
         ) { openDialog ->
             SoomjaeTextButton(
                 onClick = openDialog,
                 content = {
-                    Text(text = endDate?.format(dateFormatter) ?: Res.string.meeting_create_datetime_unselected.value)
+                    Text(
+                        text = endDate?.format(dateFormatter)
+                            ?: Res.string.meeting_create_datetime_unselected.value,
+                    )
                 },
             )
         }
@@ -260,7 +267,10 @@ private fun RowScope.EndDateTimeSelection(
             SoomjaeTextButton(
                 onClick = openDialog,
                 content = {
-                    Text(text = endTime?.format(timeFormatter) ?: Res.string.meeting_create_datetime_unselected.value)
+                    Text(
+                        text = endTime?.format(timeFormatter)
+                            ?: Res.string.meeting_create_datetime_unselected.value,
+                    )
                 },
             )
         }
@@ -276,7 +286,8 @@ private fun MeetingParticipantCount(
         label = Res.string.meeting_create_participant_count_label.value,
         modifier = modifier.fillMaxWidth(),
     ) {
-        val participantUnlimitedText = Res.string.meeting_create_participant_count_display_unlimited.value
+        val participantUnlimitedText =
+            Res.string.meeting_create_participant_count_display_unlimited.value
         val participantCountText = Res.string.meeting_create_participant_count_display.value
 
         var isFocused by remember { mutableStateOf(false) }
@@ -328,9 +339,10 @@ private fun MeetingParticipantCount(
 }
 
 @OptIn(ExperimentalTime::class)
-private fun Long.toLocalDate(timeZone: TimeZone = TimeZone.currentSystemDefault()): LocalDate = Instant.fromEpochMilliseconds(this)
-    .toLocalDateTime(timeZone)
-    .date
+private fun Long.toLocalDate(timeZone: TimeZone = TimeZone.currentSystemDefault()): LocalDate =
+    Instant.fromEpochMilliseconds(this)
+        .toLocalDateTime(timeZone)
+        .date
 
 @Preview
 @Composable

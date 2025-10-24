@@ -18,7 +18,11 @@ class CommunityTabCoordinator(
                 // TODO
             }
 
-            is CommunityTabAction.OnPostClick -> onPostAction(PostAction.NavigateToCommunityDetail(postId = action.postId))
+            is CommunityTabAction.OnPostClick -> onPostAction(
+                PostAction.NavigateToCommunityDetail(
+                    postId = action.postId,
+                ),
+            )
 
             is CommunityTabAction.OnCommunityWriteClick -> viewModel.handleCommunityWriteClick()
 

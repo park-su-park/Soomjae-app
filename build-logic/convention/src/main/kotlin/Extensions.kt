@@ -40,7 +40,10 @@ internal val Project.fullPackageName
         '.',
     )
 
-internal val Test.isRelease get() = name.contains("""beta|release""".toRegex(RegexOption.IGNORE_CASE))
+internal val Test.isRelease
+    get() = name.contains(
+        """beta|release""".toRegex(RegexOption.IGNORE_CASE),
+    )
 
 internal fun KotlinDependencyHandler.bundleImplementation(alias: String) {
     project.optionalCatalogBundle(alias).ifPresent { bundle -> implementation(bundle) }

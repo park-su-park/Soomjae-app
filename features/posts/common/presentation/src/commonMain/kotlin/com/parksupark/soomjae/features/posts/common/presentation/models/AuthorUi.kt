@@ -11,5 +11,6 @@ data class AuthorUi(
 fun Member.toUi(): AuthorUi = AuthorUi(
     id = id,
     nickname = nickname,
-    profileImageUrl = profileImageUrl ?: "https://picsum.photos/seed/${id.toLongOrNull() ?: 0}/200/200",
+    profileImageUrl = profileImageUrl
+        ?: "https://picsum.photos/seed/${id.toLongOrNull() ?: 0}/200/200",
 )

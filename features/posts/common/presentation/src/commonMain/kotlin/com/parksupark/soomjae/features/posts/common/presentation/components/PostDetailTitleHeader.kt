@@ -31,7 +31,11 @@ fun PostDetailTitleHeader(
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Icon(imageVector = Icons.Outlined.Schedule, contentDescription = "작성일", modifier = Modifier.size(13.dp))
+            Icon(
+                imageVector = Icons.Outlined.Schedule,
+                contentDescription = "작성일",
+                modifier = Modifier.size(13.dp),
+            )
 
             Text(
                 createdAt,

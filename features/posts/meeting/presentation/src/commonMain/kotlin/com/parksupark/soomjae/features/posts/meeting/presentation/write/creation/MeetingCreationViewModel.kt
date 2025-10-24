@@ -11,7 +11,8 @@ import kotlinx.datetime.LocalTime
 import kotlinx.datetime.atTime
 
 class MeetingCreationViewModel : ViewModel() {
-    private val _stateFlow: MutableStateFlow<MeetingCreationState> = MutableStateFlow(MeetingCreationState())
+    private val _stateFlow: MutableStateFlow<MeetingCreationState> =
+        MutableStateFlow(MeetingCreationState())
     val stateFlow: StateFlow<MeetingCreationState> = _stateFlow.asStateFlow()
 
     fun createMeeting(): MeetingCreationUi = stateFlow.value.meeting

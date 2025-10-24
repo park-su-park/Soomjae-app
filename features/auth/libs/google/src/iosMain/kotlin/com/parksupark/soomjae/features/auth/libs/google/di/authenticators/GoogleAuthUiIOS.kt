@@ -29,7 +29,11 @@ internal class GoogleAuthUiIOS : GoogleAuthUi {
         presentingViewController: UIViewController,
         scope: List<String>,
     ): Either<DataFailure.Credential, GoogleUser> = suspendCoroutine { continuation ->
-        GIDSignIn.sharedInstance.signInWithPresentingViewController(presentingViewController, null, scope) { gidSignInResult, nsError ->
+        GIDSignIn.sharedInstance.signInWithPresentingViewController(
+            presentingViewController,
+            null,
+            scope,
+        ) { gidSignInResult, nsError ->
             if (nsError != null) {
                 Logger.e { "Error While signing: $nsError" }
                 continuation.resume(Either.Left(DataFailure.Credential.UNKNOWN))
@@ -44,9 +48,12 @@ internal class GoogleAuthUiIOS : GoogleAuthUi {
         }
     }
 
-    private fun getRootViewController(): UIViewController? = UIApplication.sharedApplication.keyWindow?.rootViewController
+    private fun getRootViewController(): UIViewController? =
+        UIApplication.sharedApplication.keyWindow?.rootViewController
 
-    private fun mapResultToGoogleUser(gidSignInResult: GIDSignInResult): Either<DataFailure.Credential, GoogleUser> {
+    private fun mapResultToGoogleUser(
+        gidSignInResult: GIDSignInResult,
+    ): Either<DataFailure.Credential, GoogleUser> {
         val user = gidSignInResult.user
         val idToken = user.idToken?.tokenString
         val accessToken = user.accessToken.tokenString

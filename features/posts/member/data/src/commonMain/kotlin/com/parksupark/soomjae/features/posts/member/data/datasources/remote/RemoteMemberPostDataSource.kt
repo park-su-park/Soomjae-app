@@ -17,20 +17,22 @@ internal class RemoteMemberPostDataSource(
     suspend fun createPost(
         content: String,
         imageUrls: List<String>,
-    ): Either<DataFailure.Network, PostMemberPostResponse> = httpClient.post<PostMemberPostRequest, PostMemberPostResponse>(
-        route = "/v1/boards/member/posts",
-        body = PostMemberPostRequest(
-            content = content,
-            imageUrls = imageUrls,
-        ),
-    )
+    ): Either<DataFailure.Network, PostMemberPostResponse> =
+        httpClient.post<PostMemberPostRequest, PostMemberPostResponse>(
+            route = "/v1/boards/member/posts",
+            body = PostMemberPostRequest(
+                content = content,
+                imageUrls = imageUrls,
+            ),
+        )
 
-    suspend fun getMemberPosts(page: Int): Either<DataFailure.Network, List<MemberPost>> = httpClient.get<List<MemberPostResponse>>(
-        route = "/v1/boards/member/posts/list",
-        queryParameters = mapOf("page" to page),
-    ).map { response ->
-        response.map {
-            it.toMemberPost()
+    suspend fun getMemberPosts(page: Int): Either<DataFailure.Network, List<MemberPost>> =
+        httpClient.get<List<MemberPostResponse>>(
+            route = "/v1/boards/member/posts/list",
+            queryParameters = mapOf("page" to page),
+        ).map { response ->
+            response.map {
+                it.toMemberPost()
+            }
         }
-    }
 }

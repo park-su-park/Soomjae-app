@@ -12,7 +12,9 @@ import kotlinx.coroutines.flow.map
 fun TextFieldState.collectAsFlow() = snapshotFlow { text }
 
 @OptIn(ExperimentalCoroutinesApi::class)
-inline fun <T> StateFlow<T>.mapTextFieldState(crossinline selector: (T) -> TextFieldState): Flow<CharSequence> = this
+inline fun <T> StateFlow<T>.mapTextFieldState(
+    crossinline selector: (T) -> TextFieldState,
+): Flow<CharSequence> = this
     .map(selector)
     .distinctUntilChanged()
     .flatMapLatest { it.collectAsFlow() }

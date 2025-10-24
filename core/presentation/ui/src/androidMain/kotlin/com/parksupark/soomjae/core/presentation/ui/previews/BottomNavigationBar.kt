@@ -33,7 +33,8 @@ private class PreviewNavigationBarItem(
     override val unselectedIcon: ImageVector,
     override val label: StringResource,
 ) : NavigationBarItem {
-    override fun equals(other: Any?): Boolean = other is PreviewNavigationBarItem && other.route == route
+    override fun equals(other: Any?): Boolean =
+        other is PreviewNavigationBarItem && other.route == route
 
     override fun hashCode(): Int = route.hashCode()
 }

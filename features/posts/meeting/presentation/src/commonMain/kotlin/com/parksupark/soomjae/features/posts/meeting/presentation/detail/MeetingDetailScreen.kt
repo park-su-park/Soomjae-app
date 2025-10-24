@@ -77,7 +77,9 @@ internal fun MeetingDetailScreen(
 
         is MeetingDetailState.Success ->
             SoomjaeScaffold(
-                topBar = { MeetingDetailTopBar(onBackClick = { onAction(MeetingDetailAction.OnBackClick) }) },
+                topBar = {
+                    MeetingDetailTopBar(onBackClick = { onAction(MeetingDetailAction.OnBackClick) })
+                },
                 bottomBar = {
                     MeetingDetailBottomBar(
                         commentState = state.inputCommentState,
@@ -89,7 +91,9 @@ internal fun MeetingDetailScreen(
                     state = state,
                     contentPadding = innerPadding,
                     onToggleLikeClick = { onAction(MeetingDetailAction.OnToggleLikeClick) },
-                    onToggleParticipationClick = { onAction(MeetingDetailAction.OnToggleParticipationClick) },
+                    onToggleParticipationClick = {
+                        onAction(MeetingDetailAction.OnToggleParticipationClick)
+                    },
                     onMessageClick = { onAction(MeetingDetailAction.OnMessageClick) },
                 )
             }
@@ -342,7 +346,10 @@ private fun RowScope.LikeButton(
             .clickable {
                 onToggleLikeClick()
             },
-        horizontalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.CenterHorizontally),
+        horizontalArrangement = Arrangement.spacedBy(
+            8.dp,
+            alignment = Alignment.CenterHorizontally,
+        ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (isLiked) {
@@ -372,7 +379,10 @@ private fun RowScope.CommentButton(commentCount: Int) {
     Row(
         modifier = Modifier.heightIn(min = 48.dp)
             .weight(1f),
-        horizontalArrangement = Arrangement.spacedBy(8.dp, alignment = Alignment.CenterHorizontally),
+        horizontalArrangement = Arrangement.spacedBy(
+            8.dp,
+            alignment = Alignment.CenterHorizontally,
+        ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(

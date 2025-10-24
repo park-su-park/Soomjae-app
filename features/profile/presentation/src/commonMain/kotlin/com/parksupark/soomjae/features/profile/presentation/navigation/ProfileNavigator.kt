@@ -26,4 +26,5 @@ private class SoomjaeProfileNavigator(
     }
 }
 
-fun soomjaeProfileNavigator(navController: NavHostController): ProfileNavigator = SoomjaeProfileNavigator(navController)
+fun soomjaeProfileNavigator(navController: NavHostController): ProfileNavigator =
+    SoomjaeProfileNavigator(navController)

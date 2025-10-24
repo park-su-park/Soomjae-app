@@ -19,8 +19,9 @@ internal class HomeCoordinator(
 }
 
 @Composable
-internal fun rememberHomeCoordinator(viewModel: HomeViewModel = koinViewModel()): HomeCoordinator = remember(viewModel) {
-    HomeCoordinator(
-        viewModel = viewModel,
-    )
-}
+internal fun rememberHomeCoordinator(viewModel: HomeViewModel = koinViewModel()): HomeCoordinator =
+    remember(viewModel) {
+        HomeCoordinator(
+            viewModel = viewModel,
+        )
+    }

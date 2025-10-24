@@ -51,4 +51,5 @@ internal val mainNavigationBarItems: ImmutableList<MainNavigationBarItem> = pers
     ),
 )
 
-internal fun NavigationBarItem.isMainNavigationBarItem(): Boolean = this is MainNavigationBarItem && mainNavigationBarItems.contains(this)
+internal fun NavigationBarItem.isMainNavigationBarItem(): Boolean =
+    this is MainNavigationBarItem && mainNavigationBarItems.contains(this)

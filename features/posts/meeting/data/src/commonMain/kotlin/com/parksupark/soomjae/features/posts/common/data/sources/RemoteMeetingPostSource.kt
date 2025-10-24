@@ -9,8 +9,9 @@ import io.ktor.client.HttpClient
 internal class RemoteMeetingPostSource(
     private val httpClient: HttpClient,
 ) {
-    suspend fun getMeetingPosts(page: Int): Either<DataFailure.Network, MeetingPostsResponse> = httpClient.get<MeetingPostsResponse>(
-        route = "/v1/boards/meeting/posts/list",
-        queryParameters = mapOf("page" to page.toString()),
-    )
+    suspend fun getMeetingPosts(page: Int): Either<DataFailure.Network, MeetingPostsResponse> =
+        httpClient.get<MeetingPostsResponse>(
+            route = "/v1/boards/meeting/posts/list",
+            queryParameters = mapOf("page" to page.toString()),
+        )
 }

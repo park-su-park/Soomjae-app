@@ -10,7 +10,8 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 
-class CommunityPostDetailUiPreviewParameterProvider : PreviewParameterProvider<ImmutableList<CommunityPostDetailUi>> {
+class CommunityPostDetailUiPreviewParameterProvider :
+    PreviewParameterProvider<ImmutableList<CommunityPostDetailUi>> {
     override val values: Sequence<ImmutableList<CommunityPostDetailUi>> = sequenceOf(
         CommunityPostDetailUiPreviewParameterData.communityPostDetailUi,
     )

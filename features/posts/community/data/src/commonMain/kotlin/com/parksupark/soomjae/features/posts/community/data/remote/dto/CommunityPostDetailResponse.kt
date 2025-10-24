@@ -29,17 +29,18 @@ internal data class CommunityPostDetailResponse(
     @SerialName("comments") val comments: List<CommentResponse>,
 )
 
-internal fun CommunityPostDetailResponse.toCommunityPostDetail(): CommunityPostDetail = CommunityPostDetail(
-    post = CommunityPostResponse(
-        postId = postId,
-        title = title,
-        content = content,
-        author = author,
-        createdAt = createdAt,
-        categoryName = categoryName,
-        locationName = locationName,
-        likeCount = likeCount,
-        isUserLiked = isUserLiked,
-    ).toModel(),
-    comments = comments.map { it.toComment() },
-)
+internal fun CommunityPostDetailResponse.toCommunityPostDetail(): CommunityPostDetail =
+    CommunityPostDetail(
+        post = CommunityPostResponse(
+            postId = postId,
+            title = title,
+            content = content,
+            author = author,
+            createdAt = createdAt,
+            categoryName = categoryName,
+            locationName = locationName,
+            likeCount = likeCount,
+            isUserLiked = isUserLiked,
+        ).toModel(),
+        comments = comments.map { it.toComment() },
+    )

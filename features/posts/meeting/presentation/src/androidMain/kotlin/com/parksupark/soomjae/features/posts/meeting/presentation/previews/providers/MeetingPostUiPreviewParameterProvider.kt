@@ -20,8 +20,10 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 
 @OptIn(ExperimentalTime::class)
-internal class MeetingPostUiPreviewParameterProvider : PreviewParameterProvider<ImmutableList<MeetingPostUi>> {
-    override val values: Sequence<ImmutableList<MeetingPostUi>> = sequenceOf(posts.map { it.toMeetingPostUi() }.toImmutableList())
+internal class MeetingPostUiPreviewParameterProvider :
+    PreviewParameterProvider<ImmutableList<MeetingPostUi>> {
+    override val values: Sequence<ImmutableList<MeetingPostUi>> =
+        sequenceOf(posts.map { it.toMeetingPostUi() }.toImmutableList())
 }
 
 @Suppress("ktlint:standard:max-line-length")

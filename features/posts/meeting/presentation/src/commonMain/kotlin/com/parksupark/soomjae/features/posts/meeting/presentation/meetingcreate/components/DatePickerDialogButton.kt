@@ -45,14 +45,18 @@ internal fun DatePickerDialogButton(
                         dialogOpen = false
                     },
                     enabled = datePickerState.selectedDateMillis != null,
-                    content = { Text(text = Res.string.meeting_create_datetime_dialog_confirm.value) },
+                    content = {
+                        Text(text = Res.string.meeting_create_datetime_dialog_confirm.value)
+                    },
                 )
             },
             modifier = modifier,
             dismissButton = {
                 SoomjaeTextButton(
                     onClick = { dialogOpen = false },
-                    content = { Text(text = Res.string.meeting_create_datetime_dialog_cancel.value) },
+                    content = {
+                        Text(text = Res.string.meeting_create_datetime_dialog_cancel.value)
+                    },
                 )
             },
             colors = SoomjaeDatePickerDefaults.colors(),

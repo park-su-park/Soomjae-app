@@ -17,7 +17,8 @@ import kotlinx.coroutines.launch
 internal class ProfileViewModel(
     private val authRepository: SessionRepository,
 ) : ViewModel() {
-    private val _uiStateFlow: MutableStateFlow<ProfileState> = MutableStateFlow(ProfileState.MyProfileState())
+    private val _uiStateFlow: MutableStateFlow<ProfileState> =
+        MutableStateFlow(ProfileState.MyProfileState())
     val uiStateFlow: StateFlow<ProfileState> = _uiStateFlow.asStateFlow()
 
     private var uiJob: Job? = null
@@ -27,30 +28,32 @@ internal class ProfileViewModel(
             uiJob?.cancel()
 
             when (it) {
-                is ProfileState.MyProfileState -> uiJob = authRepository.getAsFlow().onEach { authInfo ->
-                    val isLoggedIn = authInfo != null
+                is ProfileState.MyProfileState ->
+                    uiJob =
+                        authRepository.getAsFlow().onEach { authInfo ->
+                            val isLoggedIn = authInfo != null
 
-                    if (isLoggedIn) {
-                        _uiStateFlow.update {
-                            // TODO: Fetch Real User Data From Server
-                            ProfileState.MyProfileState(
-                                isLoggedIn = true,
-                                user = UserUi(
-                                    id = authInfo.memberId,
-                                    nickname = "Username",
-                                    profileImageUrl = "",
-                                ),
-                            )
-                        }
-                    } else {
-                        _uiStateFlow.update {
-                            ProfileState.MyProfileState(
-                                isLoggedIn = false,
-                                user = UserUi.Default,
-                            )
-                        }
-                    }
-                }.launchIn(viewModelScope)
+                            if (isLoggedIn) {
+                                _uiStateFlow.update {
+                                    // TODO: Fetch Real User Data From Server
+                                    ProfileState.MyProfileState(
+                                        isLoggedIn = true,
+                                        user = UserUi(
+                                            id = authInfo.memberId,
+                                            nickname = "Username",
+                                            profileImageUrl = "",
+                                        ),
+                                    )
+                                }
+                            } else {
+                                _uiStateFlow.update {
+                                    ProfileState.MyProfileState(
+                                        isLoggedIn = false,
+                                        user = UserUi.Default,
+                                    )
+                                }
+                            }
+                        }.launchIn(viewModelScope)
 
                 is ProfileState.OtherProfileState -> {
                     // Handle OtherProfileState

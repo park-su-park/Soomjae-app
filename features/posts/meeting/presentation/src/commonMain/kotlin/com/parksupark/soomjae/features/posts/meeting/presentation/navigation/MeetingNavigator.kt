@@ -32,4 +32,5 @@ private class SoomjaeMeetingNavigator(
     }
 }
 
-fun soomjaeMeetingNavigator(navController: NavHostController): MeetingNavigator = SoomjaeMeetingNavigator(navController)
+fun soomjaeMeetingNavigator(navController: NavHostController): MeetingNavigator =
+    SoomjaeMeetingNavigator(navController)

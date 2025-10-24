@@ -42,17 +42,25 @@ class MeetingPostWriteCoordinator(
 
             MeetingPostWriteAction.OnSubmitClick -> contentViewModel.submitPost()
 
-            is MeetingPostWriteAction.OnCategorySelect -> contentViewModel.updateSelectedCategory(action.categoryId)
+            is MeetingPostWriteAction.OnCategorySelect -> contentViewModel.updateSelectedCategory(
+                action.categoryId,
+            )
 
-            is MeetingPostWriteAction.OnLocationSelect -> contentViewModel.updateSelectedLocation(action.locationCode)
+            is MeetingPostWriteAction.OnLocationSelect -> contentViewModel.updateSelectedLocation(
+                action.locationCode,
+            )
 
-            MeetingPostWriteAction.OnCreateMeetingPostClick -> stepViewModel.setScreenState(MeetingPostWriteStep.CREATE)
+            MeetingPostWriteAction.OnCreateMeetingPostClick -> stepViewModel.setScreenState(
+                MeetingPostWriteStep.CREATE,
+            )
         }
     }
 
     internal fun handle(action: MeetingCreationAction) {
         when (action) {
-            MeetingCreationAction.OnBackClick -> stepViewModel.setScreenState(MeetingPostWriteStep.CONTENT)
+            MeetingCreationAction.OnBackClick -> stepViewModel.setScreenState(
+                MeetingPostWriteStep.CONTENT,
+            )
 
             MeetingCreationAction.OnCreateClick -> {
                 val meeting = creationViewModel.createMeeting()
@@ -60,13 +68,21 @@ class MeetingPostWriteCoordinator(
                 stepViewModel.setScreenState(MeetingPostWriteStep.CONTENT)
             }
 
-            is MeetingCreationAction.OnStartDateSelected -> creationViewModel.updateStartDate(action.startDate)
+            is MeetingCreationAction.OnStartDateSelected -> creationViewModel.updateStartDate(
+                action.startDate,
+            )
 
-            is MeetingCreationAction.OnStartTimeSelected -> creationViewModel.updateStartTime(action.startTime)
+            is MeetingCreationAction.OnStartTimeSelected -> creationViewModel.updateStartTime(
+                action.startTime,
+            )
 
-            is MeetingCreationAction.OnEndDateSelected -> creationViewModel.updateEndDate(action.endDate)
+            is MeetingCreationAction.OnEndDateSelected -> creationViewModel.updateEndDate(
+                action.endDate,
+            )
 
-            is MeetingCreationAction.OnEndTimeSelected -> creationViewModel.updateEndTime(action.endTime)
+            is MeetingCreationAction.OnEndTimeSelected -> creationViewModel.updateEndTime(
+                action.endTime,
+            )
         }
     }
 }

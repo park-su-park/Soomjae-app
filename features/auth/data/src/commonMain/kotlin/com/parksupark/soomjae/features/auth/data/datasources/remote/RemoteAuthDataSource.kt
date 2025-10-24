@@ -29,13 +29,14 @@ internal class RemoteAuthDataSource(
     suspend fun login(
         email: String,
         password: String,
-    ): Either<DataFailure.Network, EmailLoginResponse> = httpClient.post<EmailLoginRequest, EmailLoginResponse>(
-        route = "/v1/auth/login",
-        body = EmailLoginRequest(
-            email = email,
-            password = password,
-        ),
-    )
+    ): Either<DataFailure.Network, EmailLoginResponse> =
+        httpClient.post<EmailLoginRequest, EmailLoginResponse>(
+            route = "/v1/auth/login",
+            body = EmailLoginRequest(
+                email = email,
+                password = password,
+            ),
+        )
 
     suspend fun checkEmailAvailable(email: String): Either<DataFailure.Network, Boolean> =
         httpClient.post<CheckEmailAvailableRequest, CheckEmailAvailableResponse>(

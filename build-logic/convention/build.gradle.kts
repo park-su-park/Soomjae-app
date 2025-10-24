@@ -31,15 +31,18 @@ gradlePlugin {
         }
         register("cocoapods-app") {
             id = "soomjae.cocoapods.app"
-            implementationClass = "com.parksupark.soomjae.buildlogic.ios.CocoapodsAppConventionPlugin"
+            implementationClass =
+                "com.parksupark.soomjae.buildlogic.ios.CocoapodsAppConventionPlugin"
         }
         register("cocoapods-library") {
             id = "soomjae.cocoapods.library"
-            implementationClass = "com.parksupark.soomjae.buildlogic.ios.CocoapodsLibraryConventionPlugin"
+            implementationClass =
+                "com.parksupark.soomjae.buildlogic.ios.CocoapodsLibraryConventionPlugin"
         }
         register("crashlytics") {
             id = "soomjae.crashlytics"
-            implementationClass = "com.parksupark.soomjae.buildlogic.common.CrashlyticsConventionPlugin"
+            implementationClass =
+                "com.parksupark.soomjae.buildlogic.common.CrashlyticsConventionPlugin"
         }
         register("detekt") {
             id = "soomjae.detekt"

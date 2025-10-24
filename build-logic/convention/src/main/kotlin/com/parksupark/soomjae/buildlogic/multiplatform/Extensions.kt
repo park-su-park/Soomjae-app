@@ -51,7 +51,9 @@ internal fun KotlinMultiplatformExtension.hierarchy(
     configureKotlin()
 }
 
-private fun KotlinMultiplatformExtension.configureAndroid(configure: KotlinAndroidTarget.() -> Unit) {
+private fun KotlinMultiplatformExtension.configureAndroid(
+    configure: KotlinAndroidTarget.() -> Unit,
+) {
     androidTarget {
         configure()
     }

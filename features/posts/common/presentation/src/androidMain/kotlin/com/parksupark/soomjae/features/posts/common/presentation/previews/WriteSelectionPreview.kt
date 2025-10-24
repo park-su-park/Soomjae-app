@@ -13,7 +13,8 @@ import kotlinx.collections.immutable.ImmutableList
 @Preview
 @Composable
 private fun WriteSelectionPreview(
-    @PreviewParameter(CategoryUiPreviewParametersProvider::class) categories: ImmutableList<CategoryUi>,
+    @PreviewParameter(CategoryUiPreviewParametersProvider::class) categories:
+        ImmutableList<CategoryUi>,
 ) {
     AppTheme {
         SoomjaeSurface {

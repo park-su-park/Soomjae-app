@@ -14,4 +14,5 @@ private class SoomjaeSettingNavigator(
     }
 }
 
-fun soomjaeSettingNavigator(navController: NavHostController): SettingNavigator = SoomjaeSettingNavigator(navController)
+fun soomjaeSettingNavigator(navController: NavHostController): SettingNavigator =
+    SoomjaeSettingNavigator(navController)

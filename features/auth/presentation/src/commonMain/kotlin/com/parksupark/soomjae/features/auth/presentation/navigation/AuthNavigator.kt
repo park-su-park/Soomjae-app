@@ -40,4 +40,5 @@ private class SoomjaeAuthNavigator(
     }
 }
 
-fun soomjaeAuthNavigator(navController: NavHostController): AuthNavigator = SoomjaeAuthNavigator(navController)
+fun soomjaeAuthNavigator(navController: NavHostController): AuthNavigator =
+    SoomjaeAuthNavigator(navController)

@@ -17,7 +17,9 @@ class MemberPostListCoordinator(
         when (action) {
             is MemberPostListAction.OnPullToRefresh -> postViewModel.refreshPosts()
             is MemberPostListAction.OnWritePostClick -> postViewModel.handleWritePostClick()
-            is MemberPostListAction.OnRefreshChange -> postViewModel.setRefreshing(action.isRefreshing)
+            is MemberPostListAction.OnRefreshChange -> postViewModel.setRefreshing(
+                action.isRefreshing,
+            )
             is MemberPostListAction.OnCommentClick -> handleCommentClick(action.postId)
             is MemberPostListAction.OnBottomSheetDismiss -> handleBottomSheetDismiss()
         }

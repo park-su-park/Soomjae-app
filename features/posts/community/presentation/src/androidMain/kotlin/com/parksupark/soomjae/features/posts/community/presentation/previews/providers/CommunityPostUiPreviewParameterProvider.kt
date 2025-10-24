@@ -11,9 +11,13 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 
-class CommunityPostUiPreviewParameterProvider : PreviewParameterProvider<ImmutableList<CommunityPostUi>> {
+class CommunityPostUiPreviewParameterProvider :
+    PreviewParameterProvider<ImmutableList<CommunityPostUi>> {
     override val values: Sequence<ImmutableList<CommunityPostUi>> =
-        sequenceOf(CommunityPostPreviewParameterData.communityPosts.map { it.toUi() }.toImmutableList())
+        sequenceOf(
+            CommunityPostPreviewParameterData.communityPosts.map { it.toUi() }
+                .toImmutableList(),
+        )
 }
 
 object CommunityPostPreviewParameterData {
@@ -22,8 +26,9 @@ object CommunityPostPreviewParameterData {
         CommunityPost(
             id = 1,
             title = "Show off your neighborhood cat photos",
-            content = "This is a stray cat in my neighborhood, and it's so cute that I'm sharing a photo." +
-                "I see it every day, and my heart aches every time I see it.",
+            content =
+                "This is a stray cat in my neighborhood, and it's so cute that I'm sharing a photo." +
+                    "I see it every day, and my heart aches every time I see it.",
             author = MemberPreviewParameterData.members[0],
             createdAt = Instant.parse("2023-11-16T12:00:00Z"),
             categoryName = "Daily",

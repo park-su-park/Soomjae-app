@@ -11,7 +11,8 @@ import kotlinx.coroutines.flow.map
 @Composable
 fun CommunityTabRoute(
     onPostAction: (PostAction) -> Unit,
-    coordinator: CommunityTabCoordinator = rememberCommunityTabCoordinator(onPostAction = onPostAction),
+    coordinator: CommunityTabCoordinator =
+        rememberCommunityTabCoordinator(onPostAction = onPostAction),
 ) {
     val uiState by coordinator.screenStateFlow.collectAsState(CommunityTabState())
     val posts = coordinator.screenStateFlow.map { it.posts }.collectAsLazyPagingItems()
@@ -29,7 +30,9 @@ fun CommunityTabRoute(
                 posts.refresh()
             }
 
-            CommunityTabEvent.NavigateToCommunityWrite -> onPostAction(PostAction.NavigateToCommunityWrite)
+            CommunityTabEvent.NavigateToCommunityWrite -> onPostAction(
+                PostAction.NavigateToCommunityWrite,
+            )
         }
     }
 

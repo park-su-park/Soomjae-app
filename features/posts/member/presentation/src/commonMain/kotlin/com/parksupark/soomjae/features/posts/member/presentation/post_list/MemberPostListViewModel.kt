@@ -30,7 +30,8 @@ class MemberPostListViewModel(
     private val memberPostRepository: MemberPostRepository,
 ) : ViewModel() {
 
-    private val _stateFlow: MutableStateFlow<MemberPostListState> = MutableStateFlow(MemberPostListState())
+    private val _stateFlow: MutableStateFlow<MemberPostListState> =
+        MutableStateFlow(MemberPostListState())
     val stateFlow: StateFlow<MemberPostListState> = _stateFlow.onStart {
         observePosts()
     }.stateIn(

@@ -45,13 +45,16 @@ internal class CommunityRepositoryImpl(
             pagingData.map { it.toModel() }
         }
 
-    override suspend fun getPostDetails(postId: Long): Either<DataFailure.Network, CommunityPostDetail> =
-        remoteSource.getPostDetails(postId)
-            .map { response ->
-                response.toCommunityPostDetail()
-            }
+    override suspend fun getPostDetails(
+        postId: Long,
+    ): Either<DataFailure.Network, CommunityPostDetail> = remoteSource.getPostDetails(postId)
+        .map { response ->
+            response.toCommunityPostDetail()
+        }
 
-    override fun postDetailStream(postId: Long): Flow<Either<DataFailure.Network, CommunityPostDetail>> = flow {
+    override fun postDetailStream(
+        postId: Long,
+    ): Flow<Either<DataFailure.Network, CommunityPostDetail>> = flow {
         emit(remoteSource.getPostDetails(postId).map { it.toCommunityPostDetail() })
     }
 }

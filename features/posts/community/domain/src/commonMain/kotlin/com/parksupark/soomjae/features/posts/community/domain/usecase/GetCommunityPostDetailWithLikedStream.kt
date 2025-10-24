@@ -14,18 +14,19 @@ class GetCommunityPostDetailWithLikedStream(
     private val likeRepository: CommunityPostLikeRepository,
 ) {
 
-    operator fun invoke(postId: Long): Flow<Either<DataFailure, CommunityPostDetailWithLiked>> = combine(
-        postRepository.postDetailStream(postId),
-        likeRepository.likedStream(postId),
-    ) { postDetail, liked ->
-        either {
-            val post = postDetail.bind()
-            val like = liked.bind()
+    operator fun invoke(postId: Long): Flow<Either<DataFailure, CommunityPostDetailWithLiked>> =
+        combine(
+            postRepository.postDetailStream(postId),
+            likeRepository.likedStream(postId),
+        ) { postDetail, liked ->
+            either {
+                val post = postDetail.bind()
+                val like = liked.bind()
 
-            CommunityPostDetailWithLiked(
-                postDetail = post,
-                isLiked = like.liked,
-            )
+                CommunityPostDetailWithLiked(
+                    postDetail = post,
+                    isLiked = like.liked,
+                )
+            }
         }
-    }
 }

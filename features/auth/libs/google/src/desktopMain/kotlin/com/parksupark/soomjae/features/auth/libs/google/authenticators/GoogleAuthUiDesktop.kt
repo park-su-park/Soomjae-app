@@ -17,38 +17,39 @@ internal class GoogleAuthUiDesktop(
     private val browserOpener: BrowserOpener,
     private val redirectCallbackServer: RedirectCallbackServer,
 ) : GoogleAuthUi {
-    override suspend fun getUser(scope: List<String>): Either<DataFailure.Credential, GoogleUser> = either {
-        val responseType = "id_token token"
-        val state = generateRandomString()
-        val nonce = generateRandomString()
+    override suspend fun getUser(scope: List<String>): Either<DataFailure.Credential, GoogleUser> =
+        either {
+            val responseType = "id_token token"
+            val state = generateRandomString()
+            val nonce = generateRandomString()
 
-        val portResult = redirectCallbackServer.findAvailablePort()
-        val port = portResult.bind()
+            val portResult = redirectCallbackServer.findAvailablePort()
+            val port = portResult.bind()
 
-        val redirectUri = buildRedirectUri(port)
-        val googleAuthUrl = urlBuilder.buildAuthUrl(
-            scopes = scope,
-            responseType = responseType,
-            redirectUri = redirectUri,
-            state = state,
-            nonce = nonce,
-        )
-        openAuthUrlInBrowser(googleAuthUrl)
-
-        val loginResult = redirectCallbackServer.startServerAndAwaitTokens(
-            state = state,
-            redirectUriPath = "/$REDIRECT_URI_PATH",
-            port = port,
-        )
-        val (idToken, accessToken) = loginResult.bind()
-
-        return parseAndValidateJwt(idToken, nonce).map { user ->
-            user.copy(
-                idToken = idToken ?: "",
-                accessToken = accessToken,
+            val redirectUri = buildRedirectUri(port)
+            val googleAuthUrl = urlBuilder.buildAuthUrl(
+                scopes = scope,
+                responseType = responseType,
+                redirectUri = redirectUri,
+                state = state,
+                nonce = nonce,
             )
+            openAuthUrlInBrowser(googleAuthUrl)
+
+            val loginResult = redirectCallbackServer.startServerAndAwaitTokens(
+                state = state,
+                redirectUriPath = "/$REDIRECT_URI_PATH",
+                port = port,
+            )
+            val (idToken, accessToken) = loginResult.bind()
+
+            return parseAndValidateJwt(idToken, nonce).map { user ->
+                user.copy(
+                    idToken = idToken ?: "",
+                    accessToken = accessToken,
+                )
+            }
         }
-    }
 
     private fun buildRedirectUri(port: Int): String = "http://localhost:$port/$REDIRECT_URI_PATH"
 
@@ -67,7 +68,9 @@ internal class GoogleAuthUiDesktop(
         val picture = jwt.getClaim("picture").asString()
         val receivedNonce = jwt.getClaim("nonce").asString()
         if (receivedNonce != nonce) {
-            Logger.e { "GoogleAuthUiProvider: Invalid nonce state: A login callback was received, but no login request was sent." }
+            Logger.e {
+                "GoogleAuthUiProvider: Invalid nonce state: A login callback was received, but no login request was sent."
+            }
             return Either.Left(DataFailure.Credential.NOT_FOUND)
         }
         return Either.Right(

@@ -25,20 +25,22 @@ internal class DefaultParticipationRepository(
             response.toUpdatedParticipation()
         }
 
-    override suspend fun deleteParticipation(meetingId: Long): Either<DataFailure, UpdatedParticipation> =
-        httpClient.delete<ParticipationResponse>(
-            route = "/v1/boards/meeting/posts/$meetingId/join",
-        ).map { response ->
-            response.toUpdatedParticipation()
-        }
-
-    override suspend fun getParticipants(meetingId: Long): Either<DataFailure, List<Participant>> = httpClient.get<ParticipantListResponse>(
-        route = "/v1/boards/meeting/posts/$meetingId/participants",
-    ).map { responses ->
-        responses.participants.map { participant ->
-            Participant(
-                member = participant.toModel(),
-            )
-        }
+    override suspend fun deleteParticipation(
+        meetingId: Long,
+    ): Either<DataFailure, UpdatedParticipation> = httpClient.delete<ParticipationResponse>(
+        route = "/v1/boards/meeting/posts/$meetingId/join",
+    ).map { response ->
+        response.toUpdatedParticipation()
     }
+
+    override suspend fun getParticipants(meetingId: Long): Either<DataFailure, List<Participant>> =
+        httpClient.get<ParticipantListResponse>(
+            route = "/v1/boards/meeting/posts/$meetingId/participants",
+        ).map { responses ->
+            responses.participants.map { participant ->
+                Participant(
+                    member = participant.toModel(),
+                )
+            }
+        }
 }

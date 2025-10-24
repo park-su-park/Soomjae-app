@@ -14,10 +14,11 @@ internal class ProfileMemberPostRemoteDataSource(
     suspend fun fetchPosts(
         memberId: Long,
         page: Int,
-    ): Either<DataFailure.Network, List<ProfileMemberPost>> = httpClient.get<List<GetProfileMemberPostResponse>>(
-        route = "/v1/boards/member/posts/$memberId/grid",
-        queryParameters = mapOf("page" to page),
-    ).map { response ->
-        response.map { postResponse -> postResponse.toProfileMemberPost() }
-    }
+    ): Either<DataFailure.Network, List<ProfileMemberPost>> =
+        httpClient.get<List<GetProfileMemberPostResponse>>(
+            route = "/v1/boards/member/posts/$memberId/grid",
+            queryParameters = mapOf("page" to page),
+        ).map { response ->
+            response.map { postResponse -> postResponse.toProfileMemberPost() }
+        }
 }

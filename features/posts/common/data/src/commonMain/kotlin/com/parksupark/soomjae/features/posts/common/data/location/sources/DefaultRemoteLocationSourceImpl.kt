@@ -9,7 +9,8 @@ import io.ktor.client.HttpClient
 internal class DefaultRemoteLocationSourceImpl(
     private val httpClient: HttpClient,
 ) : RemoteLocationSource {
-    override suspend fun getAllLocations(): Either<DataFailure.Network, List<LocationResponse>> = httpClient.get<List<LocationResponse>>(
-        route = "/v1/locations",
-    )
+    override suspend fun getAllLocations(): Either<DataFailure.Network, List<LocationResponse>> =
+        httpClient.get<List<LocationResponse>>(
+            route = "/v1/locations",
+        )
 }

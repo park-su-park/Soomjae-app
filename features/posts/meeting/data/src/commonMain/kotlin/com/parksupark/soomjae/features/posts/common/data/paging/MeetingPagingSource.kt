@@ -11,9 +11,10 @@ import kotlinx.io.IOException
 internal class MeetingPagingSource(
     private val remoteSource: RemoteMeetingPostSource,
 ) : PagingSource<Int, MeetingPost>() {
-    override fun getRefreshKey(state: PagingState<Int, MeetingPost>): Int? = state.anchorPosition?.let { anchorPosition ->
-        state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1) ?: 1
-    }
+    override fun getRefreshKey(state: PagingState<Int, MeetingPost>): Int? =
+        state.anchorPosition?.let { anchorPosition ->
+            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1) ?: 1
+        }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MeetingPost> {
         val currentPage = params.key ?: 1

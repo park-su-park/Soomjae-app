@@ -168,8 +168,9 @@ private fun SecureOutlinedTextFieldDecorator(
     }
 }
 
-private fun getTextObfuscationMode(passwordVisible: Boolean): TextObfuscationMode = if (passwordVisible) {
-    TextObfuscationMode.Visible
-} else {
-    TextObfuscationMode.RevealLastTyped
-}
+private fun getTextObfuscationMode(passwordVisible: Boolean): TextObfuscationMode =
+    if (passwordVisible) {
+        TextObfuscationMode.Visible
+    } else {
+        TextObfuscationMode.RevealLastTyped
+    }

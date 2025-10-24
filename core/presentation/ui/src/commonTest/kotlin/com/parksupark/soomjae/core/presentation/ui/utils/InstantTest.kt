@@ -60,7 +60,8 @@ internal class InstantTest : FunSpec({
                 setContent {
                     val hour = 10
                     val minute = 30
-                    val date = LocalDateTime(nowLocalDate, LocalTime(hour, minute)).toInstant(TimeZone.UTC)
+                    val date =
+                        LocalDateTime(nowLocalDate, LocalTime(hour, minute)).toInstant(TimeZone.UTC)
 
                     val result = date.toRelativeTimeString(now, timeZone)
 
@@ -97,7 +98,9 @@ internal class InstantTest : FunSpec({
 
                     val result = date.toRelativeTimeString(now, timeZone)
 
-                    result shouldBe "${year.toString().takeLast(2)}/${month.toTwoDigitString()}/${day.toTwoDigitString()}"
+                    result shouldBe "${
+                        year.toString().takeLast(2)
+                    }/${month.toTwoDigitString()}/${day.toTwoDigitString()}"
                 }
             }
         }
@@ -118,6 +121,7 @@ internal class InstantTest : FunSpec({
 })
 
 @OptIn(ExperimentalTime::class)
-private fun LocalDate.atEndOfDayIn(timeZone: TimeZone): Instant = this.atStartOfDayIn(timeZone).plus(1.days - 1.seconds)
+private fun LocalDate.atEndOfDayIn(timeZone: TimeZone): Instant =
+    this.atStartOfDayIn(timeZone).plus(1.days - 1.seconds)
 
 private fun Number.toTwoDigitString(): String = this.toString().padStart(2, '0')

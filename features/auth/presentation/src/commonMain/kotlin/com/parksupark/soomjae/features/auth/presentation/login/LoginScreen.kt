@@ -56,7 +56,9 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 internal fun LoginScreen(
     state: LoginState,
     onAction: (LoginAction) -> Unit,
-    snackbarHost: @Composable () -> Unit = { SoomjaeSnackbarHost(remember { SnackbarHostState() }) },
+    snackbarHost: @Composable () -> Unit = {
+        SoomjaeSnackbarHost(remember { SnackbarHostState() })
+    },
     getGoogleAuthUi: @Composable () -> GoogleAuthUi?,
 ) {
     SoomjaeScaffold(
@@ -129,7 +131,11 @@ private fun OAuthSection(
                 coroutineScope.launch {
                     if (googleAuthUi == null) {
                         Logger.e(TAG) { "GoogleAuthUi is null" }
-                        onAction(LoginAction.GoogleLoginResult(Either.Left(DataFailure.Credential.UNKNOWN)))
+                        onAction(
+                            LoginAction.GoogleLoginResult(
+                                Either.Left(DataFailure.Credential.UNKNOWN),
+                            ),
+                        )
                     } else {
                         val result = googleAuthUi.getUser()
                         onAction(LoginAction.GoogleLoginResult(result))
@@ -147,14 +153,20 @@ private fun LoginSectionDivider(modifier: Modifier = Modifier) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(24.dp),
     ) {
-        Spacer(modifier = Modifier.height(1.dp).background(color = SoomjaeTheme.colorScheme.divider2).weight(1f))
+        Spacer(
+            modifier = Modifier.height(1.dp).background(color = SoomjaeTheme.colorScheme.divider2)
+                .weight(1f),
+        )
         Text(
             text = stringResource(Res.string.login_divider_text),
             style = MaterialTheme.typography.labelMedium.copy(
                 color = SoomjaeTheme.colorScheme.text4,
             ),
         )
-        Spacer(modifier = Modifier.height(1.dp).background(color = SoomjaeTheme.colorScheme.divider2).weight(1f))
+        Spacer(
+            modifier = Modifier.height(1.dp).background(color = SoomjaeTheme.colorScheme.divider2)
+                .weight(1f),
+        )
     }
 }
 

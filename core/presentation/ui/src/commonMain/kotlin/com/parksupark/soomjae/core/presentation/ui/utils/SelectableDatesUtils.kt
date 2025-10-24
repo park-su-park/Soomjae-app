@@ -35,7 +35,8 @@ fun DatePickerDefaults.rememberFutureDates(
     val anchorYear = startDate.year
 
     object : SelectableDates {
-        override fun isSelectableDate(utcTimeMillis: Long): Boolean = utcTimeMillis >= anchorEpochMillis
+        override fun isSelectableDate(utcTimeMillis: Long): Boolean =
+            utcTimeMillis >= anchorEpochMillis
 
         override fun isSelectableYear(year: Int): Boolean = year >= anchorYear
     }

@@ -29,7 +29,8 @@ internal class CommunityPagingSource(
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, CommunityPostResponse>): Int? = state.anchorPosition?.let { anchorPosition ->
-        state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1) ?: 1
-    }
+    override fun getRefreshKey(state: PagingState<Int, CommunityPostResponse>): Int? =
+        state.anchorPosition?.let { anchorPosition ->
+            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1) ?: 1
+        }
 }

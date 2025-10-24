@@ -60,7 +60,9 @@ class MemberPostWriteCoordinator(
                 postComposeViewModel.uploadImages(selectedPhotos)
             }
 
-            is PhotoPickerAction.OnSelectPhotos -> photoPickerViewModel.updateSelectedPhotos(action.photos)
+            is PhotoPickerAction.OnSelectPhotos -> photoPickerViewModel.updateSelectedPhotos(
+                action.photos,
+            )
             is PhotoPickerAction.OnRemovePhoto -> photoPickerViewModel.removePhoto(action.photo)
         }
     }

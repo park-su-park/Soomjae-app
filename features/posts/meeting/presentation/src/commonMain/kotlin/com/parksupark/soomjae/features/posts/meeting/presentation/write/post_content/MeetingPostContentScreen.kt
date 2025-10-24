@@ -77,7 +77,9 @@ internal fun MeetingPostContentScreen(
             extras = {
                 AdditionalInfoSelection(
                     meeting = state.meeting,
-                    onCreateMeetingClick = { onAction(MeetingPostWriteAction.OnCreateMeetingPostClick) },
+                    onCreateMeetingClick = {
+                        onAction(MeetingPostWriteAction.OnCreateMeetingPostClick)
+                    },
                     categories = state.categories,
                     selectedCategory = state.selectedCategory,
                     onCategorySelect = { onAction(MeetingPostWriteAction.OnCategorySelect(it)) },
