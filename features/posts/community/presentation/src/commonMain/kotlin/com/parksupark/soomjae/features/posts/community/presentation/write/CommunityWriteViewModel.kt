@@ -9,7 +9,7 @@ import com.parksupark.soomjae.features.posts.common.domain.repositories.Category
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LocationRepository
 import com.parksupark.soomjae.features.posts.common.presentation.models.toLocationUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
-import com.parksupark.soomjae.features.posts.community.domain.repository.CommunityRepository
+import com.parksupark.soomjae.features.posts.community.domain.repository.CommunityPostRepository
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class CommunityWriteViewModel(
-    private val communityRepository: CommunityRepository,
+    private val communityRepository: CommunityPostRepository,
     private val categoryRepository: CategoryRepository,
     private val locationRepository: LocationRepository,
 ) : ViewModel() {

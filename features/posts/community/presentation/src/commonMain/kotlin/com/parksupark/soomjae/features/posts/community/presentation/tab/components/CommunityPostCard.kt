@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Comment
+import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -45,6 +46,7 @@ internal fun CommunityPostCard(
 
             PostCardAdditionalInfos(
                 likeCount = post.likeCount,
+                isUserLiked = post.isUserLiked,
                 commentCount = post.commentCount,
                 createdAt = post.formattedCreatedAt,
                 author = post.author.nickname,
@@ -93,6 +95,7 @@ private fun PostCardContent(
 @Composable
 private fun PostCardAdditionalInfos(
     likeCount: Int,
+    isUserLiked: Boolean,
     commentCount: Int,
     createdAt: String,
     author: String,
@@ -110,7 +113,11 @@ private fun PostCardAdditionalInfos(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
-                imageVector = Icons.Outlined.FavoriteBorder,
+                imageVector = if (isUserLiked) {
+                    Icons.Outlined.Favorite
+                } else {
+                    Icons.Outlined.FavoriteBorder
+                },
                 contentDescription = null,
                 modifier = Modifier.size(height),
                 tint = SoomjaeTheme.colorScheme.like,

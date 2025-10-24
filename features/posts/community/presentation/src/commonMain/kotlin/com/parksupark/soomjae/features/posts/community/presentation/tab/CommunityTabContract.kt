@@ -15,8 +15,6 @@ internal sealed interface CommunityTabAction {
 
     data class OnRefreshChange(val isRefreshing: Boolean) : CommunityTabAction
 
-    data class OnFavoriteClick(val postId: Long) : CommunityTabAction
-
     data class OnPostClick(val postId: Long) : CommunityTabAction
 
     data object OnCommunityWriteClick : CommunityTabAction

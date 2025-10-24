@@ -9,7 +9,8 @@ class CommunityDetailCoordinator(
     private val navigator: CommunityNavigator,
     val viewModel: CommunityDetailViewModel,
 ) {
-    internal val screenStateFlow = viewModel.uiStateFlow
+    val screenStateFlow = viewModel.uiStateFlow
+    val eventFlow = viewModel.eventChannel
 
     internal fun handle(action: CommunityDetailAction) {
         when (action) {

@@ -4,13 +4,14 @@ import androidx.compose.foundation.text.input.TextFieldState
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
-import com.parksupark.soomjae.core.presentation.ui.utils.UiText
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CommentRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LikeRepository
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
 import com.parksupark.soomjae.features.posts.community.domain.usecase.GetCommunityPostDetailWithLikedStream
 import com.parksupark.soomjae.features.posts.community.presentation.models.toDetailUi
+import com.parksupark.soomjae.features.posts.community.presentation.navigation.CommunityDestination
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,27 +31,21 @@ class CommunityDetailViewModel(
     private val commentRepository: CommentRepository,
     private val likeRepository: LikeRepository,
 ) : ViewModel() {
-    val postId: Long = savedStateHandle["postId"] ?: error("Post ID is missing")
+    val postId = savedStateHandle.toRoute<CommunityDestination.CommunityDetail>().postID
 
     private val _uiStateFlow: MutableStateFlow<CommunityDetailState> = MutableStateFlow(
-        if (postId != null) {
-            CommunityDetailState.InitialLoading(postId)
-        } else {
-            CommunityDetailState.Error(UiText.DynamicString("Post ID is missing"))
-        },
+        CommunityDetailState.InitialLoading(postId),
     )
-    internal val uiStateFlow: StateFlow<CommunityDetailState> = _uiStateFlow.onStart {
-        if (postId != null) {
-            fetchPostDetails(postId)
-        }
+    val uiStateFlow: StateFlow<CommunityDetailState> = _uiStateFlow.onStart {
+        fetchPostDetails(postId)
     }.stateIn(
-        viewModelScope,
-        SharingStarted.WhileSubscribed(5_000),
-        CommunityDetailState.InitialLoading(postId ?: -1),
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = CommunityDetailState.InitialLoading(postId),
     )
 
     private val _eventChannel = Channel<CommunityDetailEvent>()
-    internal val eventChannel = _eventChannel.receiveAsFlow()
+    val eventChannel = _eventChannel.receiveAsFlow()
 
     private fun fetchPostDetails(postId: Long) {
         getPostWithLikedStream(postId).onEach { result ->
@@ -76,32 +71,32 @@ class CommunityDetailViewModel(
         if (state !is CommunityDetailState.Success) return
 
         val postDetail = state.postDetail
+        val newLikedState = !postDetail.isLiked
 
         viewModelScope.launch {
-            _uiStateFlow.update { state ->
-                if (state !is CommunityDetailState.Success) {
-                    state
-                } else {
-                    state.copy(
-                        isLikeLoading = true,
-                    )
-                }
+            _uiStateFlow.update {
+                (it as? CommunityDetailState.Success)?.copy(
+                    postDetail = it.postDetail.copy(isLiked = newLikedState),
+                    isLikeLoading = true,
+                ) ?: it
             }
 
-            if (postDetail.isLiked) {
-                likeRepository.unlike(postDetail.post.id)
-            } else {
+            val result = if (newLikedState) {
                 likeRepository.like(postDetail.post.id)
+            } else {
+                likeRepository.unlike(postDetail.post.id)
             }
 
-            _uiStateFlow.update { state ->
-                if (state !is CommunityDetailState.Success) {
-                    state
-                } else {
-                    state.copy(
-                        isLikeLoading = false,
-                    )
+            result.onLeft {
+                _uiStateFlow.update { state ->
+                    (state as? CommunityDetailState.Success)?.copy(
+                        postDetail = state.postDetail.copy(isLiked = !newLikedState),
+                    ) ?: state
                 }
+            }
+
+            _uiStateFlow.update {
+                (it as? CommunityDetailState.Success)?.copy(isLikeLoading = false) ?: it
             }
         }
     }

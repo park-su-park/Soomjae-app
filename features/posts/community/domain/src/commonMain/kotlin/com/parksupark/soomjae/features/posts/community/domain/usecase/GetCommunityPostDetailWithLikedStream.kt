@@ -5,12 +5,12 @@ import arrow.core.raise.either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPostDetailWithLiked
 import com.parksupark.soomjae.features.posts.community.domain.repository.CommunityPostLikeRepository
-import com.parksupark.soomjae.features.posts.community.domain.repository.CommunityRepository
+import com.parksupark.soomjae.features.posts.community.domain.repository.CommunityPostRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
 class GetCommunityPostDetailWithLikedStream(
-    private val postRepository: CommunityRepository,
+    private val postRepository: CommunityPostRepository,
     private val likeRepository: CommunityPostLikeRepository,
 ) {
 

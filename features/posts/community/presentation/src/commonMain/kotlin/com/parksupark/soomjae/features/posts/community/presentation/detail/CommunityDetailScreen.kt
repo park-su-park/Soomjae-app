@@ -1,6 +1,7 @@
 package com.parksupark.soomjae.features.posts.community.presentation.detail
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -57,7 +59,7 @@ internal fun CommunityDetailScreen(
             // Handle error state, e.g., show a snackbar or dialog
         }
 
-        is CommunityDetailState.InitialLoading -> Box {
+        is CommunityDetailState.InitialLoading -> Box(modifier = Modifier.fillMaxSize()) {
             SoomjaeCircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
         }
 
@@ -182,14 +184,13 @@ private fun PostAdditionalButtons(
     commentCount: Int,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth()
-            .topBorder(
-                color = SoomjaeTheme.colorScheme.divider1,
-                height = 1.dp,
-            ).bottomBorder(
-                color = SoomjaeTheme.colorScheme.divider1,
-                height = 1.dp,
-            ),
+        modifier = Modifier.fillMaxWidth().topBorder(
+            color = SoomjaeTheme.colorScheme.divider1,
+            height = 1.dp,
+        ).bottomBorder(
+            color = SoomjaeTheme.colorScheme.divider1,
+            height = 1.dp,
+        ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         LikeButton(onToggleLikeClick = onToggleLikeClick, isLiked = isLiked, likeCount = likeCount)
@@ -204,12 +205,17 @@ private fun RowScope.LikeButton(
     isLiked: Boolean,
     likeCount: Int,
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+
     Row(
-        modifier = Modifier.heightIn(min = 48.dp)
-            .weight(1f)
-            .clickable {
-                onToggleLikeClick()
-            },
+        modifier = Modifier.heightIn(min = 48.dp).weight(1f)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = {
+                    onToggleLikeClick()
+                },
+            ),
         horizontalArrangement = Arrangement.spacedBy(
             8.dp,
             alignment = Alignment.CenterHorizontally,
@@ -222,6 +228,7 @@ private fun RowScope.LikeButton(
                 isSelected = isLiked,
                 count = likeCount.toLong(),
             ),
+            interactionSource = interactionSource,
         )
     }
 }
@@ -229,8 +236,7 @@ private fun RowScope.LikeButton(
 @Composable
 private fun RowScope.CommentButton(commentCount: Int) {
     Row(
-        modifier = Modifier.heightIn(min = 48.dp)
-            .weight(1f),
+        modifier = Modifier.heightIn(min = 48.dp).weight(1f),
         horizontalArrangement = Arrangement.spacedBy(
             8.dp,
             alignment = Alignment.CenterHorizontally,

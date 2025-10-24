@@ -8,7 +8,7 @@ import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPos
 import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPostDetail
 import kotlinx.coroutines.flow.Flow
 
-interface CommunityRepository {
+interface CommunityPostRepository {
     suspend fun createPost(
         title: String,
         content: String,

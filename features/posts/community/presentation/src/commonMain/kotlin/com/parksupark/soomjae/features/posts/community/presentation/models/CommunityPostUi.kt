@@ -38,3 +38,16 @@ internal fun CommunityPost.toUi(): CommunityPostUi = CommunityPostUi(
     commentCount = Random.nextInt(20),
     category = null,
 )
+
+@OptIn(ExperimentalTime::class)
+internal fun CommunityPost.toUi(isUserLiked: Boolean): CommunityPostUi = CommunityPostUi(
+    id = id,
+    title = title,
+    content = content,
+    author = author.toUi(),
+    createdAt = createdAt,
+    likeCount = this.likeCount,
+    isUserLiked = isUserLiked,
+    commentCount = Random.nextInt(20),
+    category = null,
+)

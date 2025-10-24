@@ -1,7 +1,6 @@
 package com.parksupark.soomjae.features.posts.community.presentation.di
 
-import com.parksupark.soomjae.features.posts.community.domain.repository.COMMUNITY_COMMENT_REPOSITORY
-import com.parksupark.soomjae.features.posts.community.domain.repository.COMMUNITY_LIKE_REPOSITORY
+import com.parksupark.soomjae.features.posts.community.domain.di.PostsCommunityQualifier
 import com.parksupark.soomjae.features.posts.community.domain.usecase.GetCommunityPostDetailWithLikedStream
 import com.parksupark.soomjae.features.posts.community.presentation.detail.CommunityDetailViewModel
 import com.parksupark.soomjae.features.posts.community.presentation.tab.CommunityTabViewModel
@@ -9,11 +8,17 @@ import com.parksupark.soomjae.features.posts.community.presentation.write.Commun
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 private val tabModule = module {
-    viewModelOf(::CommunityTabViewModel)
+    viewModel {
+        CommunityTabViewModel(
+            postRepository = get(),
+            likeRepository = get(PostsCommunityQualifier.LIKE_REPOSITORY),
+            sessionRepository = get(),
+            soomjaeEventController = get(),
+        )
+    }
 }
 
 private val detailModule = module {
@@ -22,8 +27,8 @@ private val detailModule = module {
         CommunityDetailViewModel(
             savedStateHandle = get(),
             getPostWithLikedStream = get(),
-            commentRepository = get(named(COMMUNITY_COMMENT_REPOSITORY)),
-            likeRepository = get(named(COMMUNITY_LIKE_REPOSITORY)),
+            commentRepository = get(PostsCommunityQualifier.COMMENT_REPOSITORY),
+            likeRepository = get(PostsCommunityQualifier.LIKE_REPOSITORY),
         )
     }
 }
