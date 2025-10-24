@@ -2,16 +2,16 @@ package com.parksupark.soomjae.features.posts.community.data.di
 
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CommentRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LikeRepository
-import com.parksupark.soomjae.features.posts.community.data.repositories.CommunityCommentRepository
-import com.parksupark.soomjae.features.posts.community.data.repositories.CommunityLikeRepository
-import com.parksupark.soomjae.features.posts.community.data.repositories.CommunityRepositoryImpl
-import com.parksupark.soomjae.features.posts.community.data.repositories.OfflineFirstCommunityPostLikeRepository
-import com.parksupark.soomjae.features.posts.community.data.sources.CommunityRemoteSource
-import com.parksupark.soomjae.features.posts.community.data.sources.CommunityRemoteSourceImpl
-import com.parksupark.soomjae.features.posts.community.domain.repositories.COMMUNITY_COMMENT_REPOSITORY
-import com.parksupark.soomjae.features.posts.community.domain.repositories.COMMUNITY_LIKE_REPOSITORY
-import com.parksupark.soomjae.features.posts.community.domain.repositories.CommunityPostLikeRepository
-import com.parksupark.soomjae.features.posts.community.domain.repositories.CommunityRepository
+import com.parksupark.soomjae.features.posts.community.data.remote.source.CommunityRemoteSource
+import com.parksupark.soomjae.features.posts.community.data.remote.source.CommunityRemoteSourceImpl
+import com.parksupark.soomjae.features.posts.community.data.repository.CommunityCommentRepository
+import com.parksupark.soomjae.features.posts.community.data.repository.CommunityLikeRepository
+import com.parksupark.soomjae.features.posts.community.data.repository.CommunityRepositoryImpl
+import com.parksupark.soomjae.features.posts.community.data.repository.OfflineFirstCommunityPostLikeRepository
+import com.parksupark.soomjae.features.posts.community.domain.repository.COMMUNITY_COMMENT_REPOSITORY
+import com.parksupark.soomjae.features.posts.community.domain.repository.COMMUNITY_LIKE_REPOSITORY
+import com.parksupark.soomjae.features.posts.community.domain.repository.CommunityPostLikeRepository
+import com.parksupark.soomjae.features.posts.community.domain.repository.CommunityRepository
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.bind

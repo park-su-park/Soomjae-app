@@ -18,7 +18,8 @@ class ParticipantListViewModel(
     private val meetingId: Long,
     private val participationRepository: ParticipationRepository,
 ) : ViewModel() {
-    private val _stateFlow: MutableStateFlow<ParticipantListState> = MutableStateFlow(ParticipantListState.Loading)
+    private val _stateFlow: MutableStateFlow<ParticipantListState> =
+        MutableStateFlow(ParticipantListState.Loading)
     val stateFlow: StateFlow<ParticipantListState> = _stateFlow.asStateFlow().onStart {
         loadParticipants()
     }.stateIn(

@@ -42,7 +42,9 @@ internal fun TimePickerDialogButton(
                         )
                         dialogOpen = false
                     },
-                    content = { Text(text = Res.string.meeting_create_datetime_dialog_confirm.value) },
+                    content = {
+                        Text(text = Res.string.meeting_create_datetime_dialog_confirm.value)
+                    },
                 )
             },
             title = { },
@@ -50,7 +52,9 @@ internal fun TimePickerDialogButton(
             dismissButton = {
                 SoomjaeTextButton(
                     onClick = { dialogOpen = false },
-                    content = { Text(text = Res.string.meeting_create_datetime_dialog_cancel.value) },
+                    content = {
+                        Text(text = Res.string.meeting_create_datetime_dialog_cancel.value)
+                    },
                 )
             },
         ) {

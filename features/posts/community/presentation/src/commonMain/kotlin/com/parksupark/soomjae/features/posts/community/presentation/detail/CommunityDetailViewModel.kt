@@ -9,7 +9,7 @@ import com.parksupark.soomjae.core.presentation.ui.utils.UiText
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CommentRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LikeRepository
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
-import com.parksupark.soomjae.features.posts.community.domain.usecases.GetCommunityPostDetailWithLikedStream
+import com.parksupark.soomjae.features.posts.community.domain.usecase.GetCommunityPostDetailWithLikedStream
 import com.parksupark.soomjae.features.posts.community.presentation.models.toDetailUi
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.channels.Channel
@@ -78,7 +78,15 @@ class CommunityDetailViewModel(
         val postDetail = state.postDetail
 
         viewModelScope.launch {
-            _uiStateFlow.update { state -> if (state !is CommunityDetailState.Success) state else state.copy(isLikeLoading = true) }
+            _uiStateFlow.update { state ->
+                if (state !is CommunityDetailState.Success) {
+                    state
+                } else {
+                    state.copy(
+                        isLikeLoading = true,
+                    )
+                }
+            }
 
             if (postDetail.isLiked) {
                 likeRepository.unlike(postDetail.post.id)
@@ -86,7 +94,15 @@ class CommunityDetailViewModel(
                 likeRepository.like(postDetail.post.id)
             }
 
-            _uiStateFlow.update { state -> if (state !is CommunityDetailState.Success) state else state.copy(isLikeLoading = false) }
+            _uiStateFlow.update { state ->
+                if (state !is CommunityDetailState.Success) {
+                    state
+                } else {
+                    state.copy(
+                        isLikeLoading = false,
+                    )
+                }
+            }
         }
     }
 
@@ -103,7 +119,10 @@ class CommunityDetailViewModel(
                 }
             }
 
-            commentRepository.addComment(postId = postId, content = state.inputCommentState.text.toString()).fold(
+            commentRepository.addComment(
+                postId = postId,
+                content = state.inputCommentState.text.toString(),
+            ).fold(
                 ifLeft = {
                     // TODO: error handling
                 },
@@ -112,7 +131,11 @@ class CommunityDetailViewModel(
                         if (state is CommunityDetailState.Success) {
                             state.copy(
                                 postDetail = state.postDetail.copy(
-                                    comments = (listOf(it.toUi()) + state.postDetail.comments).toImmutableList(),
+                                    comments = (
+                                        listOf(
+                                            it.toUi(),
+                                        ) + state.postDetail.comments
+                                    ).toImmutableList(),
                                 ),
                                 isCommentSubmitting = false,
                                 inputCommentState = TextFieldState(),

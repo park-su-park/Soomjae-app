@@ -96,7 +96,9 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
             getByName("debug") {
                 val props = Properties().also { p ->
                     runCatching {
-                        FileInputStream(project.rootProject.file("local.properties")).use { inputStream ->
+                        FileInputStream(
+                            project.rootProject.file("local.properties"),
+                        ).use { inputStream ->
                             p.load(inputStream)
                         }
                     }

@@ -17,7 +17,8 @@ class MemberPostCommentViewModel(
     val dispatcher: SoomjaeDispatcher,
     val commentRepository: CommentRepository,
 ) : ViewModel() {
-    private val _stateFlow: MutableStateFlow<MemberPostCommentState> = MutableStateFlow(MemberPostCommentState())
+    private val _stateFlow: MutableStateFlow<MemberPostCommentState> =
+        MutableStateFlow(MemberPostCommentState())
     val stateFlow: StateFlow<MemberPostCommentState> = _stateFlow.asStateFlow()
 
     fun loadCommentsForPost(postId: Long) {

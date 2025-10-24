@@ -19,7 +19,8 @@ class ProfileMemberPostViewModel(
     private val memberId: Long,
     private val postRepository: ProfileMemberPostRepository,
 ) : ViewModel() {
-    private val _stateFlow: MutableStateFlow<ProfileMemberPostState> = MutableStateFlow(ProfileMemberPostState())
+    private val _stateFlow: MutableStateFlow<ProfileMemberPostState> =
+        MutableStateFlow(ProfileMemberPostState())
     val stateFlow: StateFlow<ProfileMemberPostState> = _stateFlow.asStateFlow()
 
     private val eventChannel = Channel<ProfileMemberPostEvent>()

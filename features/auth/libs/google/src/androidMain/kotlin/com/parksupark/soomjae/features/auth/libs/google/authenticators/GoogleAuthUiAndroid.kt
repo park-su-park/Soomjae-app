@@ -63,8 +63,9 @@ internal class GoogleAuthUiAndroid(
     }
 
     private suspend fun requestForLogin(): Either<DataFailure.Credential, GoogleUser> {
-        val signInWithGoogleOption = GetSignInWithGoogleOption.Builder(serverClientId = credentials.serverId)
-            .build()
+        val signInWithGoogleOption =
+            GetSignInWithGoogleOption.Builder(serverClientId = credentials.serverId)
+                .build()
 
         val request = GetCredentialRequest.Builder()
             .addCredentialOption(signInWithGoogleOption)
@@ -96,7 +97,9 @@ internal class GoogleAuthUiAndroid(
     }
 
     private fun getGoogleUserFromCredential(credential: Credential): GoogleUser? = try {
-        if (credential is CustomCredential && credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
+        if (credential is CustomCredential &&
+            credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
+        ) {
             val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
 
             GoogleUser(
@@ -107,7 +110,9 @@ internal class GoogleAuthUiAndroid(
                 profilePicUrl = googleIdTokenCredential.profilePictureUri?.toString(),
             )
         } else {
-            Logger.e(TAG) { "Received credential is not a Google ID token credential. Credential: $credential" }
+            Logger.e(TAG) {
+                "Received credential is not a Google ID token credential. Credential: $credential"
+            }
 
             null
         }

@@ -14,7 +14,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun EmailVerificationRoute(
     navigator: AuthNavigator,
-    coordinator: EmailVerificationCoordinator = rememberEmailVerifyCoordinator(navigator = navigator),
+    coordinator: EmailVerificationCoordinator =
+        rememberEmailVerifyCoordinator(navigator = navigator),
 ) {
     val uiState by coordinator.screenStateFlow.collectAsStateWithLifecycle()
 
@@ -29,7 +30,9 @@ fun EmailVerificationRoute(
         flow = coordinator.events,
         onEvent = { event ->
             when (event) {
-                EmailVerificationEvent.VerificationSuccess -> navigator.navigateToRegisterDetail(uiState.email.text.trim().toString())
+                EmailVerificationEvent.VerificationSuccess -> navigator.navigateToRegisterDetail(
+                    uiState.email.text.trim().toString(),
+                )
 
                 is EmailVerificationEvent.Error -> {
                     val message = event.message

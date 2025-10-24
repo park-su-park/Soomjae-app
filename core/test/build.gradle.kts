@@ -9,7 +9,9 @@ kotlin {
 
             implementation(libs.arrow)
             implementation(libs.koin.core)
-            implementation(libs.koin.test.get().toString()) { exclude(group = "junit", module = "junit") }
+            implementation(libs.koin.test.get().toString()) {
+                exclude(group = "junit", module = "junit")
+            }
         }
     }
 }

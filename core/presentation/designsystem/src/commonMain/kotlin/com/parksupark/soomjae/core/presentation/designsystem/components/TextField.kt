@@ -200,7 +200,9 @@ fun SoomjaeOutlinedTextField(
                         },
                         shape = MaterialTheme.shapes.small,
                     )
-                    .background(color = if (enabled) Color.Transparent else SoomjaeTheme.colorScheme.background2)
+                    .background(
+                        color = if (enabled) Color.Transparent else SoomjaeTheme.colorScheme.background2,
+                    )
                     .padding(8.dp)
                     .onFocusChanged {
                         isFocused = it.isFocused

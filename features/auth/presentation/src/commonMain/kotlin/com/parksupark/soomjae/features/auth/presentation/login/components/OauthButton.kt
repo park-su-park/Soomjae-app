@@ -91,7 +91,11 @@ internal fun GoogleOAuthButton(
         ),
         modifier = modifier.border(1.dp, strokeColor, RoundedCornerShape(12.dp)),
         icon = {
-            Icon(painter = Res.drawable.google.value, contentDescription = null, tint = Color.Unspecified)
+            Icon(
+                painter = Res.drawable.google.value,
+                contentDescription = null,
+                tint = Color.Unspecified,
+            )
         },
     )
 }

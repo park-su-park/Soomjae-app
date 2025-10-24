@@ -8,7 +8,8 @@ import com.parksupark.soomjae.features.posts.meeting.presentation.navigation.Mee
 @Composable
 fun ParticipantListRoute(
     navigator: MeetingNavigator,
-    coordinator: ParticipantListCoordinator = rememberParticipantListCoordinator(navigator = navigator),
+    coordinator: ParticipantListCoordinator =
+        rememberParticipantListCoordinator(navigator = navigator),
 ) {
     val uiState by coordinator.screenStateFlow.collectAsStateWithLifecycle()
 

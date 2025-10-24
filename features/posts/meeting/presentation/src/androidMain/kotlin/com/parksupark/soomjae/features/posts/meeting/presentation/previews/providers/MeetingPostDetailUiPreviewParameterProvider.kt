@@ -13,7 +13,8 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.times
 import kotlinx.collections.immutable.toImmutableList
 
-internal class MeetingPostDetailUiPreviewParameterProvider : PreviewParameterProvider<MeetingPostDetailUi> {
+internal class MeetingPostDetailUiPreviewParameterProvider :
+    PreviewParameterProvider<MeetingPostDetailUi> {
     override val values: Sequence<MeetingPostDetailUi> = postDetails.asSequence()
 }
 

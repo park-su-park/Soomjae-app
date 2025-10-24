@@ -36,7 +36,8 @@ class PostComposeViewModel(
     private val imageRepository: ImageRepository,
     private val postRepository: MemberPostRepository,
 ) : ViewModel() {
-    private val _stateFlow: MutableStateFlow<PostComposeState> = MutableStateFlow(PostComposeState())
+    private val _stateFlow: MutableStateFlow<PostComposeState> =
+        MutableStateFlow(PostComposeState())
     val stateFlow: StateFlow<PostComposeState> = _stateFlow.asStateFlow()
 
     private val eventChannel = Channel<PostComposeEvent>()
@@ -58,7 +59,8 @@ class PostComposeViewModel(
 
     fun uploadImages(platformFiles: List<PlatformFile>) {
         viewModelScope.launch(dispatcher.io) {
-            val items = platformFiles.map { async { it.toPhotoUploadItem() } }.awaitAll().toImmutableList()
+            val items =
+                platformFiles.map { async { it.toPhotoUploadItem() } }.awaitAll().toImmutableList()
             _stateFlow.update { it.copy(photos = items) }
 
             supervisorScope {

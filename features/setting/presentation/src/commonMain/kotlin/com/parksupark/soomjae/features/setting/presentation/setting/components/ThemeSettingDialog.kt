@@ -36,9 +36,21 @@ internal fun ThemeSettingDialog(
 ) {
     val themes = remember {
         listOf(
-            ThemeListItemData(ColorTheme.SYSTEM, Res.string.setting_theme_system, Icons.Outlined.BrightnessAuto),
-            ThemeListItemData(ColorTheme.LIGHT, Res.string.setting_theme_light, Icons.Outlined.LightMode),
-            ThemeListItemData(ColorTheme.DARK, Res.string.setting_theme_dark, Icons.Outlined.DarkMode),
+            ThemeListItemData(
+                ColorTheme.SYSTEM,
+                Res.string.setting_theme_system,
+                Icons.Outlined.BrightnessAuto,
+            ),
+            ThemeListItemData(
+                ColorTheme.LIGHT,
+                Res.string.setting_theme_light,
+                Icons.Outlined.LightMode,
+            ),
+            ThemeListItemData(
+                ColorTheme.DARK,
+                Res.string.setting_theme_dark,
+                Icons.Outlined.DarkMode,
+            ),
         )
     }
 

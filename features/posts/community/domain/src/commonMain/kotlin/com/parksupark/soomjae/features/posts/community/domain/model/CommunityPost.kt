@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.community.domain.models
+package com.parksupark.soomjae.features.posts.community.domain.model
 
 import com.parksupark.soomjae.core.domain.models.Member
 import kotlin.time.ExperimentalTime

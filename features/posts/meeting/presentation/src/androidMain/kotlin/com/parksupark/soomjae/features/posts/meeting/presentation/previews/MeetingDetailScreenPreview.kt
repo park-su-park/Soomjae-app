@@ -12,7 +12,8 @@ import com.parksupark.soomjae.features.posts.meeting.presentation.previews.provi
 @Composable
 @Preview
 private fun MeetingDetailScreenPreview(
-    @PreviewParameter(MeetingPostDetailUiPreviewParameterProvider::class) postUi: MeetingPostDetailUi,
+    @PreviewParameter(MeetingPostDetailUiPreviewParameterProvider::class) postUi:
+        MeetingPostDetailUi,
 ) {
     AppTheme {
         MeetingDetailScreen(

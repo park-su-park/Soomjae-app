@@ -31,7 +31,8 @@ class EmailLoginViewModel(
     private val userDataValidator: UserDataValidator,
     private val authRepository: AuthRepository,
 ) : ViewModel() {
-    val initialEmailFromNav = savedStateHandle.get<String>(AuthDestination.EmailLogin::email.name) ?: ""
+    val initialEmailFromNav =
+        savedStateHandle.get<String>(AuthDestination.EmailLogin::email.name) ?: ""
 
     private val _uiStateFlow: MutableStateFlow<EmailLoginState> = MutableStateFlow(
         EmailLoginState(inputEmail = TextFieldState(initialEmailFromNav)),

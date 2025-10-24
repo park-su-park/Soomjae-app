@@ -17,13 +17,17 @@ internal class PostCoordinator(
             PostAction.OnClick -> { // Handle action
             }
 
-            is PostAction.NavigateToCommunityDetail -> navigator.navigateToCommunityDetail(action.postId)
+            is PostAction.NavigateToCommunityDetail -> navigator.navigateToCommunityDetail(
+                action.postId,
+            )
 
             PostAction.NavigateToCommunityWrite -> navigator.navigateToCommunityWrite()
 
             PostAction.NavigateToMeetingWrite -> navigator.navigateToMeetingWrite()
 
-            is PostAction.NavigateToMeetingDetail -> navigator.navigateToMeetingDetail(action.postId)
+            is PostAction.NavigateToMeetingDetail -> navigator.navigateToMeetingDetail(
+                action.postId,
+            )
 
             PostAction.NavigateToMemberWrite -> navigator.navigateToMemberWrite()
         }

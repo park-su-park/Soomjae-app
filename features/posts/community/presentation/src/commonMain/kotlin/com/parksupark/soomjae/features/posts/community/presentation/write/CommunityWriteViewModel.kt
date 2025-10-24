@@ -9,7 +9,7 @@ import com.parksupark.soomjae.features.posts.common.domain.repositories.Category
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LocationRepository
 import com.parksupark.soomjae.features.posts.common.presentation.models.toLocationUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
-import com.parksupark.soomjae.features.posts.community.domain.repositories.CommunityRepository
+import com.parksupark.soomjae.features.posts.community.domain.repository.CommunityRepository
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -9,7 +9,8 @@ import com.parksupark.soomjae.features.auth.domain.repositories.EmailRepository
 internal class DefaultEmailRepository(
     private val remoteDataSource: KtorEmailDataSource,
 ) : EmailRepository {
-    override suspend fun sendVerificationCode(email: String): Either<DataFailure, Unit> = remoteDataSource.requestEmailVerification(email)
+    override suspend fun sendVerificationCode(email: String): Either<DataFailure, Unit> =
+        remoteDataSource.requestEmailVerification(email)
 
     override suspend fun verifyCode(
         email: String,

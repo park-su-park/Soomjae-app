@@ -7,7 +7,7 @@ import androidx.paging.map
 import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEvent
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEventController
-import com.parksupark.soomjae.features.posts.community.domain.repositories.CommunityRepository
+import com.parksupark.soomjae.features.posts.community.domain.repository.CommunityRepository
 import com.parksupark.soomjae.features.posts.community.presentation.models.toUi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,7 +25,8 @@ class CommunityTabViewModel(
     private val sessionRepository: SessionRepository,
     private val soomjaeEventController: SoomjaeEventController,
 ) : ViewModel() {
-    private val _stateFlow: MutableStateFlow<CommunityTabState> = MutableStateFlow(CommunityTabState())
+    private val _stateFlow: MutableStateFlow<CommunityTabState> =
+        MutableStateFlow(CommunityTabState())
     internal val stateFlow: StateFlow<CommunityTabState> = _stateFlow.asStateFlow()
 
     private val _eventChannel = Channel<CommunityTabEvent>()

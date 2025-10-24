@@ -34,8 +34,13 @@ fun Instant.formatRemainingTime(
     val duration = this - now // Kotlinx Duration
     val remaining = when {
         duration.isNegative() -> RemainingDateInfo.Remaining.Expired
-        duration.inWholeMinutes < 60 -> RemainingDateInfo.Remaining.Minutes(duration.inWholeMinutes.toInt())
-        duration.inWholeHours < 24 -> RemainingDateInfo.Remaining.Hours(duration.inWholeHours.toInt())
+        duration.inWholeMinutes < 60 -> RemainingDateInfo.Remaining.Minutes(
+            duration.inWholeMinutes.toInt(),
+        )
+
+        duration.inWholeHours < 24 -> RemainingDateInfo.Remaining.Hours(
+            duration.inWholeHours.toInt(),
+        )
         duration.inWholeDays < 7 -> RemainingDateInfo.Remaining.Days(duration.inWholeDays.toInt())
         else -> null
     }
@@ -85,7 +90,9 @@ fun Instant.rememberRemainingTimeText(
     }
 
     val remainingText = when (val r = info.remaining) {
-        is RemainingDateInfo.Remaining.Minutes -> Res.string.datetime_remaining_minutes.value(r.value)
+        is RemainingDateInfo.Remaining.Minutes -> Res.string.datetime_remaining_minutes.value(
+            r.value,
+        )
 
         is RemainingDateInfo.Remaining.Hours -> Res.string.datetime_remaining_hours.value(r.value)
 

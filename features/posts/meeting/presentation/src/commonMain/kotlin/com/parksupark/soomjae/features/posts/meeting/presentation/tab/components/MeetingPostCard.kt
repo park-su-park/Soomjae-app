@@ -202,7 +202,10 @@ private fun MeetingPostCardPreview() {
                 category = CategoryUi(id = 1L, name = "스터디"),
                 maxParticipantCount = 4,
                 currentParticipantCount = 2,
-                recruitmentPeriod = RecruitmentPeriodUi(startTime = Clock.System.now(), endTime = Clock.System.now().plus(5.days)),
+                recruitmentPeriod = RecruitmentPeriodUi(
+                    startTime = Clock.System.now(),
+                    endTime = Clock.System.now().plus(5.days),
+                ),
             ),
             onFavoriteClick = { },
             modifier = Modifier.fillMaxWidth(),

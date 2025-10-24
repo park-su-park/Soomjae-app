@@ -10,7 +10,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class PhotoPickerViewModel : ViewModel() {
-    private val _stateFlow: MutableStateFlow<PhotoPickerState> = MutableStateFlow(PhotoPickerState())
+    private val _stateFlow: MutableStateFlow<PhotoPickerState> =
+        MutableStateFlow(PhotoPickerState())
     val stateFlow: StateFlow<PhotoPickerState> = _stateFlow.asStateFlow()
 
     fun updateSelectedPhotos(photos: List<PlatformFile>) {

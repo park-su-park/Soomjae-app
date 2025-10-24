@@ -49,5 +49,8 @@ internal fun MeetingPostResponse.toMeetingPost(): MeetingPost = MeetingPost(
     maxParticipationCount = maxParticipantCount,
     currentParticipantCount = currentParticipantCount,
 
-    recruitmentPeriod = RecruitmentPeriod(recruitmentStartTime.toStdlibInstant(), recruitmentEndTime.toStdlibInstant()),
+    recruitmentPeriod = RecruitmentPeriod(
+        recruitmentStartTime.toStdlibInstant(),
+        recruitmentEndTime.toStdlibInstant(),
+    ),
 )

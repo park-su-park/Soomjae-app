@@ -34,9 +34,10 @@ internal class DefaultMeetingCommentRepository(
         route = "/v1/boards/meeting/posts/$postId/comments/$commentID",
     )
 
-    override suspend fun getComments(postId: Long): Either<DataFailure, List<Comment>> = httpClient.get<List<CommentResponse>>(
-        route = "/v1/boards/meeting/posts/$postId/comments",
-    ).map { responses ->
-        responses.map { it.toComment() }
-    }
+    override suspend fun getComments(postId: Long): Either<DataFailure, List<Comment>> =
+        httpClient.get<List<CommentResponse>>(
+            route = "/v1/boards/meeting/posts/$postId/comments",
+        ).map { responses ->
+            responses.map { it.toComment() }
+        }
 }

@@ -28,7 +28,9 @@ fun WriteInputContent(
             if (state.text.isEmpty()) {
                 Text(
                     text = hint,
-                    style = SoomjaeTheme.typography.body1.copy(color = SoomjaeTheme.colorScheme.text4),
+                    style = SoomjaeTheme.typography.body1.copy(
+                        color = SoomjaeTheme.colorScheme.text4,
+                    ),
                 )
             }
             innerBox()

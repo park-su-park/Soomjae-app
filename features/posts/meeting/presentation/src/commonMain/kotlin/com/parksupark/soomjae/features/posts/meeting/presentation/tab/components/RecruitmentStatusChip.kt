@@ -21,8 +21,13 @@ internal fun RecruitmentStatusChip(
     modifier: Modifier = Modifier,
 ) {
     val (backgroundColor, contentColor) = when (status) {
-        RecruitmentStatus.RECRUITING -> SoomjaeTheme.colorScheme.successContainer to SoomjaeTheme.colorScheme.onSuccessContainer
-        RecruitmentStatus.JOINED -> SoomjaeTheme.colorScheme.infoContainer to SoomjaeTheme.colorScheme.onInfoContainer
+        RecruitmentStatus.RECRUITING ->
+            SoomjaeTheme.colorScheme.successContainer to
+                SoomjaeTheme.colorScheme.onSuccessContainer
+
+        RecruitmentStatus.JOINED ->
+            SoomjaeTheme.colorScheme.infoContainer to
+                SoomjaeTheme.colorScheme.onInfoContainer
         else -> SoomjaeTheme.colorScheme.background3 to SoomjaeTheme.colorScheme.text3
     }
 

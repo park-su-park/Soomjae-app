@@ -2,8 +2,8 @@ package com.parksupark.soomjae.features.posts.community.data.paging
 
 import app.cash.paging.PagingSource
 import app.cash.paging.PagingState
-import com.parksupark.soomjae.features.posts.community.data.dtos.CommunityPostResponse
-import com.parksupark.soomjae.features.posts.community.data.sources.CommunityRemoteSource
+import com.parksupark.soomjae.features.posts.community.data.remote.dto.CommunityPostResponse
+import com.parksupark.soomjae.features.posts.community.data.remote.source.CommunityRemoteSource
 import kotlinx.io.IOException
 
 internal class CommunityPagingSource(
@@ -29,7 +29,8 @@ internal class CommunityPagingSource(
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, CommunityPostResponse>): Int? = state.anchorPosition?.let { anchorPosition ->
-        state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1) ?: 1
-    }
+    override fun getRefreshKey(state: PagingState<Int, CommunityPostResponse>): Int? =
+        state.anchorPosition?.let { anchorPosition ->
+            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1) ?: 1
+        }
 }

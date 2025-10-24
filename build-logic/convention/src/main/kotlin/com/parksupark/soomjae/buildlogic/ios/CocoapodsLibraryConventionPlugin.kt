@@ -15,7 +15,8 @@ class CocoapodsLibraryConventionPlugin : Plugin<Project> {
             }
 
             plugins.withId("org.jetbrains.kotlin.multiplatform") {
-                val kotlinExtension = extensions.findByType(KotlinMultiplatformExtension::class.java)
+                val kotlinExtension =
+                    extensions.findByType(KotlinMultiplatformExtension::class.java)
                 kotlinExtension?.apply {
                     configure<CocoapodsExtension> {
                         version = SoomjaeConfiguration.VERSION_NAME

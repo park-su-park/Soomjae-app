@@ -10,7 +10,8 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 
 class CategoryUiPreviewParametersProvider : PreviewParameterProvider<ImmutableList<CategoryUi>> {
-    override val values: Sequence<ImmutableList<CategoryUi>> = sequenceOf(categories.map { it.toUi() }.toImmutableList())
+    override val values: Sequence<ImmutableList<CategoryUi>> =
+        sequenceOf(categories.map { it.toUi() }.toImmutableList())
 }
 
 object CategoryUiPreviewParameterData {

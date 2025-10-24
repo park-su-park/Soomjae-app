@@ -99,7 +99,9 @@ private fun loadLocalProperties(
                 value = it,
             )
         } ?: run {
-            logger.warn("⚠\uFE0F w: Key '$propKey' not found in local properties for flavor '$flavor'.")
+            logger.warn(
+                "⚠\uFE0F w: Key '$propKey' not found in local properties for flavor '$flavor'.",
+            )
             null
         }
     }

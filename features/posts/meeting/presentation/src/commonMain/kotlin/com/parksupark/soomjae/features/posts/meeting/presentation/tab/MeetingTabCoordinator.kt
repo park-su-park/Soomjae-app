@@ -20,7 +20,11 @@ class MeetingTabCoordinator(
 
             is MeetingTabAction.OnWritePostClick -> viewModel.handleWritePostClick()
 
-            is MeetingTabAction.OnPostClick -> onPostAction(PostAction.NavigateToMeetingDetail(action.postId))
+            is MeetingTabAction.OnPostClick -> onPostAction(
+                PostAction.NavigateToMeetingDetail(
+                    action.postId,
+                ),
+            )
 
             is MeetingTabAction.OnPostLikeClick -> viewModel.handlePostLikeClick(action.postId)
         }

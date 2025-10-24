@@ -29,7 +29,10 @@ fun WriteInputSection(
             hint = Res.string.write_input_title_placeholder.value,
         )
 
-        SoomjaeHorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = SoomjaeTheme.colorScheme.background2)
+        SoomjaeHorizontalDivider(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            color = SoomjaeTheme.colorScheme.background2,
+        )
 
         WriteInputContent(
             state = content,

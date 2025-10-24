@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.community.data.repositories
+package com.parksupark.soomjae.features.posts.community.data.repository
 
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
@@ -10,10 +10,11 @@ import io.ktor.client.HttpClient
 internal class CommunityLikeRepository(
     private val httpClient: HttpClient,
 ) : LikeRepository {
-    override suspend fun like(postId: Long): Either<DataFailure, Unit> = httpClient.post<Unit, Unit>(
-        route = "/v1/boards/community/posts/$postId/like",
-        body = Unit,
-    )
+    override suspend fun like(postId: Long): Either<DataFailure, Unit> =
+        httpClient.post<Unit, Unit>(
+            route = "/v1/boards/community/posts/$postId/like",
+            body = Unit,
+        )
 
     override suspend fun unlike(postId: Long): Either<DataFailure, Unit> = httpClient.delete(
         route = "/v1/boards/community/posts/$postId/like",

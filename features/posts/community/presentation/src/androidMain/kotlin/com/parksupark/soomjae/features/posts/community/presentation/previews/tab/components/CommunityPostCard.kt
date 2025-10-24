@@ -15,7 +15,8 @@ import kotlinx.collections.immutable.ImmutableList
 @Preview
 @Composable
 private fun CommunityPostCardPreview(
-    @PreviewParameter(CommunityPostUiPreviewParameterProvider::class) posts: ImmutableList<CommunityPostUi>,
+    @PreviewParameter(CommunityPostUiPreviewParameterProvider::class) posts:
+        ImmutableList<CommunityPostUi>,
 ) {
     AppTheme {
         SoomjaeSurface {

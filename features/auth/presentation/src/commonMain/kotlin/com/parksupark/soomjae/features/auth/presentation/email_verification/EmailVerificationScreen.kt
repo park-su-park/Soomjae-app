@@ -86,7 +86,9 @@ internal fun EmailVerificationScreen(
         SoomjaeScaffold(
             topBar = {
                 EmailVerificationTopBar(
-                    onBackClick = { if (!state.isVerifying) onAction(EmailVerificationAction.OnClickBack) },
+                    onBackClick = {
+                        if (!state.isVerifying) onAction(EmailVerificationAction.OnClickBack)
+                    },
                     isVerifying = state.isVerifying,
                 )
             },
@@ -146,7 +148,7 @@ private fun SubmitButton(
 @Composable
 private fun EmailVerificationTopBar(
     onBackClick: () -> Unit,
-    isVerifying: Boolean
+    isVerifying: Boolean,
 ) {
     SoomjaeCenterAlignedTopAppBar(
         title = {

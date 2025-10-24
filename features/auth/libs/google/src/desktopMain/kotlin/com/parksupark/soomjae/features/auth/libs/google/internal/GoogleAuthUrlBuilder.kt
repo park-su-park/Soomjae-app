@@ -27,5 +27,6 @@ internal class GoogleAuthUrlBuilder(private val credential: GoogleAuthCredential
         return "https://accounts.google.com/o/oauth2/v2/auth?$query"
     }
 
-    private fun encodeUrl(value: String): String = URLEncoder.encode(value, StandardCharsets.UTF_8.toString())
+    private fun encodeUrl(value: String): String =
+        URLEncoder.encode(value, StandardCharsets.UTF_8.toString())
 }

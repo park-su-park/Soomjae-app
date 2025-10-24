@@ -39,7 +39,9 @@ fun MeetingWriteRoute(
         flow = coordinator.events,
     ) { event ->
         when (event) {
-            is MeetingPostWriteEvent.OnPostCreateSuccess -> navigator.navigateToMeetingDetail(event.postId)
+            is MeetingPostWriteEvent.OnPostCreateSuccess -> navigator.navigateToMeetingDetail(
+                event.postId,
+            )
 
             is MeetingPostWriteEvent.OnPostCreateFailure -> coroutineScope.launch {
                 snackbarHostState.showSnackbar(event.error)

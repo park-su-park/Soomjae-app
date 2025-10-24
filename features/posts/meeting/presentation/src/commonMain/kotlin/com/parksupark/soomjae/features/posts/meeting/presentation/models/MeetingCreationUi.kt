@@ -64,7 +64,12 @@ private fun LocalTime.truncateTo(timeUnit: DateTimeUnit.TimeBased): LocalTime = 
     DateTimeUnit.SECOND -> LocalTime(hour, minute, second)
     DateTimeUnit.MILLISECOND -> {
         // eliminate nanoseconds by converting to milliseconds and back
-        LocalTime(hour, minute, second, nanosecond / NANOSECONDS_IN_MILLISECOND * NANOSECONDS_IN_MILLISECOND)
+        LocalTime(
+            hour,
+            minute,
+            second,
+            nanosecond / NANOSECONDS_IN_MILLISECOND * NANOSECONDS_IN_MILLISECOND,
+        )
     }
 
     else -> this

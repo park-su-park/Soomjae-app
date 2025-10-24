@@ -17,7 +17,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 @Composable
 @Preview(name = "MeetingTab")
 private fun MeetingTabScreenPreview(
-    @PreviewParameter(MeetingPostUiPreviewParameterProvider::class, limit = 5) posts: ImmutableList<MeetingPostUi>,
+    @PreviewParameter(
+        MeetingPostUiPreviewParameterProvider::class,
+        limit = 5,
+    ) posts: ImmutableList<MeetingPostUi>,
 ) {
     AppTheme {
         SoomjaeSurface {

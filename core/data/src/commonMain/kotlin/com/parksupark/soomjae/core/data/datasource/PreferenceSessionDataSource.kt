@@ -19,9 +19,10 @@ internal class PreferenceSessionDataSource(
 ) : SessionDataSource {
     override suspend fun isLoggedIn(): Boolean = get() != null
 
-    override suspend fun get(): AuthInfo? = dataStore.data.first()[SessionDataStoreKey.SESSION]?.let { json ->
-        Json.decodeFromString<AuthInfoSerializable>(json).toAuthInfo()
-    }
+    override suspend fun get(): AuthInfo? =
+        dataStore.data.first()[SessionDataStoreKey.SESSION]?.let { json ->
+            Json.decodeFromString<AuthInfoSerializable>(json).toAuthInfo()
+        }
 
     override fun getAsFlow(): Flow<AuthInfo?> = dataStore.data.map { session ->
         session[SessionDataStoreKey.SESSION]?.let { json ->

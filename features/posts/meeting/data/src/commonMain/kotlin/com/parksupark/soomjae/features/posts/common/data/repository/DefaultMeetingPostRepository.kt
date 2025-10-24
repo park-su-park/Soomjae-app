@@ -36,20 +36,21 @@ internal class DefaultMeetingPostRepository(
         startAt: Instant,
         endAt: Instant,
         maxParticipants: Long,
-    ): Either<DataFailure.Network, NewPost> = httpClient.post<PostMeetingPostRequest, PostMeetingPostResponse>(
-        route = "/v1/boards/meeting/posts",
-        body = PostMeetingPostRequest(
-            title = title,
-            content = content,
-            categoryId = categoryId,
-            locationCode = locationCode,
-            startAt = startAt.toDeprecatedInstant(),
-            endAt = endAt.toDeprecatedInstant(),
-            maxParticipants = maxParticipants,
-        ),
-    ).map {
-        NewPost(it.id)
-    }
+    ): Either<DataFailure.Network, NewPost> =
+        httpClient.post<PostMeetingPostRequest, PostMeetingPostResponse>(
+            route = "/v1/boards/meeting/posts",
+            body = PostMeetingPostRequest(
+                title = title,
+                content = content,
+                categoryId = categoryId,
+                locationCode = locationCode,
+                startAt = startAt.toDeprecatedInstant(),
+                endAt = endAt.toDeprecatedInstant(),
+                maxParticipants = maxParticipants,
+            ),
+        ).map {
+            NewPost(it.id)
+        }
 
     override fun getPostsStream(): Flow<PagingData<MeetingPost>> = createPager(
         config = PagingConfig(
@@ -62,10 +63,11 @@ internal class DefaultMeetingPostRepository(
         },
     ).flow
 
-    override suspend fun getMeetingPostDetail(postId: Long): Either<DataFailure, MeetingPostDetail> =
-        httpClient.get<MeetingPostDetailResponse>(
-            route = "/v1/boards/meeting/posts/$postId",
-        ).map { meetingPostDetail ->
-            meetingPostDetail.toMeetingPostDetail()
-        }
+    override suspend fun getMeetingPostDetail(
+        postId: Long,
+    ): Either<DataFailure, MeetingPostDetail> = httpClient.get<MeetingPostDetailResponse>(
+        route = "/v1/boards/meeting/posts/$postId",
+    ).map { meetingPostDetail ->
+        meetingPostDetail.toMeetingPostDetail()
+    }
 }

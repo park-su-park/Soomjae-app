@@ -42,7 +42,10 @@ fun PreviewPhoto(
         AsyncImage(
             model = photo.localImage.bytes,
             contentDescription = null,
-            modifier = Modifier.size(width = width ?: defaultWidth, height = height ?: defaultHeight),
+            modifier = Modifier.size(
+                width = width ?: defaultWidth,
+                height = height ?: defaultHeight,
+            ),
             contentScale = ContentScale.Crop,
         )
 

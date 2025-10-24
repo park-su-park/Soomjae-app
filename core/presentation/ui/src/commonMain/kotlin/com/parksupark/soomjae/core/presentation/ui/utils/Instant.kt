@@ -33,7 +33,9 @@ fun Instant.toRelativeTimeString(
 
     return when {
         differenceInSeconds < MINUTE_IN_SECONDS -> Res.string.datetime_soon.value
-        differenceInSeconds < HOUR_IN_SECONDS -> Res.string.datetime_minutes_ago.value(differenceInSeconds / MINUTE_IN_SECONDS)
+        differenceInSeconds < HOUR_IN_SECONDS -> Res.string.datetime_minutes_ago.value(
+            differenceInSeconds / MINUTE_IN_SECONDS,
+        )
 
         else -> {
             val nowDateTime = now.toLocalDateTime(timeZone)

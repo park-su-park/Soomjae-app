@@ -9,9 +9,10 @@ import com.parksupark.soomjae.features.posts.member.domain.models.MemberPost
 internal class MemberPostPagingSource(
     private val remoteSource: RemoteMemberPostDataSource,
 ) : PagingSource<Int, MemberPost>() {
-    override fun getRefreshKey(state: PagingState<Int, MemberPost>): Int? = state.anchorPosition?.let { anchorPosition ->
-        state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1) ?: 1
-    }
+    override fun getRefreshKey(state: PagingState<Int, MemberPost>): Int? =
+        state.anchorPosition?.let { anchorPosition ->
+            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1) ?: 1
+        }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MemberPost> {
         val currentPage = params.key ?: 1

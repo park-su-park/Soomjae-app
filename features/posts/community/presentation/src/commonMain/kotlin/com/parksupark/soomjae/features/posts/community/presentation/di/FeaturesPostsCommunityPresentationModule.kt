@@ -1,8 +1,8 @@
 package com.parksupark.soomjae.features.posts.community.presentation.di
 
-import com.parksupark.soomjae.features.posts.community.domain.repositories.COMMUNITY_COMMENT_REPOSITORY
-import com.parksupark.soomjae.features.posts.community.domain.repositories.COMMUNITY_LIKE_REPOSITORY
-import com.parksupark.soomjae.features.posts.community.domain.usecases.GetCommunityPostDetailWithLikedStream
+import com.parksupark.soomjae.features.posts.community.domain.repository.COMMUNITY_COMMENT_REPOSITORY
+import com.parksupark.soomjae.features.posts.community.domain.repository.COMMUNITY_LIKE_REPOSITORY
+import com.parksupark.soomjae.features.posts.community.domain.usecase.GetCommunityPostDetailWithLikedStream
 import com.parksupark.soomjae.features.posts.community.presentation.detail.CommunityDetailViewModel
 import com.parksupark.soomjae.features.posts.community.presentation.tab.CommunityTabViewModel
 import com.parksupark.soomjae.features.posts.community.presentation.write.CommunityWriteViewModel

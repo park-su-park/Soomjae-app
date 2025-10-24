@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.community.data.dtos
+package com.parksupark.soomjae.features.posts.community.data.remote.dto
 
 import kotlinx.serialization.Serializable
 

@@ -11,15 +11,17 @@ import io.ktor.client.HttpClient
 internal class CategoryRemoteSourceImpl(
     private val httpClient: HttpClient,
 ) : CategoryRemoteSource {
-    override suspend fun getAllCategories(): Either<DataFailure.Network, Map<Long, Category>> = httpClient.get<CategoryResponse>(
-        route = "/v1/categories/all",
-    ).map { response ->
-        response.children.flatMap { category ->
-            flattenCategory(category)
-        }.associateBy { it.id }
-    }
+    override suspend fun getAllCategories(): Either<DataFailure.Network, Map<Long, Category>> =
+        httpClient.get<CategoryResponse>(
+            route = "/v1/categories/all",
+        ).map { response ->
+            response.children.flatMap { category ->
+                flattenCategory(category)
+            }.associateBy { it.id }
+        }
 
-    private fun flattenCategory(category: CategoryResponse): List<Category> = listOf(category.toDomain()) + category.children.flatMap {
-        flattenCategory(it)
-    }
+    private fun flattenCategory(category: CategoryResponse): List<Category> =
+        listOf(category.toDomain()) + category.children.flatMap {
+            flattenCategory(it)
+        }
 }

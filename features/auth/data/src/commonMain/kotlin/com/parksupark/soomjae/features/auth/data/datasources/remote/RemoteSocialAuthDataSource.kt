@@ -9,7 +9,9 @@ import io.ktor.client.HttpClient
 internal class RemoteSocialAuthDataSource(
     private val httpClient: HttpClient,
 ) {
-    suspend fun signInWithGoogle(idToken: String): Either<DataFailure.Network, SocialLoginResponse?> =
+    suspend fun signInWithGoogle(
+        idToken: String,
+    ): Either<DataFailure.Network, SocialLoginResponse?> =
         httpClient.post<Map<String, String>, SocialLoginResponse>(
             route = "/v1/oauth2/google/id-token",
             body = mapOf("idToken" to idToken),

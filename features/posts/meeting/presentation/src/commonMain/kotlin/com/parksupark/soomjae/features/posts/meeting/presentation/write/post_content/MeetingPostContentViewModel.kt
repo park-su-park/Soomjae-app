@@ -31,7 +31,8 @@ class MeetingPostContentViewModel(
     private val dispatcher: SoomjaeDispatcher,
     private val meetingPostRepository: MeetingPostRepository,
 ) : ViewModel() {
-    private val _stateFlow: MutableStateFlow<MeetingPostContentState> = MutableStateFlow(MeetingPostContentState())
+    private val _stateFlow: MutableStateFlow<MeetingPostContentState> =
+        MutableStateFlow(MeetingPostContentState())
     val stateFlow: StateFlow<MeetingPostContentState> = _stateFlow.asStateFlow()
 
     private val eventChannel = Channel<MeetingPostWriteEvent>()
@@ -43,7 +44,12 @@ class MeetingPostContentViewModel(
         val meetingFlow = _stateFlow.map { it.meeting }.distinctUntilChanged()
         val isSubmittingFlow = _stateFlow.map { it.isSubmitting }.distinctUntilChanged()
 
-        combine(titleFlow, contentFlow, meetingFlow, isSubmittingFlow) { title, content, meeting, isSubmitting ->
+        combine(
+            titleFlow,
+            contentFlow,
+            meetingFlow,
+            isSubmittingFlow,
+        ) { title, content, meeting, isSubmitting ->
             title.trim().isNotEmpty() &&
                 content.trim().isNotEmpty() &&
                 meeting != null &&
@@ -56,7 +62,8 @@ class MeetingPostContentViewModel(
     fun submitPost() {
         if (!_stateFlow.value.canSubmit) return
 
-        val meeting = _stateFlow.value.meeting ?: error("Meeting must be created before submitting a post.")
+        val meeting =
+            _stateFlow.value.meeting ?: error("Meeting must be created before submitting a post.")
         val startTime = meeting.startDate.atTime(meeting.startTime)
         val endTime = if (meeting.endDate != null && meeting.endTime != null) {
             meeting.endDate.atTime(meeting.endTime)
@@ -75,7 +82,8 @@ class MeetingPostContentViewModel(
                 locationCode = _stateFlow.value.selectedLocation?.code,
                 startAt = startTime.toInstant(timeZone),
                 endAt = endTime.toInstant(timeZone),
-                maxParticipants = meeting.inputMaxParticipantCount.text.toString().toLongOrNull() ?: 0L,
+                maxParticipants = meeting.inputMaxParticipantCount.text.toString().toLongOrNull()
+                    ?: 0L,
             ).fold(
                 ifLeft = { failure ->
                     eventChannel.send(MeetingPostWriteEvent.OnPostCreateFailure(failure.asUiText()))

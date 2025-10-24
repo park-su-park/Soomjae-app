@@ -86,8 +86,12 @@ object SoomjaeCheckboxDefaults {
         checkedColor: Color = SoomjaeTheme.colorScheme.primary,
         uncheckedColor: Color = SoomjaeTheme.colorScheme.background2,
         checkmarkColor: Color = SoomjaeTheme.colorScheme.iconW,
-        disabledCheckedColor: Color = SoomjaeTheme.colorScheme.primary.copy(alpha = DISABLED_CONTENT_OPACITY),
-        disabledUncheckedColor: Color = SoomjaeTheme.colorScheme.background2.copy(alpha = DISABLED_CONTENT_OPACITY),
+        disabledCheckedColor: Color = SoomjaeTheme.colorScheme.primary.copy(
+            alpha = DISABLED_CONTENT_OPACITY,
+        ),
+        disabledUncheckedColor: Color = SoomjaeTheme.colorScheme.background2.copy(
+            alpha = DISABLED_CONTENT_OPACITY,
+        ),
         disabledIndeterminateColor: Color = checkedColor.copy(alpha = DISABLED_CONTENT_OPACITY),
     ): CheckboxColors = CheckboxDefaults.colors(
         checkedColor = checkedColor,
