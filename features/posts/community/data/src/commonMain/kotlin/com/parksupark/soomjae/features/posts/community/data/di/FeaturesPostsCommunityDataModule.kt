@@ -30,7 +30,7 @@ private val postModule = module {
 }
 
 private val likeModule = module {
-    factory { CommunityPostLikeCache() }
+    single { CommunityPostLikeCache() }
     factoryOf(::CommunityLikeRemoteDataSource)
     single(PostsCommunityQualifier.LIKE_REPOSITORY) {
         CommunityLikeRepository(
