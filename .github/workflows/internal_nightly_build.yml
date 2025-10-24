@@ -69,7 +69,7 @@ jobs:
           build-flavor: 'internal'
 
       - name: Generate build flavored local.properties
-        uses: ./.github/actions/local-internal-properties
+        uses: ./.github/actions/local-flavor-properties
         with:
           build-flavor: 'internal'
           keystore-path: ${{ secrets.INTERNAL_KEYSTORE_PATH }}
