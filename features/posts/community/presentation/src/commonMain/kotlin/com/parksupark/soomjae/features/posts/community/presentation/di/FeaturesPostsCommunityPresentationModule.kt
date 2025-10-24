@@ -11,7 +11,14 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 private val tabModule = module {
-    viewModelOf(::CommunityTabViewModel)
+    viewModel {
+        CommunityTabViewModel(
+            postRepository = get(),
+            likeRepository = get(PostsCommunityQualifier.LIKE_REPOSITORY),
+            sessionRepository = get(),
+            soomjaeEventController = get(),
+        )
+    }
 }
 
 private val detailModule = module {

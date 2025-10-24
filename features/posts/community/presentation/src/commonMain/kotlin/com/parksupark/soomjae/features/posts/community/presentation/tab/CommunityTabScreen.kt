@@ -9,8 +9,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -34,9 +32,7 @@ internal fun CommunityTabScreen(
     onAction: (CommunityTabAction) -> Unit,
     posts: LazyPagingItems<CommunityPostUi>,
 ) {
-    val onAction by rememberUpdatedState(onAction)
-
-    LaunchedEffect(posts.loadState.refresh) {
+    LaunchedEffect(posts.loadState.refresh, onAction) {
         val refresh = posts.loadState.refresh
         if (refresh is LoadStateNotLoading && state.isPostsRefreshing) {
             onAction(CommunityTabAction.OnRefreshChange(false))

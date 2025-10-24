@@ -6,7 +6,6 @@ import androidx.compose.runtime.getValue
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.parksupark.soomjae.core.presentation.ui.ObserveAsEvents
 import com.parksupark.soomjae.features.posts.common.presentation.PostAction
-import kotlinx.coroutines.flow.map
 
 @Composable
 fun CommunityTabRoute(
@@ -15,7 +14,7 @@ fun CommunityTabRoute(
         rememberCommunityTabCoordinator(onPostAction = onPostAction),
 ) {
     val uiState by coordinator.screenStateFlow.collectAsState(CommunityTabState())
-    val posts = coordinator.screenStateFlow.map { it.posts }.collectAsLazyPagingItems()
+    val posts = coordinator.posts.collectAsLazyPagingItems()
 
     val actionsHandler: (CommunityTabAction) -> Unit = { action ->
         coordinator.handle(action)

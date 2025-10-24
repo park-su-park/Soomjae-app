@@ -2,21 +2,29 @@ package com.parksupark.soomjae.features.posts.community.data.repository
 
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
-import com.parksupark.soomjae.core.remote.networking.delete
-import com.parksupark.soomjae.core.remote.networking.post
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LikeRepository
-import io.ktor.client.HttpClient
+import com.parksupark.soomjae.features.posts.community.data.cache.CommunityPostLikeCache
+import com.parksupark.soomjae.features.posts.community.data.remote.source.CommunityLikeRemoteDataSource
 
 internal class CommunityLikeRepository(
-    private val httpClient: HttpClient,
+    private val likeCache: CommunityPostLikeCache,
+    private val remoteSource: CommunityLikeRemoteDataSource,
 ) : LikeRepository {
-    override suspend fun like(postId: Long): Either<DataFailure, Unit> =
-        httpClient.post<Unit, Unit>(
-            route = "/v1/boards/community/posts/$postId/like",
-            body = Unit,
-        )
+    override val cacheStates = likeCache.likeStates
 
-    override suspend fun unlike(postId: Long): Either<DataFailure, Unit> = httpClient.delete(
-        route = "/v1/boards/community/posts/$postId/like",
-    )
+    override suspend fun like(postId: Long): Either<DataFailure, Unit> {
+        likeCache.updateLike(postId, true)
+
+        return remoteSource.postLike(postId).onLeft {
+            likeCache.updateLike(postId, false)
+        }
+    }
+
+    override suspend fun unlike(postId: Long): Either<DataFailure, Unit> {
+        likeCache.updateLike(postId, false)
+
+        return remoteSource.deleteLike(postId).onLeft {
+            likeCache.updateLike(postId, true)
+        }
+    }
 }

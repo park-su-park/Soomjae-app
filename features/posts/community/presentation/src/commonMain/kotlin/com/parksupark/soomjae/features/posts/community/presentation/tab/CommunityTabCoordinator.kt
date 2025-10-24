@@ -12,6 +12,8 @@ class CommunityTabCoordinator(
     internal val screenStateFlow = viewModel.stateFlow
     internal val eventFlow = viewModel.eventChannel
 
+    val posts = viewModel.posts
+
     internal fun handle(action: CommunityTabAction) {
         when (action) {
             is CommunityTabAction.OnFavoriteClick -> {
