@@ -228,6 +228,7 @@ private fun RowScope.LikeButton(
                 isSelected = isLiked,
                 count = likeCount.toLong(),
             ),
+            interactionSource = interactionSource,
         )
     }
 }
