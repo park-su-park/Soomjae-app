@@ -1,10 +1,10 @@
-package com.parksupark.soomjae.features.posts.community.data.repositories
+package com.parksupark.soomjae.features.posts.community.data.repository
 
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.features.posts.common.data.like.sources.RemoteCommunityPostLikeSource
 import com.parksupark.soomjae.features.posts.common.domain.models.Like
-import com.parksupark.soomjae.features.posts.community.domain.repositories.CommunityPostLikeRepository
+import com.parksupark.soomjae.features.posts.community.domain.repository.CommunityPostLikeRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 

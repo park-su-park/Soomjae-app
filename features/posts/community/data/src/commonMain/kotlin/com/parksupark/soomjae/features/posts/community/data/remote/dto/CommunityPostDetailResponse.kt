@@ -1,9 +1,9 @@
-package com.parksupark.soomjae.features.posts.community.data.dtos
+package com.parksupark.soomjae.features.posts.community.data.remote.dto
 
 import com.parksupark.soomjae.features.posts.common.data.common.dtos.CommentResponse
 import com.parksupark.soomjae.features.posts.common.data.common.dtos.MemberResponse
 import com.parksupark.soomjae.features.posts.common.data.common.dtos.toComment
-import com.parksupark.soomjae.features.posts.community.domain.models.CommunityPostDetail
+import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPostDetail
 import kotlin.time.ExperimentalTime
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName

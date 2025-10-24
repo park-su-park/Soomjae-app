@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.community.domain.repositories
+package com.parksupark.soomjae.features.posts.community.domain.repository
 
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure

@@ -1,11 +1,11 @@
-package com.parksupark.soomjae.features.posts.community.domain.repositories
+package com.parksupark.soomjae.features.posts.community.domain.repository
 
 import app.cash.paging.PagingData
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.features.posts.common.domain.models.NewPost
-import com.parksupark.soomjae.features.posts.community.domain.models.CommunityPost
-import com.parksupark.soomjae.features.posts.community.domain.models.CommunityPostDetail
+import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPost
+import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPostDetail
 import kotlinx.coroutines.flow.Flow
 
 interface CommunityRepository {

@@ -9,7 +9,7 @@ import com.parksupark.soomjae.core.presentation.ui.utils.UiText
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CommentRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LikeRepository
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
-import com.parksupark.soomjae.features.posts.community.domain.usecases.GetCommunityPostDetailWithLikedStream
+import com.parksupark.soomjae.features.posts.community.domain.usecase.GetCommunityPostDetailWithLikedStream
 import com.parksupark.soomjae.features.posts.community.presentation.models.toDetailUi
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.channels.Channel

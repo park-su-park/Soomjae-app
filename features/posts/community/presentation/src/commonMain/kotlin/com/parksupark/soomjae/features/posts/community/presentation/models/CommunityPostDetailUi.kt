@@ -2,8 +2,8 @@ package com.parksupark.soomjae.features.posts.community.presentation.models
 
 import com.parksupark.soomjae.features.posts.common.presentation.models.CommentUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
-import com.parksupark.soomjae.features.posts.community.domain.models.CommunityPostDetail
-import com.parksupark.soomjae.features.posts.community.domain.models.CommunityPostDetailWithLiked
+import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPostDetail
+import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPostDetailWithLiked
 import kotlin.time.ExperimentalTime
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList

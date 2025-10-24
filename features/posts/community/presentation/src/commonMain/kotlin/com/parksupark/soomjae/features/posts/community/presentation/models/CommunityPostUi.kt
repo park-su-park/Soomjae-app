@@ -5,7 +5,7 @@ import com.parksupark.soomjae.core.presentation.ui.utils.toRelativeTimeString
 import com.parksupark.soomjae.features.posts.common.presentation.models.AuthorUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
-import com.parksupark.soomjae.features.posts.community.domain.models.CommunityPost
+import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPost
 import kotlin.random.Random
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant

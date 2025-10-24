@@ -1,11 +1,11 @@
-package com.parksupark.soomjae.features.posts.community.domain.usecases
+package com.parksupark.soomjae.features.posts.community.domain.usecase
 
 import arrow.core.Either
 import arrow.core.raise.either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
-import com.parksupark.soomjae.features.posts.community.domain.models.CommunityPostDetailWithLiked
-import com.parksupark.soomjae.features.posts.community.domain.repositories.CommunityPostLikeRepository
-import com.parksupark.soomjae.features.posts.community.domain.repositories.CommunityRepository
+import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPostDetailWithLiked
+import com.parksupark.soomjae.features.posts.community.domain.repository.CommunityPostLikeRepository
+import com.parksupark.soomjae.features.posts.community.domain.repository.CommunityRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 

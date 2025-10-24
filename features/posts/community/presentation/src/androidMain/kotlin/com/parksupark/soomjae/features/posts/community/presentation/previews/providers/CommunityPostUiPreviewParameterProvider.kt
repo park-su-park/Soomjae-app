@@ -2,7 +2,7 @@ package com.parksupark.soomjae.features.posts.community.presentation.previews.pr
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.parksupark.soomjae.core.presentation.ui.previews.proviers.MemberPreviewParameterData
-import com.parksupark.soomjae.features.posts.community.domain.models.CommunityPost
+import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPost
 import com.parksupark.soomjae.features.posts.community.presentation.models.CommunityPostUi
 import com.parksupark.soomjae.features.posts.community.presentation.models.toUi
 import kotlin.time.ExperimentalTime
