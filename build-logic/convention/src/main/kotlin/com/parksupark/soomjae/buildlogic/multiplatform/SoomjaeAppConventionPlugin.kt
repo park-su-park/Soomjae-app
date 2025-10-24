@@ -94,7 +94,7 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
         signingConfigs {
             getByName("debug") {
                 val props = with(project) {
-                    loadProperties("debug")
+                    loadProperties("dev")
                 }
 
                 props["keystorePath", "KEYSTORE_PATH"]?.let {
@@ -106,12 +106,12 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
                     }
                 }
             }
-            register("internal") {
+            create("internal") {
                 val props = with(project) {
                     loadProperties("internal")
                 }
 
-                props["keystorePath", "KEYSTORE_PATH"]?.let {
+                props["keystore.path", "KEYSTORE_PATH"]?.let {
                     val file = project.rootProject.file(it)
                     if (file.exists()) {
                         storeFile = file
@@ -119,13 +119,13 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
                         logger.warn(KEYSTORE_FILE_NOT_FOUND)
                     }
                 }
-                props["keystorePassword", "KEYSTORE_PASSWORD"]?.let {
+                props["keystore.password", "KEYSTORE_PASSWORD"]?.let {
                     storePassword = it
                 }
-                props["keyAlias", "KEY_ALIAS"]?.let {
+                props["key.alias", "KEY_ALIAS"]?.let {
                     keyAlias = it
                 }
-                props["keyPassword", "KEY_PASSWORD"]?.let {
+                props["key.password", "KEY_PASSWORD"]?.let {
                     keyPassword = it
                 }
             }
