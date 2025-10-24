@@ -25,6 +25,6 @@ sealed interface CommunityDetailAction {
     data object OnSendCommentClick : CommunityDetailAction
 }
 
-internal sealed interface CommunityDetailEvent {
+sealed interface CommunityDetailEvent {
     data class Error(val message: UiText) : CommunityDetailEvent
 }

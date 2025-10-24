@@ -1,6 +1,7 @@
 package com.parksupark.soomjae.features.posts.common.presentation.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
@@ -13,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
+import com.parksupark.soomjae.core.presentation.ui.utils.applyIf
 import com.parksupark.soomjae.features.posts.common.presentation.models.PostActionType
 import com.parksupark.soomjae.features.posts.common.presentation.models.PostActionUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.resolveVisuals
@@ -21,14 +23,20 @@ import com.parksupark.soomjae.features.posts.common.presentation.models.resolveV
 fun PostActionItem(
     action: PostActionUi,
     modifier: Modifier = Modifier,
+    interactionSource: MutableInteractionSource? = null,
 ) {
     val (icon: ImageVector, tint: Color) = action.type.resolveVisuals(action.isSelected)
 
     Row(
-        modifier = modifier
-            .clickable(enabled = action.isEnabled && action.onClick != null) {
-                action.onClick?.invoke()
-            },
+        modifier = modifier.applyIf(action.onClick != null) {
+            clickable(
+                enabled = action.isEnabled,
+                interactionSource = interactionSource,
+                onClick = {
+                    action.onClick?.invoke()
+                },
+            )
+        },
         horizontalArrangement = Arrangement.spacedBy(6.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {

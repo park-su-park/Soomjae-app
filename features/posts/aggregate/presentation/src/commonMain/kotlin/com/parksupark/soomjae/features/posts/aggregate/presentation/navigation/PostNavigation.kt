@@ -13,6 +13,7 @@ import androidx.navigation.toRoute
 import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationDestination
 import com.parksupark.soomjae.features.posts.aggregate.presentation.post.PostRoute
 import com.parksupark.soomjae.features.posts.community.presentation.detail.CommunityDetailRoute
+import com.parksupark.soomjae.features.posts.community.presentation.navigation.CommunityDestination
 import com.parksupark.soomjae.features.posts.community.presentation.write.CommunityWriteRoute
 import com.parksupark.soomjae.features.posts.meeting.presentation.detail.MeetingDetailRoute
 import com.parksupark.soomjae.features.posts.meeting.presentation.detail.MeetingDetailViewModel
@@ -38,11 +39,6 @@ sealed interface PostDestination : NavigationDestination {
     data object CommunityWrite : PostDestination
 
     @Serializable
-    data class CommunityDetail(
-        val postId: Long,
-    ) : PostDestination
-
-    @Serializable
     data object MeetingWrite : PostDestination
 
     @Serializable
@@ -66,7 +62,7 @@ fun NavGraphBuilder.postGraph(
         composable<PostDestination.CommunityWrite> {
             CommunityWriteRoute(navigator = navigator)
         }
-        composable<PostDestination.CommunityDetail> {
+        composable<CommunityDestination.CommunityDetail> {
             CommunityDetailRoute(navigator = navigator)
         }
 
@@ -120,7 +116,7 @@ fun NavHostController.navigateToCommunityWrite() {
 }
 
 fun NavHostController.navigateToCommunityDetail(postId: Long) {
-    navigate(PostDestination.CommunityDetail(postId)) {
+    navigate(CommunityDestination.CommunityDetail(postId)) {
         popUpTo<PostDestination.Post> {
             inclusive = false
         }
