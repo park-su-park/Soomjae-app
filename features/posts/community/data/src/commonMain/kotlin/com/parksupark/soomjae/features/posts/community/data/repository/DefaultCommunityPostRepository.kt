@@ -12,14 +12,14 @@ import com.parksupark.soomjae.features.posts.community.data.remote.dto.toModel
 import com.parksupark.soomjae.features.posts.community.data.remote.source.CommunityRemoteSource
 import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPost
 import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPostDetail
-import com.parksupark.soomjae.features.posts.community.domain.repository.CommunityRepository
+import com.parksupark.soomjae.features.posts.community.domain.repository.CommunityPostRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
-internal class CommunityRepositoryImpl(
+internal class DefaultCommunityPostRepository(
     private val remoteSource: CommunityRemoteSource,
-) : CommunityRepository {
+) : CommunityPostRepository {
     override suspend fun createPost(
         title: String,
         content: String,
