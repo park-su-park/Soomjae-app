@@ -57,7 +57,7 @@ internal fun CommunityDetailScreen(
             // Handle error state, e.g., show a snackbar or dialog
         }
 
-        is CommunityDetailState.InitialLoading -> Box {
+        is CommunityDetailState.InitialLoading -> Box(modifier = Modifier.fillMaxSize()) {
             SoomjaeCircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
         }
 

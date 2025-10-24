@@ -16,10 +16,6 @@ class CommunityTabCoordinator(
 
     internal fun handle(action: CommunityTabAction) {
         when (action) {
-            is CommunityTabAction.OnFavoriteClick -> {
-                // TODO
-            }
-
             is CommunityTabAction.OnPostClick -> onPostAction(
                 PostAction.NavigateToCommunityDetail(
                     postId = action.postId,
