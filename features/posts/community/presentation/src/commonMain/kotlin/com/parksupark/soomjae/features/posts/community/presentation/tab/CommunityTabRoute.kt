@@ -6,6 +6,9 @@ import androidx.compose.runtime.getValue
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.parksupark.soomjae.core.presentation.ui.ObserveAsEvents
 import com.parksupark.soomjae.features.posts.common.presentation.PostAction
+import com.parksupark.soomjae.features.posts.community.presentation.tab.post.CommunityTabPostAction
+import com.parksupark.soomjae.features.posts.community.presentation.tab.post.CommunityTabPostEvent
+import com.parksupark.soomjae.features.posts.community.presentation.tab.post.CommunityTabPostState
 
 @Composable
 fun CommunityTabRoute(
@@ -13,10 +16,10 @@ fun CommunityTabRoute(
     coordinator: CommunityTabCoordinator =
         rememberCommunityTabCoordinator(onPostAction = onPostAction),
 ) {
-    val uiState by coordinator.screenStateFlow.collectAsState(CommunityTabState())
+    val uiState by coordinator.screenStateFlow.collectAsState(CommunityTabPostState())
     val posts = coordinator.posts.collectAsLazyPagingItems()
 
-    val actionsHandler: (CommunityTabAction) -> Unit = { action ->
+    val actionsHandler: (CommunityTabPostAction) -> Unit = { action ->
         coordinator.handle(action)
     }
 
@@ -24,12 +27,12 @@ fun CommunityTabRoute(
         flow = coordinator.eventFlow,
     ) { event ->
         when (event) {
-            CommunityTabEvent.RefreshPosts -> {
-                actionsHandler(CommunityTabAction.OnRefreshChange(true))
+            CommunityTabPostEvent.RefreshPosts -> {
+                actionsHandler(CommunityTabPostAction.OnRefreshChange(true))
                 posts.refresh()
             }
 
-            CommunityTabEvent.NavigateToCommunityWrite -> onPostAction(
+            CommunityTabPostEvent.NavigateToCommunityWrite -> onPostAction(
                 PostAction.NavigateToCommunityWrite,
             )
         }

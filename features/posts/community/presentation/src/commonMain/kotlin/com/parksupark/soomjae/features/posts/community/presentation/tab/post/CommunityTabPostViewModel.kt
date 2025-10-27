@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.community.presentation.tab
+package com.parksupark.soomjae.features.posts.community.presentation.tab.post
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -23,17 +23,17 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class CommunityTabViewModel(
+class CommunityTabPostViewModel(
     private val postRepository: CommunityPostRepository,
     private val sessionRepository: SessionRepository,
     private val soomjaeEventController: SoomjaeEventController,
 ) : ViewModel() {
-    private val _stateFlow: MutableStateFlow<CommunityTabState> =
-        MutableStateFlow(CommunityTabState())
-    internal val stateFlow: StateFlow<CommunityTabState> = _stateFlow.asStateFlow()
+    private val _stateFlow: MutableStateFlow<CommunityTabPostState> =
+        MutableStateFlow(CommunityTabPostState())
+    val stateFlow: StateFlow<CommunityTabPostState> = _stateFlow.asStateFlow()
 
-    private val _eventChannel = Channel<CommunityTabEvent>()
-    internal val eventChannel = _eventChannel.receiveAsFlow()
+    private val _eventChannel = Channel<CommunityTabPostEvent>()
+    val eventChannel = _eventChannel.receiveAsFlow()
 
     val posts: Flow<PagingData<CommunityPostUi>> = postRepository.getAllPosts()
         .cachedIn(viewModelScope)
@@ -52,7 +52,7 @@ class CommunityTabViewModel(
     fun handleCommunityWriteClick() {
         viewModelScope.launch {
             if (sessionRepository.isLoggedIn()) {
-                _eventChannel.send(CommunityTabEvent.NavigateToCommunityWrite)
+                _eventChannel.send(CommunityTabPostEvent.NavigateToCommunityWrite)
             } else {
                 soomjaeEventController.sendEvent(SoomjaeEvent.LoginRequest)
             }
@@ -61,7 +61,7 @@ class CommunityTabViewModel(
 
     fun refreshPosts() = viewModelScope.launch {
         postRepository.clearPatched()
-        _eventChannel.send(CommunityTabEvent.RefreshPosts)
+        _eventChannel.send(CommunityTabPostEvent.RefreshPosts)
     }
 
     fun setRefreshing(isRefreshing: Boolean) {

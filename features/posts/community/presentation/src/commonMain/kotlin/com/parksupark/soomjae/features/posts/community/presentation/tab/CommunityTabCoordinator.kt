@@ -3,30 +3,34 @@ package com.parksupark.soomjae.features.posts.community.presentation.tab
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import com.parksupark.soomjae.features.posts.common.presentation.PostAction
+import com.parksupark.soomjae.features.posts.community.presentation.tab.post.CommunityTabPostAction
+import com.parksupark.soomjae.features.posts.community.presentation.tab.post.CommunityTabPostViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 class CommunityTabCoordinator(
     private val onPostAction: (PostAction) -> Unit,
-    private val viewModel: CommunityTabViewModel,
+    private val viewModel: CommunityTabPostViewModel,
 ) {
-    internal val screenStateFlow = viewModel.stateFlow
-    internal val eventFlow = viewModel.eventChannel
+    val screenStateFlow = viewModel.stateFlow
+    val eventFlow = viewModel.eventChannel
 
     val posts = viewModel.posts
 
-    internal fun handle(action: CommunityTabAction) {
+    internal fun handle(action: CommunityTabPostAction) {
         when (action) {
-            is CommunityTabAction.OnPostClick -> onPostAction(
+            is CommunityTabPostAction.OnPostClick -> onPostAction(
                 PostAction.NavigateToCommunityDetail(
                     postId = action.postId,
                 ),
             )
 
-            is CommunityTabAction.OnCommunityWriteClick -> viewModel.handleCommunityWriteClick()
+            is CommunityTabPostAction.OnCommunityWriteClick -> viewModel.handleCommunityWriteClick()
 
-            is CommunityTabAction.OnPullToRefresh -> viewModel.refreshPosts()
+            is CommunityTabPostAction.OnPullToRefresh -> viewModel.refreshPosts()
 
-            is CommunityTabAction.OnRefreshChange -> viewModel.setRefreshing(action.isRefreshing)
+            is CommunityTabPostAction.OnRefreshChange -> viewModel.setRefreshing(
+                action.isRefreshing,
+            )
         }
     }
 }
@@ -34,7 +38,7 @@ class CommunityTabCoordinator(
 @Composable
 internal fun rememberCommunityTabCoordinator(
     onPostAction: (PostAction) -> Unit,
-    viewModel: CommunityTabViewModel = koinViewModel(),
+    viewModel: CommunityTabPostViewModel = koinViewModel(),
 ): CommunityTabCoordinator = remember(viewModel) {
     CommunityTabCoordinator(
         onPostAction = onPostAction,

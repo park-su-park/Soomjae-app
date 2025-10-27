@@ -24,18 +24,20 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeS
 import com.parksupark.soomjae.features.posts.common.presentation.components.WritePostFab
 import com.parksupark.soomjae.features.posts.community.presentation.models.CommunityPostUi
 import com.parksupark.soomjae.features.posts.community.presentation.tab.components.CommunityPostCard
+import com.parksupark.soomjae.features.posts.community.presentation.tab.post.CommunityTabPostAction
+import com.parksupark.soomjae.features.posts.community.presentation.tab.post.CommunityTabPostState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun CommunityTabScreen(
-    state: CommunityTabState,
-    onAction: (CommunityTabAction) -> Unit,
+    state: CommunityTabPostState,
+    onAction: (CommunityTabPostAction) -> Unit,
     posts: LazyPagingItems<CommunityPostUi>,
 ) {
     LaunchedEffect(posts.loadState.refresh, onAction) {
         val refresh = posts.loadState.refresh
         if (refresh is LoadStateNotLoading && state.isPostsRefreshing) {
-            onAction(CommunityTabAction.OnRefreshChange(false))
+            onAction(CommunityTabPostAction.OnRefreshChange(false))
         }
     }
 
@@ -44,7 +46,7 @@ internal fun CommunityTabScreen(
 
         SoomjaePullToRefreshBox(
             isRefreshing = isRefreshing,
-            onRefresh = { onAction(CommunityTabAction.OnPullToRefresh) },
+            onRefresh = { onAction(CommunityTabPostAction.OnPullToRefresh) },
             modifier = Modifier.fillMaxSize(),
         ) {
             LazyColumn(
@@ -67,7 +69,7 @@ internal fun CommunityTabScreen(
                                 post = post,
                                 modifier = Modifier.fillMaxWidth()
                                     .clickable {
-                                        onAction(CommunityTabAction.OnPostClick(post.id))
+                                        onAction(CommunityTabPostAction.OnPostClick(post.id))
                                     },
                             )
                             SoomjaeHorizontalDivider()
@@ -78,7 +80,7 @@ internal fun CommunityTabScreen(
 
             WritePostFab(
                 modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 8.dp),
-                onClick = { onAction(CommunityTabAction.OnCommunityWriteClick) },
+                onClick = { onAction(CommunityTabPostAction.OnCommunityWriteClick) },
             )
         }
     }
