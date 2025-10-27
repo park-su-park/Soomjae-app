@@ -1,6 +1,7 @@
 package com.parksupark.soomjae.core.presentation.designsystem.theme
 
 import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.SelectableChipColors
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 
@@ -41,7 +42,9 @@ data class SoomjaeColors(
     val ctaTertiaryHover: Color,
     val ctaTertiaryText: Color,
     val ctaTertiaryStroke: Color,
-)
+) {
+    internal var defaultFilterChipColorsCached: SelectableChipColors? = null
+}
 
 internal val LightColorPalette = SoomjaeColors(
     primary = Blue500,
