@@ -97,7 +97,7 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
                     loadProperties("dev")
                 }
 
-                props["keystorePath", "KEYSTORE_PATH"]?.let {
+                props["keystore.path", "KEYSTORE_PATH"]?.let {
                     val file = project.rootProject.file(it)
                     if (file.exists()) {
                         storeFile = file
