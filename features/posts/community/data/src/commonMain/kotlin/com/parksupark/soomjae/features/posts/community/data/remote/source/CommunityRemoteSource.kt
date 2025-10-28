@@ -7,7 +7,11 @@ import com.parksupark.soomjae.features.posts.community.data.remote.dto.Community
 import com.parksupark.soomjae.features.posts.community.data.remote.dto.CreateCommunityPostResponse
 
 internal interface CommunityRemoteSource {
-    suspend fun getPosts(page: Int): Either<DataFailure.Network, List<CommunityPostResponse>>
+    suspend fun getPosts(
+        page: Int,
+        categoryIds: List<Long>,
+        locationCodes: List<Long>,
+    ): Either<DataFailure.Network, List<CommunityPostResponse>>
 
     suspend fun postPost(
         title: String,

@@ -12,13 +12,16 @@ import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEventContr
 import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPostPatch
 import com.parksupark.soomjae.features.posts.community.domain.repository.CommunityPostRepository
 import com.parksupark.soomjae.features.posts.community.presentation.models.CommunityPostUi
+import com.parksupark.soomjae.features.posts.community.presentation.models.CommunityFilterOption
 import com.parksupark.soomjae.features.posts.community.presentation.models.toUi
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -47,7 +50,7 @@ class CommunityTabPostViewModel(
                     else -> post.toUi()
                 }
             }
-        }
+    }
 
     fun handleCommunityWriteClick() {
         viewModelScope.launch {
@@ -66,5 +69,9 @@ class CommunityTabPostViewModel(
 
     fun setRefreshing(isRefreshing: Boolean) {
         _stateFlow.update { it.copy(isPostsRefreshing = isRefreshing) }
+    }
+
+    fun updateFilter(filterOption: CommunityFilterOption) {
+        filterState.update { filterOption }
     }
 }

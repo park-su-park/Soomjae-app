@@ -8,12 +8,18 @@ import kotlinx.io.IOException
 
 internal class CommunityPagingSource(
     private val remoteSource: CommunityRemoteSource,
+    private val categoryIds: List<Long> = emptyList(),
+    private val locationCodes: List<Long> = emptyList(),
 ) : PagingSource<Int, CommunityPostResponse>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CommunityPostResponse> {
         val currentPage = params.key ?: 1
 
         return try {
-            val response = remoteSource.getPosts(currentPage)
+            val response = remoteSource.getPosts(
+                page = currentPage,
+                categoryIds = categoryIds,
+                locationCodes = locationCodes,
+            )
             response.fold(
                 ifLeft = { failure -> LoadResult.Error(Exception(failure.toString())) },
                 ifRight = { posts ->

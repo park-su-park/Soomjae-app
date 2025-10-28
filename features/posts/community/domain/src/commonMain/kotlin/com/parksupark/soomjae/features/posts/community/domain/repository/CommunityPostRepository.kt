@@ -20,6 +20,11 @@ interface CommunityPostRepository {
 
     fun getAllPosts(): Flow<PagingData<CommunityPost>>
 
+    fun getAllPosts(
+        categoryIds: List<Long>,
+        locationCodes: List<Long>,
+    ): Flow<PagingData<CommunityPost>>
+
     suspend fun getPostDetails(postId: Long): Either<DataFailure.Network, CommunityPostDetail>
 
     fun postDetailStream(postId: Long): Flow<Either<DataFailure.Network, CommunityPostDetail>>

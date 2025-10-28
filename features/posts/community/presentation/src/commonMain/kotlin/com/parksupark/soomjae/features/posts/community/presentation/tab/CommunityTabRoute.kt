@@ -1,14 +1,12 @@
 package com.parksupark.soomjae.features.posts.community.presentation.tab
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.parksupark.soomjae.core.presentation.ui.ObserveAsEvents
 import com.parksupark.soomjae.features.posts.common.presentation.PostAction
-import com.parksupark.soomjae.features.posts.community.presentation.tab.post.CommunityTabPostAction
 import com.parksupark.soomjae.features.posts.community.presentation.tab.post.CommunityTabPostEvent
-import com.parksupark.soomjae.features.posts.community.presentation.tab.post.CommunityTabPostState
 
 @Composable
 fun CommunityTabRoute(
@@ -16,10 +14,10 @@ fun CommunityTabRoute(
     coordinator: CommunityTabCoordinator =
         rememberCommunityTabCoordinator(onPostAction = onPostAction),
 ) {
-    val uiState by coordinator.screenStateFlow.collectAsState(CommunityTabPostState())
+    val uiState by coordinator.screenStateFlow.collectAsStateWithLifecycle(CommunityTabState())
     val posts = coordinator.posts.collectAsLazyPagingItems()
 
-    val actionsHandler: (CommunityTabPostAction) -> Unit = { action ->
+    val actionsHandler: (CommunityTabAction) -> Unit = { action ->
         coordinator.handle(action)
     }
 
@@ -28,7 +26,7 @@ fun CommunityTabRoute(
     ) { event ->
         when (event) {
             CommunityTabPostEvent.RefreshPosts -> {
-                actionsHandler(CommunityTabPostAction.OnRefreshChange(true))
+                actionsHandler(CommunityTabAction.RefreshChange(true))
                 posts.refresh()
             }
 
