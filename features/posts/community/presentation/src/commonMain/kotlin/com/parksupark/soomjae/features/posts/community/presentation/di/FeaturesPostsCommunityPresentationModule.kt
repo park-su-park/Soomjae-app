@@ -26,7 +26,8 @@ private val detailModule = module {
     viewModel {
         CommunityDetailViewModel(
             savedStateHandle = get(),
-            getPostWithLikedStream = get(),
+            dispatcher = get(),
+            postRepository = get(),
             commentRepository = get(PostsCommunityQualifier.COMMENT_REPOSITORY),
             likeRepository = get(PostsCommunityQualifier.LIKE_REPOSITORY),
         )

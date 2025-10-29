@@ -27,3 +27,11 @@ internal fun CommunityPostDetailWithLiked.toDetailUi(): CommunityPostDetailUi =
         commentCount = this.postDetail.comments.count(),
         comments = this.postDetail.comments.map { it.toUi() }.toImmutableList(),
     )
+
+internal fun CommunityPostDetail.toDetailUi(): CommunityPostDetailUi = CommunityPostDetailUi(
+    post = this.post.toUi(),
+    isLiked = this.post.isUserLiked,
+    likeCount = this.post.likeCount,
+    commentCount = this.comments.count(),
+    comments = this.comments.map { it.toUi() }.toImmutableList(),
+)

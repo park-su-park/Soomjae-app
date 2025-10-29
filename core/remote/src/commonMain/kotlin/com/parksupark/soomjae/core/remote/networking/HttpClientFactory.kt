@@ -55,6 +55,9 @@ internal class HttpClientFactory(
                     }
                 }
                 refreshTokens {
+                    val currentInfo = sessionRepository.get()
+                    if (currentInfo == null) return@refreshTokens null
+
                     client.post<Unit, RefreshTokenResponse>(
                         route = "/v1/auth/refresh",
                         body = Unit,
@@ -66,12 +69,9 @@ internal class HttpClientFactory(
                         ifRight = {
                             Kermit.d(HTTPCLIENT_AUTH_TAG) { "Successfully refreshed token" }
                             val newAccessToken = it.accessToken
-                            val currentInfo = sessionRepository.get()
-                            if (currentInfo != null) {
-                                sessionRepository.set(
-                                    currentInfo.copy(accessToken = newAccessToken),
-                                )
-                            }
+                            sessionRepository.set(
+                                currentInfo.copy(accessToken = newAccessToken),
+                            )
                             BearerTokens(
                                 accessToken = newAccessToken,
                                 refreshToken = null,
