@@ -5,11 +5,11 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
+import com.parksupark.soomjae.core.common.coroutines.SoomjaeDispatcher
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CommentRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LikeRepository
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
-import com.parksupark.soomjae.features.posts.community.domain.usecase.GetCommunityPostDetailWithLikedStream
+import com.parksupark.soomjae.features.posts.community.domain.repository.CommunityPostRepository
 import com.parksupark.soomjae.features.posts.community.presentation.models.toDetailUi
 import com.parksupark.soomjae.features.posts.community.presentation.navigation.CommunityDestination
 import kotlinx.collections.immutable.toImmutableList
@@ -17,8 +17,6 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -27,7 +25,8 @@ import kotlinx.coroutines.launch
 
 class CommunityDetailViewModel(
     savedStateHandle: SavedStateHandle,
-    private val getPostWithLikedStream: GetCommunityPostDetailWithLikedStream,
+    private val dispatcher: SoomjaeDispatcher,
+    private val postRepository: CommunityPostRepository,
     private val commentRepository: CommentRepository,
     private val likeRepository: LikeRepository,
 ) : ViewModel() {
@@ -48,22 +47,19 @@ class CommunityDetailViewModel(
     val eventChannel = _eventChannel.receiveAsFlow()
 
     private fun fetchPostDetails(postId: Long) {
-        getPostWithLikedStream(postId).onEach { result ->
-            result.fold(
-                ifLeft = { error ->
-                    _uiStateFlow.update {
-                        CommunityDetailState.Error(error.asUiText())
-                    }
-                },
-                ifRight = { post ->
+        viewModelScope.launch(dispatcher.io) {
+            postRepository.getPostDetails(postId).fold(
+                ifLeft = { },
+                ifRight = { postDetail ->
                     _uiStateFlow.update {
                         CommunityDetailState.Success(
-                            postDetail = post.toDetailUi(),
+                            postDetail = postDetail.toDetailUi(),
+                            inputCommentState = TextFieldState(),
                         )
                     }
                 },
             )
-        }.launchIn(viewModelScope)
+        }
     }
 
     fun toggleLike() {
