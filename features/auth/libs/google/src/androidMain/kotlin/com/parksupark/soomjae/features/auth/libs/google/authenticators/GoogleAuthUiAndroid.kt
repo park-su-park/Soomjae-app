@@ -5,6 +5,8 @@ import androidx.credentials.Credential
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
+import androidx.credentials.exceptions.GetCredentialCancellationException
+import androidx.credentials.exceptions.GetCredentialCustomException
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.credentials.exceptions.NoCredentialException
 import arrow.core.Either
@@ -47,14 +49,22 @@ internal class GoogleAuthUiAndroid(
             } else {
                 Either.Left(DataFailure.Credential.INVALID)
             }
-        } catch (e: NoCredentialException) {
-            Logger.e(TAG, e) { "No credentials found in device." }
-
-            return requestForLogin()
         } catch (e: GetCredentialException) {
-            Logger.e(TAG, e) { "GetCredentialException" }
+            Logger.e(TAG, e) { "Failure getting credentials" }
 
             Either.Left(DataFailure.Credential.UNKNOWN)
+        } catch (e: NoCredentialException) {
+            Logger.e(TAG, e) { "No credentials found in device... Request for login" }
+
+            requestForLogin()
+        } catch (e: GetCredentialCustomException) {
+            Logger.e(TAG, e) { "Issue with custom credential request" }
+
+            Either.Left(DataFailure.Credential.UNKNOWN)
+        } catch (e: GetCredentialCancellationException) {
+            Logger.e(TAG, e) { "Sign-in was cancelled" }
+
+            Either.Left(DataFailure.Credential.CANCELLED)
         } catch (e: Exception) {
             Logger.e(TAG, e) { "An unexpected error occurred while getting Google ID token." }
 

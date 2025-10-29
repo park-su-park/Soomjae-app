@@ -28,9 +28,12 @@ internal class LoginViewModel(
 
     fun handleGoogleLoginResult(result: Either<DataFailure.Credential, GoogleUser>) {
         result.fold(
-            ifLeft = {
-                Logger.e(TAG) { "Google Login Failed: $it" }
-                eventChannel.trySend(LoginEvent.Error(it.asUiText()))
+            ifLeft = { failure ->
+                Logger.e(TAG) { "Google Login Failed: $failure" }
+
+                if (failure != DataFailure.Credential.CANCELLED) {
+                    eventChannel.trySend(LoginEvent.Error(failure.asUiText()))
+                }
             },
             ifRight = { user ->
                 viewModelScope.launch(Dispatchers.IO) {
