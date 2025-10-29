@@ -49,10 +49,6 @@ internal class GoogleAuthUiAndroid(
             } else {
                 Either.Left(DataFailure.Credential.INVALID)
             }
-        } catch (e: GetCredentialException) {
-            Logger.e(TAG, e) { "Failure getting credentials" }
-
-            Either.Left(DataFailure.Credential.UNKNOWN)
         } catch (e: NoCredentialException) {
             Logger.e(TAG, e) { "No credentials found in device... Request for login" }
 
@@ -65,6 +61,10 @@ internal class GoogleAuthUiAndroid(
             Logger.e(TAG, e) { "Sign-in was cancelled" }
 
             Either.Left(DataFailure.Credential.CANCELLED)
+        } catch (e: GetCredentialException) {
+            Logger.e(TAG, e) { "Failure getting credentials" }
+
+            Either.Left(DataFailure.Credential.UNKNOWN)
         } catch (e: Exception) {
             Logger.e(TAG, e) { "An unexpected error occurred while getting Google ID token." }
 
