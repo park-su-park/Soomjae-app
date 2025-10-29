@@ -22,6 +22,7 @@ sealed interface DataFailure : Failure {
     enum class Credential : DataFailure {
         NOT_FOUND,
         INVALID,
+        CANCELLED,
         UNKNOWN,
         PORT_UNAVAILABLE,
     }
