@@ -14,7 +14,6 @@ private val tabModule = module {
     viewModel {
         CommunityTabViewModel(
             postRepository = get(),
-            likeRepository = get(PostsCommunityQualifier.LIKE_REPOSITORY),
             sessionRepository = get(),
             soomjaeEventController = get(),
         )

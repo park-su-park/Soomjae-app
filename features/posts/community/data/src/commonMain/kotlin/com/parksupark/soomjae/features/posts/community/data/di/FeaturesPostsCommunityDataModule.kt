@@ -2,7 +2,7 @@ package com.parksupark.soomjae.features.posts.community.data.di
 
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CommentRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LikeRepository
-import com.parksupark.soomjae.features.posts.community.data.cache.CommunityPostLikeCache
+import com.parksupark.soomjae.features.posts.community.data.cache.CommunityPostPatchCache
 import com.parksupark.soomjae.features.posts.community.data.remote.source.CommunityLikeRemoteDataSource
 import com.parksupark.soomjae.features.posts.community.data.remote.source.CommunityRemoteSource
 import com.parksupark.soomjae.features.posts.community.data.remote.source.CommunityRemoteSourceImpl
@@ -30,11 +30,11 @@ private val postModule = module {
 }
 
 private val likeModule = module {
-    single { CommunityPostLikeCache() }
+    single { CommunityPostPatchCache() }
     factoryOf(::CommunityLikeRemoteDataSource)
     single(PostsCommunityQualifier.LIKE_REPOSITORY) {
         CommunityLikeRepository(
-            likeCache = get(),
+            patchedCache = get(),
             remoteSource = get(),
         )
     }.bind<LikeRepository>()

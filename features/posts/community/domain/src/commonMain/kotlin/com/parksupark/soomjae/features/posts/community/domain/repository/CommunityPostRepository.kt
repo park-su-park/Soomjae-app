@@ -6,9 +6,12 @@ import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.features.posts.common.domain.models.NewPost
 import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPost
 import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPostDetail
+import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPostPatch
 import kotlinx.coroutines.flow.Flow
 
 interface CommunityPostRepository {
+    val postPatches: Flow<Map<Long, CommunityPostPatch>>
+
     suspend fun createPost(
         title: String,
         content: String,
