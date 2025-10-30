@@ -48,6 +48,8 @@ import com.parksupark.soomjae.features.posts.common.presentation.models.PostActi
 import com.parksupark.soomjae.features.posts.common.presentation.models.PostActionUi
 import com.parksupark.soomjae.features.posts.community.presentation.resources.Res
 import com.parksupark.soomjae.features.posts.community.presentation.resources.community_detail_comment_button_description
+import com.parksupark.soomjae.features.posts.community.presentation.resources.community_detail_delete_button_description
+import com.parksupark.soomjae.features.posts.community.presentation.resources.community_detail_edit_button_description
 import com.parksupark.soomjae.features.posts.community.presentation.resources.community_detail_navigate_up_description
 import com.parksupark.soomjae.features.posts.community.presentation.resources.community_detail_title
 
@@ -164,28 +166,38 @@ private fun CommunityDetailTopBar(
         },
         actions = {
             if (isMine) {
-                // delete
-                IconButton(
-                    onClick = onDeleteClick,
-                    content = {
-                        Icon(
-                            imageVector = Icons.Outlined.Delete,
-                            contentDescription = "Delete Post",
-                            tint = SoomjaeTheme.colorScheme.icon,
-                        )
-                    },
-                )
-                IconButton(
-                    onClick = onEditClick,
-                    content = {
-                        Icon(
-                            imageVector = Icons.Outlined.Edit,
-                            contentDescription = "Edit Post",
-                            tint = SoomjaeTheme.colorScheme.icon,
-                        )
-                    },
+                CommunityDetailScreenActions(
+                    onDeleteClick = onDeleteClick,
+                    onEditClick = onEditClick,
                 )
             }
+        },
+    )
+}
+
+@Composable
+private fun RowScope.CommunityDetailScreenActions(
+    onDeleteClick: () -> Unit,
+    onEditClick: () -> Unit,
+) {
+    IconButton(
+        onClick = onDeleteClick,
+        content = {
+            Icon(
+                imageVector = Icons.Outlined.Delete,
+                contentDescription = Res.string.community_detail_delete_button_description.value,
+                tint = SoomjaeTheme.colorScheme.icon,
+            )
+        },
+    )
+    IconButton(
+        onClick = onEditClick,
+        content = {
+            Icon(
+                imageVector = Icons.Outlined.Edit,
+                contentDescription = Res.string.community_detail_edit_button_description.value,
+                tint = SoomjaeTheme.colorScheme.icon,
+            )
         },
     )
 }
