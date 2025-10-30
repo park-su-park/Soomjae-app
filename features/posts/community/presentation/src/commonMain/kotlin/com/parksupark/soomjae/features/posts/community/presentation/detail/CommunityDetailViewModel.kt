@@ -77,6 +77,7 @@ class CommunityDetailViewModel(
 
             postRepository.deletePost(postId).fold(
                 ifLeft = {
+                    // TODO: error handling
                 },
                 ifRight = {
                     _eventChannel.send(CommunityDetailEvent.PostDeleted)
