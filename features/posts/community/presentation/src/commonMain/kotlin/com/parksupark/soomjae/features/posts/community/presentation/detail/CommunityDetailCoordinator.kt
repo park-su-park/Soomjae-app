@@ -17,9 +17,8 @@ class CommunityDetailCoordinator(
             CommunityDetailAction.OnBackClick -> navigator.navigateBack()
 
             CommunityDetailAction.OnDeleteClick -> viewModel.deletePost()
-            CommunityDetailAction.OnEditClick -> {
-                // TODO
-            }
+
+            CommunityDetailAction.OnEditClick -> navigator.navigateToCommunityEdit(viewModel.postId)
 
             is CommunityDetailAction.OnToggleLikeClick -> viewModel.toggleLike()
 

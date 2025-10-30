@@ -10,8 +10,6 @@ import com.parksupark.soomjae.features.posts.member.presentation.navigation.Memb
 import com.parksupark.soomjae.features.posts.member.presentation.navigation.soomjaeMemberNavigator
 
 interface PostNavigator : SoomjaeNavigator, CommunityNavigator, MeetingNavigator, MemberNavigator {
-    override fun navigateToCommunityWrite()
-
     override fun navigateToCommunityDetail(postId: Long)
 }
 
@@ -27,7 +25,11 @@ private class SoomjaePostNavigator(
         overridden()
     }
 
-    override fun navigateToCommunityWrite() {
+    override fun navigateToCommunityCreate() {
+        overridden()
+    }
+
+    override fun navigateToCommunityEdit(postId: Long) {
         overridden()
     }
 

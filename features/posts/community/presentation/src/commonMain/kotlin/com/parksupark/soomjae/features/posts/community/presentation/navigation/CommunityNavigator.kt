@@ -5,7 +5,9 @@ import com.parksupark.soomjae.core.presentation.ui.navigation.SoomjaeNavigator
 import com.parksupark.soomjae.core.presentation.ui.navigation.overridden
 
 interface CommunityNavigator : SoomjaeNavigator {
-    fun navigateToCommunityWrite()
+    fun navigateToCommunityCreate()
+
+    fun navigateToCommunityEdit(postId: Long)
 
     fun navigateToCommunityDetail(postId: Long)
 }
@@ -17,7 +19,11 @@ private class SoomjaeCommunityNavigator(
         overridden()
     }
 
-    override fun navigateToCommunityWrite() {
+    override fun navigateToCommunityCreate() {
+        overridden()
+    }
+
+    override fun navigateToCommunityEdit(postId: Long) {
         overridden()
     }
 

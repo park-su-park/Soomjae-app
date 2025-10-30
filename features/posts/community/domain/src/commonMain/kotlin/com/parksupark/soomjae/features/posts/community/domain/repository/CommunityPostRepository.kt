@@ -10,8 +10,6 @@ import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPos
 import kotlinx.coroutines.flow.Flow
 
 interface CommunityPostRepository {
-    val postPatches: Flow<Map<Long, CommunityPostPatch>>
-
     suspend fun createPost(
         title: String,
         content: String,
@@ -25,5 +23,12 @@ interface CommunityPostRepository {
 
     fun postDetailStream(postId: Long): Flow<Either<DataFailure.Network, CommunityPostDetail>>
 
+    suspend fun editPost(editedPost: CommunityPost): Either<DataFailure.Network, NewPost>
+
     suspend fun deletePost(postId: Long): Either<DataFailure.Network, Unit>
+
+    // Patch
+    val postPatches: Flow<Map<Long, CommunityPostPatch>>
+
+    suspend fun clearPatched()
 }

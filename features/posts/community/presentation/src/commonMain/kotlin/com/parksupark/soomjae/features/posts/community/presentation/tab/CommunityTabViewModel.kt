@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class CommunityTabViewModel(
-    postRepository: CommunityPostRepository,
+    private val postRepository: CommunityPostRepository,
     private val sessionRepository: SessionRepository,
     private val soomjaeEventController: SoomjaeEventController,
 ) : ViewModel() {
@@ -60,6 +60,7 @@ class CommunityTabViewModel(
     }
 
     fun refreshPosts() = viewModelScope.launch {
+        postRepository.clearPatched()
         _eventChannel.send(CommunityTabEvent.RefreshPosts)
     }
 

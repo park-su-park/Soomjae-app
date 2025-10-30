@@ -1,15 +1,21 @@
 package com.parksupark.soomjae.features.posts.community.presentation.write
 
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import co.touchlab.kermit.Logger
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
-import com.parksupark.soomjae.core.presentation.ui.utils.collectAsFlow
+import com.parksupark.soomjae.core.presentation.ui.utils.mapTextFieldState
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CategoryRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LocationRepository
 import com.parksupark.soomjae.features.posts.common.presentation.models.toLocationUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
 import com.parksupark.soomjae.features.posts.community.domain.repository.CommunityPostRepository
+import com.parksupark.soomjae.features.posts.community.presentation.navigation.CommunityDestination
+import com.parksupark.soomjae.features.posts.community.presentation.write.CommunityWriteState.WriteMode
+import kotlin.time.ExperimentalTime
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,13 +32,20 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class CommunityWriteViewModel(
+    savedStateHandle: SavedStateHandle,
     private val communityRepository: CommunityPostRepository,
     private val categoryRepository: CategoryRepository,
     private val locationRepository: LocationRepository,
 ) : ViewModel() {
-    private val _uiStateFlow: MutableStateFlow<CommunityWriteState> =
-        MutableStateFlow(CommunityWriteState())
-    internal val uiStateFlow: StateFlow<CommunityWriteState> = _uiStateFlow.onStart {
+    val postId: Long? = savedStateHandle.toRoute<CommunityDestination.CommunityWrite>().postID
+
+    private val _uiStateFlow: MutableStateFlow<CommunityWriteState> = MutableStateFlow(
+        CommunityWriteState(
+            mode = if (postId != null) WriteMode.Edit(postId, null) else WriteMode.Create,
+        ),
+    )
+    val uiStateFlow: StateFlow<CommunityWriteState> = _uiStateFlow.onStart {
+        loadContentIfNeeded()
         loadCategories()
         loadLocations()
     }.stateIn(
@@ -45,14 +58,14 @@ class CommunityWriteViewModel(
     internal val events = eventChannel.receiveAsFlow()
 
     init {
-        uiStateFlow.value.inputTitle.collectAsFlow().onEach { title ->
+        uiStateFlow.mapTextFieldState { it.inputTitle }.onEach { title ->
             val isTitleValid = title.toString().isNotBlank()
             _uiStateFlow.update {
                 it.copy(isTitleValid = isTitleValid)
             }
         }.launchIn(viewModelScope)
 
-        uiStateFlow.value.inputContent.collectAsFlow().onEach { content ->
+        uiStateFlow.mapTextFieldState { it.inputContent }.onEach { content ->
             val isContentValid = content.isNotBlank()
             _uiStateFlow.update {
                 it.copy(isContentValid = isContentValid)
@@ -60,8 +73,7 @@ class CommunityWriteViewModel(
         }.launchIn(viewModelScope)
 
         uiStateFlow.distinctUntilChanged { old, new ->
-            old.isTitleValid == new.isTitleValid &&
-                old.isContentValid == new.isContentValid &&
+            old.isTitleValid == new.isTitleValid && old.isContentValid == new.isContentValid &&
                 old.isSubmitting == new.isSubmitting
         }.map {
             val canSubmit = it.isTitleValid && it.isContentValid && !it.isSubmitting
@@ -71,32 +83,60 @@ class CommunityWriteViewModel(
         }.launchIn(viewModelScope)
     }
 
+    @OptIn(ExperimentalTime::class)
     fun submitPost() {
-        if (!uiStateFlow.value.canSubmit) return
+        val state = uiStateFlow.value
+        if (!state.canSubmit) return
 
-        val title = uiStateFlow.value.inputTitle.text.trim().toString()
-        val content = uiStateFlow.value.inputContent.text.trim().toString()
-        val categoryId = uiStateFlow.value.selectedCategory?.id
-        val locationCode = uiStateFlow.value.selectedLocation?.code
+        val title = state.inputTitle.text.trim().toString()
+        val content = state.inputContent.text.trim().toString()
+        val categoryId = state.selectedCategory?.id
+        val locationCode = state.selectedLocation?.code
 
-        viewModelScope.launch {
-            _uiStateFlow.update { it.copy(isSubmitting = true) }
+        when (val mode = state.mode) {
+            WriteMode.Create -> viewModelScope.launch {
+                _uiStateFlow.update { it.copy(isSubmitting = true) }
 
-            communityRepository.createPost(
-                title = title,
-                content = content,
-                categoryId = categoryId,
-                locationCode = locationCode,
-            ).fold(
-                ifLeft = {
-                    eventChannel.send(CommunityWriteEvent.PostError(it.asUiText()))
-                },
-                ifRight = {
-                    eventChannel.send(CommunityWriteEvent.PostSubmitted(it.id))
-                },
-            )
+                communityRepository.createPost(
+                    title = title,
+                    content = content,
+                    categoryId = categoryId,
+                    locationCode = locationCode,
+                ).fold(
+                    ifLeft = {
+                        eventChannel.send(CommunityWriteEvent.PostError(it.asUiText()))
+                    },
+                    ifRight = {
+                        eventChannel.send(CommunityWriteEvent.PostSubmitted(it.id))
+                    },
+                )
 
-            _uiStateFlow.update { it.copy(isSubmitting = false) }
+                _uiStateFlow.update { it.copy(isSubmitting = false) }
+            }
+
+            is WriteMode.Edit -> viewModelScope.launch {
+                _uiStateFlow.update { it.copy(isSubmitting = true) }
+
+                mode.originalPost?.post?.copy(
+                    title = title,
+                    content = content,
+                    categoryName = state.selectedCategory?.name,
+                    locationName = state.selectedLocation?.name,
+                )?.let { editedPost ->
+                    communityRepository.editPost(
+                        editedPost = editedPost,
+                    ).fold(
+                        ifLeft = {
+                            eventChannel.send(CommunityWriteEvent.PostError(it.asUiText()))
+                        },
+                        ifRight = {
+                            eventChannel.send(CommunityWriteEvent.PostSubmitted(it.id))
+                        },
+                    )
+                }
+
+                _uiStateFlow.update { it.copy(isSubmitting = false) }
+            }
         }
     }
 
@@ -108,6 +148,40 @@ class CommunityWriteViewModel(
     fun selectLocation(locationCode: Long) {
         val location = uiStateFlow.value.locations.find { it.code == locationCode } ?: return
         _uiStateFlow.update { it.copy(selectedLocation = location) }
+    }
+
+    private fun loadContentIfNeeded() {
+        val state = _uiStateFlow.value
+        if (state.mode !is WriteMode.Edit) return
+
+        viewModelScope.launch {
+            communityRepository.getPostDetails(state.mode.postId).fold(
+                ifLeft = {
+                    Logger.e(TAG) { "Failed to load post content: $it" }
+                    eventChannel.send(CommunityWriteEvent.PostError(it.asUiText()))
+                },
+                ifRight = { postDetail ->
+                    _uiStateFlow.update { writeState ->
+                        writeState.copy(
+                            mode = WriteMode.Edit(
+                                postId = postDetail.post.id,
+                                originalPost = postDetail,
+                            ),
+                            inputTitle = TextFieldState(postDetail.post.title),
+                            isTitleValid = postDetail.post.title.isNotBlank(),
+                            inputContent = TextFieldState(postDetail.post.content),
+                            isContentValid = postDetail.post.content.isNotBlank(),
+                            selectedCategory = writeState.categories.find { categoryUi ->
+                                categoryUi.name == postDetail.post.categoryName
+                            },
+                            selectedLocation = writeState.locations.find { locationUi ->
+                                locationUi.name == postDetail.post.locationName
+                            },
+                        )
+                    }
+                },
+            )
+        }
     }
 
     private fun loadCategories() {

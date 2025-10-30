@@ -20,5 +20,13 @@ internal interface CommunityRemoteSource {
         postId: Long,
     ): Either<DataFailure.Network, CommunityPostDetailResponse>
 
+    suspend fun putPost(
+        postId: Long,
+        title: String,
+        content: String,
+        categoryId: Long?,
+        locationCode: Long?,
+    ): Either<DataFailure.Network, Long>
+
     suspend fun deletePost(postId: Long): Either<DataFailure.Network, Unit>
 }

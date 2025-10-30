@@ -64,11 +64,31 @@ internal class DefaultCommunityPostRepository(
         emit(remoteSource.getPostDetails(postId).map { it.toCommunityPostDetail() })
     }
 
+    override suspend fun editPost(editedPost: CommunityPost): Either<DataFailure.Network, NewPost> {
+        patchCache.applyUpdate(editedPost)
+
+        return remoteSource.putPost(
+            postId = editedPost.id,
+            title = editedPost.title,
+            content = editedPost.content,
+            categoryId = null,
+            locationCode = null,
+        ).map { response ->
+            NewPost(id = response)
+        }.onLeft {
+            patchCache.removePatch(editedPost.id)
+        }
+    }
+
     override suspend fun deletePost(postId: Long): Either<DataFailure.Network, Unit> {
         patchCache.applyDelete(postId)
 
         return remoteSource.deletePost(postId).onLeft {
             patchCache.removePatch(postId)
         }
+    }
+
+    override suspend fun clearPatched() {
+        patchCache.clear()
     }
 }
