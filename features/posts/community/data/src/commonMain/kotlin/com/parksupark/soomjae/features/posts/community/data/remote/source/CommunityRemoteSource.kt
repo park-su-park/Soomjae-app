@@ -19,4 +19,6 @@ internal interface CommunityRemoteSource {
     suspend fun getPostDetails(
         postId: Long,
     ): Either<DataFailure.Network, CommunityPostDetailResponse>
+
+    suspend fun deletePost(postId: Long): Either<DataFailure.Network, Unit>
 }

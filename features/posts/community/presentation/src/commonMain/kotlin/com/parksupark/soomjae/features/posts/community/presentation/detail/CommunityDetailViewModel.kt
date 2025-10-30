@@ -6,6 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.parksupark.soomjae.core.common.coroutines.SoomjaeDispatcher
+import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
+import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEvent
+import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEventController
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CommentRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LikeRepository
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
@@ -27,8 +30,10 @@ class CommunityDetailViewModel(
     savedStateHandle: SavedStateHandle,
     private val dispatcher: SoomjaeDispatcher,
     private val postRepository: CommunityPostRepository,
+    private val sessionRepository: SessionRepository,
     private val commentRepository: CommentRepository,
     private val likeRepository: LikeRepository,
+    private val soomjaeEventController: SoomjaeEventController,
 ) : ViewModel() {
     val postId = savedStateHandle.toRoute<CommunityDestination.CommunityDetail>().postID
 
@@ -54,11 +59,33 @@ class CommunityDetailViewModel(
                     _uiStateFlow.update {
                         CommunityDetailState.Success(
                             postDetail = postDetail.toDetailUi(),
+                            isMine = sessionRepository.getCurrentUserId().toString() ==
+                                postDetail.post.author.id,
                             inputCommentState = TextFieldState(),
                         )
                     }
                 },
             )
+        }
+    }
+
+    fun deletePost() {
+        viewModelScope.launch(dispatcher.io) {
+            _uiStateFlow.update { state ->
+                (state as? CommunityDetailState.Success)?.copy(isDeleteLoading = true) ?: state
+            }
+
+            postRepository.deletePost(postId).fold(
+                ifLeft = {
+                },
+                ifRight = {
+                    _eventChannel.send(CommunityDetailEvent.PostDeleted)
+                },
+            )
+
+            _uiStateFlow.update { state ->
+                (state as? CommunityDetailState.Success)?.copy(isDeleteLoading = false) ?: state
+            }
         }
     }
 
@@ -93,6 +120,14 @@ class CommunityDetailViewModel(
 
             _uiStateFlow.update {
                 (it as? CommunityDetailState.Success)?.copy(isLikeLoading = false) ?: it
+            }
+        }
+    }
+
+    fun handleCommentFieldClick() {
+        viewModelScope.launch(dispatcher.io) {
+            if (!sessionRepository.isLoggedIn()) {
+                soomjaeEventController.sendEvent(SoomjaeEvent.LoginRequest)
             }
         }
     }

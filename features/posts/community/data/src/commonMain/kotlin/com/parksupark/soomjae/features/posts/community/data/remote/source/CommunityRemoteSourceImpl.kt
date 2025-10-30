@@ -2,6 +2,7 @@ package com.parksupark.soomjae.features.posts.community.data.remote.source
 
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
+import com.parksupark.soomjae.core.remote.networking.delete
 import com.parksupark.soomjae.core.remote.networking.get
 import com.parksupark.soomjae.core.remote.networking.post
 import com.parksupark.soomjae.features.posts.community.data.remote.dto.CommunityPostDetailResponse
@@ -45,4 +46,9 @@ internal class CommunityRemoteSourceImpl(
     ): Either<DataFailure.Network, CommunityPostDetailResponse> = httpClient.get(
         route = "/v1/boards/community/posts/$postId",
     )
+
+    override suspend fun deletePost(postId: Long): Either<DataFailure.Network, Unit> =
+        httpClient.delete<Unit>(
+            route = "/v1/boards/community/posts/$postId",
+        )
 }

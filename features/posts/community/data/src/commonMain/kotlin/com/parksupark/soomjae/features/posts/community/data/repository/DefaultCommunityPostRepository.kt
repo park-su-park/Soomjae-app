@@ -57,4 +57,7 @@ internal class DefaultCommunityPostRepository(
     ): Flow<Either<DataFailure.Network, CommunityPostDetail>> = flow {
         emit(remoteSource.getPostDetails(postId).map { it.toCommunityPostDetail() })
     }
+
+    override suspend fun deletePost(postId: Long): Either<DataFailure.Network, Unit> =
+        remoteSource.deletePost(postId)
 }

@@ -28,8 +28,10 @@ private val detailModule = module {
             savedStateHandle = get(),
             dispatcher = get(),
             postRepository = get(),
+            sessionRepository = get(),
             commentRepository = get(PostsCommunityQualifier.COMMENT_REPOSITORY),
             likeRepository = get(PostsCommunityQualifier.LIKE_REPOSITORY),
+            soomjaeEventController = get(),
         )
     }
 }

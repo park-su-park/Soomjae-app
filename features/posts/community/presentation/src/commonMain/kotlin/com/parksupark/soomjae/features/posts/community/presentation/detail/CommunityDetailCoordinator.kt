@@ -16,7 +16,14 @@ class CommunityDetailCoordinator(
         when (action) {
             CommunityDetailAction.OnBackClick -> navigator.navigateBack()
 
+            CommunityDetailAction.OnDeleteClick -> viewModel.deletePost()
+            CommunityDetailAction.OnEditClick -> {
+                // TODO
+            }
+
             is CommunityDetailAction.OnToggleLikeClick -> viewModel.toggleLike()
+
+            CommunityDetailAction.OnCommentFieldClick -> viewModel.handleCommentFieldClick()
 
             CommunityDetailAction.OnSendCommentClick -> viewModel.submitComment()
         }

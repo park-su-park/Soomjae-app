@@ -24,4 +24,6 @@ internal class SessionRepositoryImpl(
             it.clearToken()
         }
     }
+
+    override suspend fun getCurrentUserId(): Long? = this.get()?.memberId
 }

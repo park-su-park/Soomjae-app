@@ -20,6 +20,8 @@ import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.Comment
+import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -65,11 +67,17 @@ internal fun CommunityDetailScreen(
 
         is CommunityDetailState.Success -> SoomjaeScaffold(
             topBar = {
-                CommunityDetailTopBar(onBackClick = { onAction(CommunityDetailAction.OnBackClick) })
+                CommunityDetailTopBar(
+                    isMine = state.isMine,
+                    onBackClick = { onAction(CommunityDetailAction.OnBackClick) },
+                    onDeleteClick = { onAction(CommunityDetailAction.OnDeleteClick) },
+                    onEditClick = { onAction(CommunityDetailAction.OnEditClick) },
+                )
             },
             bottomBar = {
                 CommunityDetailBottomBar(
                     commentState = state.inputCommentState,
+                    onCommentFieldClick = { onAction(CommunityDetailAction.OnCommentFieldClick) },
                     onSendClick = { onAction(CommunityDetailAction.OnSendCommentClick) },
                 )
             },
@@ -127,7 +135,12 @@ private fun PostContentScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun CommunityDetailTopBar(onBackClick: () -> Unit) {
+private fun CommunityDetailTopBar(
+    isMine: Boolean,
+    onBackClick: () -> Unit,
+    onDeleteClick: () -> Unit,
+    onEditClick: () -> Unit,
+) {
     SoomjaeTopAppBar(
         title = {
             Text(
@@ -144,10 +157,35 @@ private fun CommunityDetailTopBar(onBackClick: () -> Unit) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Default.ArrowBack,
                         contentDescription = Res.string.community_detail_navigate_up_description.value,
-                        tint = SoomjaeTheme.colorScheme.text2,
+                        tint = SoomjaeTheme.colorScheme.icon,
                     )
                 },
             )
+        },
+        actions = {
+            if (isMine) {
+                // delete
+                IconButton(
+                    onClick = onDeleteClick,
+                    content = {
+                        Icon(
+                            imageVector = Icons.Outlined.Delete,
+                            contentDescription = "Delete Post",
+                            tint = SoomjaeTheme.colorScheme.icon,
+                        )
+                    },
+                )
+                IconButton(
+                    onClick = onEditClick,
+                    content = {
+                        Icon(
+                            imageVector = Icons.Outlined.Edit,
+                            contentDescription = "Edit Post",
+                            tint = SoomjaeTheme.colorScheme.icon,
+                        )
+                    },
+                )
+            }
         },
     )
 }
@@ -155,13 +193,16 @@ private fun CommunityDetailTopBar(onBackClick: () -> Unit) {
 @Composable
 private fun CommunityDetailBottomBar(
     commentState: TextFieldState,
+    onCommentFieldClick: () -> Unit,
     onSendClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     CommentBar(
         state = commentState,
         onSendClick = onSendClick,
-        modifier = modifier.fillMaxWidth().padding(4.dp),
+        modifier = modifier.fillMaxWidth()
+            .padding(4.dp)
+            .clickable(onClick = onCommentFieldClick),
     )
 }
 

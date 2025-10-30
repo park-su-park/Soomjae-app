@@ -21,4 +21,6 @@ interface CommunityPostRepository {
     suspend fun getPostDetails(postId: Long): Either<DataFailure.Network, CommunityPostDetail>
 
     fun postDetailStream(postId: Long): Flow<Either<DataFailure.Network, CommunityPostDetail>>
+
+    suspend fun deletePost(postId: Long): Either<DataFailure.Network, Unit>
 }
