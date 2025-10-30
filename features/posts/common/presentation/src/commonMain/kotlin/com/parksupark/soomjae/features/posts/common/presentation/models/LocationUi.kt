@@ -11,3 +11,8 @@ fun Location.toLocationUi() = LocationUi(
     code = code,
     name = name,
 )
+
+fun LocationUi.toDomain() = Location(
+    code = code,
+    name = name,
+)

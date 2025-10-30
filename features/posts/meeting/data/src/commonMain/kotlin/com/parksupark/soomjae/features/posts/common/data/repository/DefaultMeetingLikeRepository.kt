@@ -6,13 +6,10 @@ import com.parksupark.soomjae.core.remote.networking.delete
 import com.parksupark.soomjae.core.remote.networking.post
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LikeRepository
 import io.ktor.client.HttpClient
-import kotlinx.coroutines.flow.StateFlow
 
 internal class DefaultMeetingLikeRepository(
     private val httpClient: HttpClient,
 ) : LikeRepository {
-    override val cacheStates: StateFlow<Map<Long, Boolean>>
-        get() = TODO("Not yet implemented")
 
     override suspend fun like(postId: Long): Either<DataFailure, Unit> =
         httpClient.post<Unit, Unit>(

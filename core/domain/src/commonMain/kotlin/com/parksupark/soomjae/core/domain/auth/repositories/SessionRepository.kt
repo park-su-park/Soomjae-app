@@ -11,4 +11,6 @@ interface SessionRepository {
     fun getAsFlow(): Flow<AuthInfo?>
 
     suspend fun set(info: AuthInfo?)
+
+    suspend fun getCurrentUserId(): Long?
 }

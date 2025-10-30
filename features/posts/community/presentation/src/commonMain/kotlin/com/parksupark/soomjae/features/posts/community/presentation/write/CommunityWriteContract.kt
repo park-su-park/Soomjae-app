@@ -4,10 +4,13 @@ import androidx.compose.foundation.text.input.TextFieldState
 import com.parksupark.soomjae.core.presentation.ui.utils.UiText
 import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.LocationUi
+import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPostDetail
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
-internal data class CommunityWriteState(
+data class CommunityWriteState(
+    val mode: WriteMode = WriteMode.Create,
+
     val inputTitle: TextFieldState = TextFieldState(),
     val isTitleValid: Boolean = false,
     val inputContent: TextFieldState = TextFieldState(),
@@ -20,7 +23,16 @@ internal data class CommunityWriteState(
 
     val isSubmitting: Boolean = false,
     val isCategoryLoading: Boolean = true,
-)
+) {
+    sealed interface WriteMode {
+        data object Create : WriteMode
+
+        data class Edit(
+            val postId: Long,
+            val originalPost: CommunityPostDetail?,
+        ) : WriteMode
+    }
+}
 
 internal sealed interface CommunityWriteAction {
     data object OnBackClick : CommunityWriteAction

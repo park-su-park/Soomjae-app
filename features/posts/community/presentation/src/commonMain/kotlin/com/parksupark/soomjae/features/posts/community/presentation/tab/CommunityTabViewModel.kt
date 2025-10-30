@@ -3,14 +3,18 @@ package com.parksupark.soomjae.features.posts.community.presentation.tab
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import androidx.paging.filter
 import androidx.paging.map
+import app.cash.paging.PagingData
 import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEvent
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEventController
-import com.parksupark.soomjae.features.posts.common.domain.repositories.LikeRepository
+import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPostPatch
 import com.parksupark.soomjae.features.posts.community.domain.repository.CommunityPostRepository
+import com.parksupark.soomjae.features.posts.community.presentation.models.CommunityPostUi
 import com.parksupark.soomjae.features.posts.community.presentation.models.toUi
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,8 +24,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class CommunityTabViewModel(
-    postRepository: CommunityPostRepository,
-    likeRepository: LikeRepository,
+    private val postRepository: CommunityPostRepository,
     private val sessionRepository: SessionRepository,
     private val soomjaeEventController: SoomjaeEventController,
 ) : ViewModel() {
@@ -32,12 +35,17 @@ class CommunityTabViewModel(
     private val _eventChannel = Channel<CommunityTabEvent>()
     internal val eventChannel = _eventChannel.receiveAsFlow()
 
-    val posts = postRepository.getAllPosts()
+    val posts: Flow<PagingData<CommunityPostUi>> = postRepository.getAllPosts()
         .cachedIn(viewModelScope)
-        .combine(likeRepository.cacheStates) { pagingData, likeStates ->
-            pagingData.map { post ->
-                val isLiked = likeStates[post.id] ?: post.isUserLiked
-                post.toUi(isUserLiked = isLiked)
+        .combine(postRepository.postPatches) { pagingData, patches ->
+            pagingData.filter { post ->
+                patches[post.id] !is CommunityPostPatch.Deleted
+            }.map { post ->
+                when (val patch = patches[post.id]) {
+                    is CommunityPostPatch.Updated -> patch.post.toUi()
+                    is CommunityPostPatch.LikeChanged -> post.toUi(isUserLiked = patch.isLiked)
+                    else -> post.toUi()
+                }
             }
         }
 
@@ -52,6 +60,7 @@ class CommunityTabViewModel(
     }
 
     fun refreshPosts() = viewModelScope.launch {
+        postRepository.clearPatched()
         _eventChannel.send(CommunityTabEvent.RefreshPosts)
     }
 

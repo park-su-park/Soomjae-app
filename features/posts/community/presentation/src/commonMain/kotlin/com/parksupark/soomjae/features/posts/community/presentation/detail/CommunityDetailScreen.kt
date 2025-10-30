@@ -20,6 +20,8 @@ import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.Comment
+import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -46,6 +48,8 @@ import com.parksupark.soomjae.features.posts.common.presentation.models.PostActi
 import com.parksupark.soomjae.features.posts.common.presentation.models.PostActionUi
 import com.parksupark.soomjae.features.posts.community.presentation.resources.Res
 import com.parksupark.soomjae.features.posts.community.presentation.resources.community_detail_comment_button_description
+import com.parksupark.soomjae.features.posts.community.presentation.resources.community_detail_delete_button_description
+import com.parksupark.soomjae.features.posts.community.presentation.resources.community_detail_edit_button_description
 import com.parksupark.soomjae.features.posts.community.presentation.resources.community_detail_navigate_up_description
 import com.parksupark.soomjae.features.posts.community.presentation.resources.community_detail_title
 
@@ -65,11 +69,17 @@ internal fun CommunityDetailScreen(
 
         is CommunityDetailState.Success -> SoomjaeScaffold(
             topBar = {
-                CommunityDetailTopBar(onBackClick = { onAction(CommunityDetailAction.OnBackClick) })
+                CommunityDetailTopBar(
+                    isMine = state.isMine,
+                    onBackClick = { onAction(CommunityDetailAction.OnBackClick) },
+                    onDeleteClick = { onAction(CommunityDetailAction.OnDeleteClick) },
+                    onEditClick = { onAction(CommunityDetailAction.OnEditClick) },
+                )
             },
             bottomBar = {
                 CommunityDetailBottomBar(
                     commentState = state.inputCommentState,
+                    onCommentFieldClick = { onAction(CommunityDetailAction.OnCommentFieldClick) },
                     onSendClick = { onAction(CommunityDetailAction.OnSendCommentClick) },
                 )
             },
@@ -127,7 +137,12 @@ private fun PostContentScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun CommunityDetailTopBar(onBackClick: () -> Unit) {
+private fun CommunityDetailTopBar(
+    isMine: Boolean,
+    onBackClick: () -> Unit,
+    onDeleteClick: () -> Unit,
+    onEditClick: () -> Unit,
+) {
     SoomjaeTopAppBar(
         title = {
             Text(
@@ -144,9 +159,44 @@ private fun CommunityDetailTopBar(onBackClick: () -> Unit) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Default.ArrowBack,
                         contentDescription = Res.string.community_detail_navigate_up_description.value,
-                        tint = SoomjaeTheme.colorScheme.text2,
+                        tint = SoomjaeTheme.colorScheme.icon,
                     )
                 },
+            )
+        },
+        actions = {
+            if (isMine) {
+                CommunityDetailScreenActions(
+                    onDeleteClick = onDeleteClick,
+                    onEditClick = onEditClick,
+                )
+            }
+        },
+    )
+}
+
+@Composable
+private fun RowScope.CommunityDetailScreenActions(
+    onDeleteClick: () -> Unit,
+    onEditClick: () -> Unit,
+) {
+    IconButton(
+        onClick = onDeleteClick,
+        content = {
+            Icon(
+                imageVector = Icons.Outlined.Delete,
+                contentDescription = Res.string.community_detail_delete_button_description.value,
+                tint = SoomjaeTheme.colorScheme.icon,
+            )
+        },
+    )
+    IconButton(
+        onClick = onEditClick,
+        content = {
+            Icon(
+                imageVector = Icons.Outlined.Edit,
+                contentDescription = Res.string.community_detail_edit_button_description.value,
+                tint = SoomjaeTheme.colorScheme.icon,
             )
         },
     )
@@ -155,13 +205,16 @@ private fun CommunityDetailTopBar(onBackClick: () -> Unit) {
 @Composable
 private fun CommunityDetailBottomBar(
     commentState: TextFieldState,
+    onCommentFieldClick: () -> Unit,
     onSendClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     CommentBar(
         state = commentState,
         onSendClick = onSendClick,
-        modifier = modifier.fillMaxWidth().padding(4.dp),
+        modifier = modifier.fillMaxWidth()
+            .padding(4.dp)
+            .clickable(onClick = onCommentFieldClick),
     )
 }
 

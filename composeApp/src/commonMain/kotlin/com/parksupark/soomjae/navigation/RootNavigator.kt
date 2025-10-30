@@ -20,12 +20,13 @@ import com.parksupark.soomjae.features.home.presentation.navigation.HomeNavigato
 import com.parksupark.soomjae.features.home.presentation.navigation.soomjaeHomeNavigator
 import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.PostNavigator
 import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.navigateToCommunityDetail
-import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.navigateToCommunityWrite
 import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.navigateToMeetingDetail
 import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.navigateToMeetingWrite
 import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.navigateToMemberWrite
 import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.navigateToParticipantList
 import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.soomjaePostNavigator
+import com.parksupark.soomjae.features.posts.community.presentation.navigation.navigateToCommunityCreate
+import com.parksupark.soomjae.features.posts.community.presentation.navigation.navigateToCommunityEdit
 import com.parksupark.soomjae.features.profile.presentation.navigation.ProfileNavigator
 import com.parksupark.soomjae.features.profile.presentation.navigation.soomjaeProfileNavigator
 import com.parksupark.soomjae.features.setting.presentation.navigation.SettingNavigator
@@ -81,8 +82,12 @@ private class SoomjaeRootNavigator(
     // </editor-fold>
 
     // <editor-fold desc="PostNavigator">
-    override fun navigateToCommunityWrite() {
-        navController.navigateToCommunityWrite()
+    override fun navigateToCommunityCreate() {
+        navController.navigateToCommunityCreate()
+    }
+
+    override fun navigateToCommunityEdit(postId: Long) {
+        navController.navigateToCommunityEdit(postId)
     }
 
     override fun navigateToCommunityDetail(postId: Long) {

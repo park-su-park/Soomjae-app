@@ -199,7 +199,7 @@ private fun MeetingPostCardPreview() {
                 isUserLiked = true,
                 likeCount = 32,
                 commentCount = 128,
-                category = CategoryUi(id = 1L, name = "스터디"),
+                category = CategoryUi(id = 1L, name = "스터디", hierarchy = 1, children = emptyList()),
                 maxParticipantCount = 4,
                 currentParticipantCount = 2,
                 recruitmentPeriod = RecruitmentPeriodUi(

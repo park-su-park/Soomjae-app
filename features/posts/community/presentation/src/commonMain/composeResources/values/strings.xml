@@ -17,4 +17,7 @@
 
     <string name="write_location_selection_label">지역</string>
     <string name="write_location_selection_placeholder">지역을 선택해주세요.</string>
+
+    <string name="community_detail_delete_button_description">삭제</string>
+    <string name="community_detail_edit_button_description">수정</string>
 </resources>

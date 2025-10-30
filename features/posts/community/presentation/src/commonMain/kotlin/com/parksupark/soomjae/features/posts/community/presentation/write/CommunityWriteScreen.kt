@@ -105,6 +105,7 @@ private fun CommunityWriteTopBar(
                     Icon(
                         imageVector = Icons.AutoMirrored.Default.ArrowBack,
                         contentDescription = Res.string.community_write_navigate_up_description.value,
+                        tint = SoomjaeTheme.colorScheme.icon,
                     )
                 },
             )
@@ -117,6 +118,11 @@ private fun CommunityWriteTopBar(
                     Icon(
                         imageVector = Icons.Default.Check,
                         contentDescription = Res.string.community_write_button_confirm_description.value,
+                        tint = if (canSubmit) {
+                            SoomjaeTheme.colorScheme.iconColored
+                        } else {
+                            SoomjaeTheme.colorScheme.iconDisabled
+                        },
                     )
                 },
             )

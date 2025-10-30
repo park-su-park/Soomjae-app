@@ -11,20 +11,30 @@ sealed interface CommunityDetailState {
 
     data class Success(
         val postDetail: CommunityPostDetailUi,
+        val isMine: Boolean = false,
         val isLikeLoading: Boolean = false,
         val inputCommentState: TextFieldState = TextFieldState(),
         val isCommentSubmitting: Boolean = false,
+        val isDeleteLoading: Boolean = false,
     ) : CommunityDetailState
 }
 
 sealed interface CommunityDetailAction {
     data object OnBackClick : CommunityDetailAction
 
+    data object OnDeleteClick : CommunityDetailAction
+
+    data object OnEditClick : CommunityDetailAction
+
     data object OnToggleLikeClick : CommunityDetailAction
+
+    data object OnCommentFieldClick : CommunityDetailAction
 
     data object OnSendCommentClick : CommunityDetailAction
 }
 
 sealed interface CommunityDetailEvent {
     data class Error(val message: UiText) : CommunityDetailEvent
+
+    data object PostDeleted : CommunityDetailEvent
 }
