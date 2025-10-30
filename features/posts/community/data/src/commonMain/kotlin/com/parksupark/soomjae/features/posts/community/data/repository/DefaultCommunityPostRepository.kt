@@ -13,7 +13,9 @@ import com.parksupark.soomjae.features.posts.community.data.remote.dto.toModel
 import com.parksupark.soomjae.features.posts.community.data.remote.source.CommunityRemoteSource
 import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPost
 import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPostDetail
+import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPostEdited
 import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPostPatch
+import com.parksupark.soomjae.features.posts.community.domain.model.toCommunityPost
 import com.parksupark.soomjae.features.posts.community.domain.repository.CommunityPostRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -64,15 +66,17 @@ internal class DefaultCommunityPostRepository(
         emit(remoteSource.getPostDetails(postId).map { it.toCommunityPostDetail() })
     }
 
-    override suspend fun editPost(editedPost: CommunityPost): Either<DataFailure.Network, NewPost> {
-        patchCache.applyUpdate(editedPost)
+    override suspend fun editPost(
+        editedPost: CommunityPostEdited,
+    ): Either<DataFailure.Network, NewPost> {
+        patchCache.applyUpdate(editedPost.toCommunityPost())
 
         return remoteSource.putPost(
             postId = editedPost.id,
             title = editedPost.title,
             content = editedPost.content,
-            categoryId = null,
-            locationCode = null,
+            categoryId = editedPost.category?.id,
+            locationCode = editedPost.location?.code,
         ).map { response ->
             NewPost(id = response)
         }.onLeft {

@@ -10,8 +10,10 @@ import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.mapTextFieldState
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CategoryRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LocationRepository
+import com.parksupark.soomjae.features.posts.common.presentation.models.toDomain
 import com.parksupark.soomjae.features.posts.common.presentation.models.toLocationUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
+import com.parksupark.soomjae.features.posts.community.domain.model.toCommunityPostEdited
 import com.parksupark.soomjae.features.posts.community.domain.repository.CommunityPostRepository
 import com.parksupark.soomjae.features.posts.community.presentation.navigation.CommunityDestination
 import com.parksupark.soomjae.features.posts.community.presentation.write.CommunityWriteState.WriteMode
@@ -117,11 +119,12 @@ class CommunityWriteViewModel(
             is WriteMode.Edit -> viewModelScope.launch {
                 _uiStateFlow.update { it.copy(isSubmitting = true) }
 
-                mode.originalPost?.post?.copy(
+                mode.originalPost?.post?.toCommunityPostEdited(
+                    category = state.selectedCategory?.toDomain(),
+                    location = state.selectedLocation?.toDomain(),
+                )?.copy(
                     title = title,
                     content = content,
-                    categoryName = state.selectedCategory?.name,
-                    locationName = state.selectedLocation?.name,
                 )?.let { editedPost ->
                     communityRepository.editPost(
                         editedPost = editedPost,
