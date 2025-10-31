@@ -84,12 +84,12 @@ object SoomjaeCheckboxDefaults {
     @Composable
     fun colors(
         checkedColor: Color = SoomjaeTheme.colorScheme.primary,
-        uncheckedColor: Color = SoomjaeTheme.colorScheme.background2,
+        uncheckedColor: Color = SoomjaeTheme.colorScheme.icon,
         checkmarkColor: Color = SoomjaeTheme.colorScheme.iconW,
         disabledCheckedColor: Color = SoomjaeTheme.colorScheme.primary.copy(
             alpha = DISABLED_CONTENT_OPACITY,
         ),
-        disabledUncheckedColor: Color = SoomjaeTheme.colorScheme.background2.copy(
+        disabledUncheckedColor: Color = uncheckedColor.copy(
             alpha = DISABLED_CONTENT_OPACITY,
         ),
         disabledIndeterminateColor: Color = checkedColor.copy(alpha = DISABLED_CONTENT_OPACITY),

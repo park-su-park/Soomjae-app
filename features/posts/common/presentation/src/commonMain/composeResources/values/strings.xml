@@ -6,4 +6,7 @@
 
     <string name="comment_bar_input_placeholder">댓글을 입력해주세요!</string>
     <string name="comment_bar_send_button">전송</string>
+
+    <string name="selection_dialog_cancel_button">취소</string>
+    <string name="selection_dialog_confirm_button">확인</string>
 </resources>

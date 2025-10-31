@@ -1,5 +1,6 @@
 package com.parksupark.soomjae.features.posts.community.presentation.tab
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,6 +13,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -26,11 +31,24 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeH
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaePullToRefreshBox
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
+import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
+import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.core.presentation.ui.utils.emptyLazyPagingItems
+import com.parksupark.soomjae.features.posts.common.presentation.components.MultipleSelectionDialog
 import com.parksupark.soomjae.features.posts.common.presentation.components.WritePostFab
+import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
+import com.parksupark.soomjae.features.posts.common.presentation.models.LocationUi
 import com.parksupark.soomjae.features.posts.community.presentation.models.CommunityFilterOption
 import com.parksupark.soomjae.features.posts.community.presentation.models.CommunityPostUi
+import com.parksupark.soomjae.features.posts.community.presentation.resources.Res
+import com.parksupark.soomjae.features.posts.community.presentation.resources.community_tab_filter_chip_category
+import com.parksupark.soomjae.features.posts.community.presentation.resources.community_tab_filter_chip_category_selected
+import com.parksupark.soomjae.features.posts.community.presentation.resources.community_tab_filter_chip_location
+import com.parksupark.soomjae.features.posts.community.presentation.resources.community_tab_filter_chip_location_selected
 import com.parksupark.soomjae.features.posts.community.presentation.tab.components.CommunityPostCard
+import kotlinx.collections.immutable.ImmutableMap
+import kotlinx.collections.immutable.toPersistentList
+import kotlinx.collections.immutable.toPersistentSet
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -75,10 +93,18 @@ internal fun CommunityTabScreen(
                 } else {
                     stickyHeader {
                         FilterChipsRow(
-                            selectedFilter = filterState.selectedOption,
+                            categories = filterState.categories,
+                            onCategoryClick = {
+                                onAction(CommunityTabAction.OnCategoryFilterClick)
+                            },
                             onCategorySelect = { ids ->
                                 onAction(CommunityTabAction.OnCategoryFilterSelect(ids))
                             },
+                            locations = filterState.locations,
+                            onLocationClick = {
+                                onAction(CommunityTabAction.OnLocationFilterClick)
+                            },
+                            selectedFilter = filterState.selectedOption,
                             onLocationSelect = { codes ->
                                 onAction(CommunityTabAction.OnLocationFilterSelect(codes))
                             },
@@ -110,33 +136,113 @@ internal fun CommunityTabScreen(
 
 @Composable
 private fun FilterChipsRow(
-    selectedFilter: CommunityFilterOption,
+    categories: ImmutableMap<Long, CategoryUi>,
+    onCategoryClick: () -> Unit,
     onCategorySelect: (ids: List<Long>) -> Unit,
+    locations: ImmutableMap<Long, LocationUi>,
+    onLocationClick: () -> Unit,
+    selectedFilter: CommunityFilterOption,
     onLocationSelect: (codes: List<Long>) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val selectedCategories = selectedFilter.categories
     val selectedLocations = selectedFilter.locations
 
+    var isCategoryDialogOpen by remember {
+        mutableStateOf(false)
+    }
+    var isLocationDialogOpen by remember {
+        mutableStateOf(false)
+    }
+
     LazyRow(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().background(color = SoomjaeTheme.colorScheme.background1),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(horizontal = 16.dp),
     ) {
         item {
+            val selected = selectedCategories.isNotEmpty()
             SoomjaeFilterChip(
-                selected = selectedCategories.isNotEmpty(),
-                onClick = { },
-                label = { Text("Categories") },
+                selected = selected,
+                onClick = {
+                    onCategoryClick()
+                    isCategoryDialogOpen = true
+                },
+                label = {
+                    when {
+                        selectedCategories.size > 1 -> Text(
+                            Res.string.community_tab_filter_chip_category_selected.value(
+                                selectedCategories.first().name,
+                                selectedCategories.size - 1,
+                            ),
+                        )
+
+                        selectedCategories.size == 1 -> Text(selectedCategories.first().name)
+
+                        else -> Text(Res.string.community_tab_filter_chip_category.value)
+                    }
+                },
             )
         }
         item {
             SoomjaeFilterChip(
                 selected = selectedLocations.isNotEmpty(),
-                onClick = { },
-                label = { Text("Locations") },
+                onClick = {
+                    onLocationClick()
+                    isLocationDialogOpen = true
+                },
+                label = {
+                    when {
+                        selectedLocations.size > 1 -> Text(
+                            Res.string.community_tab_filter_chip_location_selected.value(
+                                selectedLocations.first().name,
+                                selectedLocations.size - 1,
+                            ),
+                        )
+
+                        selectedLocations.size == 1 -> Text(selectedLocations.first().name)
+
+                        else -> Text(Res.string.community_tab_filter_chip_location.value)
+                    }
+                },
             )
         }
+    }
+
+    if (isCategoryDialogOpen) {
+        MultipleSelectionDialog(
+            items = categories.values.toPersistentList(),
+            itemKey = { it.id },
+            selectedItems = selectedCategories.mapNotNull { categories[it.id] }.toPersistentSet(),
+            itemName = { it.name },
+            onCancelClick = {
+                isCategoryDialogOpen = false
+            },
+            onConfirmClick = { selectedItems ->
+                onCategorySelect(selectedItems.map { it.id })
+                isCategoryDialogOpen = false
+            },
+            onDismissRequest = {
+                isCategoryDialogOpen = false
+            },
+        )
+    } else if (isLocationDialogOpen) {
+        MultipleSelectionDialog(
+            items = locations.values.toPersistentList(),
+            itemKey = { it.code },
+            selectedItems = selectedLocations.mapNotNull { locations[it.code] }.toPersistentSet(),
+            itemName = { it.name },
+            onCancelClick = {
+                isLocationDialogOpen = false
+            },
+            onConfirmClick = { selectedItems ->
+                onLocationSelect(selectedItems.map { it.code })
+                isLocationDialogOpen = false
+            },
+            onDismissRequest = {
+                isLocationDialogOpen = false
+            },
+        )
     }
 }
 

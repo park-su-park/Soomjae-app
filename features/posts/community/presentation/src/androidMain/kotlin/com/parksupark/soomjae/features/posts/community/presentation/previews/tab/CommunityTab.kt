@@ -9,6 +9,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.features.posts.community.presentation.models.CommunityPostUi
 import com.parksupark.soomjae.features.posts.community.presentation.previews.providers.CommunityPostUiPreviewParameterProvider
 import com.parksupark.soomjae.features.posts.community.presentation.tab.CommunityTabScreen
+import com.parksupark.soomjae.features.posts.community.presentation.tab.CommunityTabState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.flow.flowOf
 
@@ -20,7 +21,8 @@ private fun CommunityTabScreenPreview(
 ) {
     AppTheme {
         CommunityTabScreen(
-            onAction = {},
+            state = CommunityTabState(),
+            onAction = { },
             posts = flowOf(PagingData.from(posts)).collectAsLazyPagingItems(),
         )
     }

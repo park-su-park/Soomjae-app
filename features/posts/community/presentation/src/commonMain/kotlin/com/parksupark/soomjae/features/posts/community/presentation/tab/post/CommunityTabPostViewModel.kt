@@ -11,8 +11,8 @@ import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEvent
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEventController
 import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPostPatch
 import com.parksupark.soomjae.features.posts.community.domain.repository.CommunityPostRepository
-import com.parksupark.soomjae.features.posts.community.presentation.models.CommunityPostUi
 import com.parksupark.soomjae.features.posts.community.presentation.models.CommunityFilterOption
+import com.parksupark.soomjae.features.posts.community.presentation.models.CommunityPostUi
 import com.parksupark.soomjae.features.posts.community.presentation.models.toUi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
@@ -38,7 +38,16 @@ class CommunityTabPostViewModel(
     private val _eventChannel = Channel<CommunityTabPostEvent>()
     val eventChannel = _eventChannel.receiveAsFlow()
 
-    val posts: Flow<PagingData<CommunityPostUi>> = postRepository.getAllPosts()
+    private val filterState: MutableStateFlow<CommunityFilterOption> =
+        MutableStateFlow(CommunityFilterOption())
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val posts: Flow<PagingData<CommunityPostUi>> = filterState.flatMapLatest {
+        postRepository.getAllPosts(
+            categoryIds = it.categories.map { category -> category.id },
+            locationCodes = it.locations.map { location -> location.code },
+        )
+    }
         .cachedIn(viewModelScope)
         .combine(postRepository.postPatches) { pagingData, patches ->
             pagingData.filter { post ->
@@ -50,7 +59,7 @@ class CommunityTabPostViewModel(
                     else -> post.toUi()
                 }
             }
-    }
+        }
 
     fun handleCommunityWriteClick() {
         viewModelScope.launch {
