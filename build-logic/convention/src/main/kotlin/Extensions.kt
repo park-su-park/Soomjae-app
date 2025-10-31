@@ -51,6 +51,12 @@ internal fun KotlinDependencyHandler.bundleImplementation(alias: String) {
 
 private fun Project.optionalCatalogBundle(alias: String) = libs.findBundle(alias)
 
+internal fun KotlinDependencyHandler.apiAlias(alias: String) {
+    project.optionalCatalogLibrary(alias).ifPresent { bundle -> api(bundle) }
+}
+
+private fun Project.optionalCatalogLibrary(alias: String) = libs.findLibrary(alias)
+
 internal fun KotlinMultiplatformExtension.kspDependencies(
     project: Project,
     catalogPrefix: String,

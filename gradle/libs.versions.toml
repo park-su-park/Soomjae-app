@@ -24,6 +24,7 @@ hotReload = "1.0.0-rc02"
 kaml = "0.102.0"
 kermit = "2.0.8"
 koin = "4.1.1"
+koin-annotation = "2.3.0"
 kotest = "6.0.0.M3"
 kotest-property-datetime = "2.0.0"
 kotlin = "2.2.21"
@@ -127,6 +128,8 @@ koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
 koin-compose-viewmodel-navigation = { module = "io.insert-koin:koin-compose-viewmodel-navigation", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
+koin-annotation = { module = "io.insert-koin:koin-annotations", version.ref = "koin-annotation" }
+ksp-koin-compiler = { module = "io.insert-koin:koin-ksp-compiler", version.ref = "koin-annotation" }
 
 # Kotlin
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
@@ -227,6 +230,7 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "j
 core-common = [
     "arrow",
     "koin-core",
+    "koin-annotation",
     "kotlinx-coroutines-core",
     "kotlinx-datetime",
     "kotlinx-immutable",
@@ -241,7 +245,9 @@ core-android = [
 core-ios = []
 core-desktop = []
 
-core-common-ksp = []
+core-common-ksp = [
+    "ksp-koin-compiler",
+]
 core-android-ksp = []
 core-ios-ksp = []
 core-desktop-ksp = []
