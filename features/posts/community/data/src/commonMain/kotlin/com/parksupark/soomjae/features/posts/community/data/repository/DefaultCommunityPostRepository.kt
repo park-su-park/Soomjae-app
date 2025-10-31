@@ -2,6 +2,7 @@ package com.parksupark.soomjae.features.posts.community.data.repository
 
 import androidx.paging.PagingData
 import androidx.paging.map
+import app.cash.paging.PagingConfig
 import app.cash.paging.createPager
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
@@ -43,11 +44,29 @@ internal class DefaultCommunityPostRepository(
     }
 
     override fun getAllPosts(): Flow<PagingData<CommunityPost>> = createPager(
-        config = app.cash.paging.PagingConfig(
+        config = PagingConfig(
             pageSize = 20,
         ),
     ) {
         CommunityPagingSource(remoteSource)
+    }.flow
+        .map { pagingData ->
+            pagingData.map { it.toModel() }
+        }
+
+    override fun getAllPosts(
+        categoryIds: List<Long>,
+        locationCodes: List<Long>,
+    ): Flow<PagingData<CommunityPost>> = createPager(
+        config = PagingConfig(
+            pageSize = 20,
+        ),
+    ) {
+        CommunityPagingSource(
+            remoteSource = remoteSource,
+            categoryIds = categoryIds,
+            locationCodes = locationCodes,
+        )
     }.flow
         .map { pagingData ->
             pagingData.map { it.toModel() }

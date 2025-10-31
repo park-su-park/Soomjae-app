@@ -18,13 +18,27 @@ internal class CommunityRemoteSourceImpl(
 ) : CommunityRemoteSource {
     override suspend fun getPosts(
         page: Int,
-    ): Either<DataFailure.Network, List<CommunityPostResponse>> =
-        httpClient.get<CommunityPostsResponse>(
+        categoryIds: List<Long>,
+        locationCodes: List<Long>,
+    ): Either<DataFailure.Network, List<CommunityPostResponse>> {
+        val queryParameters = mutableMapOf<String, Any>(
+            "page" to page,
+        ).apply {
+            if (categoryIds.isNotEmpty()) {
+                this["categoryIds"] = categoryIds.joinToString(separator = ",")
+            }
+            if (locationCodes.isNotEmpty()) {
+                this["locationCodes"] = locationCodes.joinToString(separator = ",")
+            }
+        }
+
+        return httpClient.get<CommunityPostsResponse>(
             route = "/v1/boards/community/posts/list",
-            queryParameters = mapOf("page" to page),
+            queryParameters = queryParameters,
         ).map { response ->
             response.posts
         }
+    }
 
     override suspend fun postPost(
         title: String,

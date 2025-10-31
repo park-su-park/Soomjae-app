@@ -22,7 +22,7 @@ private fun CommunityTabScreenPreview(
     AppTheme {
         CommunityTabScreen(
             state = CommunityTabState(),
-            onAction = {},
+            onAction = { },
             posts = flowOf(PagingData.from(posts)).collectAsLazyPagingItems(),
         )
     }

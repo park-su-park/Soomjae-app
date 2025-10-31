@@ -1,27 +1,27 @@
 package com.parksupark.soomjae.features.posts.community.presentation.tab
 
-import androidx.paging.PagingData
-import com.parksupark.soomjae.features.posts.community.presentation.models.CommunityPostUi
+import com.parksupark.soomjae.features.posts.community.presentation.tab.filter.CommunityTabFilterState
+import com.parksupark.soomjae.features.posts.community.presentation.tab.post.CommunityTabPostState
 
-internal data class CommunityTabState(
-    val isLoading: Boolean = false,
-    val isPostsRefreshing: Boolean = false,
-    val posts: PagingData<CommunityPostUi> = PagingData.empty(),
-    val canLikePost: Boolean = true,
+data class CommunityTabState(
+    val filterState: CommunityTabFilterState = CommunityTabFilterState(),
+    val postState: CommunityTabPostState = CommunityTabPostState(),
 )
 
-internal sealed interface CommunityTabAction {
+sealed interface CommunityTabAction {
     data object OnPullToRefresh : CommunityTabAction
 
-    data class OnRefreshChange(val isRefreshing: Boolean) : CommunityTabAction
+    data class RefreshChange(val isRefreshing: Boolean) : CommunityTabAction
 
     data class OnPostClick(val postId: Long) : CommunityTabAction
 
     data object OnCommunityWriteClick : CommunityTabAction
-}
 
-internal sealed interface CommunityTabEvent {
-    data object RefreshPosts : CommunityTabEvent
+    data object OnCategoryFilterClick : CommunityTabAction
 
-    data object NavigateToCommunityWrite : CommunityTabEvent
+    data class OnCategoryFilterSelect(val ids: List<Long>) : CommunityTabAction
+
+    data object OnLocationFilterClick : CommunityTabAction
+
+    data class OnLocationFilterSelect(val codes: List<Long>) : CommunityTabAction
 }
