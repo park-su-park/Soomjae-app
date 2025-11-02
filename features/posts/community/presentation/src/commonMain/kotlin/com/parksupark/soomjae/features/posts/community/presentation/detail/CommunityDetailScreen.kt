@@ -6,17 +6,23 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.Comment
@@ -27,9 +33,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCircularProgressIndicator
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
@@ -39,7 +50,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.modifiers.bottomBor
 import com.parksupark.soomjae.core.presentation.designsystem.modifiers.topBorder
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.resources.value
-import com.parksupark.soomjae.features.posts.common.presentation.components.CommentBar
+import com.parksupark.soomjae.features.posts.common.presentation.components.CommentInputBar
 import com.parksupark.soomjae.features.posts.common.presentation.components.CommentItem
 import com.parksupark.soomjae.features.posts.common.presentation.components.PostActionItem
 import com.parksupark.soomjae.features.posts.common.presentation.components.PostDetailAuthorHeader
@@ -67,26 +78,38 @@ internal fun CommunityDetailScreen(
             SoomjaeCircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
         }
 
-        is CommunityDetailState.Success -> SoomjaeScaffold(
-            topBar = {
-                CommunityDetailTopBar(
-                    isMine = state.isMine,
-                    onBackClick = { onAction(CommunityDetailAction.OnBackClick) },
-                    onDeleteClick = { onAction(CommunityDetailAction.OnDeleteClick) },
-                    onEditClick = { onAction(CommunityDetailAction.OnEditClick) },
-                )
-            },
-            bottomBar = {
-                CommunityDetailBottomBar(
-                    commentState = state.inputCommentState,
-                    onCommentFieldClick = { onAction(CommunityDetailAction.OnCommentFieldClick) },
-                    onSendClick = { onAction(CommunityDetailAction.OnSendCommentClick) },
-                )
-            },
-        ) { innerPadding ->
+        is CommunityDetailState.Success -> CommunityDetailSuccessScreen(state, onAction)
+    }
+}
+
+@Composable
+private fun CommunityDetailSuccessScreen(
+    state: CommunityDetailState.Success,
+    onAction: (CommunityDetailAction) -> Unit,
+) {
+    var inputBarHeight by remember { mutableStateOf(0.dp) }
+
+    SoomjaeScaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            CommunityDetailTopBar(
+                isMine = state.isMine,
+                onBackClick = { onAction(CommunityDetailAction.OnBackClick) },
+                onDeleteClick = { onAction(CommunityDetailAction.OnDeleteClick) },
+                onEditClick = { onAction(CommunityDetailAction.OnEditClick) },
+            )
+        },
+    ) { innerPadding ->
+        Box(
+            modifier = Modifier.fillMaxSize().padding(innerPadding),
+        ) {
             LazyColumn(
-                modifier = Modifier.fillMaxSize().padding(innerPadding),
-                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxSize().padding(),
+                contentPadding = PaddingValues(
+                    bottom = WindowInsets.safeDrawing
+                        .only(WindowInsetsSides.Bottom)
+                        .asPaddingValues().calculateBottomPadding() + inputBarHeight,
+                ),
             ) {
                 item {
                     PostContentScreen(
@@ -100,6 +123,19 @@ internal fun CommunityDetailScreen(
                     CommentItem(comment = comment, modifier = Modifier.fillMaxWidth())
                 }
             }
+
+            val localDensity = LocalDensity.current
+            CommentInputBar(
+                state = state.inputCommentState,
+                onSendClick = { onAction(CommunityDetailAction.OnSendCommentClick) },
+                modifier = Modifier.align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .imePadding()
+                    .onGloballyPositioned {
+                        inputBarHeight = with(localDensity) { it.size.height.toDp() }
+                    }
+                    .clickable { onAction(CommunityDetailAction.OnCommentFieldClick) },
+            )
         }
     }
 }
@@ -199,22 +235,6 @@ private fun RowScope.CommunityDetailScreenActions(
                 tint = SoomjaeTheme.colorScheme.icon,
             )
         },
-    )
-}
-
-@Composable
-private fun CommunityDetailBottomBar(
-    commentState: TextFieldState,
-    onCommentFieldClick: () -> Unit,
-    onSendClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    CommentBar(
-        state = commentState,
-        onSendClick = onSendClick,
-        modifier = modifier.fillMaxWidth()
-            .padding(4.dp)
-            .clickable(onClick = onCommentFieldClick),
     )
 }
 

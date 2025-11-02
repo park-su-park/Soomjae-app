@@ -3,6 +3,7 @@ package com.parksupark.soomjae.features.posts.common.presentation.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
@@ -31,7 +32,7 @@ import com.parksupark.soomjae.features.posts.common.presentation.resources.comme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun CommentBar(
+fun CommentInputBar(
     state: TextFieldState,
     onSendClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -42,7 +43,10 @@ fun CommentBar(
         modifier = modifier
             .background(
                 color = SoomjaeTheme.colorScheme.background2,
-                shape = MaterialTheme.shapes.medium,
+                shape = MaterialTheme.shapes.medium.copy(
+                    bottomStart = CornerSize(0.dp),
+                    bottomEnd = CornerSize(0.dp),
+                ),
             ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -88,7 +92,7 @@ fun CommentBar(
 private fun CommentBarPreview_Empty() {
     AppTheme {
         SoomjaeSurface {
-            CommentBar(
+            CommentInputBar(
                 state = remember { TextFieldState() },
                 onSendClick = { },
             )
@@ -101,7 +105,7 @@ private fun CommentBarPreview_Empty() {
 private fun CommentBarPreview_Filled() {
     AppTheme {
         SoomjaeSurface {
-            CommentBar(
+            CommentInputBar(
                 state = remember { TextFieldState("너무너무 재밌어요!") },
                 onSendClick = { },
             )
@@ -114,7 +118,7 @@ private fun CommentBarPreview_Filled() {
 private fun CommentBarPreview_Filled_Long() {
     AppTheme {
         SoomjaeSurface {
-            CommentBar(
+            CommentInputBar(
                 state = remember {
                     TextFieldState(
                         "너무너무 재밌어요! ".repeat(25),

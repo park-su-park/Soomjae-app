@@ -47,7 +47,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.like
 import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.core.presentation.ui.utils.imageRequest
-import com.parksupark.soomjae.features.posts.common.presentation.components.CommentBar
+import com.parksupark.soomjae.features.posts.common.presentation.components.CommentInputBar
 import com.parksupark.soomjae.features.posts.common.presentation.components.CommentItem
 import com.parksupark.soomjae.features.posts.common.presentation.components.PostDetailTitleHeader
 import com.parksupark.soomjae.features.posts.meeting.presentation.detail.models.MeetingAuthorUi
@@ -298,7 +298,7 @@ private fun MeetingDetailBottomBar(
     onSendClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    CommentBar(
+    CommentInputBar(
         state = commentState,
         onSendClick = onSendClick,
         modifier = modifier.fillMaxWidth().padding(4.dp),
