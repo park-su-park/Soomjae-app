@@ -26,7 +26,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusProperties
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
@@ -36,7 +35,6 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeS
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.resources.value
-import com.parksupark.soomjae.core.presentation.ui.utils.conditional
 import com.parksupark.soomjae.features.posts.common.presentation.resources.Res
 import com.parksupark.soomjae.features.posts.common.presentation.resources.comment_bar_input_placeholder
 import com.parksupark.soomjae.features.posts.common.presentation.resources.comment_bar_send_button
@@ -69,8 +67,6 @@ fun CommentInputBar(
         Box(modifier = Modifier.weight(1f)) {
             CommentTextField(
                 state = state,
-                isLoggedIn = isLoggedIn,
-                onRequireLogin = onLoginRequest,
                 modifier = Modifier.fillMaxWidth()
                     .focusProperties { canFocus = isLoggedIn },
             )
@@ -101,19 +97,13 @@ fun CommentInputBar(
 @Composable
 private fun CommentTextField(
     state: TextFieldState,
-    isLoggedIn: Boolean,
-    onRequireLogin: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var isFocused by remember { mutableStateOf(false) }
 
     BasicTextField(
         state = state,
-        modifier = modifier.conditional(
-            isLoggedIn,
-            ifTrue = { onFocusChanged { isFocused = it.isFocused } },
-            ifFalse = { clickable(onClick = onRequireLogin) },
-        ),
+        modifier = modifier,
         textStyle = SoomjaeTheme.typography.body2.copy(
             color = SoomjaeTheme.colorScheme.text2,
         ),
