@@ -19,10 +19,12 @@ private val detailModule = module {
         MeetingDetailViewModel(
             postId = params.get(),
             dispatcher = get(),
+            sessionRepository = get(),
             meetingPostRepository = get(),
             commentRepository = get(named(MEETING_COMMENT_REPOSITORY)),
             likeRepository = get(named(MEETING_LIKE_REPOSITORY)),
             participationRepository = get(),
+            controller = get(),
         )
     }
 }

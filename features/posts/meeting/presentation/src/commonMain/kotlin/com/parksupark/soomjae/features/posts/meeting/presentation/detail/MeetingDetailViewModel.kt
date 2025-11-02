@@ -4,6 +4,9 @@ import androidx.compose.foundation.text.input.TextFieldState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.parksupark.soomjae.core.common.coroutines.SoomjaeDispatcher
+import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
+import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEvent
+import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEventController
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CommentRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LikeRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
@@ -22,10 +25,12 @@ import kotlinx.coroutines.launch
 class MeetingDetailViewModel(
     private val postId: Long,
     private val dispatcher: SoomjaeDispatcher,
+    private val sessionRepository: SessionRepository,
     private val meetingPostRepository: MeetingPostRepository,
     private val commentRepository: CommentRepository,
     private val likeRepository: LikeRepository,
     private val participationRepository: ParticipationRepository,
+    private val controller: SoomjaeEventController,
 ) : ViewModel() {
     private val _stateFlow: MutableStateFlow<MeetingDetailState> =
         MutableStateFlow(MeetingDetailState.Loading)
@@ -120,6 +125,14 @@ class MeetingDetailViewModel(
             leaveMeeting()
         } else {
             joinMeeting()
+        }
+    }
+
+    fun requestLogin() {
+        viewModelScope.launch {
+            if (!sessionRepository.isLoggedIn()) {
+                controller.sendEvent(SoomjaeEvent.LoginRequest)
+            }
         }
     }
 

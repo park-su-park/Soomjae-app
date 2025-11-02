@@ -20,6 +20,8 @@ class MeetingDetailCoordinator(
             }
 
             MeetingDetailAction.OnToggleParticipationClick -> viewModel.toggleParticipation()
+
+            MeetingDetailAction.LoginRequest -> viewModel.requestLogin()
         }
     }
 }
