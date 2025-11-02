@@ -1,5 +1,5 @@
 [versions]
-arrow = "2.1.2"
+arrow = "2.2.0"
 agp = "8.13.0"
 androidx-activityCompose = "1.11.0"
 androidx-credentials = "1.5.0"
