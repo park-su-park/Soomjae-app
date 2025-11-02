@@ -22,9 +22,9 @@ class CommunityDetailCoordinator(
 
             is CommunityDetailAction.OnToggleLikeClick -> viewModel.toggleLike()
 
-            CommunityDetailAction.OnCommentFieldClick -> viewModel.handleCommentFieldClick()
-
             CommunityDetailAction.OnSendCommentClick -> viewModel.submitComment()
+
+            CommunityDetailAction.LoginRequest -> viewModel.requestLogin()
         }
     }
 }

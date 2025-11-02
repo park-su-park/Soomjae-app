@@ -4,6 +4,9 @@ import androidx.compose.foundation.text.input.TextFieldState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.parksupark.soomjae.core.common.coroutines.SoomjaeDispatcher
+import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
+import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEvent
+import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEventController
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CommentRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LikeRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
@@ -14,6 +17,11 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -22,15 +30,18 @@ import kotlinx.coroutines.launch
 class MeetingDetailViewModel(
     private val postId: Long,
     private val dispatcher: SoomjaeDispatcher,
+    private val sessionRepository: SessionRepository,
     private val meetingPostRepository: MeetingPostRepository,
     private val commentRepository: CommentRepository,
     private val likeRepository: LikeRepository,
     private val participationRepository: ParticipationRepository,
+    private val controller: SoomjaeEventController,
 ) : ViewModel() {
     private val _stateFlow: MutableStateFlow<MeetingDetailState> =
         MutableStateFlow(MeetingDetailState.Loading)
     val stateFlow: StateFlow<MeetingDetailState> = _stateFlow.onStart {
         fetchMeetingPostDetails()
+        observeLoginState()
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
@@ -50,10 +61,27 @@ class MeetingDetailViewModel(
         }
     }
 
+    private fun observeLoginState() {
+        combine(
+            sessionRepository.getAsFlow(),
+            _stateFlow.filter { state -> state is MeetingDetailState.Success }
+                .distinctUntilChanged(),
+        ) { authInfo, state ->
+            Pair(authInfo != null, state)
+        }.onEach { (isLoggedIn, state) ->
+            if (state is MeetingDetailState.Success) {
+                _stateFlow.update {
+                    state.copy(isLoggedIn = isLoggedIn)
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
     fun toggleLike() {
         val state = _stateFlow.value
 
         if (state !is MeetingDetailState.Success) return
+        if (!ensureLogin(state)) return
 
         viewModelScope.launch {
             _stateFlow.update { state.copy(isLikeLoading = true) }
@@ -115,12 +143,17 @@ class MeetingDetailViewModel(
         val state = _stateFlow.value
 
         if (state !is MeetingDetailState.Success) return
+        if (!ensureLogin(state)) return
 
         if (state.postDetail.isUserJoined) {
             leaveMeeting()
         } else {
             joinMeeting()
         }
+    }
+
+    fun requestLogin() {
+        ensureLogin(_stateFlow.value as? MeetingDetailState.Success ?: return)
     }
 
     private fun joinMeeting() {
@@ -212,5 +245,16 @@ class MeetingDetailViewModel(
                 },
             )
         }
+    }
+
+    private fun ensureLogin(state: MeetingDetailState.Success): Boolean {
+        if (state.isLoggedIn) {
+            return true
+        }
+
+        viewModelScope.launch {
+            controller.sendEvent(SoomjaeEvent.LoginRequest)
+        }
+        return false
     }
 }

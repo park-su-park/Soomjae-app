@@ -12,6 +12,7 @@ sealed interface MeetingDetailState {
         val inputCommentState: TextFieldState = TextFieldState(),
         val isCommentSubmitting: Boolean = false,
         val isParticipationLoading: Boolean = false,
+        val isLoggedIn: Boolean = false,
     ) : MeetingDetailState
 }
 
@@ -25,4 +26,6 @@ sealed interface MeetingDetailAction {
     data object OnToggleParticipationClick : MeetingDetailAction
 
     data object OnMessageClick : MeetingDetailAction
+
+    data object LoginRequest : MeetingDetailAction
 }
