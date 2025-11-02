@@ -17,6 +17,11 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -36,6 +41,7 @@ class MeetingDetailViewModel(
         MutableStateFlow(MeetingDetailState.Loading)
     val stateFlow: StateFlow<MeetingDetailState> = _stateFlow.onStart {
         fetchMeetingPostDetails()
+        observeLoginState()
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
@@ -53,6 +59,22 @@ class MeetingDetailViewModel(
                 },
             )
         }
+    }
+
+    private fun observeLoginState() {
+        combine(
+            sessionRepository.getAsFlow(),
+            _stateFlow.filter { state -> state is MeetingDetailState.Success }
+                .distinctUntilChanged(),
+        ) { authInfo, state ->
+            Pair(authInfo != null, state)
+        }.onEach { (isLoggedIn, state) ->
+            if (state is MeetingDetailState.Success) {
+                _stateFlow.update {
+                    state.copy(isLoggedIn = isLoggedIn)
+                }
+            }
+        }.launchIn(viewModelScope)
     }
 
     fun toggleLike() {
@@ -131,11 +153,7 @@ class MeetingDetailViewModel(
     }
 
     fun requestLogin() {
-        viewModelScope.launch {
-            if (!sessionRepository.isLoggedIn()) {
-                controller.sendEvent(SoomjaeEvent.LoginRequest)
-            }
-        }
+        ensureLogin(_stateFlow.value as? MeetingDetailState.Success ?: return)
     }
 
     private fun joinMeeting() {
@@ -235,9 +253,7 @@ class MeetingDetailViewModel(
         }
 
         viewModelScope.launch {
-            if (!sessionRepository.isLoggedIn()) {
-                controller.sendEvent(SoomjaeEvent.LoginRequest)
-            }
+            controller.sendEvent(SoomjaeEvent.LoginRequest)
         }
         return false
     }
