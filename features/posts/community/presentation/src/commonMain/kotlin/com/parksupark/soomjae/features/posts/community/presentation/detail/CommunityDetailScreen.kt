@@ -104,7 +104,7 @@ private fun CommunityDetailSuccessScreen(
             modifier = Modifier.fillMaxSize().padding(innerPadding),
         ) {
             LazyColumn(
-                modifier = Modifier.fillMaxSize().padding(),
+                modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(
                     bottom = WindowInsets.safeDrawing
                         .only(WindowInsetsSides.Bottom)
