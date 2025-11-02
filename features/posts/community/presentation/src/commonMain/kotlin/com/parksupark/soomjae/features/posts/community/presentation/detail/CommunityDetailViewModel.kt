@@ -20,6 +20,11 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -41,7 +46,8 @@ class CommunityDetailViewModel(
         CommunityDetailState.InitialLoading(postId),
     )
     val uiStateFlow: StateFlow<CommunityDetailState> = _uiStateFlow.onStart {
-        fetchPostDetails(postId)
+        loadPostDetails(postId)
+        loadLoginState()
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
@@ -51,7 +57,7 @@ class CommunityDetailViewModel(
     private val _eventChannel = Channel<CommunityDetailEvent>()
     val eventChannel = _eventChannel.receiveAsFlow()
 
-    private fun fetchPostDetails(postId: Long) {
+    private fun loadPostDetails(postId: Long) {
         viewModelScope.launch(dispatcher.io) {
             postRepository.getPostDetails(postId).fold(
                 ifLeft = { },
@@ -67,6 +73,22 @@ class CommunityDetailViewModel(
                 },
             )
         }
+    }
+
+    private fun loadLoginState() {
+        combine(
+            sessionRepository.getAsFlow(),
+            _uiStateFlow.filter { state -> state is CommunityDetailState.Success }
+                .distinctUntilChanged(),
+        ) { authInfo, state ->
+            Pair(authInfo != null, state)
+        }.onEach { (isLoggedIn, state) ->
+            if (state is CommunityDetailState.Success) {
+                _uiStateFlow.update {
+                    state.copy(isLoggedIn = isLoggedIn)
+                }
+            }
+        }.launchIn(viewModelScope)
     }
 
     fun deletePost() {
@@ -125,14 +147,6 @@ class CommunityDetailViewModel(
         }
     }
 
-    fun handleCommentFieldClick() {
-        viewModelScope.launch(dispatcher.io) {
-            if (!sessionRepository.isLoggedIn()) {
-                soomjaeEventController.sendEvent(SoomjaeEvent.LoginRequest)
-            }
-        }
-    }
-
     fun submitComment() {
         val state = _uiStateFlow.value
         if (state !is CommunityDetailState.Success) return
@@ -173,6 +187,12 @@ class CommunityDetailViewModel(
                     }
                 },
             )
+        }
+    }
+
+    fun requestLogin() {
+        viewModelScope.launch {
+            soomjaeEventController.sendEvent(SoomjaeEvent.LoginRequest)
         }
     }
 }

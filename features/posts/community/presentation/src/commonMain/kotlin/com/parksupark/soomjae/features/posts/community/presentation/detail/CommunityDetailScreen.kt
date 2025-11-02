@@ -133,8 +133,9 @@ private fun CommunityDetailSuccessScreen(
                     .imePadding()
                     .onGloballyPositioned {
                         inputBarHeight = with(localDensity) { it.size.height.toDp() }
-                    }
-                    .clickable { onAction(CommunityDetailAction.OnCommentFieldClick) },
+                    },
+                isLoggedIn = state.isLoggedIn,
+                onLoginRequest = { onAction(CommunityDetailAction.LoginRequest) },
             )
         }
     }

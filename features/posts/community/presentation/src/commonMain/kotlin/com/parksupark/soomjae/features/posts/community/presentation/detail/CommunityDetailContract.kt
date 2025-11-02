@@ -15,6 +15,7 @@ sealed interface CommunityDetailState {
         val isLikeLoading: Boolean = false,
         val inputCommentState: TextFieldState = TextFieldState(),
         val isCommentSubmitting: Boolean = false,
+        val isLoggedIn: Boolean = false,
         val isDeleteLoading: Boolean = false,
     ) : CommunityDetailState
 }
@@ -28,9 +29,9 @@ sealed interface CommunityDetailAction {
 
     data object OnToggleLikeClick : CommunityDetailAction
 
-    data object OnCommentFieldClick : CommunityDetailAction
-
     data object OnSendCommentClick : CommunityDetailAction
+
+    data object LoginRequest : CommunityDetailAction
 }
 
 sealed interface CommunityDetailEvent {
