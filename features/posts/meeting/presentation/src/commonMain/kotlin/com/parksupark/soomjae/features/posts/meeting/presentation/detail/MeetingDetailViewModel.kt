@@ -59,6 +59,7 @@ class MeetingDetailViewModel(
         val state = _stateFlow.value
 
         if (state !is MeetingDetailState.Success) return
+        if (!ensureLogin(state)) return
 
         viewModelScope.launch {
             _stateFlow.update { state.copy(isLikeLoading = true) }
@@ -120,6 +121,7 @@ class MeetingDetailViewModel(
         val state = _stateFlow.value
 
         if (state !is MeetingDetailState.Success) return
+        if (!ensureLogin(state)) return
 
         if (state.postDetail.isUserJoined) {
             leaveMeeting()
@@ -225,5 +227,18 @@ class MeetingDetailViewModel(
                 },
             )
         }
+    }
+
+    private fun ensureLogin(state: MeetingDetailState.Success): Boolean {
+        if (state.isLoggedIn) {
+            return true
+        }
+
+        viewModelScope.launch {
+            if (!sessionRepository.isLoggedIn()) {
+                controller.sendEvent(SoomjaeEvent.LoginRequest)
+            }
+        }
+        return false
     }
 }
