@@ -1,6 +1,7 @@
 package com.parksupark.soomjae.di
 
 import com.parksupark.soomjae.core.analytics.di.coreAnalyticsModule
+import com.parksupark.soomjae.core.common.coroutines.SoomjaeDispatcher
 import com.parksupark.soomjae.core.common.di.coreCommonModule
 import com.parksupark.soomjae.core.data.di.coreDataModule
 import com.parksupark.soomjae.core.image.di.coreImageModule
@@ -16,6 +17,8 @@ import com.parksupark.soomjae.features.profile.data.di.featuresProfileDataModule
 import com.parksupark.soomjae.features.profile.presentation.di.featuresProfilePresentationModule
 import com.parksupark.soomjae.features.setting.presentation.di.featuresSettingPresentationModule
 import com.parksupark.soomjae.viewmodel.SoomjaeViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
@@ -24,6 +27,9 @@ expect val platformAppModule: Module
 
 private val appModule = module {
     viewModelOf(::SoomjaeViewModel)
+    single {
+        CoroutineScope(SupervisorJob() + get<SoomjaeDispatcher>().default)
+    }
 }
 
 internal val soomjaeModule = module {
