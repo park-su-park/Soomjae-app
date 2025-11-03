@@ -108,6 +108,7 @@ filekit-coil = { module = "io.github.vinceglb:filekit-coil", version.ref = "file
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ndk" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
 
 # Google Identity
 google-id = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "google-id" }
