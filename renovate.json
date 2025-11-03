@@ -42,7 +42,8 @@
             "matchPackagePrefixes": [
                 "io.kotest",
                 "io.kotest.extensions"
-            ]
+            ],
+            "enabled": false
         },
         {
             "groupName": "Room",
