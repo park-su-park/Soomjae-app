@@ -15,6 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window.rootViewController = MainKt.MainViewController()
             window.makeKeyAndVisible()
         }
+
+        setGoogleSignIn()
+
         return true
     }
 
@@ -31,5 +34,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Handle your other custom URLs if needed
 
         return false
+    }
+
+    private func setGoogleSignIn() {
+        guard
+            let clientID = Bundle.main.object(forInfoDictionaryKey: "GIDClientID") as? String,
+            let serverClientId = Bundle.main.object(forInfoDictionaryKey: "GIDServerClientID") as? String
+        else {
+            assertionFailure("❌ GIDClientID or GIDServerClientID is missing in Info.plist")
+            return
+        }
+
+        GIDSignIn.sharedInstance.configuration = GIDConfiguration(
+            clientID: clientID,
+            serverClientID: serverClientId
+        )
+
+        IosGoogleAuthServiceKt.setIosAnalyticsProvider(provider: IosGoogleAuthServiceImpl())
     }
 }

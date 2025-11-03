@@ -15,15 +15,18 @@ import com.parksupark.soomjae.features.profile.data.di.featuresProfileDataModule
 import com.parksupark.soomjae.features.profile.presentation.di.featuresProfilePresentationModule
 import com.parksupark.soomjae.features.setting.presentation.di.featuresSettingPresentationModule
 import com.parksupark.soomjae.viewmodel.SoomjaeViewModel
+import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
+
+expect val platformAppModule: Module
 
 private val appModule = module {
     viewModelOf(::SoomjaeViewModel)
 }
 
 internal val soomjaeModule = module {
-    includes(appModule)
+    includes(appModule, platformAppModule)
 
     includes(coreAnalyticsModule)
     includes(coreCommonModule)

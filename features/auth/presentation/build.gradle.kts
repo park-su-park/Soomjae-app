@@ -10,7 +10,7 @@ kotlin {
             implementation(projects.core.presentation.ui)
 
             implementation(projects.features.auth.domain)
-            implementation(projects.features.auth.libs.google)
+            api(projects.features.auth.libs.google)
 
             implementation(libs.compose.ui.backhandler)
         }
