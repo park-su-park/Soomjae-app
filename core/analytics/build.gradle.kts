@@ -1,7 +1,6 @@
 plugins {
     id("soomjae.multiplatform.ui")
     id("soomjae.build-config")
-    id("soomjae.cocoapods.library")
     alias(libs.plugins.google.services)
 }
 

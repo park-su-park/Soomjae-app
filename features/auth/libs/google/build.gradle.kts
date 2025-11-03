@@ -1,7 +1,6 @@
 plugins {
     id("soomjae.multiplatform.ui")
     id("soomjae.build-config")
-    id("soomjae.cocoapods.library")
 }
 
 kotlin {
@@ -19,15 +18,6 @@ kotlin {
         desktopMain.dependencies {
             implementation(libs.bundles.ktor.server)
             implementation(libs.auth0.jwt)
-        }
-    }
-
-    cocoapods {
-        summary = "CocoaPods Library for GoogleSignIn"
-
-        pod("GoogleSignIn") {
-            version = libs.versions.cocoapods.google.sign.get()
-            extraOpts += listOf("-compiler-option", "-fmodules")
         }
     }
 }
