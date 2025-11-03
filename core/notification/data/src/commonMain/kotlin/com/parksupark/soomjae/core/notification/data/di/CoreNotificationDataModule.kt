@@ -5,6 +5,8 @@ import com.parksupark.soomjae.core.notification.domain.service.DeviceTokenServic
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
+internal expect val platformCoreNotificationModule: Module
+
 private val serviceModule: Module = module {
     single<DeviceTokenService> {
         KtorDeviceTokenService(
@@ -14,5 +16,5 @@ private val serviceModule: Module = module {
 }
 
 val coreNotificationDataModule = module {
-    includes(serviceModule)
+    includes(platformCoreNotificationModule, serviceModule)
 }

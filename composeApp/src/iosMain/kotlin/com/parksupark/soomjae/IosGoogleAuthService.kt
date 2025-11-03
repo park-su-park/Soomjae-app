@@ -1,3 +1,5 @@
+package com.parksupark.soomjae
+
 import com.parksupark.soomjae.features.auth.libs.google.di.authenticators.GoogleAuthService
 
 class IosGoogleAuthService : GoogleAuthService {

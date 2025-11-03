@@ -1,6 +1,6 @@
 package com.parksupark.soomjae.di
 
-import IosGoogleAuthService
+import com.parksupark.soomjae.IosGoogleAuthService
 import com.parksupark.soomjae.features.auth.libs.google.di.authenticators.GoogleAuthService
 import org.koin.core.module.Module
 import org.koin.dsl.bind
