@@ -10,24 +10,19 @@ import com.parksupark.soomjae.core.domain.auth.datasources.SessionDataSource
 import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
 import com.parksupark.soomjae.core.domain.logging.SjLogger
 import com.parksupark.soomjae.core.domain.repository.ColorThemeRepository
-import org.koin.core.annotation.Single
 import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.dsl.bind
 import org.koin.dsl.module
-import org.koin.ksp.generated.module
-import org.koin.core.annotation.Module as AnnotationModule
 
 internal expect val platformCoreDataModule: Module
 
-@AnnotationModule
-internal object LoggingModule {
-    @Single
-    fun providesSjLogger(): SjLogger = KermitLogger
+private val loggingModule = module {
+    single { KermitLogger }.bind<SjLogger>()
 }
 
 val coreDataModule = module {
-    includes(platformCoreDataModule, LoggingModule.module)
+    includes(platformCoreDataModule, loggingModule)
 
     single {
         PreferenceSessionDataSource(

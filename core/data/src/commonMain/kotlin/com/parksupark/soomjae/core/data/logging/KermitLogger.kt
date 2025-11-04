@@ -3,7 +3,7 @@ package com.parksupark.soomjae.core.data.logging
 import co.touchlab.kermit.Logger
 import com.parksupark.soomjae.core.domain.logging.SjLogger
 
-object KermitLogger : SjLogger {
+internal object KermitLogger : SjLogger {
     override fun debug(message: String) {
         Logger.d(message)
     }
