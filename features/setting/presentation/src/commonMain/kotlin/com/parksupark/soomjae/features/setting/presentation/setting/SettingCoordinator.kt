@@ -10,13 +10,19 @@ internal class SettingCoordinator(
     val viewModel: SettingViewModel,
 ) {
     val screenStateFlow = viewModel.stateFlow
+    val event = viewModel.events
 
     fun handle(action: SettingAction) {
         when (action) {
             is SettingAction.OnBackClick -> navigator.navigateBack()
             is SettingAction.OnThemeChange -> viewModel.changeColorTheme(action.theme)
             is SettingAction.OnLogoutClick -> viewModel.logout()
+            is SettingAction.OnLoginClick -> navigator.navigateToLogin()
         }
+    }
+
+    fun navigateOnLogoutSuccess() {
+        navigator.navigateBack()
     }
 }
 
@@ -24,7 +30,7 @@ internal class SettingCoordinator(
 internal fun rememberSettingCoordinator(
     navigator: SettingNavigator,
     viewModel: SettingViewModel = koinViewModel(),
-): SettingCoordinator = remember(viewModel) {
+): SettingCoordinator = remember(navigator, viewModel) {
     SettingCoordinator(
         navigator = navigator,
         viewModel = viewModel,

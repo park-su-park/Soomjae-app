@@ -15,6 +15,8 @@ kotlin {
             implementation(projects.core.data)
             implementation(projects.core.domain)
             implementation(projects.core.image)
+            implementation(projects.core.notification.data)
+            implementation(projects.core.notification.domain)
             implementation(projects.core.presentation.designsystem)
             implementation(projects.core.presentation.ui)
             implementation(projects.core.remote)
