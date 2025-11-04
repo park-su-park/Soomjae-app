@@ -5,25 +5,52 @@ import androidx.lifecycle.viewModelScope
 import com.parksupark.soomjae.core.common.theme.ColorTheme
 import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
 import com.parksupark.soomjae.core.domain.repository.ColorThemeRepository
+import com.parksupark.soomjae.core.notification.domain.service.DeviceTokenService
+import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 internal class SettingViewModel(
     private val colorThemeRepository: ColorThemeRepository,
     private val sessionRepository: SessionRepository,
+    private val deviceTokenService: DeviceTokenService,
 ) : ViewModel() {
-    private val _stateFlow: MutableStateFlow<SettingState> = MutableStateFlow(SettingState())
-    val stateFlow: StateFlow<SettingState> = _stateFlow.asStateFlow()
+    private val eventChannel = Channel<SettingEvent>()
+    val events = eventChannel.receiveAsFlow()
 
-    init {
-        colorThemeRepository.getColorThemeStream().onEach { theme ->
-            _stateFlow.update { it.copy(colorTheme = theme) }
-        }.launchIn(viewModelScope)
+    private val _stateFlow: MutableStateFlow<SettingState> = MutableStateFlow(SettingState())
+    val stateFlow: StateFlow<SettingState> = _stateFlow.onStart {
+        observeColorTheme()
+        observeSession()
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = SettingState(),
+    )
+
+    private fun observeColorTheme() {
+        colorThemeRepository.getColorThemeStream()
+            .onEach { theme ->
+                _stateFlow.update { it.copy(colorTheme = theme) }
+            }
+            .launchIn(viewModelScope)
+    }
+
+    private fun observeSession() {
+        sessionRepository.getAsFlow()
+            .onEach { session ->
+                _stateFlow.update { it.copy(isUserLoggedIn = session != null) }
+            }
+            .launchIn(viewModelScope)
     }
 
     fun changeColorTheme(theme: ColorTheme) {
@@ -36,7 +63,15 @@ internal class SettingViewModel(
 
     fun logout() {
         viewModelScope.launch {
-            sessionRepository.set(null)
+            deviceTokenService.unregisterToken("ANDROID").fold(
+                ifLeft = { failure ->
+                    eventChannel.send(SettingEvent.OnLogoutFailure(failure.asUiText()))
+                },
+                ifRight = {
+                    sessionRepository.set(null)
+                    eventChannel.send(SettingEvent.OnLogoutSuccess)
+                },
+            )
         }
     }
 }

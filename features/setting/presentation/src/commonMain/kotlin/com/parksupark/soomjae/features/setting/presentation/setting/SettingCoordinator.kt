@@ -10,6 +10,7 @@ internal class SettingCoordinator(
     val viewModel: SettingViewModel,
 ) {
     val screenStateFlow = viewModel.stateFlow
+    val event = viewModel.events
 
     fun handle(action: SettingAction) {
         when (action) {
@@ -24,7 +25,7 @@ internal class SettingCoordinator(
 internal fun rememberSettingCoordinator(
     navigator: SettingNavigator,
     viewModel: SettingViewModel = koinViewModel(),
-): SettingCoordinator = remember(viewModel) {
+): SettingCoordinator = remember(navigator, viewModel) {
     SettingCoordinator(
         navigator = navigator,
         viewModel = viewModel,
