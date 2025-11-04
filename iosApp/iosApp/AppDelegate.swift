@@ -56,8 +56,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
 
-        if let chatId = userInfo["chatId"] as? String {
-            let deepLinkUrl = "chirp://chat_detail/\(chatId)"
+        if let postId = userInfo["postId"] as? String {
+            let deepLinkUrl = "soomjae://post_detail/\(postId)"
             // TODO: Implement deeplink handler first
             // ExternalUriHandler.shared.onNewUri(uri: deepLinkUrl)
         }
