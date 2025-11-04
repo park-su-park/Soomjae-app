@@ -47,9 +47,6 @@ internal class SoomjaeViewModel(
         ) { authInfo, deviceToken ->
             currentDeviceToken = deviceToken
             if (authInfo != null && deviceToken != null && deviceToken != previousDeviceToken) {
-                previousDeviceToken?.let { token ->
-                    deviceTokenService.unregisterToken(token)
-                }
                 registerDeviceToken(deviceToken, PlatformUtils.getOSName())
                 previousDeviceToken = deviceToken
             }
