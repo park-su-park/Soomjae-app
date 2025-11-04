@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.parksupark.soomjae.core.common.theme.ColorTheme
 import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
+import com.parksupark.soomjae.core.domain.logging.SjLogger
 import com.parksupark.soomjae.core.domain.repository.ColorThemeRepository
 import com.parksupark.soomjae.core.notification.domain.service.DeviceTokenService
 import com.parksupark.soomjae.core.notification.domain.service.PushNotificationService
-import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -21,7 +21,10 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+private const val TAG = "SettingViewModel"
+
 internal class SettingViewModel(
+    private val logger: SjLogger,
     private val colorThemeRepository: ColorThemeRepository,
     private val sessionRepository: SessionRepository,
     private val pushNotificationService: PushNotificationService,
@@ -69,15 +72,16 @@ internal class SettingViewModel(
             val currentToken = pushNotificationService.observeDeviceToken().first()
             currentToken?.let { token ->
                 deviceTokenService.unregisterToken(token).fold(
-                    ifLeft = { failure ->
-                        eventChannel.send(SettingEvent.OnLogoutFailure(failure.asUiText()))
+                    ifLeft = {
+                        logger.error(TAG, "Failed to unregister device token")
                     },
                     ifRight = {
-                        eventChannel.send(SettingEvent.OnLogoutSuccess)
+                        logger.info(TAG, "Successfully unregistered device token")
                     },
                 )
             }
             sessionRepository.set(null)
+            eventChannel.send(SettingEvent.OnLogoutSuccess)
         }
     }
 }
