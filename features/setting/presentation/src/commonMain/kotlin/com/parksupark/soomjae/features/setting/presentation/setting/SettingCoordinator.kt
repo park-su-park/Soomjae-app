@@ -17,7 +17,12 @@ internal class SettingCoordinator(
             is SettingAction.OnBackClick -> navigator.navigateBack()
             is SettingAction.OnThemeChange -> viewModel.changeColorTheme(action.theme)
             is SettingAction.OnLogoutClick -> viewModel.logout()
+            is SettingAction.OnLoginClick -> navigator.navigateToLogin()
         }
+    }
+
+    fun navigateOnLogoutSuccess() {
+        navigator.navigateBack()
     }
 }
 

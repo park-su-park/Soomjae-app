@@ -14,6 +14,8 @@ internal sealed interface SettingAction {
     data class OnThemeChange(val theme: ColorTheme) : SettingAction
 
     data object OnLogoutClick : SettingAction
+
+    data object OnLoginClick : SettingAction
 }
 
 internal sealed interface SettingEvent {
