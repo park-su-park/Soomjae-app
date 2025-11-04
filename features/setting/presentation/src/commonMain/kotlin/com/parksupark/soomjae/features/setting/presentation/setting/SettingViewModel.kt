@@ -6,11 +6,13 @@ import com.parksupark.soomjae.core.common.theme.ColorTheme
 import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
 import com.parksupark.soomjae.core.domain.repository.ColorThemeRepository
 import com.parksupark.soomjae.core.notification.domain.service.DeviceTokenService
+import com.parksupark.soomjae.core.notification.domain.service.PushNotificationService
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -22,6 +24,7 @@ import kotlinx.coroutines.launch
 internal class SettingViewModel(
     private val colorThemeRepository: ColorThemeRepository,
     private val sessionRepository: SessionRepository,
+    private val pushNotificationService: PushNotificationService,
     private val deviceTokenService: DeviceTokenService,
 ) : ViewModel() {
     private val eventChannel = Channel<SettingEvent>()
@@ -63,15 +66,18 @@ internal class SettingViewModel(
 
     fun logout() {
         viewModelScope.launch {
-            deviceTokenService.unregisterToken("ANDROID").fold(
-                ifLeft = { failure ->
-                    eventChannel.send(SettingEvent.OnLogoutFailure(failure.asUiText()))
-                },
-                ifRight = {
-                    sessionRepository.set(null)
-                    eventChannel.send(SettingEvent.OnLogoutSuccess)
-                },
-            )
+            val currentToken = pushNotificationService.observeDeviceToken().first()
+            currentToken?.let { token ->
+                deviceTokenService.unregisterToken(token).fold(
+                    ifLeft = { failure ->
+                        eventChannel.send(SettingEvent.OnLogoutFailure(failure.asUiText()))
+                    },
+                    ifRight = {
+                        eventChannel.send(SettingEvent.OnLogoutSuccess)
+                    },
+                )
+            }
+            sessionRepository.set(null)
         }
     }
 }
