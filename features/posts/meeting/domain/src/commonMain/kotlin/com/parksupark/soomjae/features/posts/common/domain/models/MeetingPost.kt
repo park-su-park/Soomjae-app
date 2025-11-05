@@ -15,6 +15,7 @@ data class MeetingPost(
     val location: Location?,
     val likeCount: Int,
     val isUserLiked: Boolean,
+    val commentCount: Int,
     val maxParticipationCount: Int,
     val currentParticipantCount: Int,
     val recruitmentPeriod: RecruitmentPeriod,

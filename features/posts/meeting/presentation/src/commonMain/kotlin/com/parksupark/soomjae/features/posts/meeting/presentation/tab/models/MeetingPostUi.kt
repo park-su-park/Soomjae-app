@@ -42,7 +42,6 @@ data class MeetingPostUi(
 @OptIn(ExperimentalTime::class)
 private fun Instant.isBefore(now: Instant) = this < now
 
-// TODO: implement likeCount and commentCount
 @ExperimentalTime
 internal fun MeetingPost.toMeetingPostUi() = MeetingPostUi(
     id = id,
@@ -52,7 +51,7 @@ internal fun MeetingPost.toMeetingPostUi() = MeetingPostUi(
     author = author.toUi(),
     isUserLiked = isUserLiked,
     likeCount = likeCount,
-    commentCount = 0,
+    commentCount = commentCount,
     category = category?.toUi(),
     maxParticipantCount = maxParticipationCount,
     currentParticipantCount = currentParticipantCount,
