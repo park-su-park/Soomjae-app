@@ -9,17 +9,14 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -43,7 +40,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -104,29 +101,27 @@ private fun MeetingDetailSuccessScreen(
             MeetingDetailTopBar(onBackClick = { onAction(MeetingDetailAction.OnBackClick) })
         },
     ) { innerPadding ->
-        Box(
-            modifier = Modifier.padding(innerPadding),
-        ) {
+        Box {
             MeetingDetailContent(
                 state = state,
-                contentPadding = PaddingValues(
-                    bottom = WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)
-                        .asPaddingValues().calculateBottomPadding() + inputBarHeight,
-                ),
-                onToggleLikeClick = { onAction(MeetingDetailAction.OnToggleLikeClick) },
-                onToggleParticipationClick = {
-                    onAction(MeetingDetailAction.OnToggleParticipationClick)
-                },
-                onMessageClick = { onAction(MeetingDetailAction.OnMessageClick) },
+                contentPadding = innerPadding,
+                onAction = onAction,
+                modifier = Modifier.fillMaxSize()
+                    .consumeWindowInsets(innerPadding)
+                    .imePadding()
+                    .padding(bottom = inputBarHeight),
             )
 
             val localDensity = LocalDensity.current
             CommentInputBar(
                 state = state.inputCommentState,
                 onSendClick = { onAction(MeetingDetailAction.OnSendCommentClick) },
-                modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth().imePadding()
-                    .onGloballyPositioned {
-                        inputBarHeight = with(localDensity) { it.size.height.toDp() }
+                modifier = Modifier.align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .navigationBarsPadding()
+                    .imePadding()
+                    .onSizeChanged {
+                        inputBarHeight = with(localDensity) { it.height.toDp() }
                     },
                 isLoggedIn = state.isLoggedIn,
                 onLoginRequest = { onAction(MeetingDetailAction.LoginRequest) },
@@ -138,16 +133,14 @@ private fun MeetingDetailSuccessScreen(
 @Composable
 private fun MeetingDetailContent(
     state: MeetingDetailState.Success,
+    onAction: (MeetingDetailAction) -> Unit,
     contentPadding: PaddingValues,
-    onToggleLikeClick: () -> Unit,
-    onToggleParticipationClick: () -> Unit,
-    onMessageClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val post = state.postDetail.post
 
     LazyColumn(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier,
         contentPadding = contentPadding,
     ) {
         item {
@@ -167,7 +160,9 @@ private fun MeetingDetailContent(
                 maxParticipantCount = state.postDetail.maxParticipationCount,
                 recruitmentEndTime = state.postDetail.recruitmentPeriod.formattedEndTime,
                 isUserJoined = state.postDetail.isUserJoined,
-                onToggleParticipationClick = onToggleParticipationClick,
+                onToggleParticipationClick = {
+                    onAction(MeetingDetailAction.OnToggleParticipationClick)
+                },
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
             )
 
@@ -176,13 +171,13 @@ private fun MeetingDetailContent(
                     author = post.author,
                     review = MeetingReviewUi(rating = 4.5f, reviewCount = 10),
                 ),
-                onMessageClick = onMessageClick,
+                onMessageClick = { onAction(MeetingDetailAction.OnMessageClick) },
                 modifier = Modifier.fillMaxWidth(),
             )
 
             PostAdditionalButtons(
                 isLiked = state.postDetail.isLike,
-                onToggleLikeClick = onToggleLikeClick,
+                onToggleLikeClick = { onAction(MeetingDetailAction.OnToggleLikeClick) },
                 likeCount = state.postDetail.post.likeCount,
                 commentCount = state.postDetail.post.commentCount,
             )
