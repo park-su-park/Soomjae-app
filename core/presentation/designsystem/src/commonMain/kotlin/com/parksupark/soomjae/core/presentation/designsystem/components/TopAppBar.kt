@@ -13,7 +13,6 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 
@@ -76,8 +75,8 @@ fun SoomjaeCenterAlignedTopAppBar(
 object SoomjaeTopAppBarDefaults {
     @Composable
     fun topAppBarColors() = TopAppBarColors(
-        containerColor = Color.Transparent,
-        scrolledContainerColor = Color.Transparent,
+        containerColor = SoomjaeTheme.colorScheme.background1,
+        scrolledContainerColor = SoomjaeTheme.colorScheme.background1,
         navigationIconContentColor = SoomjaeTheme.colorScheme.icon,
         titleContentColor = SoomjaeTheme.colorScheme.text2,
         actionIconContentColor = SoomjaeTheme.colorScheme.icon,
