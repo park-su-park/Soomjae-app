@@ -40,4 +40,8 @@ internal class PreferenceSessionDataSource(
             }
         }
     }
+
+    override suspend fun clear() {
+        this.set(null)
+    }
 }

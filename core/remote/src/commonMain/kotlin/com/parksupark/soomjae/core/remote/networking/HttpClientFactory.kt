@@ -2,6 +2,7 @@ package com.parksupark.soomjae.core.remote.networking
 
 import com.parksupark.soomjae.core.domain.auth.datasources.SessionDataSource
 import com.parksupark.soomjae.core.remote.dtos.response.RefreshTokenResponse
+import com.parksupark.soomjae.core.remote.util.getRefreshTokenFromCookies
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngineConfig
 import io.ktor.client.engine.HttpClientEngineFactory
@@ -13,6 +14,10 @@ import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.request.header
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.client.request.url
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.http.encodedPath
@@ -55,22 +60,41 @@ internal class HttpClientFactory(
                     }
                 }
                 refreshTokens {
-                    val currentInfo = sessionRepository.get()
-                    if (currentInfo == null) return@refreshTokens null
+                    val currentInfo = sessionRepository.get() ?: return@refreshTokens null
+                    val currentRefreshToken = currentInfo.refreshToken
+                    if (currentRefreshToken == null) {
+                        Kermit.e(HTTPCLIENT_AUTH_TAG) {
+                            "No refresh token available, cannot refresh access token"
+                        }
+                        return@refreshTokens null
+                    }
 
-                    client.post<Unit, RefreshTokenResponse>(
-                        route = "/v1/auth/refresh",
-                        body = Unit,
-                    ).fold(
+                    var newRefreshToken: String? = null
+                    safeCall<RefreshTokenResponse> {
+                        val response = client.post {
+                            this.url(constructRoute(route = "/v1/auth/refresh"))
+                            setBody(body = Unit)
+                            header(
+                                HttpHeaderConstants.COOKIE,
+                                "${HttpCookieConstants.REFRESH_TOKEN}=$currentRefreshToken",
+                            )
+                        }
+                        newRefreshToken = response.getRefreshTokenFromCookies()
+                        response
+                    }.fold(
                         ifLeft = {
                             Kermit.e(HTTPCLIENT_AUTH_TAG) { "Failed to refresh token: $it" }
+                            sessionRepository.clear()
                             null
                         },
                         ifRight = {
                             Kermit.d(HTTPCLIENT_AUTH_TAG) { "Successfully refreshed token" }
                             val newAccessToken = it.accessToken
                             sessionRepository.set(
-                                currentInfo.copy(accessToken = newAccessToken),
+                                currentInfo.copy(
+                                    accessToken = newAccessToken,
+                                    refreshToken = newRefreshToken,
+                                ),
                             )
                             BearerTokens(
                                 accessToken = newAccessToken,

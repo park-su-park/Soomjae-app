@@ -7,9 +7,11 @@ import kotlinx.serialization.Serializable
 internal data class EmailLoginResponse(
     val memberId: Long,
     val accessToken: String,
+    val refreshToken: String? = null,
 )
 
 internal fun EmailLoginResponse.toAuthInfo() = AuthInfo(
     memberId = memberId,
     accessToken = accessToken,
+    refreshToken = refreshToken,
 )
