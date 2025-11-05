@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.parksupark.soomjae.core.data.util.PlatformUtils
 import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
+import com.parksupark.soomjae.core.domain.logging.SjLogger
 import com.parksupark.soomjae.core.domain.repository.ColorThemeRepository
 import com.parksupark.soomjae.core.notification.domain.service.DeviceTokenService
 import com.parksupark.soomjae.core.notification.domain.service.PushNotificationService
@@ -17,7 +18,10 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+private const val TAG = "SoomjaeViewModel"
+
 internal class SoomjaeViewModel(
+    private val logger: SjLogger,
     private val sessionRepository: SessionRepository,
     private val pushNotificationService: PushNotificationService,
     private val deviceTokenService: DeviceTokenService,
@@ -59,7 +63,14 @@ internal class SoomjaeViewModel(
         platform: String,
     ) {
         viewModelScope.launch {
-            deviceTokenService.registerToken(deviceToken, platform)
+            deviceTokenService.registerToken(deviceToken, platform).fold(
+                ifLeft = {
+                    logger.error(TAG, "Failed to register device token: $deviceToken")
+                },
+                ifRight = {
+                    logger.info(TAG, "Successfully registered device token: $deviceToken")
+                },
+            )
         }
     }
 
