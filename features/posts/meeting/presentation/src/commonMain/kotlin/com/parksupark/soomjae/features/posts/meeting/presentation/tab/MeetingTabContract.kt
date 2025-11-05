@@ -5,6 +5,7 @@ import kotlinx.collections.immutable.persistentListOf
 
 data class MeetingTabState(
     val isLikeSubmitting: ImmutableList<Long> = persistentListOf(),
+    val isPostsRefreshing: Boolean = false,
 )
 
 sealed interface MeetingTabAction {
@@ -15,8 +16,14 @@ sealed interface MeetingTabAction {
     data class OnPostClick(val postId: Long) : MeetingTabAction
 
     data class OnPostLikeClick(val postId: Long) : MeetingTabAction
+
+    data object OnPullToRefresh : MeetingTabAction
+
+    data class RefreshChange(val refresh: Boolean) : MeetingTabAction
 }
 
 sealed interface MeetingTabEvent {
     data object NavigateToMeetingWrite : MeetingTabEvent
+
+    data object RefreshPost : MeetingTabEvent
 }
