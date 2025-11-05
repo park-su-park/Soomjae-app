@@ -75,8 +75,8 @@ internal class HttpClientFactory(
                             this.url(constructRoute(route = "/v1/auth/refresh"))
                             setBody(body = Unit)
                             header(
-                                HttpHeaderConstants.COOKIE,
-                                "${HttpCookieConstants.REFRESH_TOKEN}=$currentRefreshToken",
+                                HttpHeaderKey.COOKIE,
+                                "${HttpCookieKey.REFRESH_TOKEN}=$currentRefreshToken",
                             )
                         }
                         newRefreshToken = response.getRefreshTokenFromCookies()
