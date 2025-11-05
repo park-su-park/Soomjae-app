@@ -7,6 +7,7 @@ import com.parksupark.soomjae.core.notification.domain.service.PushNotificationS
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 
@@ -23,7 +24,9 @@ actual class FirebasePushNotificationService(
         } catch (e: Exception) {
             currentCoroutineContext().ensureActive()
             logger.error(TAG, "Failed to get FCM token", e)
-            emit(null)
         }
+    }.catch { e ->
+        logger.error(TAG, "Error in observeDeviceToken flow", e)
+        emit(null)
     }
 }
