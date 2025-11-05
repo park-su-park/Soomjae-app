@@ -2,7 +2,9 @@ package com.parksupark.soomjae.features.posts.aggregate.presentation.navigation
 
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
@@ -59,7 +61,14 @@ fun NavGraphBuilder.postGraph(
         composable<CommunityDestination.CommunityWrite> {
             CommunityWriteRoute(navigator = navigator)
         }
-        composable<CommunityDestination.CommunityDetail> {
+        composable<CommunityDestination.CommunityDetail>(
+            enterTransition = {
+                slideInHorizontally(initialOffsetX = { it })
+            },
+            exitTransition = {
+                slideOutHorizontally(targetOffsetX = { it })
+            },
+        ) {
             CommunityDetailRoute(navigator = navigator)
         }
 
@@ -68,7 +77,14 @@ fun NavGraphBuilder.postGraph(
                 navigator = navigator,
             )
         }
-        composable<PostDestination.MeetingDetail> {
+        composable<PostDestination.MeetingDetail>(
+            enterTransition = {
+                slideInHorizontally(initialOffsetX = { it })
+            },
+            exitTransition = {
+                slideOutHorizontally(targetOffsetX = { it })
+            },
+        ) {
             val postId = it.toRoute<PostDestination.MeetingDetail>().postId
             MeetingDetailRoute(
                 navigator = navigator,
