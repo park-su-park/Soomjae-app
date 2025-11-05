@@ -9,10 +9,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.text.input.OutputTransformation
@@ -89,10 +89,10 @@ fun SoomjaeTextField(
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        BasicTextField(
+        SoomjaeBasicTextField(
             state = state,
             enabled = enabled,
-            textStyle = SoomjaeTheme.typography.labelM.copy(
+            textStyle = SoomjaeTheme.typography.captionL.copy(
                 color = SoomjaeTheme.colorScheme.text1,
             ),
             keyboardOptions = KeyboardOptions(
@@ -100,23 +100,28 @@ fun SoomjaeTextField(
             ),
             lineLimits = TextFieldLineLimits.SingleLine,
             cursorBrush = SolidColor(SoomjaeTheme.colorScheme.text1),
-            modifier = Modifier.clip(RoundedCornerShape(16.dp)).background(
-                if (isFocused) {
-                    SoomjaeTheme.colorScheme.background2
-                } else {
-                    SoomjaeTheme.colorScheme.background1
+            modifier = Modifier.heightIn(min = 40.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .background(
+                    if (isFocused) {
+                        SoomjaeTheme.colorScheme.background2
+                    } else {
+                        SoomjaeTheme.colorScheme.background1
+                    },
+                )
+                .border(
+                    width = 1.dp,
+                    color = if (isFocused) {
+                        SoomjaeTheme.colorScheme.divider1
+                    } else {
+                        Color.Transparent
+                    },
+                    shape = RoundedCornerShape(16.dp),
+                )
+                .padding(12.dp)
+                .onFocusChanged {
+                    isFocused = it.isFocused
                 },
-            ).border(
-                width = 1.dp,
-                color = if (isFocused) {
-                    SoomjaeTheme.colorScheme.divider1
-                } else {
-                    Color.Transparent
-                },
-                shape = RoundedCornerShape(16.dp),
-            ).padding(12.dp).onFocusChanged {
-                isFocused = it.isFocused
-            },
             decorator = { innerBox ->
                 OutlinedTextFieldDecorator(
                     startIcon = startIcon,
@@ -187,8 +192,10 @@ fun SoomjaeOutlinedTextField(
                 }
             }
             Spacer(modifier = Modifier.height(4.dp))
-            BasicTextField(
-                modifier = Modifier.clip(MaterialTheme.shapes.small)
+            SoomjaeBasicTextField(
+                state = state,
+                modifier = Modifier.heightIn(min = 40.dp)
+                    .clip(MaterialTheme.shapes.small)
                     .border(
                         width = 1.dp,
                         color = when {
@@ -207,7 +214,6 @@ fun SoomjaeOutlinedTextField(
                     .onFocusChanged {
                         isFocused = it.isFocused
                     },
-                state = state,
                 enabled = enabled,
                 inputTransformation = inputTransformation,
                 textStyle = SoomjaeTheme.typography.captionL.copy(

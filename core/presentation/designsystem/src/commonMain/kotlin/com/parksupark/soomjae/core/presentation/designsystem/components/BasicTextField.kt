@@ -107,7 +107,7 @@ fun SoomjaeBasicTextField(
 object SoomjaeBasicTextFieldDefaults {
     val CursorBrush: Brush
         @Composable
-        get() = SolidColor(SoomjaeTheme.colorScheme.cta)
+        get() = SolidColor(SoomjaeTheme.colorScheme.text1)
 }
 
 @Preview
