@@ -19,6 +19,8 @@ data class CommunityPostEdited(
 
     val likeCount: Int,
     val isUserLiked: Boolean,
+
+    val commentCount: Int,
 )
 
 @OptIn(ExperimentalTime::class)
@@ -32,6 +34,7 @@ fun CommunityPostEdited.toCommunityPost(): CommunityPost = CommunityPost(
     locationName = location?.name,
     likeCount = likeCount,
     isUserLiked = isUserLiked,
+    commentCount = commentCount,
 )
 
 @OptIn(ExperimentalTime::class)
@@ -48,4 +51,5 @@ fun CommunityPost.toCommunityPostEdited(
     location = location,
     likeCount = likeCount,
     isUserLiked = isUserLiked,
+    commentCount = commentCount,
 )

@@ -35,6 +35,7 @@ object CommunityPostPreviewParameterData {
             locationName = "Gangnam-gu",
             likeCount = 12,
             isUserLiked = true,
+            commentCount = 3,
         ),
         CommunityPost(
             id = 2,
@@ -47,6 +48,7 @@ object CommunityPostPreviewParameterData {
             locationName = null,
             likeCount = 5,
             isUserLiked = false,
+            commentCount = 4,
         ),
         CommunityPost(
             id = 3,
@@ -60,6 +62,7 @@ object CommunityPostPreviewParameterData {
             locationName = null,
             likeCount = 20,
             isUserLiked = true,
+            commentCount = 12,
         ),
         CommunityPost(
             id = 4,
@@ -73,6 +76,7 @@ object CommunityPostPreviewParameterData {
             locationName = "Seocho-gu",
             likeCount = 8,
             isUserLiked = false,
+            commentCount = 2,
         ),
     )
 }

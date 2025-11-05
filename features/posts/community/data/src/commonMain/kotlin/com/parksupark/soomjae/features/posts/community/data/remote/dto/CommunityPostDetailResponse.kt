@@ -41,6 +41,7 @@ internal fun CommunityPostDetailResponse.toCommunityPostDetail(): CommunityPostD
             locationName = locationName,
             likeCount = likeCount,
             isUserLiked = isUserLiked,
+            commentCount = comments.count(),
         ).toModel(),
         comments = comments.map { it.toComment() },
     )
