@@ -2,16 +2,16 @@ package com.parksupark.soomjae.features.auth.domain.model
 
 sealed interface LoginType {
     sealed interface Social : LoginType {
-        object Google : Social
+        data object Google : Social
 
-        object Apple : Social
+        data object Apple : Social
 
-        object Kakao : Social
+        data object Kakao : Social
 
-        object Naver : Social
+        data object Naver : Social
     }
 
     sealed interface Credential : LoginType {
-        object Email : Credential
+        data object Email : Credential
     }
 }
