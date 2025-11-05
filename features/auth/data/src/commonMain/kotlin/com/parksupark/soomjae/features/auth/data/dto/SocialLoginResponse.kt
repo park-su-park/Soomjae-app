@@ -7,9 +7,14 @@ import kotlinx.serialization.Serializable
 internal data class SocialLoginResponse(
     val memberId: Long,
     val accessToken: String,
+    val refreshToken: String? = null,
 )
 
 internal fun SocialLoginResponse?.toAuthInfo(): AuthInfo? {
     if (this == null) return null
-    return AuthInfo(memberId = memberId, accessToken = this.accessToken)
+    return AuthInfo(
+        memberId = memberId,
+        accessToken = this.accessToken,
+        refreshToken = this.refreshToken,
+    )
 }

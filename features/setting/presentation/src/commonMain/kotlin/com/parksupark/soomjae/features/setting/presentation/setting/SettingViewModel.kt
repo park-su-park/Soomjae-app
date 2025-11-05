@@ -3,16 +3,17 @@ package com.parksupark.soomjae.features.setting.presentation.setting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.parksupark.soomjae.core.common.theme.ColorTheme
+import com.parksupark.soomjae.core.common.utils.firstOrNullWithTimeout
 import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
 import com.parksupark.soomjae.core.domain.logging.SjLogger
 import com.parksupark.soomjae.core.domain.repository.ColorThemeRepository
 import com.parksupark.soomjae.core.notification.domain.service.DeviceTokenService
 import com.parksupark.soomjae.core.notification.domain.service.PushNotificationService
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -69,7 +70,8 @@ internal class SettingViewModel(
 
     fun logout() {
         viewModelScope.launch {
-            val currentToken = pushNotificationService.observeDeviceToken().first()
+            val currentToken =
+                pushNotificationService.observeDeviceToken().firstOrNullWithTimeout(2.seconds)
             currentToken?.let { token ->
                 deviceTokenService.unregisterToken(token).fold(
                     ifLeft = {
@@ -79,8 +81,11 @@ internal class SettingViewModel(
                         logger.info(TAG, "Successfully unregistered device token")
                     },
                 )
-            }
+            } ?: logger.warn(TAG, "No device token found to unregister")
+
             sessionRepository.set(null)
+            // TODO: 쿠키 클리어
+            logger.info(TAG, "User logged out successfully")
             eventChannel.send(SettingEvent.OnLogoutSuccess)
         }
     }

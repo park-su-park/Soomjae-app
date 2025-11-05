@@ -11,4 +11,6 @@ interface SessionDataSource {
     fun getAsFlow(): Flow<AuthInfo?>
 
     suspend fun set(info: AuthInfo?)
+
+    suspend fun clear()
 }
