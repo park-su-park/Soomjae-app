@@ -1,5 +1,9 @@
 package com.parksupark.soomjae.features.auth.presentation.navigation
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -41,7 +45,14 @@ fun NavGraphBuilder.authGraph(navigator: AuthNavigator) {
     navigation<AuthDestination.Root>(
         startDestination = AuthDestination.Login,
     ) {
-        composable<AuthDestination.Login> {
+        composable<AuthDestination.Login>(
+            enterTransition = {
+                slideInVertically(initialOffsetY = { it / 2 }) + fadeIn()
+            },
+            exitTransition = {
+                slideOutVertically(targetOffsetY = { 0 }) + fadeOut()
+            },
+        ) {
             LoginRoute(navigator)
         }
         composable<AuthDestination.EmailLogin> {
