@@ -11,4 +11,4 @@ fun HttpResponse.getRefreshTokenFromCookies(): String? = this.headers[SET_COOKIE
     ?.split(";")
     ?.map { it.trim() }
     ?.firstOrNull { it.startsWith(REFRESH_TOKEN_PREFIX) }
-    ?.removePrefix(REFRESH_TOKEN_PREFIX)
+    ?.substringAfter("${REFRESH_TOKEN_PREFIX}=")
