@@ -25,6 +25,8 @@ internal data class CommunityPostResponse(
 
     @SerialName("likeNum") val likeCount: Int,
     @SerialName("isLikedByMe") val isUserLiked: Boolean,
+
+    @SerialName("commentNum") val commentCount: Int,
 )
 
 @OptIn(ExperimentalTime::class)
@@ -38,4 +40,5 @@ internal fun CommunityPostResponse.toModel(): CommunityPost = CommunityPost(
     locationName = locationName,
     likeCount = likeCount,
     isUserLiked = isUserLiked,
+    commentCount = commentCount,
 )

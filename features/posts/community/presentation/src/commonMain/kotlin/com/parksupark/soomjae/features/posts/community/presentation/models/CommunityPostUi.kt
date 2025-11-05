@@ -6,7 +6,6 @@ import com.parksupark.soomjae.features.posts.common.presentation.models.AuthorUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
 import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPost
-import kotlin.random.Random
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
@@ -28,26 +27,26 @@ data class CommunityPostUi(
 
 @OptIn(ExperimentalTime::class)
 internal fun CommunityPost.toUi(): CommunityPostUi = CommunityPostUi(
-    id = id,
-    title = title,
-    content = content,
-    author = author.toUi(),
-    createdAt = createdAt,
+    id = this.id,
+    title = this.title,
+    content = this.content,
+    author = this.author.toUi(),
+    createdAt = this.createdAt,
     likeCount = this.likeCount,
     isUserLiked = this.isUserLiked,
-    commentCount = Random.nextInt(20),
+    commentCount = this.commentCount,
     category = null,
 )
 
 @OptIn(ExperimentalTime::class)
 internal fun CommunityPost.toUi(isUserLiked: Boolean): CommunityPostUi = CommunityPostUi(
-    id = id,
-    title = title,
-    content = content,
-    author = author.toUi(),
-    createdAt = createdAt,
+    id = this.id,
+    title = this.title,
+    content = this.content,
+    author = this.author.toUi(),
+    createdAt = this.createdAt,
     likeCount = this.likeCount,
     isUserLiked = isUserLiked,
-    commentCount = Random.nextInt(20),
+    commentCount = this.commentCount,
     category = null,
 )

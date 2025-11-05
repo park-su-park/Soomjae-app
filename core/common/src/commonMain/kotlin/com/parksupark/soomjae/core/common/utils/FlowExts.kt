@@ -5,8 +5,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withTimeoutOrNull
 
-suspend fun Flow<String?>.firstOrNullWithTimeout(timeoutMs: Long): String? =
+suspend fun <T> Flow<T?>.firstOrNullWithTimeout(timeoutMs: Long): T? =
     withTimeoutOrNull(timeoutMs) { first() }
 
-suspend fun Flow<String?>.firstOrNullWithTimeout(timeout: Duration): String? =
+suspend fun <T> Flow<T?>.firstOrNullWithTimeout(timeout: Duration): T? =
     withTimeoutOrNull(timeout) { first() }

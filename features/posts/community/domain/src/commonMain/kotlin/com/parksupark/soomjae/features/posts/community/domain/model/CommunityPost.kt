@@ -17,4 +17,6 @@ data class CommunityPost(
 
     val likeCount: Int,
     val isUserLiked: Boolean,
+
+    val commentCount: Int,
 )

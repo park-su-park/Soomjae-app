@@ -19,7 +19,6 @@ import androidx.compose.foundation.text.input.TextObfuscationMode
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
@@ -32,6 +31,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -45,7 +47,7 @@ fun SoomjaeSecureOutlinedTextField(
     title: String? = null,
     startIcon: ImageVector? = null,
     error: String? = null,
-    keyboardType: KeyboardType = KeyboardType.Companion.Text,
+    keyboardType: KeyboardType = KeyboardType.Text,
     additionalInfo: String? = null,
     enabled: Boolean = true,
 ) {
@@ -57,7 +59,7 @@ fun SoomjaeSecureOutlinedTextField(
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Companion.CenterVertically,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 ProvideTextStyle(SoomjaeTheme.typography.captionS) {
                     if (title != null) {
@@ -81,7 +83,9 @@ fun SoomjaeSecureOutlinedTextField(
             }
             Spacer(modifier = Modifier.height(4.dp))
             BasicSecureTextField(
-                modifier = Modifier.clip(MaterialTheme.shapes.small)
+                state = state,
+                modifier = Modifier.heightIn(min = 40.dp)
+                    .clip(MaterialTheme.shapes.small)
                     .border(
                         width = 1.dp,
                         color = when {
@@ -97,9 +101,12 @@ fun SoomjaeSecureOutlinedTextField(
                     .onFocusChanged {
                         isFocused = it.isFocused
                     },
-                state = state,
                 enabled = enabled,
+                textStyle = SoomjaeTheme.typography.captionL.copy(
+                    color = SoomjaeTheme.colorScheme.text1,
+                ),
                 keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+                cursorBrush = SoomjaeTheme.colorScheme.text1.toBrush(),
                 decorator = {
                     SecureOutlinedTextFieldDecorator(
                         startIcon = startIcon,
@@ -117,6 +124,8 @@ fun SoomjaeSecureOutlinedTextField(
     }
 }
 
+private fun Color.toBrush(): Brush = SolidColor(this)
+
 @Composable
 private fun SecureOutlinedTextFieldDecorator(
     startIcon: ImageVector?,
@@ -129,13 +138,12 @@ private fun SecureOutlinedTextFieldDecorator(
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.Companion.CenterVertically,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         if (startIcon != null) {
-            Icon(
+            SoomjaeIcon(
                 imageVector = startIcon,
                 contentDescription = null,
-                tint = SoomjaeTheme.colorScheme.icon,
             )
             Spacer(modifier = Modifier.width(16.dp))
         }
@@ -154,8 +162,12 @@ private fun SecureOutlinedTextFieldDecorator(
             innerBox()
         }
         Spacer(modifier = Modifier.width(16.dp))
-        Icon(
-            imageVector = if (isPasswordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
+        SoomjaeIcon(
+            imageVector = if (isPasswordVisible) {
+                Icons.Default.Visibility
+            } else {
+                Icons.Default.VisibilityOff
+            },
             contentDescription = null,
             tint = SoomjaeTheme.colorScheme.icon.copy(
                 alpha = 0.6f,

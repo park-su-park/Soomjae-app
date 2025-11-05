@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
@@ -26,11 +25,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeBasicTextField
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSurface
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
@@ -101,9 +102,11 @@ private fun CommentTextField(
 ) {
     var isFocused by remember { mutableStateOf(false) }
 
-    BasicTextField(
+    SoomjaeBasicTextField(
         state = state,
-        modifier = modifier,
+        modifier = modifier.onFocusChanged {
+            isFocused = it.isFocused
+        },
         textStyle = SoomjaeTheme.typography.body2.copy(
             color = SoomjaeTheme.colorScheme.text2,
         ),
