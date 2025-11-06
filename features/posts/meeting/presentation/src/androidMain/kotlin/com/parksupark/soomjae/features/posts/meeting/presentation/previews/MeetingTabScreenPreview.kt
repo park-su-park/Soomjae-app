@@ -7,12 +7,12 @@ import app.cash.paging.PagingData
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSurface
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
+import com.parksupark.soomjae.core.presentation.ui.utils.lazyPagingItemsOf
 import com.parksupark.soomjae.features.posts.meeting.presentation.previews.providers.MeetingPostUiPreviewParameterProvider
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.MeetingTabScreen
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.MeetingPostUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.post.MeetingTabPostState
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
 @Preview(name = "MeetingTab")
