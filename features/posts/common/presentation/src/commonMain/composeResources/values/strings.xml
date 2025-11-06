@@ -9,4 +9,12 @@
 
     <string name="selection_dialog_cancel_button">취소</string>
     <string name="selection_dialog_confirm_button">확인</string>
+
+    <!-- ============================================================= -->
+    <!-- FilterChip -->
+    <!-- ============================================================= -->
+    <string name="filter_chip_category">카테고리</string>
+    <string name="filter_chip_category_selected_multiple">%1$s외 %2$d건</string>
+    <string name="filter_chip_location">위치</string>
+    <string name="filter_chip_location_selected_multiple">%1$s외 %2$d건</string>
 </resources>
