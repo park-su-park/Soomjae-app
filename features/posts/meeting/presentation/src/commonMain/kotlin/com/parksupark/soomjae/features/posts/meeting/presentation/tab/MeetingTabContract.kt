@@ -1,11 +1,9 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.tab
 
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
+import com.parksupark.soomjae.features.posts.meeting.presentation.tab.post.MeetingTabPostState
 
 data class MeetingTabState(
-    val isLikeSubmitting: ImmutableList<Long> = persistentListOf(),
-    val isPostsRefreshing: Boolean = false,
+    val postState: MeetingTabPostState = MeetingTabPostState(),
 )
 
 sealed interface MeetingTabAction {

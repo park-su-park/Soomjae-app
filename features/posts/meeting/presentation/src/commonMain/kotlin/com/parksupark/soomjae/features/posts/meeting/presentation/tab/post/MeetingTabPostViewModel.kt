@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.meeting.presentation.tab
+package com.parksupark.soomjae.features.posts.meeting.presentation.tab.post
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +10,7 @@ import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEvent
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEventController
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LikeRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
+import com.parksupark.soomjae.features.posts.meeting.presentation.tab.MeetingTabEvent
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.MeetingPostUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.toMeetingPostUi
 import kotlin.time.ExperimentalTime
@@ -24,14 +25,15 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalTime::class)
-class MeetingTabViewModel(
+class MeetingTabPostViewModel(
     private val meetingRepository: MeetingPostRepository,
     private val sessionRepository: SessionRepository,
     private val likeRepository: LikeRepository,
     private val soomjaeEventController: SoomjaeEventController,
 ) : ViewModel() {
-    private val _stateFlow: MutableStateFlow<MeetingTabState> = MutableStateFlow(MeetingTabState())
-    val stateFlow: StateFlow<MeetingTabState> = _stateFlow.asStateFlow()
+    private val _stateFlow: MutableStateFlow<MeetingTabPostState> =
+        MutableStateFlow(MeetingTabPostState())
+    val stateFlow: StateFlow<MeetingTabPostState> = _stateFlow.asStateFlow()
 
     private val eventChannel = Channel<MeetingTabEvent>()
     internal val events = eventChannel.receiveAsFlow()

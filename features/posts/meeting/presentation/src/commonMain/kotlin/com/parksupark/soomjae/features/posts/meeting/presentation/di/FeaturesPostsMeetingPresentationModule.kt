@@ -4,7 +4,7 @@ import com.parksupark.soomjae.features.posts.common.domain.repositories.MEETING_
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MEETING_LIKE_REPOSITORY
 import com.parksupark.soomjae.features.posts.meeting.presentation.detail.MeetingDetailViewModel
 import com.parksupark.soomjae.features.posts.meeting.presentation.participant_list.ParticipantListViewModel
-import com.parksupark.soomjae.features.posts.meeting.presentation.tab.MeetingTabViewModel
+import com.parksupark.soomjae.features.posts.meeting.presentation.tab.post.MeetingTabPostViewModel
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingPostWriteCoordinator
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.creation.MeetingCreationViewModel
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.post_content.MeetingPostContentViewModel
@@ -40,7 +40,7 @@ private val participantListModule = module {
 
 private val tabModule = module {
     viewModel {
-        MeetingTabViewModel(
+        MeetingTabPostViewModel(
             meetingRepository = get(),
             sessionRepository = get(),
             likeRepository = get(named(MEETING_LIKE_REPOSITORY)),

@@ -19,11 +19,12 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeP
 import com.parksupark.soomjae.features.posts.common.presentation.components.WritePostFab
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.components.MeetingPostCard
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.MeetingPostUi
+import com.parksupark.soomjae.features.posts.meeting.presentation.tab.post.MeetingTabPostState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun MeetingTabScreen(
-    state: MeetingTabState,
+    state: MeetingTabPostState,
     onAction: (MeetingTabAction) -> Unit,
     posts: LazyPagingItems<MeetingPostUi>,
 ) {

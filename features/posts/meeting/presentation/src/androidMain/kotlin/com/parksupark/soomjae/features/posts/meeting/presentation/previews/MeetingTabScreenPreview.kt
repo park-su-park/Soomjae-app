@@ -9,8 +9,8 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeS
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.features.posts.meeting.presentation.previews.providers.MeetingPostUiPreviewParameterProvider
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.MeetingTabScreen
-import com.parksupark.soomjae.features.posts.meeting.presentation.tab.MeetingTabState
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.MeetingPostUi
+import com.parksupark.soomjae.features.posts.meeting.presentation.tab.post.MeetingTabPostState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -25,7 +25,7 @@ private fun MeetingTabScreenPreview(
     AppTheme {
         SoomjaeSurface {
             MeetingTabScreen(
-                state = MeetingTabState(),
+                state = MeetingTabPostState(),
                 onAction = { },
                 posts = MutableStateFlow(PagingData.from(posts)).collectAsLazyPagingItems(),
             )
