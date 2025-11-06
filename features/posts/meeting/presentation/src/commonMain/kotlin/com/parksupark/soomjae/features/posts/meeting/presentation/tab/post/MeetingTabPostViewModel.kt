@@ -10,7 +10,6 @@ import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEvent
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEventController
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LikeRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
-import com.parksupark.soomjae.features.posts.meeting.presentation.tab.MeetingTabEvent
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.MeetingPostUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.toMeetingPostUi
 import kotlin.time.ExperimentalTime
@@ -35,7 +34,7 @@ class MeetingTabPostViewModel(
         MutableStateFlow(MeetingTabPostState())
     val stateFlow: StateFlow<MeetingTabPostState> = _stateFlow.asStateFlow()
 
-    private val eventChannel = Channel<MeetingTabEvent>()
+    private val eventChannel = Channel<MeetingTabPostEvent>()
     internal val events = eventChannel.receiveAsFlow()
 
     internal val posts: Flow<PagingData<MeetingPostUi>> = meetingRepository.getPostsStream()
@@ -46,7 +45,7 @@ class MeetingTabPostViewModel(
     fun handleWritePostClick() {
         viewModelScope.launch {
             if (sessionRepository.isLoggedIn()) {
-                eventChannel.send(MeetingTabEvent.NavigateToMeetingWrite)
+                eventChannel.send(MeetingTabPostEvent.NavigateToMeetingWrite)
             } else {
                 soomjaeEventController.sendEvent(SoomjaeEvent.LoginRequest)
             }
@@ -59,7 +58,7 @@ class MeetingTabPostViewModel(
 
     fun refreshPost() {
         viewModelScope.launch {
-            eventChannel.send(MeetingTabEvent.RefreshPost)
+            eventChannel.send(MeetingTabPostEvent.RefreshPost)
         }
     }
 

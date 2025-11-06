@@ -7,3 +7,9 @@ data class MeetingTabPostState(
     val isLikeSubmitting: ImmutableList<Long> = persistentListOf(),
     val isPostsRefreshing: Boolean = false,
 )
+
+sealed interface MeetingTabPostEvent {
+    data object NavigateToMeetingWrite : MeetingTabPostEvent
+
+    data object RefreshPost : MeetingTabPostEvent
+}
