@@ -26,6 +26,11 @@ fun MeetingTabRoute(
             MeetingTabEvent.NavigateToMeetingWrite -> onPostAction(
                 PostAction.NavigateToMeetingWrite,
             )
+
+            is MeetingTabEvent.RefreshPost -> {
+                actionsHandler(MeetingTabAction.RefreshChange(true))
+                posts.refresh()
+            }
         }
     }
 

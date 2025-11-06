@@ -8,5 +8,8 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.core.domain)
         }
+        androidMain.dependencies {
+            implementation(libs.koin.android)
+        }
     }
 }

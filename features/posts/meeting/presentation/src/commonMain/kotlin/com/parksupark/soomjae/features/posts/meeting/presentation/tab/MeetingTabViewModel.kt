@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalTime::class)
@@ -52,5 +53,19 @@ class MeetingTabViewModel(
 
     fun handlePostLikeClick(postId: Long) {
         // TODO: implement logic to like the post by optimistic updating
+    }
+
+    fun refreshPost() {
+        viewModelScope.launch {
+            eventChannel.send(MeetingTabEvent.RefreshPost)
+        }
+    }
+
+    fun setRefreshing(isRefreshing: Boolean) {
+        _stateFlow.update { state ->
+            state.copy(
+                isPostsRefreshing = isRefreshing,
+            )
+        }
     }
 }

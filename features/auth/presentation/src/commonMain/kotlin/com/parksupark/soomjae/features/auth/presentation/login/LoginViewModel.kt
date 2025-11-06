@@ -6,6 +6,8 @@ import arrow.core.Either
 import co.touchlab.kermit.Logger
 import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
+import com.parksupark.soomjae.features.auth.domain.model.LoginType
+import com.parksupark.soomjae.features.auth.domain.repositories.LastLoginRepository
 import com.parksupark.soomjae.features.auth.domain.repositories.SocialAuthRepository
 import com.parksupark.soomjae.features.auth.libs.google.models.GoogleUser
 import kotlinx.coroutines.Dispatchers
@@ -18,6 +20,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 internal class LoginViewModel(
+    private val lastLoginRepository: LastLoginRepository,
     private val socialAuthRepository: SocialAuthRepository,
 ) : ViewModel() {
     private val _uiState: MutableStateFlow<LoginState> = MutableStateFlow(LoginState())
@@ -44,6 +47,7 @@ internal class LoginViewModel(
                         },
                         ifRight = {
                             Logger.i(TAG) { "Google Sign-In Succeeded" }
+                            lastLoginRepository.saveRecentLogin(LoginType.Social.Google)
                             eventChannel.send(LoginEvent.OnLoginSuccess)
                         },
                     )

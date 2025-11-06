@@ -22,7 +22,6 @@ data class MeetingPostDetailUi(
 )
 
 @OptIn(ExperimentalTime::class)
-// TODO: implement likeCount and commentCount
 internal fun MeetingPostDetail.toMeetingPostDetailUi() = MeetingPostDetailUi(
     post = this.post.toMeetingPostUi(),
     isLike = this.post.isUserLiked,

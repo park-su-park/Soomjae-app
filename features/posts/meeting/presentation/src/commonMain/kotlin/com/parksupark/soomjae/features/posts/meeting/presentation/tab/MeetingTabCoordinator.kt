@@ -27,6 +27,10 @@ class MeetingTabCoordinator(
             )
 
             is MeetingTabAction.OnPostLikeClick -> viewModel.handlePostLikeClick(action.postId)
+
+            is MeetingTabAction.OnPullToRefresh -> viewModel.refreshPost()
+
+            is MeetingTabAction.RefreshChange -> viewModel.setRefreshing(action.refresh)
         }
     }
 }

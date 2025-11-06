@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -26,9 +27,15 @@ internal fun MeetingTabScreen(
     onAction: (MeetingTabAction) -> Unit,
     posts: LazyPagingItems<MeetingPostUi>,
 ) {
+    RefreshEffect(
+        refreshState = posts.loadState.refresh,
+        isRefreshing = state.isPostsRefreshing,
+        onRefreshChange = { onAction(MeetingTabAction.RefreshChange(it)) },
+    )
+
     SoomjaePullToRefreshBox(
         isRefreshing = posts.loadState.refresh is LoadState.Loading,
-        onRefresh = { posts.refresh() },
+        onRefresh = { onAction(MeetingTabAction.OnPullToRefresh) },
         modifier = Modifier.fillMaxSize(),
         state = rememberPullToRefreshState(),
     ) {
@@ -52,5 +59,18 @@ internal fun MeetingTabScreen(
             modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 8.dp),
             onClick = { onAction(MeetingTabAction.OnWritePostClick) },
         )
+    }
+}
+
+@Composable
+private fun RefreshEffect(
+    refreshState: LoadState,
+    isRefreshing: Boolean,
+    onRefreshChange: (Boolean) -> Unit,
+) {
+    LaunchedEffect(refreshState, isRefreshing, onRefreshChange) {
+        if (refreshState is LoadState.NotLoading && isRefreshing) {
+            onRefreshChange(false)
+        }
     }
 }

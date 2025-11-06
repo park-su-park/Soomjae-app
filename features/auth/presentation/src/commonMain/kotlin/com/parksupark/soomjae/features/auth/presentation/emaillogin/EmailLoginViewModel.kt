@@ -9,7 +9,9 @@ import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.collectAsFlow
 import com.parksupark.soomjae.features.auth.domain.UserDataValidator
+import com.parksupark.soomjae.features.auth.domain.model.LoginType
 import com.parksupark.soomjae.features.auth.domain.repositories.AuthRepository
+import com.parksupark.soomjae.features.auth.domain.repositories.LastLoginRepository
 import com.parksupark.soomjae.features.auth.presentation.navigation.AuthDestination
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,6 +30,7 @@ import kotlinx.coroutines.launch
 
 class EmailLoginViewModel(
     savedStateHandle: SavedStateHandle,
+    private val lastLoginRepository: LastLoginRepository,
     private val userDataValidator: UserDataValidator,
     private val authRepository: AuthRepository,
 ) : ViewModel() {
@@ -76,9 +79,10 @@ class EmailLoginViewModel(
         viewModelScope.launch {
             _uiStateFlow.update { it.copy(isLoggingIn = true) }
 
+            val state = uiStateFlow.value
             authRepository.login(
-                email = uiStateFlow.value.inputEmail.text.toString(),
-                password = uiStateFlow.value.inputPassword.text.toString(),
+                email = state.inputEmail.text.toString(),
+                password = state.inputPassword.text.toString(),
             ).fold(
                 ifLeft = {
                     _eventChannel.send(
@@ -86,12 +90,12 @@ class EmailLoginViewModel(
                     )
                 },
                 ifRight = {
-                    viewModelScope.launch {
-                        if (uiStateFlow.value.shouldSaveEmail) {
-                            authRepository.saveEmail(uiStateFlow.value.inputEmail.text.toString())
-                        } else {
-                            authRepository.clearSavedEmail()
-                        }
+                    lastLoginRepository.saveRecentLogin(LoginType.Credential.Email)
+
+                    if (state.shouldSaveEmail) {
+                        authRepository.saveEmail(state.inputEmail.text.toString())
+                    } else {
+                        authRepository.clearSavedEmail()
                     }
 
                     _eventChannel.send(EmailLoginEvent.LoginSuccess)

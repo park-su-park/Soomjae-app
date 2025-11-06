@@ -40,6 +40,7 @@ object MeetingPostPreviewParameterData {
             location = locations[0],
             isUserLiked = false,
             likeCount = 128,
+            commentCount = 2,
             maxParticipationCount = 100,
             currentParticipantCount = 12,
             recruitmentPeriod = RecruitmentPeriod(
@@ -57,6 +58,7 @@ object MeetingPostPreviewParameterData {
             location = null,
             isUserLiked = true,
             likeCount = 128,
+            commentCount = 12,
             maxParticipationCount = 100,
             currentParticipantCount = 12,
             recruitmentPeriod = RecruitmentPeriod(
@@ -79,6 +81,7 @@ object MeetingPostPreviewParameterData {
             location = locations[5],
             isUserLiked = false,
             likeCount = 128,
+            commentCount = 6,
             maxParticipationCount = 100,
             currentParticipantCount = 12,
             recruitmentPeriod = RecruitmentPeriod(
@@ -96,6 +99,7 @@ object MeetingPostPreviewParameterData {
             location = locations[10],
             isUserLiked = true,
             likeCount = 128,
+            commentCount = 4,
             maxParticipationCount = 100,
             currentParticipantCount = 12,
             recruitmentPeriod = RecruitmentPeriod(
@@ -113,6 +117,7 @@ object MeetingPostPreviewParameterData {
             location = null,
             isUserLiked = false,
             likeCount = 128,
+            commentCount = 128,
             maxParticipationCount = 100,
             currentParticipantCount = 12,
             recruitmentPeriod = RecruitmentPeriod(

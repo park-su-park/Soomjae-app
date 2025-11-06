@@ -24,8 +24,11 @@ internal data class MeetingPostResponse(
     @SerialName("createdTime") val createdAt: Instant,
     @SerialName("category") val category: CategoryResponse?,
     @SerialName("location") val locationCode: LocationResponse?,
+
     @SerialName("likeNum") val likeCount: Long,
     @SerialName("isLikedByMe") val isUserLiked: Boolean,
+
+    @SerialName("commentNum") val commentCount: Int,
 
     @SerialName("maximumParticipants") val maxParticipantCount: Int,
     @SerialName("currentParticipantCount") val currentParticipantCount: Int,
@@ -43,8 +46,10 @@ internal fun MeetingPostResponse.toMeetingPost(): MeetingPost = MeetingPost(
     author = author.toModel(),
     category = category?.toDomain(),
     location = locationCode?.toLocation(),
+
     likeCount = likeCount.toInt(),
     isUserLiked = isUserLiked,
+    commentCount = commentCount,
 
     maxParticipationCount = maxParticipantCount,
     currentParticipantCount = currentParticipantCount,

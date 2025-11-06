@@ -52,6 +52,7 @@ internal fun MeetingPostDetailResponse.toMeetingPostDetail() = MeetingPostDetail
         location = location?.toLocation(),
         likeCount = likeCount.toInt(),
         isUserLiked = isUserLiked,
+        commentCount = comments.count(),
         maxParticipationCount = maxParticipantCount,
         currentParticipantCount = currentParticipantCount,
         recruitmentPeriod = RecruitmentPeriod(
