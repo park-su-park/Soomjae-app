@@ -8,7 +8,6 @@ import app.cash.paging.cachedIn
 import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEvent
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEventController
-import com.parksupark.soomjae.features.posts.common.domain.repositories.LikeRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
 import com.parksupark.soomjae.features.posts.meeting.presentation.models.MeetingTabFilterOption
 import com.parksupark.soomjae.features.posts.meeting.presentation.models.toDomain
@@ -31,7 +30,6 @@ import kotlinx.coroutines.launch
 class MeetingTabPostViewModel(
     private val meetingRepository: MeetingPostRepository,
     private val sessionRepository: SessionRepository,
-    private val likeRepository: LikeRepository,
     private val soomjaeEventController: SoomjaeEventController,
 ) : ViewModel() {
     private val _stateFlow: MutableStateFlow<MeetingTabPostState> =
@@ -46,9 +44,9 @@ class MeetingTabPostViewModel(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     internal val posts: Flow<PagingData<MeetingPostUi>> = filterState.flatMapLatest { option ->
-        meetingRepository.getPostsStream(filter = option.toDomain())
+        meetingRepository.getPatchedPostsStream(filter = option.toDomain())
     }.map { pagingData ->
-        pagingData.map { it.toMeetingPostUi() }
+        pagingData.map { post -> post.toMeetingPostUi() }
     }.cachedIn(viewModelScope)
 
     fun handleWritePostClick() {

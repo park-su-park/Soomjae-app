@@ -1,5 +1,8 @@
 package com.parksupark.soomjae.features.posts.common.data.di
 
+import com.parksupark.soomjae.features.posts.common.data.cache.MeetingPostPatchCache
+import com.parksupark.soomjae.features.posts.common.data.network.datasource.RemoteMeetingLikeDataSource
+import com.parksupark.soomjae.features.posts.common.data.network.datasource.RemoteMeetingPostSource
 import com.parksupark.soomjae.features.posts.common.data.repository.DefaultMeetingCommentRepository
 import com.parksupark.soomjae.features.posts.common.data.repository.DefaultMeetingLikeRepository
 import com.parksupark.soomjae.features.posts.common.data.repository.DefaultMeetingPostRepository
@@ -15,22 +18,47 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val featuresPostsMeetingDataModule = module {
+private val meetingPostModule = module {
+    single { MeetingPostPatchCache() }
+    factory { RemoteMeetingPostSource(httpClient = get()) }
+
     single {
         DefaultMeetingPostRepository(
             logger = get(),
+            patchCache = get(),
             remoteSource = get(),
         )
     }.bind(MeetingPostRepository::class)
+}
+
+private val meetingCommentModule = module {
     single(named(MEETING_COMMENT_REPOSITORY)) {
         DefaultMeetingCommentRepository(
             httpClient = get(),
         )
     }.bind<CommentRepository>()
+}
+
+private val meetingLikeModule = module {
+    factory { RemoteMeetingLikeDataSource(httpClient = get()) }
+
     single(named(MEETING_LIKE_REPOSITORY)) {
         DefaultMeetingLikeRepository(
-            httpClient = get(),
+            postCache = get(),
+            remoteDataSource = get(),
         )
     }.bind<LikeRepository>()
+}
+
+private val meetingParticipationModule = module {
     singleOf(::DefaultParticipationRepository).bind<ParticipationRepository>()
+}
+
+val featuresPostsMeetingDataModule = module {
+    includes(
+        meetingPostModule,
+        meetingCommentModule,
+        meetingLikeModule,
+        meetingParticipationModule,
+    )
 }

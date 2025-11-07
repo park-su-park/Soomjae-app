@@ -6,13 +6,16 @@ import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPost
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostDetail
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostFilter
+import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostPatch
 import com.parksupark.soomjae.features.posts.common.domain.models.NewPost
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
 @OptIn(ExperimentalTime::class)
 interface MeetingPostRepository {
+    // Post
     suspend fun createPost(
         title: String,
         content: String,
@@ -25,5 +28,14 @@ interface MeetingPostRepository {
 
     fun getPostsStream(filter: MeetingPostFilter): Flow<PagingData<MeetingPost>>
 
+    // Detail
     suspend fun getPostDetail(postId: Long): Either<DataFailure, MeetingPostDetail>
+
+    // Patch
+    @Suppress("detekt.ClassOrdering")
+    val postPatches: StateFlow<Map<Long, MeetingPostPatch>>
+
+    fun getPatchedPostsStream(filter: MeetingPostFilter): Flow<PagingData<MeetingPost>>
+
+    suspend fun clearPatched()
 }
