@@ -10,6 +10,7 @@ class MeetingDetailCoordinator(
     val viewModel: MeetingDetailViewModel,
 ) {
     val screenStateFlow = viewModel.stateFlow
+    val events = viewModel.events
 
     fun handle(action: MeetingDetailAction) {
         when (action) {
@@ -21,8 +22,20 @@ class MeetingDetailCoordinator(
 
             MeetingDetailAction.OnToggleParticipationClick -> viewModel.toggleParticipation()
 
+            MeetingDetailAction.OnEditClick -> viewModel.onEditClick()
+
+            MeetingDetailAction.OnDeleteClick -> viewModel.onDeleteClick()
+
             MeetingDetailAction.LoginRequest -> viewModel.requestLogin()
         }
+    }
+
+    fun navigateBack() {
+        navigator.navigateBack()
+    }
+
+    fun navigateToEditPost(postId: Long) {
+        navigator.navigateToMeetingPostEdit(postId)
     }
 }
 

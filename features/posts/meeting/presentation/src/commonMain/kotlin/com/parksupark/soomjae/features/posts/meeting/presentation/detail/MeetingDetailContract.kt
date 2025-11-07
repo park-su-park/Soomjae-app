@@ -13,6 +13,7 @@ sealed interface MeetingDetailState {
         val isCommentSubmitting: Boolean = false,
         val isParticipationLoading: Boolean = false,
         val isLoggedIn: Boolean = false,
+        val canModify: Boolean = false,
     ) : MeetingDetailState
 }
 
@@ -28,4 +29,14 @@ sealed interface MeetingDetailAction {
     data object OnMessageClick : MeetingDetailAction
 
     data object LoginRequest : MeetingDetailAction
+
+    data object OnEditClick : MeetingDetailAction
+
+    data object OnDeleteClick : MeetingDetailAction
+}
+
+sealed interface MeetingDetailEvent {
+    data class NavigateToEditPost(val postId: Long) : MeetingDetailEvent
+
+    data object PostDeleted : MeetingDetailEvent
 }

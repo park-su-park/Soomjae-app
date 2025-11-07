@@ -28,6 +28,8 @@ interface MeetingPostRepository {
 
     fun getPostsStream(filter: MeetingPostFilter): Flow<PagingData<MeetingPost>>
 
+    suspend fun deletePost(id: Long): Either<DataFailure, Unit>
+
     // Detail
     suspend fun getPostDetail(postId: Long): Either<DataFailure, MeetingPostDetail>
 

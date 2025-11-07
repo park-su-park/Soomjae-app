@@ -73,6 +73,14 @@ internal class DefaultMeetingPostRepository(
                 pagingData.map { it.toMeetingPost() }
             }
 
+    override suspend fun deletePost(postId: Long): Either<DataFailure, Unit> {
+        patchCache.applyDelete(postId)
+
+        return remoteSource.deletePost(postId).onLeft {
+            patchCache.removePatch(postId)
+        }
+    }
+
     override suspend fun getPostDetail(postId: Long): Either<DataFailure, MeetingPostDetail> =
         remoteSource.fetchPostDetail(postId).map { meetingPostDetail ->
             meetingPostDetail.toMeetingPostDetail()

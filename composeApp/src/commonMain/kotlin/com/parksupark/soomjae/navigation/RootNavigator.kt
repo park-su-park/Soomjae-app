@@ -21,6 +21,7 @@ import com.parksupark.soomjae.features.home.presentation.navigation.soomjaeHomeN
 import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.PostNavigator
 import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.navigateToCommunityDetail
 import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.navigateToMeetingDetail
+import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.navigateToMeetingPostEdit
 import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.navigateToMeetingWrite
 import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.navigateToMemberWrite
 import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.navigateToParticipantList
@@ -96,6 +97,10 @@ private class SoomjaeRootNavigator(
 
     override fun navigateToMeetingWrite() {
         navController.navigateToMeetingWrite()
+    }
+
+    override fun navigateToMeetingPostEdit(postId: Long) {
+        navController.navigateToMeetingPostEdit(postId)
     }
 
     override fun navigateToMeetingDetail(postId: Long) {

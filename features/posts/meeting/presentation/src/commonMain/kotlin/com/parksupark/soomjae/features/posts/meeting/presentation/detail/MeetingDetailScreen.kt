@@ -98,7 +98,12 @@ private fun MeetingDetailSuccessScreen(
 
     SoomjaeScaffold(
         topBar = {
-            MeetingDetailTopBar(onBackClick = { onAction(MeetingDetailAction.OnBackClick) })
+            MeetingDetailTopBar(
+                onBackClick = { onAction(MeetingDetailAction.OnBackClick) },
+                canModify = state.canModify,
+                onEditClick = { onAction(MeetingDetailAction.OnEditClick) },
+                onDeleteClick = { onAction(MeetingDetailAction.OnDeleteClick) },
+            )
         },
     ) { innerPadding ->
         Box {
@@ -305,7 +310,12 @@ private fun PostDetailMeetingContent(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun MeetingDetailTopBar(onBackClick: () -> Unit) {
+internal fun MeetingDetailTopBar(
+    onBackClick: () -> Unit,
+    canModify: Boolean = false,
+    onDeleteClick: () -> Unit,
+    onEditClick: () -> Unit,
+) {
     SoomjaeTopAppBar(
         title = { },
         navigationIcon = {
@@ -316,6 +326,31 @@ internal fun MeetingDetailTopBar(onBackClick: () -> Unit) {
                     imageVector = Icons.AutoMirrored.Default.ArrowBack,
                     contentDescription = Res.string.meeting_detail_navigate_up_description.value,
                 )
+            }
+        },
+        actions = {
+            if (canModify) {
+                IconButton(
+                    onClick = onEditClick,
+                ) {
+                    Text(
+                        text = "수정",
+                        style = SoomjaeTheme.typography.body2.copy(
+                            color = SoomjaeTheme.colorScheme.primary,
+                        ),
+                    )
+                }
+
+                IconButton(
+                    onClick = onDeleteClick,
+                ) {
+                    Text(
+                        text = "삭제",
+                        style = SoomjaeTheme.typography.body2.copy(
+                            color = SoomjaeTheme.colorScheme.error,
+                        ),
+                    )
+                }
             }
         },
     )

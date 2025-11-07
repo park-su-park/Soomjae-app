@@ -2,6 +2,7 @@ package com.parksupark.soomjae.features.posts.common.data.network.datasource
 
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
+import com.parksupark.soomjae.core.remote.networking.delete
 import com.parksupark.soomjae.core.remote.networking.get
 import com.parksupark.soomjae.core.remote.networking.post
 import com.parksupark.soomjae.features.posts.common.data.dto.request.PostMeetingPostRequest
@@ -43,6 +44,10 @@ internal class RemoteMeetingPostSource(
             queryParameters = queryParams,
         )
     }
+
+    suspend fun deletePost(postId: Long): Either<DataFailure, Unit> = httpClient.delete(
+        route = "/v1/boards/meeting/posts/$postId",
+    )
 
     suspend fun fetchPostDetail(
         postId: Long,
