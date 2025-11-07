@@ -23,7 +23,7 @@ internal class MeetingPagingSource(
         val currentPage = params.key ?: 1
 
         return try {
-            val response = remoteSource.getMeetingPosts(
+            val response = remoteSource.fetchPosts(
                 page = currentPage,
                 categoryIds = filter.categoryIds,
                 locationCodes = filter.locationCodes,

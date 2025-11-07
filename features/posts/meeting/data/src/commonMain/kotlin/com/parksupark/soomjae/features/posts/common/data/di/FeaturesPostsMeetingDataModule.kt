@@ -16,7 +16,12 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val featuresPostsMeetingDataModule = module {
-    singleOf(::DefaultMeetingPostRepository).bind(MeetingPostRepository::class)
+    single {
+        DefaultMeetingPostRepository(
+            logger = get(),
+            remoteSource = get(),
+        )
+    }.bind(MeetingPostRepository::class)
     single(named(MEETING_COMMENT_REPOSITORY)) {
         DefaultMeetingCommentRepository(
             httpClient = get(),

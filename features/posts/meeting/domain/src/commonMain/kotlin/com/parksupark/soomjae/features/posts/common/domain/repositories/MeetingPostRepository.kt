@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 
 @OptIn(ExperimentalTime::class)
 interface MeetingPostRepository {
-    suspend fun postPost(
+    suspend fun createPost(
         title: String,
         content: String,
         categoryId: Long?,
@@ -23,9 +23,7 @@ interface MeetingPostRepository {
         maxParticipants: Long,
     ): Either<DataFailure.Network, NewPost>
 
-    fun getPostsStream(): Flow<PagingData<MeetingPost>>
-
     fun getPostsStream(filter: MeetingPostFilter): Flow<PagingData<MeetingPost>>
 
-    suspend fun getMeetingPostDetail(postId: Long): Either<DataFailure, MeetingPostDetail>
+    suspend fun getPostDetail(postId: Long): Either<DataFailure, MeetingPostDetail>
 }

@@ -75,7 +75,7 @@ class MeetingPostContentViewModel(
         viewModelScope.launch(dispatcher.io) {
             _stateFlow.update { it.copy(isSubmitting = true) }
 
-            meetingPostRepository.postPost(
+            meetingPostRepository.createPost(
                 title = _stateFlow.value.inputTitle.text.toString().trim(),
                 content = _stateFlow.value.inputContent.text.toString().trim(),
                 categoryId = _stateFlow.value.selectedCategory?.id,

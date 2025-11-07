@@ -50,7 +50,7 @@ class MeetingDetailViewModel(
 
     private fun fetchMeetingPostDetails() {
         viewModelScope.launch {
-            meetingPostRepository.getMeetingPostDetail(postId).fold(
+            meetingPostRepository.getPostDetail(postId).fold(
                 ifLeft = { },
                 ifRight = { postDetail ->
                     _stateFlow.update {
