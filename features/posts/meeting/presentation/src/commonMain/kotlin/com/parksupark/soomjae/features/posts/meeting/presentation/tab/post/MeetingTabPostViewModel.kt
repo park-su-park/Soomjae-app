@@ -10,14 +10,18 @@ import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEvent
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEventController
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LikeRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
+import com.parksupark.soomjae.features.posts.meeting.presentation.models.MeetingTabFilterOption
+import com.parksupark.soomjae.features.posts.meeting.presentation.models.toDomain
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.MeetingPostUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.toMeetingPostUi
 import kotlin.time.ExperimentalTime
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
@@ -37,10 +41,15 @@ class MeetingTabPostViewModel(
     private val eventChannel = Channel<MeetingTabPostEvent>()
     internal val events = eventChannel.receiveAsFlow()
 
-    internal val posts: Flow<PagingData<MeetingPostUi>> = meetingRepository.getPostsStream()
-        .map { pagingData ->
-            pagingData.map { it.toMeetingPostUi() }
-        }.cachedIn(viewModelScope)
+    private val filterState: MutableStateFlow<MeetingTabFilterOption> =
+        MutableStateFlow(MeetingTabFilterOption())
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    internal val posts: Flow<PagingData<MeetingPostUi>> = filterState.flatMapLatest { option ->
+        meetingRepository.getPostsStream(filter = option.toDomain())
+    }.map { pagingData ->
+        pagingData.map { it.toMeetingPostUi() }
+    }.cachedIn(viewModelScope)
 
     fun handleWritePostClick() {
         viewModelScope.launch {
@@ -68,5 +77,9 @@ class MeetingTabPostViewModel(
                 isPostsRefreshing = isRefreshing,
             )
         }
+    }
+
+    fun updateFilterOption(option: MeetingTabFilterOption) {
+        filterState.update { option }
     }
 }

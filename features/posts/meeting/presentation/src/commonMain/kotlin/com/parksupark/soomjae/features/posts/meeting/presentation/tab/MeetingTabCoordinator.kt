@@ -11,8 +11,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -40,6 +43,15 @@ class MeetingTabCoordinator(
         filterViewModel.events.map { MeetingTabEvent.FromFilter(it) },
         postViewModel.events.map { MeetingTabEvent.FromPost(it) },
     )
+
+    init {
+        filterViewModel.stateFlow
+            .map { it.selectedOption }
+            .distinctUntilChanged()
+            .onEach { selectedOption ->
+                postViewModel.updateFilterOption(selectedOption)
+            }.launchIn(viewmodelScope)
+    }
 
     fun handle(action: MeetingTabAction) {
         when (action) {

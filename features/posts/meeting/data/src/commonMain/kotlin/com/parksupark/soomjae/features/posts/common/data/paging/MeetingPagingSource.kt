@@ -2,39 +2,53 @@ package com.parksupark.soomjae.features.posts.common.data.paging
 
 import androidx.paging.PagingState
 import app.cash.paging.PagingSource
-import co.touchlab.kermit.Logger
-import com.parksupark.soomjae.features.posts.common.data.dto.response.toMeetingPost
-import com.parksupark.soomjae.features.posts.common.data.sources.RemoteMeetingPostSource
-import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPost
+import com.parksupark.soomjae.core.domain.logging.SjLogger
+import com.parksupark.soomjae.features.posts.common.data.dto.response.MeetingPostResponse
+import com.parksupark.soomjae.features.posts.common.data.network.datasource.RemoteMeetingPostSource
+import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostFilter
+import com.parksupark.soomjae.features.posts.common.domain.models.RecruitmentStatus
 import kotlinx.io.IOException
 
 internal class MeetingPagingSource(
+    private val logger: SjLogger,
     private val remoteSource: RemoteMeetingPostSource,
-) : PagingSource<Int, MeetingPost>() {
-    override fun getRefreshKey(state: PagingState<Int, MeetingPost>): Int? =
+    private val filter: MeetingPostFilter = MeetingPostFilter(),
+) : PagingSource<Int, MeetingPostResponse>() {
+    override fun getRefreshKey(state: PagingState<Int, MeetingPostResponse>): Int? =
         state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1) ?: 1
         }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MeetingPost> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MeetingPostResponse> {
         val currentPage = params.key ?: 1
 
         return try {
-            val response = remoteSource.getMeetingPosts(currentPage)
+            val response = remoteSource.getMeetingPosts(
+                page = currentPage,
+                categoryIds = filter.categoryIds,
+                locationCodes = filter.locationCodes,
+                recruitment = when {
+                    filter.recruitmentStatuses.contains(RecruitmentStatus.RECRUITING) -> true
+                    filter.recruitmentStatuses.contains(RecruitmentStatus.EXPIRED) -> false
+                    else -> null
+                },
+            )
+
             response.fold(
-                ifLeft = { failure -> LoadResult.Error(Exception(failure.toString())) },
+                ifLeft = { failure ->
+                    LoadResult.Error(Exception(failure.toString()))
+                },
                 ifRight = { response ->
                     val posts = response.posts
                     LoadResult.Page(
-                        data = posts.map { it.toMeetingPost() },
+                        data = posts,
                         prevKey = if (currentPage == 1) null else currentPage - 1,
                         nextKey = if (posts.isEmpty()) null else currentPage + 1,
                     )
                 },
             )
         } catch (exception: IOException) {
-            Logger.e(TAG) { exception.message.toString() }
-
+            logger.error(TAG, "IOException occurred while loading meeting posts", exception)
             LoadResult.Error(exception)
         }
     }

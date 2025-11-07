@@ -28,3 +28,10 @@ fun RecruitmentStatus.toUi(): RecruitmentStatusUi = when (this) {
     RecruitmentStatus.EXPIRED -> RecruitmentStatusUi.EXPIRED
     RecruitmentStatus.JOINED -> RecruitmentStatusUi.JOINED
 }
+
+fun RecruitmentStatusUi.toDomain(): RecruitmentStatus = when (this) {
+    RecruitmentStatusUi.RECRUITING -> RecruitmentStatus.RECRUITING
+    RecruitmentStatusUi.FULL -> RecruitmentStatus.FULL
+    RecruitmentStatusUi.EXPIRED -> RecruitmentStatus.EXPIRED
+    RecruitmentStatusUi.JOINED -> RecruitmentStatus.JOINED
+}
