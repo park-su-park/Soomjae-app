@@ -38,7 +38,7 @@ sealed interface PostDestination : NavigationDestination {
     data object Post : PostDestination
 
     @Serializable
-    data class MeetingWrite(val postId: Long?) : PostDestination
+    data class MeetingWrite(val postId: Long? = null) : PostDestination
 
     @Serializable
     data class MeetingDetail(val postId: Long) : PostDestination
@@ -134,7 +134,7 @@ fun NavHostController.navigateToCommunityDetail(postId: Long) {
 }
 
 fun NavHostController.navigateToMeetingWrite() {
-    navigate(PostDestination.MeetingWrite)
+    navigate(PostDestination.MeetingWrite())
 }
 
 fun NavHostController.navigateToMeetingPostEdit(postId: Long) {
