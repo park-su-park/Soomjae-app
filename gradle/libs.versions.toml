@@ -10,6 +10,7 @@ auth0-jwt = "4.5.0"
 buildconfig = "5.7.1"
 coil = "3.3.0"
 compose = "1.9.3"
+compose-unstyled = "1.47.1"
 datastore = "1.1.7"
 desugaring = "2.1.5"
 detekt = "1.23.8"
@@ -82,6 +83,9 @@ coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.re
 
 # Compose
 compose-ui-backhandler = { module = "org.jetbrains.compose.ui:ui-backhandler", version.ref = "compose" }
+
+# Compose Unstyled
+compose-unstyled = { module = "com.composables:core", version.ref = "compose-unstyled" }
 
 # Credentials
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "androidx-credentials" }
@@ -345,6 +349,7 @@ ui-common = [
     "androidx-lifecycle-runtime-compose",
     "androidx-navigation-compose",
     "coil",
+    "compose-unstyled",
     "koin-compose",
     "koin-compose-viewmodel",
     "koin-compose-viewmodel-navigation",
