@@ -6,7 +6,7 @@ import com.parksupark.soomjae.core.remote.networking.delete
 import com.parksupark.soomjae.core.remote.networking.post
 import io.ktor.client.HttpClient
 
-class RemoteMeetingLikeDataSource(
+internal class RemoteMeetingLikeDataSource(
     private val httpClient: HttpClient,
 ) {
     suspend fun like(postId: Long): Either<DataFailure.Network, Unit> = httpClient.post<Unit, Unit>(
