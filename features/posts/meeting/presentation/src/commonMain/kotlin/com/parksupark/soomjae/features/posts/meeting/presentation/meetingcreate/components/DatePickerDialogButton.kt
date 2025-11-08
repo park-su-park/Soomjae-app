@@ -2,6 +2,7 @@ package com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate
 
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
@@ -19,6 +20,7 @@ import com.parksupark.soomjae.features.posts.meeting.presentation.resources.Res
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_datetime_dialog_cancel
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_datetime_dialog_confirm
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun DatePickerDialogButton(
     onConfirm: (dateInMillis: Long) -> Unit,

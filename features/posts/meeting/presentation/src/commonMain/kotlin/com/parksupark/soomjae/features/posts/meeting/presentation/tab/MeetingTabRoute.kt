@@ -14,11 +14,13 @@ import com.parksupark.soomjae.features.posts.meeting.presentation.tab.MeetingTab
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.filter.MeetingTabFilterEvent
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.post.MeetingTabPostEvent
 import kotlinx.coroutines.launch
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun MeetingTabRoute(
     onPostAction: (PostAction) -> Unit,
-    coordinator: MeetingTabCoordinator = rememberMeetingTabCoordinator(onPostAction),
+    coordinator: MeetingTabCoordinator = koinViewModel { parametersOf(onPostAction) },
 ) {
     val uiState by coordinator.screenStateFlow.collectAsStateWithLifecycle()
     val posts = coordinator.posts.collectAsLazyPagingItems()

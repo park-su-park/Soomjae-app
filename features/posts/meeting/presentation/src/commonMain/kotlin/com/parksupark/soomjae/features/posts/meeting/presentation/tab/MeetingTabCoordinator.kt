@@ -1,12 +1,10 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.tab
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.parksupark.soomjae.features.posts.common.presentation.PostAction
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.filter.MeetingTabFilterViewModel
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.post.MeetingTabPostViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -17,14 +15,12 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
-import org.koin.compose.viewmodel.koinViewModel
 
 class MeetingTabCoordinator(
     private val onPostAction: (PostAction) -> Unit,
     private val filterViewModel: MeetingTabFilterViewModel,
     private val postViewModel: MeetingTabPostViewModel,
-    private val viewmodelScope: CoroutineScope,
-) {
+) : ViewModel() {
     internal val screenStateFlow: StateFlow<MeetingTabState> = combine(
         filterViewModel.stateFlow,
         postViewModel.stateFlow,
@@ -34,7 +30,7 @@ class MeetingTabCoordinator(
             postState = postState,
         )
     }.stateIn(
-        scope = viewmodelScope,
+        scope = viewModelScope,
         started = SharingStarted.Eagerly,
         initialValue = MeetingTabState(),
     )
@@ -50,7 +46,7 @@ class MeetingTabCoordinator(
             .distinctUntilChanged()
             .onEach { selectedOption ->
                 postViewModel.updateFilterOption(selectedOption)
-            }.launchIn(viewmodelScope)
+            }.launchIn(viewModelScope)
     }
 
     fun handle(action: MeetingTabAction) {
@@ -87,18 +83,4 @@ class MeetingTabCoordinator(
             is MeetingTabAction.RefreshChange -> postViewModel.setRefreshing(action.refresh)
         }
     }
-}
-
-@Composable
-fun rememberMeetingTabCoordinator(
-    onPostAction: (PostAction) -> Unit,
-    filterViewModel: MeetingTabFilterViewModel = koinViewModel(),
-    postViewModel: MeetingTabPostViewModel = koinViewModel(),
-): MeetingTabCoordinator = remember(onPostAction, filterViewModel, postViewModel) {
-    MeetingTabCoordinator(
-        onPostAction = onPostAction,
-        filterViewModel = filterViewModel,
-        postViewModel = postViewModel,
-        viewmodelScope = postViewModel.viewModelScope,
-    )
 }
