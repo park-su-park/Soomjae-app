@@ -6,11 +6,11 @@ import SoomJae.core.remote.BuildConfig
 import arrow.core.Either
 import co.touchlab.kermit.Logger
 import com.parksupark.soomjae.core.domain.failures.DataFailure
+import com.parksupark.soomjae.core.remote.util.addQueryParameters
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
-import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.put
 import io.ktor.client.request.setBody
@@ -27,9 +27,7 @@ suspend inline fun <reified Response : Any> HttpClient.get(
 ): Either<DataFailure.Network, Response> = safeCall {
     get {
         url(constructRoute(route))
-        queryParameters.forEach { (key, value) ->
-            parameter(key, value)
-        }
+        addQueryParameters(queryParameters)
     }
 }
 
@@ -59,9 +57,7 @@ suspend inline fun <reified Response : Any> HttpClient.delete(
 ): Either<DataFailure.Network, Response> = safeCall {
     delete {
         url(constructRoute(route))
-        queryParameters.forEach { (key, value) ->
-            parameter(key, value)
-        }
+        addQueryParameters(queryParameters)
     }
 }
 
