@@ -29,10 +29,10 @@ internal class RemoteMeetingPostSource(
     ): Either<DataFailure.Network, MeetingPostsResponse> {
         val queryParams = mutableMapOf<String, Any>("page" to page).apply {
             if (categoryIds.isNotEmpty()) {
-                put("categoryIds", categoryIds.joinToString(","))
+                put("categoryIds", categoryIds)
             }
             if (locationCodes.isNotEmpty()) {
-                put("locationCodes", locationCodes.joinToString(","))
+                put("locationCodes", locationCodes)
             }
             recruitment?.let {
                 put("recruitment", it)
