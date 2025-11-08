@@ -35,6 +35,7 @@
     <string name="participant_list_item_nth_participant">%1$d번째 참여자</string>
 
     <string name="meeting_detail_filter_chip_recruitment_status">모집 상태</string>
+    <string name="meeting_detail_filter_chip_recruitment_status_selected_multiple">%1$s외 %2$d건</string>
 
     <!-- ============================================================= -->
     <!-- RecruitmentStatus -->

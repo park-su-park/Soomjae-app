@@ -17,7 +17,7 @@ fun buildCategoryLabel(selected: ImmutableCollection<CategoryUi>): String = when
     1 -> selected.first().name
     else -> Res.string.filter_chip_category_selected_multiple.value(
         selected.first().name,
-        selected.size,
+        selected.size - 1,
     )
 }
 
@@ -27,6 +27,6 @@ fun buildLocationLabel(selected: ImmutableCollection<LocationUi>): String = when
     1 -> selected.first().name
     else -> Res.string.filter_chip_location_selected_multiple.value(
         selected.first().name,
-        selected.size,
+        selected.size - 1,
     )
 }
