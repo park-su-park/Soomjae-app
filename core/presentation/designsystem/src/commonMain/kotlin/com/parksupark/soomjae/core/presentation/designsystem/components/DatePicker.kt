@@ -85,7 +85,7 @@ object SoomjaeDatePickerDefaults {
             dateTextFieldColors = SoomjaeTextFieldDefaults.defaultOutlinedTextFieldColors,
             titleContentColor = SoomjaeTheme.colorScheme.text1,
             headlineContentColor = SoomjaeTheme.colorScheme.text2,
-        )
+        ).also { defaultDatePickerColorsCached = it }
 
     @Composable
     fun colors(): DatePickerColors = SoomjaeTheme.colorScheme.defaultDatePickerColors
