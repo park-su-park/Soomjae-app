@@ -2,7 +2,6 @@ package com.parksupark.soomjae.features.posts.meeting.presentation.meetingcreate
 
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
@@ -20,7 +19,6 @@ import com.parksupark.soomjae.features.posts.meeting.presentation.resources.Res
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_datetime_dialog_cancel
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_datetime_dialog_confirm
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun DatePickerDialogButton(
     onConfirm: (dateInMillis: Long) -> Unit,
@@ -28,21 +26,19 @@ internal fun DatePickerDialogButton(
     selectableDates: SelectableDates = DatePickerDefaults.AllDates,
     button: @Composable (openDialog: () -> Unit) -> Unit,
 ) {
+    var isDialogOpen by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState(
         selectableDates = selectableDates,
     )
-    var dialogOpen by remember { mutableStateOf(false) }
 
-    if (dialogOpen) {
+    if (isDialogOpen) {
         DatePickerDialog(
             onDismissRequest = { /* no-op */ },
             confirmButton = {
                 SoomjaeTextButton(
                     onClick = {
-                        datePickerState.selectedDateMillis?.let {
-                            onConfirm(it)
-                        }
-                        dialogOpen = false
+                        datePickerState.selectedDateMillis?.let { onConfirm(it) }
+                        isDialogOpen = false
                     },
                     enabled = datePickerState.selectedDateMillis != null,
                     content = {
@@ -53,7 +49,7 @@ internal fun DatePickerDialogButton(
             modifier = modifier,
             dismissButton = {
                 SoomjaeTextButton(
-                    onClick = { dialogOpen = false },
+                    onClick = { isDialogOpen = false },
                     content = {
                         Text(text = Res.string.meeting_create_datetime_dialog_cancel.value)
                     },
@@ -61,9 +57,9 @@ internal fun DatePickerDialogButton(
             },
             colors = SoomjaeDatePickerDefaults.colors(),
         ) {
-            SoomjaeDatePicker(datePickerState)
+            SoomjaeDatePicker(state = datePickerState)
         }
     }
 
-    button { dialogOpen = true }
+    button { isDialogOpen = true }
 }

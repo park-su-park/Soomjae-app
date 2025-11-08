@@ -43,31 +43,27 @@ fun SoomjaeButton(
 ) {
     SoomjaeSurface(
         shape = shape,
-        color = Color.Companion.Transparent,
+        color = Color.Transparent,
         contentColor = if (enabled) contentColor else disabledContentColor,
         border = border,
-        modifier = modifier
-            .clip(shape = shape)
-            .background(if (enabled) background else disabledBackground)
-            .clickable(
+        modifier = modifier.clip(shape = shape)
+            .background(if (enabled) background else disabledBackground).clickable(
                 onClick = onClick,
                 enabled = enabled,
-                role = Role.Companion.Button,
+                role = Role.Button,
                 interactionSource = interactionSource,
                 indication = ripple(),
             ),
         contentAlign = contentAlign,
     ) {
         ProvideTextStyle(
-            value = SoomjaeTheme.typography.button2,
+            value = SoomjaeTheme.typography.button1,
         ) {
             Row(
-                Modifier.Companion
-                    .defaultMinSize(
-                        minWidth = ButtonDefaults.MinWidth,
-                        minHeight = ButtonDefaults.MinHeight,
-                    )
-                    .padding(paddingValues = contentPadding),
+                Modifier.defaultMinSize(
+                    minWidth = ButtonDefaults.MinWidth,
+                    minHeight = ButtonDefaults.MinHeight,
+                ).padding(paddingValues = contentPadding),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
                 content = content,
@@ -127,31 +123,27 @@ fun SoomjaeTextButton(
 ) {
     SoomjaeSurface(
         shape = shape,
-        color = Color.Companion.Transparent,
+        color = Color.Transparent,
         contentColor = if (enabled) contentColor else disabledContentColor,
         border = border,
-        modifier = modifier
-            .clip(shape = shape)
-            .background(if (enabled) background else disabledBackground)
-            .clickable(
+        modifier = modifier.clip(shape = shape)
+            .background(if (enabled) background else disabledBackground).clickable(
                 onClick = onClick,
                 enabled = enabled,
-                role = Role.Companion.Button,
+                role = Role.Button,
                 interactionSource = interactionSource,
                 indication = ripple(),
             ),
         contentAlign = contentAlign,
     ) {
         ProvideTextStyle(
-            value = SoomjaeTheme.typography.button2,
+            value = SoomjaeTheme.typography.button1,
         ) {
             Row(
-                Modifier.Companion
-                    .defaultMinSize(
-                        minWidth = ButtonDefaults.MinWidth,
-                        minHeight = ButtonDefaults.MinHeight,
-                    )
-                    .padding(paddingValues = contentPadding),
+                Modifier.defaultMinSize(
+                    minWidth = ButtonDefaults.MinWidth,
+                    minHeight = ButtonDefaults.MinHeight,
+                ).padding(paddingValues = contentPadding),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
                 content = content,
