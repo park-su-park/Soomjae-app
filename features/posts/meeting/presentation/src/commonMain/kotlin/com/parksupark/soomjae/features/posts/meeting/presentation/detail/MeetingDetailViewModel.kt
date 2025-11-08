@@ -14,15 +14,17 @@ import com.parksupark.soomjae.features.posts.common.domain.repositories.Particip
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.detail.models.toMeetingPostDetailUi
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -37,6 +39,9 @@ class MeetingDetailViewModel(
     private val participationRepository: ParticipationRepository,
     private val controller: SoomjaeEventController,
 ) : ViewModel() {
+    private val eventChannel = Channel<MeetingDetailEvent>()
+    val events = eventChannel.receiveAsFlow()
+
     private val _stateFlow: MutableStateFlow<MeetingDetailState> =
         MutableStateFlow(MeetingDetailState.Loading)
     val stateFlow: StateFlow<MeetingDetailState> = _stateFlow.onStart {
@@ -50,7 +55,7 @@ class MeetingDetailViewModel(
 
     private fun fetchMeetingPostDetails() {
         viewModelScope.launch {
-            meetingPostRepository.getMeetingPostDetail(postId).fold(
+            meetingPostRepository.getPostDetail(postId).fold(
                 ifLeft = { },
                 ifRight = { postDetail ->
                     _stateFlow.update {
@@ -64,15 +69,19 @@ class MeetingDetailViewModel(
     private fun observeLoginState() {
         combine(
             sessionRepository.getAsFlow(),
-            _stateFlow.filter { state -> state is MeetingDetailState.Success }
-                .distinctUntilChanged(),
+            _stateFlow.map { state -> state as? MeetingDetailState.Success }
+                .distinctUntilChanged()
+                .filterNotNull(),
         ) { authInfo, state ->
-            Pair(authInfo != null, state)
-        }.onEach { (isLoggedIn, state) ->
-            if (state is MeetingDetailState.Success) {
-                _stateFlow.update {
-                    state.copy(isLoggedIn = isLoggedIn)
-                }
+            val isLoggedIn = authInfo != null
+            val canModify =
+                authInfo?.memberId?.toString() == state.postDetail.post.author.id
+
+            _stateFlow.update {
+                state.copy(
+                    isLoggedIn = isLoggedIn,
+                    canModify = canModify,
+                )
             }
         }.launchIn(viewModelScope)
     }
@@ -244,6 +253,38 @@ class MeetingDetailViewModel(
                     }
                 },
             )
+        }
+    }
+
+    fun onEditClick() {
+        val state = _stateFlow.value
+
+        if (state !is MeetingDetailState.Success) return
+        if (!ensureLogin(state)) return
+        if (!state.canModify) return
+
+        viewModelScope.launch {
+            eventChannel.send(MeetingDetailEvent.NavigateToEditPost(state.postDetail.post.id))
+        }
+    }
+
+    fun onDeleteClick() {
+        val state = _stateFlow.value
+
+        if (state !is MeetingDetailState.Success) return
+        if (!ensureLogin(state)) return
+        if (!state.canModify) return
+
+        viewModelScope.launch {
+            meetingPostRepository.deletePost(state.postDetail.post.id)
+                .fold(
+                    ifLeft = {
+                        // TODO: error handling
+                    },
+                    ifRight = {
+                        eventChannel.send(MeetingDetailEvent.PostDeleted)
+                    },
+                )
         }
     }
 

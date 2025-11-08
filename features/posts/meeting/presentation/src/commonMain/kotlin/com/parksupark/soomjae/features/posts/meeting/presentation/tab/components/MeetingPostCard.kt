@@ -24,6 +24,7 @@ import coil3.compose.AsyncImage
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.utils.imageRequest
+import com.parksupark.soomjae.features.posts.common.domain.models.RecruitmentStatus
 import com.parksupark.soomjae.features.posts.common.presentation.components.PostActionItem
 import com.parksupark.soomjae.features.posts.common.presentation.components.PostCard
 import com.parksupark.soomjae.features.posts.common.presentation.models.AuthorUi

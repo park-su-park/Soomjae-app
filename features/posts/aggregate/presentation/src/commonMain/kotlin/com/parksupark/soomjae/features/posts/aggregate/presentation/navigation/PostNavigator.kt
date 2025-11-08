@@ -41,6 +41,10 @@ private class SoomjaePostNavigator(
         overridden()
     }
 
+    override fun navigateToMeetingPostEdit(postId: Long) {
+        overridden()
+    }
+
     override fun navigateToMeetingDetail(postId: Long) {
         overridden()
     }

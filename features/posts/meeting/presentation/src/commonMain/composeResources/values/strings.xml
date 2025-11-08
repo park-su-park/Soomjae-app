@@ -33,4 +33,15 @@
     <string name="participant_list_title">참여자 목록</string>
     <string name="participant_list_close_description">닫기</string>
     <string name="participant_list_item_nth_participant">%1$d번째 참여자</string>
+
+    <string name="meeting_detail_filter_chip_recruitment_status">모집 상태</string>
+    <string name="meeting_detail_filter_chip_recruitment_status_selected_multiple">%1$s외 %2$d건</string>
+
+    <!-- ============================================================= -->
+    <!-- RecruitmentStatus -->
+    <!-- ============================================================= -->
+    <string name="recruitment_status_recruiting">모집</string>
+    <string name="recruitment_status_full">만원</string>
+    <string name="recruitment_status_expired">종료</string>
+    <string name="recruitment_status_joined">참여</string>
 </resources>

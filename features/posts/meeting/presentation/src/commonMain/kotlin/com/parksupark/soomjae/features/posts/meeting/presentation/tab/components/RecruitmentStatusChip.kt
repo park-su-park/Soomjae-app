@@ -13,6 +13,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.theme.infoContainer
 import com.parksupark.soomjae.core.presentation.designsystem.theme.onInfoContainer
 import com.parksupark.soomjae.core.presentation.designsystem.theme.onSuccessContainer
 import com.parksupark.soomjae.core.presentation.designsystem.theme.successContainer
+import com.parksupark.soomjae.features.posts.common.domain.models.RecruitmentStatus
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -37,19 +38,6 @@ internal fun RecruitmentStatusChip(
         backgroundColor = backgroundColor,
         contentColor = contentColor,
     )
-}
-
-enum class RecruitmentStatus(val label: String) {
-    RECRUITING("모집"),
-
-    // 인원 가득 참
-    FULL("만원"),
-
-    // 종료됨
-    EXPIRED("종료"),
-
-    // 참여중
-    JOINED("참여"),
 }
 
 @Preview(showBackground = true)

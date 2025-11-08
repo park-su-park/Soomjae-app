@@ -1,6 +1,7 @@
 package com.parksupark.soomjae.features.posts.aggregate.presentation.post
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -41,7 +42,11 @@ internal fun PostScreen(
     val selectedTabIndex by remember { derivedStateOf { pagerState.currentPage } }
 
     SoomjaeScaffold(bottomBar = bottomBar) { innerPadding ->
-        Column(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
+        Column(
+            modifier = Modifier.fillMaxSize()
+                .padding(innerPadding)
+                .consumeWindowInsets(innerPadding),
+        ) {
             SoomjaeTabRow(
                 selectedTabIndex = selectedTabIndex,
                 modifier = Modifier.fillMaxWidth(),

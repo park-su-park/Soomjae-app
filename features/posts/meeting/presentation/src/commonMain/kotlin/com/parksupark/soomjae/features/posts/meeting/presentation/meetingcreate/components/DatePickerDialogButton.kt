@@ -28,21 +28,19 @@ internal fun DatePickerDialogButton(
     selectableDates: SelectableDates = DatePickerDefaults.AllDates,
     button: @Composable (openDialog: () -> Unit) -> Unit,
 ) {
+    var isDialogOpen by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState(
         selectableDates = selectableDates,
     )
-    var dialogOpen by remember { mutableStateOf(false) }
 
-    if (dialogOpen) {
+    if (isDialogOpen) {
         DatePickerDialog(
             onDismissRequest = { /* no-op */ },
             confirmButton = {
                 SoomjaeTextButton(
                     onClick = {
-                        datePickerState.selectedDateMillis?.let {
-                            onConfirm(it)
-                        }
-                        dialogOpen = false
+                        datePickerState.selectedDateMillis?.let { onConfirm(it) }
+                        isDialogOpen = false
                     },
                     enabled = datePickerState.selectedDateMillis != null,
                     content = {
@@ -53,7 +51,7 @@ internal fun DatePickerDialogButton(
             modifier = modifier,
             dismissButton = {
                 SoomjaeTextButton(
-                    onClick = { dialogOpen = false },
+                    onClick = { isDialogOpen = false },
                     content = {
                         Text(text = Res.string.meeting_create_datetime_dialog_cancel.value)
                     },
@@ -61,9 +59,9 @@ internal fun DatePickerDialogButton(
             },
             colors = SoomjaeDatePickerDefaults.colors(),
         ) {
-            SoomjaeDatePicker(datePickerState)
+            SoomjaeDatePicker(state = datePickerState)
         }
     }
 
-    button { dialogOpen = true }
+    button { isDialogOpen = true }
 }
