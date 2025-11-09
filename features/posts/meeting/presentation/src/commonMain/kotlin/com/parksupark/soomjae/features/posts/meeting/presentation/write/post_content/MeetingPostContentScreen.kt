@@ -20,7 +20,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.modifiers.bottomBor
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.resources.value
-import com.parksupark.soomjae.features.posts.common.presentation.components.PostWriter
+import com.parksupark.soomjae.features.posts.common.presentation.components.PostWriteLayout
 import com.parksupark.soomjae.features.posts.common.presentation.components.WriteDialogSelection
 import com.parksupark.soomjae.features.posts.common.presentation.components.WriteInputContent
 import com.parksupark.soomjae.features.posts.common.presentation.components.WriteInputTitle
@@ -57,7 +57,7 @@ internal fun MeetingPostContentScreen(
         },
         snackbarHost = snackbarHost,
     ) { innerPadding ->
-        PostWriter(
+        PostWriteLayout(
             title = {
                 WriteInputTitle(
                     state = state.inputTitle,

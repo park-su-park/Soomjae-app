@@ -3,6 +3,7 @@ package com.parksupark.soomjae.features.posts.common.presentation.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -14,11 +15,12 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeH
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 
 @Composable
-fun PostWriter(
+fun PostWriteLayout(
     title: @Composable () -> Unit,
     body: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     extras: @Composable (ColumnScope.() -> Unit)? = null,
+    scrollable: Boolean = true,
 ) {
     val decoratedTitle: @Composable (() -> Unit) = {
         ProvideTextStyle(
@@ -34,15 +36,20 @@ fun PostWriter(
         )
     }
 
+    val contentModifier = if (scrollable) {
+        modifier.verticalScroll(rememberScrollState())
+    } else {
+        modifier
+    }
+
     Column(
-        modifier = modifier.verticalScroll(rememberScrollState()),
+        modifier = contentModifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         decoratedTitle()
 
         SoomjaeHorizontalDivider(
             modifier = Modifier.padding(horizontal = 16.dp),
-            color = SoomjaeTheme.colorScheme.divider1,
         )
 
         decoratedBody()
