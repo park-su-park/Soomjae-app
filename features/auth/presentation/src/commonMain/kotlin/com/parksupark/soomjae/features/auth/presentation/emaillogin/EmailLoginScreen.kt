@@ -34,7 +34,9 @@ import com.parksupark.soomjae.features.auth.presentation.resources.Res
 import com.parksupark.soomjae.features.auth.presentation.resources.email_login_button_login
 import com.parksupark.soomjae.features.auth.presentation.resources.email_login_checkbox_save_email
 import com.parksupark.soomjae.features.auth.presentation.resources.email_login_textfield_email_hint
+import com.parksupark.soomjae.features.auth.presentation.resources.email_login_textfield_email_title
 import com.parksupark.soomjae.features.auth.presentation.resources.email_login_textfield_password_hint
+import com.parksupark.soomjae.features.auth.presentation.resources.email_login_textfield_password_title
 import com.parksupark.soomjae.features.auth.presentation.resources.email_login_title
 
 @Composable
@@ -89,8 +91,8 @@ private fun InputSection(
             modifier = Modifier.semantics {
                 contentType = ContentType.EmailAddress
             }.padding(horizontal = 16.dp),
+            title = Res.string.email_login_textfield_email_title.value,
             hint = Res.string.email_login_textfield_email_hint.value,
-            title = Res.string.email_login_textfield_email_hint.value,
         )
 
         Spacer(Modifier.height(16.dp))
@@ -100,8 +102,8 @@ private fun InputSection(
             modifier = Modifier.semantics {
                 contentType = ContentType.Password
             }.padding(horizontal = 16.dp),
+            title = Res.string.email_login_textfield_password_title.value,
             hint = Res.string.email_login_textfield_password_hint.value,
-            title = Res.string.email_login_textfield_password_hint.value,
         )
 
         SoomjaeCheckbox(
