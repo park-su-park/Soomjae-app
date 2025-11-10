@@ -18,7 +18,6 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeT
 import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.Res
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_datetime_dialog_cancel
-import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_datetime_dialog_confirm
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,7 +43,7 @@ internal fun DatePickerDialogButton(
                     },
                     enabled = datePickerState.selectedDateMillis != null,
                     content = {
-                        Text(text = Res.string.meeting_create_datetime_dialog_confirm.value)
+                        Text(text = Res.string.meeting_create_datetime_dialog_cancel.value)
                     },
                 )
             },

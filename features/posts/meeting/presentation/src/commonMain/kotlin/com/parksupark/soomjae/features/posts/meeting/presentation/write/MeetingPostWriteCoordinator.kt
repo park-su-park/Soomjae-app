@@ -53,6 +53,15 @@ class MeetingPostWriteCoordinator(
             MeetingPostWriteAction.OnCreateMeetingPostClick -> stepViewModel.setScreenState(
                 MeetingPostWriteStep.CREATE,
             )
+
+            is MeetingPostWriteAction.OnAllDayToggled ->
+                contentViewModel.updateMeetingPeriod(isAllDay = action.isAllDay)
+
+            is MeetingPostWriteAction.OnMeetingPeriodChanged ->
+                contentViewModel.updateMeetingPeriod(
+                    newPeriod = action.period,
+                    changedField = action.changedField,
+                )
         }
     }
 

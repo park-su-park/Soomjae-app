@@ -6,7 +6,17 @@ import com.parksupark.soomjae.core.common.coroutines.SoomjaeDispatcher
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.mapTextFieldState
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
+import com.parksupark.soomjae.features.posts.common.domain.usecase.ValidatePeriodUseCase
+import com.parksupark.soomjae.features.posts.meeting.presentation.models.DateTimeRangeUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.models.MeetingCreationUi
+import com.parksupark.soomjae.features.posts.meeting.presentation.models.mapper.toDateTimeRangeUi
+import com.parksupark.soomjae.features.posts.meeting.presentation.models.mapper.toValidatePeriodParam
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingPostWriteAction
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingPostWriteAction.PeriodField.All
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingPostWriteAction.PeriodField.EndDate
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingPostWriteAction.PeriodField.EndTime
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingPostWriteAction.PeriodField.StartDate
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingPostWriteAction.PeriodField.StartTime
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingPostWriteEvent
 import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -30,6 +40,7 @@ import kotlinx.datetime.toInstant
 class MeetingPostContentViewModel(
     private val dispatcher: SoomjaeDispatcher,
     private val meetingPostRepository: MeetingPostRepository,
+    private val validatePeriodUseCase: ValidatePeriodUseCase,
 ) : ViewModel() {
     private val _stateFlow: MutableStateFlow<MeetingPostContentState> =
         MutableStateFlow(MeetingPostContentState())
@@ -111,5 +122,35 @@ class MeetingPostContentViewModel(
 
     fun updateMeeting(meeting: MeetingCreationUi) {
         _stateFlow.update { it.copy(meeting = meeting) }
+    }
+
+    fun updateMeetingPeriod(isAllDay: Boolean) {
+        _stateFlow.update { state ->
+            val newPeriod = state.meetingForm.period.copy(isAllDay = isAllDay)
+            val newMeeting = state.meetingForm.copy(period = newPeriod)
+            state.copy(meetingForm = newMeeting)
+        }
+    }
+
+    fun updateMeetingPeriod(
+        newPeriod: DateTimeRangeUi,
+        changedField: MeetingPostWriteAction.PeriodField,
+    ) {
+        val input = newPeriod.toValidatePeriodParam(
+            changed = when (changedField) {
+                StartDate, StartTime -> ValidatePeriodUseCase.ChangedField.START
+                EndDate, EndTime -> ValidatePeriodUseCase.ChangedField.END
+                All -> ValidatePeriodUseCase.ChangedField.START
+            },
+        )
+
+        val result = validatePeriodUseCase(input)
+
+        _stateFlow.update { state ->
+            val newPeriod = result.toDateTimeRangeUi(isAllDay = newPeriod.isAllDay)
+            val newMeeting = state.meetingForm.copy(period = newPeriod)
+
+            state.copy(meetingForm = newMeeting)
+        }
     }
 }

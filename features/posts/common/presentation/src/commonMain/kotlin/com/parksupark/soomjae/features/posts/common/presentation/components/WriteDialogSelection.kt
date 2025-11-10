@@ -39,6 +39,7 @@ fun <T> WriteDialogSelection(
     WriteSelectionButton(
         label = label,
         onClick = { if (items.isNotEmpty()) showDialog = true },
+        selected = selectedItem != null,
         enabled = items.isNotEmpty(),
         modifier = modifier,
         buttonText = {

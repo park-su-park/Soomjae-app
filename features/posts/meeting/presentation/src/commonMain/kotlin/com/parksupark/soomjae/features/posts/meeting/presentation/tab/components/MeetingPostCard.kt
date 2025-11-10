@@ -36,6 +36,7 @@ import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.Mee
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.days
 import kotlin.time.ExperimentalTime
+import kotlinx.collections.immutable.persistentListOf
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -200,7 +201,12 @@ private fun MeetingPostCardPreview() {
                 isUserLiked = true,
                 likeCount = 32,
                 commentCount = 128,
-                category = CategoryUi(id = 1L, name = "스터디", hierarchy = 1, children = emptyList()),
+                category = CategoryUi(
+                    id = 1L,
+                    name = "스터디",
+                    hierarchy = 1,
+                    children = persistentListOf(),
+                ),
                 maxParticipantCount = 4,
                 currentParticipantCount = 2,
                 recruitmentPeriod = RecruitmentPeriodUi(

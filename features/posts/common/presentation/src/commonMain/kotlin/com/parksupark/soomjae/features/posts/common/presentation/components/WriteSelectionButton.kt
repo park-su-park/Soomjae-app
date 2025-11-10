@@ -10,7 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeHorizontalDivider
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSelectButton
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
@@ -22,6 +21,7 @@ fun WriteSelectionButton(
     onClick: () -> Unit,
     buttonText: @Composable () -> Unit,
     modifier: Modifier = Modifier,
+    selected: Boolean = false,
     enabled: Boolean = true,
 ) {
     WriteSelectionLayout(
@@ -30,33 +30,10 @@ fun WriteSelectionButton(
     ) {
         SoomjaeSelectButton(
             text = buttonText,
-            modifier = modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
+            selected = selected,
             onClick = onClick,
-        )
-//        OutlinedButton(
-//            onClick = onClick,
-//            modifier = Modifier.fillMaxWidth(),
-//            enabled = enabled,
-//            shape = RoundedCornerShape(8.dp),
-//            colors = ButtonDefaults.outlinedButtonColors().copy(
-//                containerColor = Color.Transparent,
-//                contentColor = SoomjaeTheme.colorScheme.text2,
-//            ),
-//            border = BorderStroke(1.dp, SoomjaeTheme.colorScheme.divider1),
-//        ) {
-//            buttonText()
-//        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun WriteSelectionButtonPreview() {
-    AppTheme {
-        WriteSelectionButton(
-            label = "카테고리",
-            onClick = { },
-            buttonText = { Text("카테고리 선택") },
+            enabled = enabled,
         )
     }
 }
@@ -67,17 +44,13 @@ fun WriteSelectionLayout(
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit,
 ) {
-    Column(modifier = modifier.fillMaxWidth()) {
-        SoomjaeHorizontalDivider()
+    Column(
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = modifier.fillMaxWidth().padding(16.dp),
+    ) {
+        Text(label, style = SoomjaeTheme.typography.labelL)
 
-        Column(
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.padding(16.dp),
-        ) {
-            Text(label, style = SoomjaeTheme.typography.labelL)
-
-            content()
-        }
+        content()
     }
 }
 
@@ -97,5 +70,17 @@ fun WriteSelectionLayout(
         decoratedHeader()
 
         content()
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun WriteSelectionButtonPreview() {
+    AppTheme {
+        WriteSelectionButton(
+            label = "카테고리",
+            onClick = { },
+            buttonText = { Text("카테고리 선택") },
+        )
     }
 }

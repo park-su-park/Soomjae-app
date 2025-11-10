@@ -2,6 +2,7 @@ package com.parksupark.soomjae.core.presentation.designsystem.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.border
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -32,6 +33,7 @@ fun SoomjaeToggleSwitch(
     modifier: Modifier = Modifier,
     onChangeToggle: ((Boolean) -> Unit)? = null,
     enabled: Boolean = true,
+    interactionSource: MutableInteractionSource? = null,
 ) {
     val colorScheme = SoomjaeTheme.colorScheme
     val animateTrackColor by animateColorAsState(
@@ -63,6 +65,7 @@ fun SoomjaeToggleSwitch(
         enabled = enabled,
         shape = RoundedCornerShape(100),
         contentPadding = PaddingValues(2.dp),
+        interactionSource = interactionSource,
         thumb = {
             Thumb(
                 modifier = Modifier.border(
