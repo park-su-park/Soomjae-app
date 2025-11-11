@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.composeunstyled.minimumInteractiveComponentSize
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCenterAlignedTopAppBar
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeHorizontalDivider
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeIcon
@@ -69,18 +70,21 @@ internal fun MeetingPostContentScreen(
                 WriteInputTitle(
                     state = state.inputTitle,
                     modifier = Modifier.fillMaxWidth()
-                        .padding(horizontal = 16.dp),
+                        .padding(horizontal = 16.dp)
+                        .minimumInteractiveComponentSize(),
                 )
             },
             body = {
                 WriteInputContent(
                     state = state.inputContent,
                     modifier = Modifier.fillMaxWidth()
-                        .padding(horizontal = 16.dp),
+                        .padding(horizontal = 16.dp)
+                        .padding(bottom = 16.dp)
+                        .minimumInteractiveComponentSize(),
                 )
             },
             modifier = Modifier.fillMaxSize().imePadding(),
-            contentPadding = innerPadding + PaddingValues(bottom = 16.dp),
+            contentPadding = innerPadding + PaddingValues(vertical = 16.dp),
             extras = {
                 additionalInfoSelection(
                     state = state,

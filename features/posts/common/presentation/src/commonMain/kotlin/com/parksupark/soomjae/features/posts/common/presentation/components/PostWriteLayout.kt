@@ -90,13 +90,12 @@ fun LazyPostWriteLayout(
         modifier = modifier.fillMaxWidth(),
         state = listState,
         contentPadding = contentPadding,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         item {
             decoratedTitle()
 
             SoomjaeHorizontalDivider(
-                modifier = Modifier.padding(horizontal = 16.dp),
+                modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
             )
 
             decoratedBody()
