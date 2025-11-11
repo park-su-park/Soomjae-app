@@ -65,7 +65,7 @@ class MeetingPostContentViewModel(
             categoryRepository.getAllCategories().fold(
                 ifLeft = { failure ->
                     eventChannel.send(
-                        MeetingPostWriteEvent.OnInitialDataLoadFailure(failure.asUiText()),
+                        MeetingPostWriteEvent.ShowErrorToast(failure.asUiText()),
                     )
                 },
                 ifRight = { categories ->
@@ -82,7 +82,7 @@ class MeetingPostContentViewModel(
             locationRepository.getAllLocations().fold(
                 ifLeft = { failure ->
                     eventChannel.send(
-                        MeetingPostWriteEvent.OnInitialDataLoadFailure(failure.asUiText()),
+                        MeetingPostWriteEvent.ShowErrorToast(failure.asUiText()),
                     )
                 },
                 ifRight = { locations ->
@@ -142,7 +142,7 @@ class MeetingPostContentViewModel(
                 },
             ).fold(
                 ifLeft = { failure ->
-                    eventChannel.send(MeetingPostWriteEvent.OnPostCreateFailure(failure.asUiText()))
+                    eventChannel.send(MeetingPostWriteEvent.ShowErrorToast(failure.asUiText()))
                 },
                 ifRight = {
                     eventChannel.send(MeetingPostWriteEvent.OnPostCreateSuccess(it.id))

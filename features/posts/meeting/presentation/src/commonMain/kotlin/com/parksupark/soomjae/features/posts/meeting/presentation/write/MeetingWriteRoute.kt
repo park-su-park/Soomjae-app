@@ -34,7 +34,7 @@ fun MeetingWriteRoute(
                 event.postId,
             )
 
-            is MeetingPostWriteEvent.OnPostCreateFailure -> coroutineScope.launch {
+            is MeetingPostWriteEvent.ShowErrorToast -> coroutineScope.launch {
                 snackbarHostState.showSnackbar(event.error)
             }
         }

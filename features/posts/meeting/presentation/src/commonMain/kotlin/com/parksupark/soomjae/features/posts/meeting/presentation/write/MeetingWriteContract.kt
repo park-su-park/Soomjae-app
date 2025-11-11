@@ -32,5 +32,5 @@ sealed interface MeetingPostWriteAction {
 internal sealed interface MeetingPostWriteEvent {
     data class OnPostCreateSuccess(val postId: Long) : MeetingPostWriteEvent
 
-    data class OnPostCreateFailure(val error: UiText) : MeetingPostWriteEvent
+    data class ShowErrorToast(val error: UiText) : MeetingPostWriteEvent
 }
