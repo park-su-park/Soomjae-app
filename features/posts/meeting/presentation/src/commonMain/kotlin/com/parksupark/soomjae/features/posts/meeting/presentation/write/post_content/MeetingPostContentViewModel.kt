@@ -154,10 +154,10 @@ class MeetingPostContentViewModel(
         }
     }
 
-    fun updateParticipantLimit(isLimited: Boolean) {
+    fun updateParticipantLimit(isUnlimited: Boolean) {
         _stateFlow.update { state ->
             val newParticipantLimit = state.meetingForm.participantLimit.copy(
-                isLimited = isLimited,
+                isLimited = !isUnlimited,
             )
             state.copy(
                 meetingForm = state.meetingForm.copy(

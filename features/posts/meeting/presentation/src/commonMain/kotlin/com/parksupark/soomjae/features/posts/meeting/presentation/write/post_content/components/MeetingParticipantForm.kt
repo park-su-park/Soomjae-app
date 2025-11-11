@@ -7,6 +7,8 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Person
@@ -16,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,6 +38,8 @@ import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meet
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_participant_count_label
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_participant_count_textfield_hint
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingPostWriteAction
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -43,9 +48,13 @@ internal fun MeetingParticipantForm(
     onAction: (MeetingPostWriteAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val requester = remember { BringIntoViewRequester() }
+    val coroutineScope = rememberCoroutineScope()
+
     WriteSelectionLayout(
         modifier = modifier.fillMaxWidth()
-            .background(SoomjaeTheme.colorScheme.background1),
+            .background(SoomjaeTheme.colorScheme.background1)
+            .bringIntoViewRequester(requester),
         header = {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -65,6 +74,14 @@ internal fun MeetingParticipantForm(
             AnimatedVisibility(visible = participantLimit.isLimited) {
                 MeetingParticipantCountTextField(
                     state = participantLimit.limitCount,
+                    onFocusedChange = { isFocused ->
+                        if (isFocused) {
+                            coroutineScope.launch {
+                                delay(300)
+                                requester.bringIntoView()
+                            }
+                        }
+                    },
                 )
             }
         },
@@ -82,7 +99,7 @@ private fun UnlimitedParticipantsToggleSwitch(
         modifier = Modifier.clickable(
             interactionSource = interactionSource,
             indication = null,
-            onClick = { onToggle(isUnlimited) },
+            onClick = { onToggle(!isUnlimited) },
         ),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -104,6 +121,7 @@ private fun UnlimitedParticipantsToggleSwitch(
 @Composable
 private fun MeetingParticipantCountTextField(
     state: TextFieldState,
+    onFocusedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val participantCountText = Res.string.meeting_create_participant_count_display.value
@@ -123,6 +141,7 @@ private fun MeetingParticipantCountTextField(
         modifier = modifier.fillMaxWidth()
             .onFocusChanged { focusState ->
                 isFocused = focusState.isFocused
+                onFocusedChange(focusState.isFocused)
             },
         hint = Res.string.meeting_create_participant_count_textfield_hint.value,
         startIcon = Icons.Outlined.Person,

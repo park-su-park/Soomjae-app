@@ -2,10 +2,16 @@ package com.parksupark.soomjae.features.posts.meeting.presentation.write.post_co
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
@@ -22,7 +28,8 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeS
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.resources.value
-import com.parksupark.soomjae.features.posts.common.presentation.components.PostWriteLayout
+import com.parksupark.soomjae.core.presentation.ui.utils.plus
+import com.parksupark.soomjae.features.posts.common.presentation.components.LazyPostWriteLayout
 import com.parksupark.soomjae.features.posts.common.presentation.components.WriteDialogSelection
 import com.parksupark.soomjae.features.posts.common.presentation.components.WriteInputContent
 import com.parksupark.soomjae.features.posts.common.presentation.components.WriteInputTitle
@@ -57,7 +64,7 @@ internal fun MeetingPostContentScreen(
         },
         snackbarHost = snackbarHost,
     ) { innerPadding ->
-        PostWriteLayout(
+        LazyPostWriteLayout(
             title = {
                 WriteInputTitle(
                     state = state.inputTitle,
@@ -72,21 +79,24 @@ internal fun MeetingPostContentScreen(
                         .padding(horizontal = 16.dp),
                 )
             },
-            modifier = Modifier.fillMaxSize()
-                .padding(innerPadding),
+            modifier = Modifier.fillMaxSize().imePadding(),
+            contentPadding = innerPadding + PaddingValues(bottom = 16.dp),
             extras = {
-                AdditionalInfoSelection(
+                additionalInfoSelection(
                     state = state,
                     onAction = onAction,
                     categories = state.categories,
                     selectedCategory = state.selectedCategory,
-                    onCategorySelect = { onAction(MeetingPostWriteAction.OnCategorySelect(it)) },
+                    onCategorySelect = {
+                        onAction(MeetingPostWriteAction.OnCategorySelect(it))
+                    },
                     locations = state.locations,
                     selectedLocation = state.selectedLocation,
-                    onLocationSelect = { onAction(MeetingPostWriteAction.OnLocationSelect(it)) },
+                    onLocationSelect = {
+                        onAction(MeetingPostWriteAction.OnLocationSelect(it))
+                    },
                 )
             },
-            scrollable = false,
         )
     }
 }
@@ -132,8 +142,7 @@ private fun MeetingWriteTopBar(
     )
 }
 
-@Composable
-private fun AdditionalInfoSelection(
+private fun LazyListScope.additionalInfoSelection(
     state: MeetingPostContentState,
     onAction: (MeetingPostWriteAction) -> Unit,
     categories: ImmutableList<CategoryUi>,
@@ -142,35 +151,40 @@ private fun AdditionalInfoSelection(
     locations: ImmutableList<LocationUi>,
     selectedLocation: LocationUi?,
     onLocationSelect: (locationCode: Long) -> Unit,
-    modifier: Modifier = Modifier,
 ) {
-    LazyColumn(modifier = modifier.fillMaxWidth()) {
-        item {
-            CategoryLocationSelection(
-                categories = categories,
-                onCategorySelect = onCategorySelect,
-                selectedCategory = selectedCategory,
-                locations = locations,
-                onLocationSelect = onLocationSelect,
-                selectedLocation = selectedLocation,
-            )
-            SoomjaeHorizontalDivider()
-        }
+    item {
+        CategoryLocationSelection(
+            categories = categories,
+            onCategorySelect = onCategorySelect,
+            selectedCategory = selectedCategory,
+            locations = locations,
+            onLocationSelect = onLocationSelect,
+            selectedLocation = selectedLocation,
+        )
+        SoomjaeHorizontalDivider()
+    }
 
-        item {
-            MeetingDateForm(
-                form = state.meetingForm,
-                onAction = onAction,
-            )
-        }
+    item {
+        MeetingDateForm(
+            form = state.meetingForm,
+            onAction = onAction,
+        )
+    }
 
-        item {
-            MeetingParticipantForm(
-                participantLimit = state.meetingForm.participantLimit,
-                onAction = onAction,
-            )
-            SoomjaeHorizontalDivider()
-        }
+    item {
+        MeetingParticipantForm(
+            participantLimit = state.meetingForm.participantLimit,
+            onAction = onAction,
+        )
+        SoomjaeHorizontalDivider()
+    }
+
+    item {
+        Spacer(
+            Modifier.windowInsetsBottomHeight(
+                WindowInsets.systemBars,
+            ),
+        )
     }
 }
 
