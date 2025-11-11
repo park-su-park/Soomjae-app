@@ -28,7 +28,6 @@ import com.parksupark.soomjae.features.posts.common.presentation.components.Writ
 import com.parksupark.soomjae.features.posts.common.presentation.components.WriteInputTitle
 import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.LocationUi
-import com.parksupark.soomjae.features.posts.meeting.presentation.models.MeetingFormUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.Res
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_write_button_confirm_description
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_write_category_label
@@ -38,6 +37,7 @@ import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meet
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_write_navigate_up_description
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingPostWriteAction
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.post_content.components.MeetingDateForm
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.post_content.components.MeetingParticipantForm
 import kotlinx.collections.immutable.ImmutableList
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -158,10 +158,16 @@ private fun AdditionalInfoSelection(
         }
 
         item {
-            MeetingFormSelection(
+            MeetingDateForm(
                 form = state.meetingForm,
                 onAction = onAction,
-                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+
+        item {
+            MeetingParticipantForm(
+                participantLimit = state.meetingForm.participantLimit,
+                onAction = onAction,
             )
             SoomjaeHorizontalDivider()
         }
@@ -197,20 +203,6 @@ private fun CategoryLocationSelection(
             selectedItem = selectedLocation,
             itemKey = { it.code },
             itemName = { it.name },
-        )
-    }
-}
-
-@Composable
-private fun MeetingFormSelection(
-    form: MeetingFormUi,
-    onAction: (MeetingPostWriteAction) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Column(modifier = modifier.fillMaxWidth()) {
-        MeetingDateForm(
-            form = form,
-            onAction = onAction,
         )
     }
 }

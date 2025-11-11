@@ -23,6 +23,8 @@ sealed interface MeetingPostWriteAction {
 
     data class OnLocationSelect(val locationCode: Long) : MeetingPostWriteAction
 
+    data class OnParticipantLimitToggled(val isUnlimited: Boolean) : MeetingPostWriteAction
+
     data class OnAllDayToggled(val isAllDay: Boolean) : MeetingPostWriteAction
 
     data class OnMeetingPeriodChanged(

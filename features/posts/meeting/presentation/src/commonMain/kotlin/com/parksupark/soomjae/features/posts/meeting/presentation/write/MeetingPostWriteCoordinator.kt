@@ -54,6 +54,9 @@ class MeetingPostWriteCoordinator(
                 MeetingPostWriteStep.CREATE,
             )
 
+            is MeetingPostWriteAction.OnParticipantLimitToggled ->
+                contentViewModel.updateParticipantLimit(isLimited = action.isUnlimited)
+
             is MeetingPostWriteAction.OnAllDayToggled ->
                 contentViewModel.updateMeetingPeriod(isAllDay = action.isAllDay)
 

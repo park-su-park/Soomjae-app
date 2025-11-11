@@ -153,4 +153,17 @@ class MeetingPostContentViewModel(
             state.copy(meetingForm = newMeeting)
         }
     }
+
+    fun updateParticipantLimit(isLimited: Boolean) {
+        _stateFlow.update { state ->
+            val newParticipantLimit = state.meetingForm.participantLimit.copy(
+                isLimited = isLimited,
+            )
+            state.copy(
+                meetingForm = state.meetingForm.copy(
+                    participantLimit = newParticipantLimit,
+                ),
+            )
+        }
+    }
 }
