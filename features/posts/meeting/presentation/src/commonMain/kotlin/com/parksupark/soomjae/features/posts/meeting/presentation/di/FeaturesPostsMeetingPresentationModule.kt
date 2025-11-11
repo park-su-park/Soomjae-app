@@ -8,10 +8,7 @@ import com.parksupark.soomjae.features.posts.meeting.presentation.participant_li
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.MeetingTabCoordinator
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.filter.MeetingTabFilterViewModel
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.post.MeetingTabPostViewModel
-import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingPostWriteCoordinator
-import com.parksupark.soomjae.features.posts.meeting.presentation.write.creation.MeetingCreationViewModel
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.post_content.MeetingPostContentViewModel
-import com.parksupark.soomjae.features.posts.meeting.presentation.write.step.MeetingPostWriteStepViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.core.qualifier.named
@@ -65,10 +62,7 @@ private val tabModule = module {
 }
 
 private val writeModule = module {
-    viewModelOf(::MeetingPostWriteStepViewModel)
-    viewModelOf(::MeetingCreationViewModel)
     viewModelOf(::MeetingPostContentViewModel)
-    viewModelOf(::MeetingPostWriteCoordinator)
 }
 
 val featuresPostsMeetingPresentationModule = module {

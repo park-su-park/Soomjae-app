@@ -1,100 +1,53 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.write
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import com.parksupark.soomjae.features.posts.meeting.presentation.navigation.MeetingNavigator
-import com.parksupark.soomjae.features.posts.meeting.presentation.write.creation.MeetingCreationAction
-import com.parksupark.soomjae.features.posts.meeting.presentation.write.creation.MeetingCreationViewModel
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.post_content.MeetingPostContentViewModel
-import com.parksupark.soomjae.features.posts.meeting.presentation.write.step.MeetingPostWriteStep
-import com.parksupark.soomjae.features.posts.meeting.presentation.write.step.MeetingPostWriteStepViewModel
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.stateIn
+import org.koin.compose.viewmodel.koinViewModel
 
 class MeetingPostWriteCoordinator(
     private val navigator: MeetingNavigator,
-    val stepViewModel: MeetingPostWriteStepViewModel,
-    val contentViewModel: MeetingPostContentViewModel,
-    val creationViewModel: MeetingCreationViewModel,
-) : ViewModel() {
-    internal val screenStateFlow = combine(
-        stepViewModel.stateFlow,
-        contentViewModel.stateFlow,
-        creationViewModel.stateFlow,
-    ) { stepState, contentState, creationState ->
-        MeetingPostWriteCoordinatorState(
-            stepState = stepState,
-            contentState = contentState,
-            creationState = creationState,
-        )
-    }.stateIn(
-        scope = this.viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = MeetingPostWriteCoordinatorState(),
-    )
+    val viewModel: MeetingPostContentViewModel,
+) {
+    internal val screenStateFlow = viewModel.stateFlow
 
-    internal val events = contentViewModel.events
+    internal val events = viewModel.events
 
     internal fun handle(action: MeetingPostWriteAction) {
         when (action) {
             MeetingPostWriteAction.OnBackClick -> navigator.navigateBack()
 
-            MeetingPostWriteAction.OnSubmitClick -> contentViewModel.submitPost()
+            MeetingPostWriteAction.OnSubmitClick -> viewModel.submitPost()
 
-            is MeetingPostWriteAction.OnCategorySelect -> contentViewModel.updateSelectedCategory(
-                action.categoryId,
-            )
+            is MeetingPostWriteAction.OnCategorySelect ->
+                viewModel.updateSelectedCategory(action.categoryId)
 
-            is MeetingPostWriteAction.OnLocationSelect -> contentViewModel.updateSelectedLocation(
-                action.locationCode,
-            )
-
-            MeetingPostWriteAction.OnCreateMeetingPostClick -> stepViewModel.setScreenState(
-                MeetingPostWriteStep.CREATE,
-            )
+            is MeetingPostWriteAction.OnLocationSelect ->
+                viewModel.updateSelectedLocation(action.locationCode)
 
             is MeetingPostWriteAction.OnParticipantLimitToggled ->
-                contentViewModel.updateParticipantLimit(isUnlimited = action.isUnlimited)
+                viewModel.updateParticipantLimit(isUnlimited = action.isUnlimited)
 
             is MeetingPostWriteAction.OnAllDayToggled ->
-                contentViewModel.updateMeetingPeriod(isAllDay = action.isAllDay)
+                viewModel.updateMeetingPeriod(isAllDay = action.isAllDay)
 
             is MeetingPostWriteAction.OnMeetingPeriodChanged ->
-                contentViewModel.updateMeetingPeriod(
+                viewModel.updateMeetingPeriod(
                     newPeriod = action.period,
                     changedField = action.changedField,
                 )
         }
     }
+}
 
-    internal fun handle(action: MeetingCreationAction) {
-        when (action) {
-            MeetingCreationAction.OnBackClick -> stepViewModel.setScreenState(
-                MeetingPostWriteStep.CONTENT,
-            )
-
-            MeetingCreationAction.OnCreateClick -> {
-                val meeting = creationViewModel.createMeeting()
-                contentViewModel.updateMeeting(meeting)
-                stepViewModel.setScreenState(MeetingPostWriteStep.CONTENT)
-            }
-
-            is MeetingCreationAction.OnStartDateSelected -> creationViewModel.updateStartDate(
-                action.startDate,
-            )
-
-            is MeetingCreationAction.OnStartTimeSelected -> creationViewModel.updateStartTime(
-                action.startTime,
-            )
-
-            is MeetingCreationAction.OnEndDateSelected -> creationViewModel.updateEndDate(
-                action.endDate,
-            )
-
-            is MeetingCreationAction.OnEndTimeSelected -> creationViewModel.updateEndTime(
-                action.endTime,
-            )
-        }
-    }
+@Composable
+fun rememberMeetingPostWriteCoordinator(
+    navigator: MeetingNavigator,
+    contentViewModel: MeetingPostContentViewModel = koinViewModel(),
+) = remember(navigator, contentViewModel) {
+    MeetingPostWriteCoordinator(
+        navigator = navigator,
+        viewModel = contentViewModel,
+    )
 }

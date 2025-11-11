@@ -5,10 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.parksupark.soomjae.core.common.coroutines.SoomjaeDispatcher
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.mapTextFieldState
+import com.parksupark.soomjae.features.posts.common.domain.repositories.CategoryRepository
+import com.parksupark.soomjae.features.posts.common.domain.repositories.LocationRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
 import com.parksupark.soomjae.features.posts.common.domain.usecase.ValidatePeriodUseCase
+import com.parksupark.soomjae.features.posts.common.presentation.models.toLocationUi
+import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.models.DateTimeRangeUi
-import com.parksupark.soomjae.features.posts.meeting.presentation.models.MeetingCreationUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.models.mapper.toDateTimeRangeUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.models.mapper.toValidatePeriodParam
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingPostWriteAction
@@ -19,6 +22,7 @@ import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingP
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingPostWriteAction.PeriodField.StartTime
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingPostWriteEvent
 import kotlin.time.ExperimentalTime
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,6 +44,8 @@ import kotlinx.datetime.toInstant
 class MeetingPostContentViewModel(
     private val dispatcher: SoomjaeDispatcher,
     private val meetingPostRepository: MeetingPostRepository,
+    private val categoryRepository: CategoryRepository,
+    private val locationRepository: LocationRepository,
     private val validatePeriodUseCase: ValidatePeriodUseCase,
 ) : ViewModel() {
     private val _stateFlow: MutableStateFlow<MeetingPostContentState> =
@@ -50,20 +56,58 @@ class MeetingPostContentViewModel(
     internal val events = eventChannel.receiveAsFlow()
 
     init {
+        loadInitialData()
+        initInputValidation()
+    }
+
+    private fun loadInitialData() {
+        viewModelScope.launch(dispatcher.io) {
+            categoryRepository.getAllCategories().fold(
+                ifLeft = { failure ->
+                    eventChannel.send(
+                        MeetingPostWriteEvent.OnInitialDataLoadFailure(failure.asUiText()),
+                    )
+                },
+                ifRight = { categories ->
+                    _stateFlow.update { state ->
+                        state.copy(
+                            categories = categories.values.map { it.toUi() }.toPersistentList(),
+                        )
+                    }
+                },
+            )
+        }
+
+        viewModelScope.launch(dispatcher.io) {
+            locationRepository.getAllLocations().fold(
+                ifLeft = { failure ->
+                    eventChannel.send(
+                        MeetingPostWriteEvent.OnInitialDataLoadFailure(failure.asUiText()),
+                    )
+                },
+                ifRight = { locations ->
+                    _stateFlow.update { state ->
+                        state.copy(
+                            locations = locations.map { it.toLocationUi() }.toPersistentList(),
+                        )
+                    }
+                },
+            )
+        }
+    }
+
+    private fun initInputValidation() {
         val titleFlow = _stateFlow.mapTextFieldState { it.inputTitle }
         val contentFlow = _stateFlow.mapTextFieldState { it.inputContent }
-        val meetingFlow = _stateFlow.map { it.meeting }.distinctUntilChanged()
         val isSubmittingFlow = _stateFlow.map { it.isSubmitting }.distinctUntilChanged()
 
         combine(
             titleFlow,
             contentFlow,
-            meetingFlow,
             isSubmittingFlow,
-        ) { title, content, meeting, isSubmitting ->
+        ) { title, content, isSubmitting ->
             title.trim().isNotEmpty() &&
                 content.trim().isNotEmpty() &&
-                meeting != null &&
                 !isSubmitting
         }.onEach { canSubmit ->
             _stateFlow.update { it.copy(canSubmit = canSubmit) }
@@ -73,28 +117,29 @@ class MeetingPostContentViewModel(
     fun submitPost() {
         if (!_stateFlow.value.canSubmit) return
 
-        val meeting =
-            _stateFlow.value.meeting ?: error("Meeting must be created before submitting a post.")
-        val startTime = meeting.startDate.atTime(meeting.startTime)
-        val endTime = if (meeting.endDate != null && meeting.endTime != null) {
-            meeting.endDate.atTime(meeting.endTime)
-        } else {
-            error("End date and time must be set before submitting a post.")
-        }
         val timeZone = TimeZone.currentSystemDefault()
 
         viewModelScope.launch(dispatcher.io) {
             _stateFlow.update { it.copy(isSubmitting = true) }
+            val state = _stateFlow.value
+            val meeting = state.meetingForm
 
             meetingPostRepository.createPost(
-                title = _stateFlow.value.inputTitle.text.toString().trim(),
-                content = _stateFlow.value.inputContent.text.toString().trim(),
-                categoryId = _stateFlow.value.selectedCategory?.id,
-                locationCode = _stateFlow.value.selectedLocation?.code,
-                startAt = startTime.toInstant(timeZone),
-                endAt = endTime.toInstant(timeZone),
-                maxParticipants = meeting.inputMaxParticipantCount.text.toString().toLongOrNull()
-                    ?: 0L,
+                title = state.inputTitle.text.toString().trim(),
+                content = state.inputContent.text.toString().trim(),
+                categoryId = state.selectedCategory?.id,
+                locationCode = state.selectedLocation?.code,
+                startAt = meeting.period.startDate
+                    .atTime(meeting.period.startTime)
+                    .toInstant(timeZone),
+                endAt = meeting.period.endDate
+                    .atTime(meeting.period.endTime)
+                    .toInstant(timeZone),
+                maxParticipants = if (meeting.participantLimit.isLimited) {
+                    meeting.participantLimit.limitCount.text.toString().toLongOrNull()
+                } else {
+                    null
+                },
             ).fold(
                 ifLeft = { failure ->
                     eventChannel.send(MeetingPostWriteEvent.OnPostCreateFailure(failure.asUiText()))
@@ -118,10 +163,6 @@ class MeetingPostContentViewModel(
         _stateFlow.value = _stateFlow.value.copy(
             selectedLocation = _stateFlow.value.locations.find { it.code == locationCode },
         )
-    }
-
-    fun updateMeeting(meeting: MeetingCreationUi) {
-        _stateFlow.update { it.copy(meeting = meeting) }
     }
 
     fun updateMeetingPeriod(isAllDay: Boolean) {
