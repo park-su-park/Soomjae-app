@@ -33,6 +33,9 @@ import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.features.posts.common.presentation.components.WriteSelectionLayout
 import com.parksupark.soomjae.features.posts.meeting.presentation.models.MeetingFormUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.Res
+import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_datetime_end_datetime_label
+import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_datetime_start_datetime_label
+import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_datetime_toggle_allday_label
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_write_meeting_label
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingPostWriteAction
 import kotlinx.datetime.LocalDate
@@ -85,7 +88,7 @@ internal fun MeetingDateForm(
             ) {
                 val shouldShowTime = !period.isAllDay
                 DateTimeRow(
-                    label = "시작:",
+                    label = Res.string.meeting_create_datetime_start_datetime_label.value,
                     date = period.startDate,
                     time = period.startTime,
                     shouldShowTime = shouldShowTime,
@@ -96,7 +99,7 @@ internal fun MeetingDateForm(
                 SoomjaeHorizontalDivider(color = SoomjaeTheme.colorScheme.divider2)
 
                 DateTimeRow(
-                    label = "종료:",
+                    label = Res.string.meeting_create_datetime_end_datetime_label.value,
                     date = period.endDate,
                     time = period.endTime,
                     shouldShowTime = shouldShowTime,
@@ -191,7 +194,7 @@ private fun AllDayToggleSwitch(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            "하루 종일",
+            text = Res.string.meeting_create_datetime_toggle_allday_label.value,
             style = SoomjaeTheme.typography.labelM.copy(
                 color = SoomjaeTheme.colorScheme.text2,
             ),
