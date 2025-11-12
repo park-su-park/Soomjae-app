@@ -43,7 +43,7 @@ internal class DefaultMeetingPostRepository(
         locationCode: Long?,
         startAt: Instant,
         endAt: Instant,
-        maxParticipants: Long,
+        maxParticipants: Long?,
     ): Either<DataFailure.Network, NewPost> = remoteSource.createPost(
         request = PostMeetingPostRequest(
             title = title,
@@ -52,7 +52,7 @@ internal class DefaultMeetingPostRepository(
             locationCode = locationCode,
             startAt = startAt.toDeprecatedInstant(),
             endAt = endAt.toDeprecatedInstant(),
-            maxParticipants = maxParticipants,
+            maxParticipants = maxParticipants ?: -1,
         ),
     ).map { response: PostMeetingPostResponse ->
         NewPost(id = response.id)

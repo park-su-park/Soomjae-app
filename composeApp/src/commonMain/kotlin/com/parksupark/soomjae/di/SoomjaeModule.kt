@@ -11,6 +11,7 @@ import com.parksupark.soomjae.core.remote.di.coreRemoteModule
 import com.parksupark.soomjae.features.auth.data.di.featuresAuthDataModule
 import com.parksupark.soomjae.features.auth.presentation.di.featuresAuthPresentationModule
 import com.parksupark.soomjae.features.home.presentation.di.featuresHomePresentationModule
+import com.parksupark.soomjae.features.posts.aggregate.domain.di.featuresPostsAggregateDomainModule
 import com.parksupark.soomjae.features.posts.aggregate.presentation.di.featuresPostsAggregateDataModule
 import com.parksupark.soomjae.features.posts.aggregate.presentation.di.featuresPostsAggregatePresentationModule
 import com.parksupark.soomjae.features.profile.data.di.featuresProfileDataModule
@@ -47,6 +48,7 @@ internal val soomjaeModule = module {
     includes(featuresAuthDataModule)
     includes(featuresHomePresentationModule)
     includes(featuresPostsAggregateDataModule)
+    includes(featuresPostsAggregateDomainModule)
     includes(featuresPostsAggregatePresentationModule)
     includes(featuresProfileDataModule)
     includes(featuresProfilePresentationModule)

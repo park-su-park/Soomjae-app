@@ -57,36 +57,41 @@ fun SoomjaeTextField(
     var isFocused by remember { mutableStateOf(false) }
 
     Column(modifier = modifier) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
+        ProvideTextStyle(
+            value = SoomjaeTheme.typography.captionS.copy(
+                color = SoomjaeTheme.colorScheme.text2,
+            ),
         ) {
-            if (title != null) {
-                Text(
-                    text = title,
-                    style = SoomjaeTheme.typography.labelS.copy(
-                        color = SoomjaeTheme.colorScheme.text2,
-                    ),
-                )
-            }
-            if (error != null) {
-                Text(
-                    text = error,
-                    style = SoomjaeTheme.typography.labelS.copy(
-                        color = SoomjaeTheme.colorScheme.error,
-                    ),
-                )
-            } else if (additionalInfo != null) {
-                Text(
-                    text = additionalInfo,
-                    style = SoomjaeTheme.typography.labelS.copy(
-                        color = SoomjaeTheme.colorScheme.text2,
-                    ),
-                )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                if (title != null) {
+                    Text(
+                        text = title,
+                        style = SoomjaeTheme.typography.labelS.copy(
+                            color = SoomjaeTheme.colorScheme.text2,
+                        ),
+                    )
+                }
+                if (error != null) {
+                    Text(
+                        text = error,
+                        style = SoomjaeTheme.typography.labelS.copy(
+                            color = SoomjaeTheme.colorScheme.error,
+                        ),
+                    )
+                } else if (additionalInfo != null) {
+                    Text(
+                        text = additionalInfo,
+                        style = SoomjaeTheme.typography.labelS.copy(
+                            color = SoomjaeTheme.colorScheme.text2,
+                        ),
+                    )
+                }
             }
         }
-
         Spacer(modifier = Modifier.height(4.dp))
 
         SoomjaeBasicTextField(
@@ -171,12 +176,13 @@ fun SoomjaeOutlinedTextField(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                ProvideTextStyle(SoomjaeTheme.typography.captionS) {
+                ProvideTextStyle(
+                    SoomjaeTheme.typography.captionS.copy(
+                        color = SoomjaeTheme.colorScheme.text2,
+                    ),
+                ) {
                     if (title != null) {
-                        Text(
-                            text = title,
-                            color = SoomjaeTheme.colorScheme.text2,
-                        )
+                        Text(text = title)
                     }
                     if (error != null) {
                         Text(
@@ -184,10 +190,7 @@ fun SoomjaeOutlinedTextField(
                             color = SoomjaeTheme.colorScheme.error,
                         )
                     } else if (additionalInfo != null) {
-                        Text(
-                            text = additionalInfo,
-                            color = SoomjaeTheme.colorScheme.text2,
-                        )
+                        Text(text = additionalInfo)
                     }
                 }
             }
@@ -274,8 +277,8 @@ private fun OutlinedTextFieldDecorator(
             if (state.text.isEmpty() && !isFocused) {
                 Text(
                     text = hint,
-                    style = SoomjaeTheme.typography.labelM.copy(
-                        color = SoomjaeTheme.colorScheme.text3,
+                    style = SoomjaeTheme.typography.captionL.copy(
+                        color = SoomjaeTheme.colorScheme.text4,
                     ),
                     modifier = Modifier.fillMaxWidth().align(Alignment.CenterStart),
                 )

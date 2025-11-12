@@ -1,5 +1,7 @@
 package com.parksupark.soomjae.core.data.di
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import com.parksupark.soomjae.core.data.datastore.SESSION_DATA_STORE
 import com.parksupark.soomjae.core.data.datastore.SETTING_DATA_STORE
 import com.parksupark.soomjae.core.data.datastore.createSessionDataStore
@@ -10,6 +12,10 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 actual val platformCoreDataModule: Module = module {
-    single(named(SESSION_DATA_STORE)) { createSessionDataStore(androidContext()) }
-    single(named(SETTING_DATA_STORE)) { createSettingDataStore(androidContext()) }
+    single<DataStore<Preferences>>(named(SESSION_DATA_STORE)) {
+        createSessionDataStore(androidContext())
+    }
+    single<DataStore<Preferences>>(named(SETTING_DATA_STORE)) {
+        createSettingDataStore(androidContext())
+    }
 }

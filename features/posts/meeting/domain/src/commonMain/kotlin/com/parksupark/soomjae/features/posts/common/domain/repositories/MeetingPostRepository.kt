@@ -23,7 +23,7 @@ interface MeetingPostRepository {
         locationCode: Long?,
         startAt: Instant,
         endAt: Instant,
-        maxParticipants: Long,
+        maxParticipants: Long?,
     ): Either<DataFailure.Network, NewPost>
 
     fun getPostsStream(filter: MeetingPostFilter): Flow<PagingData<MeetingPost>>

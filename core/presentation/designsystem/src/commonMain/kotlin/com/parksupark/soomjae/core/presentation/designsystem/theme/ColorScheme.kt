@@ -5,6 +5,7 @@ import androidx.compose.material3.DatePickerColors
 import androidx.compose.material3.SelectableChipColors
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
+import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSelectButtonColors
 
 @Immutable
 data class SoomjaeColors(
@@ -46,6 +47,7 @@ data class SoomjaeColors(
 ) {
     internal var defaultDatePickerColorsCached: DatePickerColors? = null
     internal var defaultFilterChipColorsCached: SelectableChipColors? = null
+    internal var defaultSelectButtonColorsCached: SoomjaeSelectButtonColors? = null
 }
 
 internal val LightColorPalette = SoomjaeColors(
