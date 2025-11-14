@@ -33,6 +33,8 @@ sealed interface MeetingDetailAction {
     data object OnEditClick : MeetingDetailAction
 
     data object OnDeleteClick : MeetingDetailAction
+
+    data object OnParticipantListClick : MeetingDetailAction
 }
 
 sealed interface MeetingDetailEvent {

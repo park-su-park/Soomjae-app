@@ -27,6 +27,9 @@ class MeetingDetailCoordinator(
             MeetingDetailAction.OnDeleteClick -> viewModel.onDeleteClick()
 
             MeetingDetailAction.LoginRequest -> viewModel.requestLogin()
+
+            MeetingDetailAction.OnParticipantListClick ->
+                navigator.navigateToParticipantList(viewModel.postId)
         }
     }
 

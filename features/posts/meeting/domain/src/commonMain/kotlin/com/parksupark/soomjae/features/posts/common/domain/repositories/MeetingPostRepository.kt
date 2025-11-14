@@ -3,6 +3,7 @@ package com.parksupark.soomjae.features.posts.common.domain.repositories
 import app.cash.paging.PagingData
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
+import com.parksupark.soomjae.features.posts.common.domain.models.CreateMeetingPost
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPost
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostDetail
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostFilter
@@ -27,6 +28,8 @@ interface MeetingPostRepository {
     ): Either<DataFailure.Network, NewPost>
 
     fun getPostsStream(filter: MeetingPostFilter): Flow<PagingData<MeetingPost>>
+
+    suspend fun updatePost(updatedPost: CreateMeetingPost): Either<DataFailure, NewPost>
 
     suspend fun deletePost(id: Long): Either<DataFailure, Unit>
 

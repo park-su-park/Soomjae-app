@@ -20,6 +20,7 @@ import com.parksupark.soomjae.features.posts.community.presentation.write.Commun
 import com.parksupark.soomjae.features.posts.meeting.presentation.detail.MeetingDetailRoute
 import com.parksupark.soomjae.features.posts.meeting.presentation.detail.MeetingDetailViewModel
 import com.parksupark.soomjae.features.posts.meeting.presentation.detail.rememberMeetingDetailCoordinator
+import com.parksupark.soomjae.features.posts.meeting.presentation.navigation.MeetingDestination
 import com.parksupark.soomjae.features.posts.meeting.presentation.participant_list.ParticipantListRoute
 import com.parksupark.soomjae.features.posts.meeting.presentation.participant_list.rememberParticipantListCoordinator
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingWriteRoute
@@ -36,9 +37,6 @@ sealed interface PostDestination : NavigationDestination {
 
     @Serializable
     data object Post : PostDestination
-
-    @Serializable
-    data class MeetingWrite(val postId: Long? = null) : PostDestination
 
     @Serializable
     data class MeetingDetail(val postId: Long) : PostDestination
@@ -72,7 +70,7 @@ fun NavGraphBuilder.postGraph(
             CommunityDetailRoute(navigator = navigator)
         }
 
-        composable<PostDestination.MeetingWrite> {
+        composable<MeetingDestination.MeetingWrite> {
             MeetingWriteRoute(
                 navigator = navigator,
             )
@@ -134,11 +132,11 @@ fun NavHostController.navigateToCommunityDetail(postId: Long) {
 }
 
 fun NavHostController.navigateToMeetingWrite() {
-    navigate(PostDestination.MeetingWrite())
+    navigate(MeetingDestination.MeetingWrite())
 }
 
 fun NavHostController.navigateToMeetingPostEdit(postId: Long) {
-    navigate(PostDestination.MeetingWrite(postId))
+    navigate(MeetingDestination.MeetingWrite(postId))
 }
 
 fun NavHostController.navigateToMeetingDetail(postId: Long) {

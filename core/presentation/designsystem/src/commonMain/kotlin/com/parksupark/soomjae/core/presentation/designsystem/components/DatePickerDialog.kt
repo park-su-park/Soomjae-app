@@ -3,12 +3,14 @@ package com.parksupark.soomjae.core.presentation.designsystem.components
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material3.DatePickerColors
 import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.window.DialogProperties
 
+@ExperimentalMaterial3Api
 @Composable
 fun SoomjaeDatePickerDialog(
     onDismissRequest: () -> Unit,

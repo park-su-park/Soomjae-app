@@ -30,7 +30,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MeetingDetailViewModel(
-    private val postId: Long,
+    val postId: Long,
     private val dispatcher: SoomjaeDispatcher,
     private val sessionRepository: SessionRepository,
     private val meetingPostRepository: MeetingPostRepository,

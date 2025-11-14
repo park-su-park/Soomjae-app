@@ -14,7 +14,9 @@ import com.parksupark.soomjae.features.posts.common.data.dto.response.PostMeetin
 import com.parksupark.soomjae.features.posts.common.data.dto.response.toMeetingPost
 import com.parksupark.soomjae.features.posts.common.data.dto.response.toMeetingPostDetail
 import com.parksupark.soomjae.features.posts.common.data.network.datasource.RemoteMeetingPostSource
+import com.parksupark.soomjae.features.posts.common.data.network.dto.toPutMeetingPostRequest
 import com.parksupark.soomjae.features.posts.common.data.paging.MeetingPagingSource
+import com.parksupark.soomjae.features.posts.common.domain.models.CreateMeetingPost
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPost
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostDetail
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostFilter
@@ -71,6 +73,12 @@ internal class DefaultMeetingPostRepository(
         ).flow
             .map { pagingData ->
                 pagingData.map { it.toMeetingPost() }
+            }
+
+    override suspend fun updatePost(updatedPost: CreateMeetingPost): Either<DataFailure, NewPost> =
+        remoteSource.putPost(updatedPost.id, updatedPost.toPutMeetingPostRequest())
+            .map { id ->
+                NewPost(id = id)
             }
 
     override suspend fun deletePost(postId: Long): Either<DataFailure, Unit> {

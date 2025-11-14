@@ -39,6 +39,10 @@ class MeetingPostWriteCoordinator(
                 )
         }
     }
+
+    fun navigateToMeetingPostDetail(postId: Long) {
+        navigator.navigateToMeetingDetail(postId)
+    }
 }
 
 @Composable

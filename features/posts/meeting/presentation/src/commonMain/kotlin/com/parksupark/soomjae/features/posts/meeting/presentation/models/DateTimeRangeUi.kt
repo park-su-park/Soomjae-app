@@ -4,6 +4,7 @@ import kotlin.time.Clock
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.ExperimentalTime
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -15,6 +16,20 @@ data class DateTimeRangeUi(
     val endTime: LocalTime = startTime,
     val isAllDay: Boolean,
 ) {
+    val startDateTime: LocalDateTime
+        get() = if (isAllDay) {
+            LocalDateTime(startDate, LocalTime(0, 0))
+        } else {
+            LocalDateTime(startDate, startTime)
+        }
+
+    val endDateTime: LocalDateTime
+        get() = if (isAllDay) {
+            LocalDateTime(endDate, LocalTime(23, 59))
+        } else {
+            LocalDateTime(endDate, endTime)
+        }
+
     companion object {
         @OptIn(ExperimentalTime::class)
         val Empty: DateTimeRangeUi
