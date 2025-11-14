@@ -26,4 +26,8 @@ sealed interface DataFailure : Failure {
         UNKNOWN,
         PORT_UNAVAILABLE,
     }
+
+    enum class Validation : DataFailure {
+        UNAUTHORIZED,
+    }
 }

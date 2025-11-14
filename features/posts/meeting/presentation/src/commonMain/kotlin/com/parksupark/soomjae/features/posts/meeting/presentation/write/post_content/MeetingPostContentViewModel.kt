@@ -1,19 +1,26 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.write.post_content
 
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.parksupark.soomjae.core.common.coroutines.SoomjaeDispatcher
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.mapTextFieldState
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CategoryRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LocationRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
+import com.parksupark.soomjae.features.posts.common.domain.usecase.GetMeetingPostForEditUseCase
+import com.parksupark.soomjae.features.posts.common.domain.usecase.UpdateMeetingPostUseCase
 import com.parksupark.soomjae.features.posts.common.domain.usecase.ValidatePeriodUseCase
 import com.parksupark.soomjae.features.posts.common.presentation.models.toLocationUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.models.DateTimeRangeUi
+import com.parksupark.soomjae.features.posts.meeting.presentation.models.fromEditMeeting
 import com.parksupark.soomjae.features.posts.meeting.presentation.models.mapper.toDateTimeRangeUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.models.mapper.toValidatePeriodParam
+import com.parksupark.soomjae.features.posts.meeting.presentation.navigation.MeetingDestination
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingPostWriteAction
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingPostWriteAction.PeriodField.All
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingPostWriteAction.PeriodField.EndDate
@@ -21,6 +28,7 @@ import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingP
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingPostWriteAction.PeriodField.StartDate
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingPostWriteAction.PeriodField.StartTime
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.MeetingPostWriteEvent
+import com.parksupark.soomjae.features.posts.meeting.presentation.write.post_content.mapper.toCreateMeetingPost
 import kotlin.time.ExperimentalTime
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -42,12 +50,18 @@ import kotlinx.datetime.toInstant
 
 @OptIn(ExperimentalTime::class, ExperimentalCoroutinesApi::class)
 class MeetingPostContentViewModel(
+    savedStateHandle: SavedStateHandle,
     private val dispatcher: SoomjaeDispatcher,
     private val meetingPostRepository: MeetingPostRepository,
     private val categoryRepository: CategoryRepository,
     private val locationRepository: LocationRepository,
     private val validatePeriodUseCase: ValidatePeriodUseCase,
+    private val getMeetingPostForEditUseCase: GetMeetingPostForEditUseCase,
+    private val updateMeetingPostUseCase: UpdateMeetingPostUseCase,
 ) : ViewModel() {
+    private val postId: Long? = savedStateHandle.toRoute<MeetingDestination.MeetingWrite>().postId
+    private val writeMode = if (postId == null) WriteMode.CREATE else WriteMode.EDIT
+
     private val _stateFlow: MutableStateFlow<MeetingPostContentState> =
         MutableStateFlow(MeetingPostContentState())
     val stateFlow: StateFlow<MeetingPostContentState> = _stateFlow.asStateFlow()
@@ -61,6 +75,8 @@ class MeetingPostContentViewModel(
     }
 
     private fun loadInitialData() {
+        val timeZone = TimeZone.currentSystemDefault()
+
         viewModelScope.launch(dispatcher.io) {
             categoryRepository.getAllCategories().fold(
                 ifLeft = { failure ->
@@ -94,6 +110,32 @@ class MeetingPostContentViewModel(
                 },
             )
         }
+
+        if (writeMode == WriteMode.EDIT && postId != null) {
+            viewModelScope.launch(dispatcher.io) {
+                getMeetingPostForEditUseCase(postId).fold(
+                    ifLeft = {
+                        eventChannel.send(
+                            MeetingPostWriteEvent.ShowErrorToast(it.asUiText()),
+                        )
+                    },
+                    ifRight = {
+                        _stateFlow.update { state ->
+                            state.copy(
+                                inputTitle = TextFieldState(initialText = it.title),
+                                inputContent = TextFieldState(initialText = it.content),
+                                selectedCategory = it.category?.toUi(),
+                                selectedLocation = it.location?.toLocationUi(),
+                                meetingForm = fromEditMeeting(
+                                    editMeeting = it,
+                                    timeZone = timeZone,
+                                ),
+                            )
+                        }
+                    },
+                )
+            }
+        }
     }
 
     private fun initInputValidation() {
@@ -119,37 +161,51 @@ class MeetingPostContentViewModel(
 
         val timeZone = TimeZone.currentSystemDefault()
 
-        viewModelScope.launch(dispatcher.io) {
-            _stateFlow.update { it.copy(isSubmitting = true) }
-            val state = _stateFlow.value
-            val meeting = state.meetingForm
+        if (writeMode == WriteMode.CREATE) {
+            viewModelScope.launch(dispatcher.io) {
+                _stateFlow.update { it.copy(isSubmitting = true) }
+                val state = _stateFlow.value
+                val meeting = state.meetingForm
 
-            meetingPostRepository.createPost(
-                title = state.inputTitle.text.toString().trim(),
-                content = state.inputContent.text.toString().trim(),
-                categoryId = state.selectedCategory?.id,
-                locationCode = state.selectedLocation?.code,
-                startAt = meeting.period.startDate
-                    .atTime(meeting.period.startTime)
-                    .toInstant(timeZone),
-                endAt = meeting.period.endDate
-                    .atTime(meeting.period.endTime)
-                    .toInstant(timeZone),
-                maxParticipants = if (meeting.participantLimit.isLimited) {
-                    meeting.participantLimit.limitCount.text.toString().toLongOrNull()
-                } else {
-                    null
-                },
-            ).fold(
-                ifLeft = { failure ->
-                    eventChannel.send(MeetingPostWriteEvent.ShowErrorToast(failure.asUiText()))
-                },
-                ifRight = {
-                    eventChannel.send(MeetingPostWriteEvent.OnPostCreateSuccess(it.id))
-                },
-            )
+                meetingPostRepository.createPost(
+                    title = state.inputTitle.text.toString().trim(),
+                    content = state.inputContent.text.toString().trim(),
+                    categoryId = state.selectedCategory?.id,
+                    locationCode = state.selectedLocation?.code,
+                    startAt = meeting.period.startDate
+                        .atTime(meeting.period.startTime)
+                        .toInstant(timeZone),
+                    endAt = meeting.period.endDate
+                        .atTime(meeting.period.endTime)
+                        .toInstant(timeZone),
+                    maxParticipants = if (meeting.participantLimit.isLimited) {
+                        meeting.participantLimit.limitCount.text.toString().toLongOrNull()
+                    } else {
+                        null
+                    },
+                ).fold(
+                    ifLeft = { failure ->
+                        eventChannel.send(MeetingPostWriteEvent.ShowErrorToast(failure.asUiText()))
+                    },
+                    ifRight = {
+                        eventChannel.send(MeetingPostWriteEvent.OnPostCreateSuccess(it.id))
+                    },
+                )
 
-            _stateFlow.update { it.copy(isSubmitting = false) }
+                _stateFlow.update { it.copy(isSubmitting = false) }
+            }
+        } else if (writeMode == WriteMode.EDIT && postId != null) {
+            viewModelScope.launch {
+                val updatedPost = _stateFlow.value.toCreateMeetingPost(postId, timeZone)
+                updateMeetingPostUseCase(updatedPost).fold(
+                    ifLeft = { failure ->
+                        eventChannel.send(MeetingPostWriteEvent.ShowErrorToast(failure.asUiText()))
+                    },
+                    ifRight = {
+                        eventChannel.send(MeetingPostWriteEvent.NavigateToMeetingPostDetail(postId))
+                    },
+                )
+            }
         }
     }
 

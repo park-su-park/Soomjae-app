@@ -21,3 +21,8 @@ data class MeetingPostContentState(
 
     val meetingForm: MeetingFormUi = MeetingFormUi(),
 )
+
+enum class WriteMode {
+    CREATE,
+    EDIT,
+}

@@ -2,11 +2,6 @@ package com.parksupark.soomjae.features.posts.meeting.presentation.write
 
 import com.parksupark.soomjae.core.presentation.ui.utils.UiText
 import com.parksupark.soomjae.features.posts.meeting.presentation.models.DateTimeRangeUi
-import com.parksupark.soomjae.features.posts.meeting.presentation.write.post_content.MeetingPostContentState
-
-data class MeetingPostWriteCoordinatorState(
-    val contentState: MeetingPostContentState = MeetingPostContentState(),
-)
 
 sealed interface MeetingPostWriteAction {
     data object OnBackClick : MeetingPostWriteAction
@@ -33,4 +28,6 @@ internal sealed interface MeetingPostWriteEvent {
     data class OnPostCreateSuccess(val postId: Long) : MeetingPostWriteEvent
 
     data class ShowErrorToast(val error: UiText) : MeetingPostWriteEvent
+
+    data class NavigateToMeetingPostDetail(val postId: Long) : MeetingPostWriteEvent
 }
