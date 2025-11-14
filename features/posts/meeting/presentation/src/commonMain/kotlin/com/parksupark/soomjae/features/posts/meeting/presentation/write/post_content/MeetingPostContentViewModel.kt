@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.parksupark.soomjae.core.common.coroutines.SoomjaeDispatcher
+import com.parksupark.soomjae.core.common.utils.fold
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.mapTextFieldState
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CategoryRepository
@@ -195,7 +196,9 @@ class MeetingPostContentViewModel(
                 _stateFlow.update { it.copy(isSubmitting = false) }
             }
         } else if (writeMode == WriteMode.EDIT && postId != null) {
-            viewModelScope.launch {
+            viewModelScope.launch(dispatcher.io) {
+                _stateFlow.update { it.copy(isSubmitting = true) }
+
                 val updatedPost = _stateFlow.value.toCreateMeetingPost(postId, timeZone)
                 updateMeetingPostUseCase(updatedPost).fold(
                     ifLeft = { failure ->
@@ -203,6 +206,9 @@ class MeetingPostContentViewModel(
                     },
                     ifRight = {
                         eventChannel.send(MeetingPostWriteEvent.NavigateToMeetingPostDetail(postId))
+                    },
+                    finally = {
+                        _stateFlow.update { it.copy(isSubmitting = false) }
                     },
                 )
             }

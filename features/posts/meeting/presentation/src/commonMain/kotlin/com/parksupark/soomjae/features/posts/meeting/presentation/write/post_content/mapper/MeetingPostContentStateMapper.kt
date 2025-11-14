@@ -20,7 +20,7 @@ internal fun MeetingPostContentState.toCreateMeetingPost(
     maxParticipationCount = if (this.meetingForm.participantLimit.isUnlimited) {
         null
     } else {
-        this.meetingForm.participantLimit.limitCount.text.toString().toIntOrNull()
+        this.meetingForm.participantLimit.limitCount.text.toString().toIntOrNull() ?: Int.MAX_VALUE
     },
     recruitmentPeriod = this.meetingForm.period.toRecruitmentPeriod(timeZone),
 )
