@@ -8,10 +8,12 @@ inline fun <A, B, C> Either<A, B>.fold(
     ifLeft: (left: A) -> C,
     ifRight: (right: B) -> C,
     finally: () -> Unit,
-) {
-    fold(
+): C {
+    val result = fold(
         ifLeft = ifLeft,
         ifRight = ifRight,
     )
     finally()
+
+    return result
 }
