@@ -172,6 +172,9 @@ private fun MeetingDetailContent(
                 onToggleParticipationClick = {
                     onAction(MeetingDetailAction.OnToggleParticipationClick)
                 },
+                onParticipantListClick = {
+                    onAction(MeetingDetailAction.OnParticipantListClick)
+                },
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
             )
 
@@ -257,13 +260,17 @@ private fun PostDetailMeetingContent(
     recruitmentEndTime: String,
     isUserJoined: Boolean,
     onToggleParticipationClick: () -> Unit,
+    onParticipantListClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier.fillMaxWidth().clickable(onClick = onParticipantListClick),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             Icon(
                 imageVector = Icons.Default.Person,
                 contentDescription = "참여자 수",
