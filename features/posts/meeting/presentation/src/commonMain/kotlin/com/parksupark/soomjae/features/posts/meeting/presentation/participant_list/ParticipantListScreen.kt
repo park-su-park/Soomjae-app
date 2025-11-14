@@ -1,6 +1,8 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.participant_list
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,11 +16,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCenterAlignedTopAppBar
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCircularProgressIndicator
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.ui.resources.value
+import com.parksupark.soomjae.core.presentation.ui.utils.plus
 import com.parksupark.soomjae.features.posts.meeting.presentation.participant_list.components.ParticipantListItem
 import com.parksupark.soomjae.features.posts.meeting.presentation.participant_list.model.ParticipantUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.Res
@@ -40,7 +44,7 @@ internal fun ParticipantListScreen(
                 onCloseClick = { onAction(ParticipantListAction.OnCloseClick) },
             )
         },
-    ) {
+    ) { innerPadding ->
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center,
@@ -50,6 +54,7 @@ internal fun ParticipantListScreen(
 
                 is ParticipantListState.Success -> ParticipantListSuccessScreen(
                     participants = state.participants,
+                    contentPadding = innerPadding,
                 )
 
                 is ParticipantListState.Error -> {
@@ -61,10 +66,15 @@ internal fun ParticipantListScreen(
 }
 
 @Composable
-private fun ParticipantListSuccessScreen(participants: ImmutableList<ParticipantUi>) {
+private fun ParticipantListSuccessScreen(
+    participants: ImmutableList<ParticipantUi>,
+    contentPadding: PaddingValues,
+) {
     LazyColumn(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize()
+            .consumeWindowInsets(contentPadding),
         horizontalAlignment = Alignment.CenterHorizontally,
+        contentPadding = contentPadding + PaddingValues(vertical = 16.dp),
     ) {
         itemsIndexed(
             items = participants,
