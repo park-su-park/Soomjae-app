@@ -26,12 +26,17 @@
     <string name="meeting_create_datetime_dialog_cancel">취소</string>
     <string name="meeting_create_datetime_dialog_confirm">확인</string>
 
+    <!-- ============================================================= -->
+    <!-- RecruitmentStatus -->
+    <!-- ============================================================= -->
     <string name="meeting_detail_navigate_up_description">뒤로 가기</string>
     <string name="meeting_detail_like_button_description">좋아요</string>
     <string name="meeting_detail_dislike_button_description">좋아요 취소</string>
     <string name="meeting_detail_comment_button_description">댓글</string>
     <string name="meeting_detail_join_meeting_button_text">참여하기</string>
     <string name="meeting_detail_leave_meeting_button_text">참여 취소</string>
+    <string name="meeting_detail_edit_button_description">수정</string>
+    <string name="meeting_detail_delete_button_description">삭제</string>
 
     <string name="participant_list_title">참여자 목록</string>
     <string name="participant_list_close_description">닫기</string>

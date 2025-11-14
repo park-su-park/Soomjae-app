@@ -28,6 +28,8 @@ import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Mail
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -62,7 +64,9 @@ import com.parksupark.soomjae.features.posts.meeting.presentation.detail.models.
 import com.parksupark.soomjae.features.posts.meeting.presentation.detail.models.MeetingReviewUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.Res
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_detail_comment_button_description
+import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_detail_delete_button_description
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_detail_dislike_button_description
+import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_detail_edit_button_description
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_detail_join_meeting_button_text
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_detail_leave_meeting_button_text
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_detail_like_button_description
@@ -331,24 +335,22 @@ internal fun MeetingDetailTopBar(
         actions = {
             if (canModify) {
                 IconButton(
-                    onClick = onEditClick,
+                    onClick = onDeleteClick,
                 ) {
-                    Text(
-                        text = "수정",
-                        style = SoomjaeTheme.typography.body2.copy(
-                            color = SoomjaeTheme.colorScheme.primary,
-                        ),
+                    Icon(
+                        imageVector = Icons.Outlined.Delete,
+                        contentDescription = Res.string.meeting_detail_delete_button_description.value,
+                        tint = SoomjaeTheme.colorScheme.icon,
                     )
                 }
 
                 IconButton(
-                    onClick = onDeleteClick,
+                    onClick = onEditClick,
                 ) {
-                    Text(
-                        text = "삭제",
-                        style = SoomjaeTheme.typography.body2.copy(
-                            color = SoomjaeTheme.colorScheme.error,
-                        ),
+                    Icon(
+                        imageVector = Icons.Outlined.Edit,
+                        contentDescription = Res.string.meeting_detail_edit_button_description.value,
+                        tint = SoomjaeTheme.colorScheme.icon,
                     )
                 }
             }
