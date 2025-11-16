@@ -1,9 +1,9 @@
-package com.parksupark.soomjae.features.posts.member.data.paging
+package com.parksupark.soomjae.features.posts.member.data.source.paging
 
 import androidx.paging.PagingState
 import app.cash.paging.PagingSource
 import co.touchlab.kermit.Logger
-import com.parksupark.soomjae.features.posts.member.data.datasources.remote.RemoteMemberPostDataSource
+import com.parksupark.soomjae.features.posts.member.data.source.remote.RemoteMemberPostDataSource
 import com.parksupark.soomjae.features.posts.member.domain.models.MemberPost
 
 internal class MemberPostPagingSource(
