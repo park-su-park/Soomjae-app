@@ -5,12 +5,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,6 +29,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeIcon
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeOutlinedTextField
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeToggleSwitch
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
@@ -34,6 +38,7 @@ import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.features.posts.common.presentation.components.WriteSelectionLayout
 import com.parksupark.soomjae.features.posts.meeting.presentation.models.ParticipantLimitUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.Res
+import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_participant_count_additional_info
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_participant_count_display
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_participant_count_label
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.meeting_create_participant_count_textfield_hint
@@ -72,17 +77,35 @@ internal fun MeetingParticipantForm(
         },
         content = {
             AnimatedVisibility(visible = participantLimit.isLimited) {
-                MeetingParticipantCountTextField(
-                    state = participantLimit.limitCount,
-                    onFocusedChange = { isFocused ->
-                        if (isFocused) {
-                            coroutineScope.launch {
-                                delay(300)
-                                requester.bringIntoView()
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    MeetingParticipantCountTextField(
+                        state = participantLimit.limitCount,
+                        onFocusedChange = { isFocused ->
+                            if (isFocused) {
+                                coroutineScope.launch {
+                                    delay(300)
+                                    requester.bringIntoView()
+                                }
                             }
-                        }
-                    },
-                )
+                        },
+                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    ) {
+                        SoomjaeIcon(
+                            imageVector = Icons.Filled.Info,
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp),
+                            tint = SoomjaeTheme.colorScheme.text3,
+                        )
+                        Text(
+                            Res.string.meeting_create_participant_count_additional_info.value,
+                            style = SoomjaeTheme.typography.labelM,
+                            color = SoomjaeTheme.colorScheme.text3,
+                        )
+                    }
+                }
             }
         },
     )
