@@ -3,6 +3,7 @@ package com.parksupark.soomjae.features.posts.member.presentation.post_list.comm
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.parksupark.soomjae.core.common.coroutines.SoomjaeDispatcher
+import com.parksupark.soomjae.core.common.utils.fold
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CommentRepository
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
 import kotlinx.collections.immutable.persistentListOf
@@ -14,8 +15,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MemberPostCommentViewModel(
-    val dispatcher: SoomjaeDispatcher,
-    val commentRepository: CommentRepository,
+    private val dispatcher: SoomjaeDispatcher,
+    private val commentRepository: CommentRepository,
 ) : ViewModel() {
     private val _stateFlow: MutableStateFlow<MemberPostCommentState> =
         MutableStateFlow(MemberPostCommentState())
@@ -25,6 +26,8 @@ class MemberPostCommentViewModel(
         if (stateFlow.value.isLoading) return
 
         viewModelScope.launch(dispatcher.io) {
+            _stateFlow.update { it.copy(isLoading = true) }
+
             commentRepository.getComments(postId).fold(
                 ifLeft = {
                     // TODO: error handling
@@ -32,10 +35,12 @@ class MemberPostCommentViewModel(
                 ifRight = { comments ->
                     _stateFlow.update { state ->
                         state.copy(
-                            isLoading = false,
                             comments = comments.map { it.toUi() }.toImmutableList(),
                         )
                     }
+                },
+                finally = {
+                    _stateFlow.update { it.copy(isLoading = false) }
                 },
             )
         }

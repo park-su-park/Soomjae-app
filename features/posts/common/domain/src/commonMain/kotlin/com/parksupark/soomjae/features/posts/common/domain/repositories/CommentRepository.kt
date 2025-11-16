@@ -10,10 +10,10 @@ interface CommentRepository {
         content: String,
     ): Either<DataFailure, Comment>
 
+    suspend fun getComments(postId: Long): Either<DataFailure, List<Comment>>
+
     suspend fun deleteComment(
         postId: Long,
         commentID: Long,
     ): Either<DataFailure, Unit>
-
-    suspend fun getComments(postId: Long): Either<DataFailure, List<Comment>>
 }

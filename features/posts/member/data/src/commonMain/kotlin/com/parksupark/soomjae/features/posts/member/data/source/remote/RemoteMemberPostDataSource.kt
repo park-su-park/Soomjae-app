@@ -5,6 +5,7 @@ import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.core.remote.networking.get
 import com.parksupark.soomjae.core.remote.networking.post
 import com.parksupark.soomjae.features.posts.member.data.model.dto.request.PostMemberPostRequest
+import com.parksupark.soomjae.features.posts.member.data.model.dto.response.FetchMemberPostDetailResponse
 import com.parksupark.soomjae.features.posts.member.data.model.dto.response.MemberPostResponse
 import com.parksupark.soomjae.features.posts.member.data.model.dto.response.PostMemberPostResponse
 import com.parksupark.soomjae.features.posts.member.data.model.dto.response.toMemberPost
@@ -35,4 +36,11 @@ internal class RemoteMemberPostDataSource(
                 it.toMemberPost()
             }
         }
+
+    suspend fun getPostDetail(
+        postId: Long,
+    ): Either<DataFailure.Network, FetchMemberPostDetailResponse> =
+        httpClient.get<FetchMemberPostDetailResponse>(
+            route = "/v1/boards/member/posts/$postId",
+        )
 }

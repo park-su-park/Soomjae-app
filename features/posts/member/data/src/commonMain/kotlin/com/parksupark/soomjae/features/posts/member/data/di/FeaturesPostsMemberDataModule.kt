@@ -18,7 +18,7 @@ private val postModule = module {
 
 private val commentModule = module {
     single(named(MEMBER_COMMENT_REPOSITORY)) {
-        DefaultMemberPostCommentRepository()
+        DefaultMemberPostCommentRepository(get())
     }.bind<CommentRepository>()
 }
 
