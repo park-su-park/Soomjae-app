@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class FetchMemberPostDetailResponse(
-    @SerialName("memberPostId") val id: Int,
+    @SerialName("memberPostId") val id: Long,
     @SerialName("author") val member: MemberResponse,
     @SerialName("images") val images: List<String>,
     @SerialName("content") val content: String,
