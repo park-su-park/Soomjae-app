@@ -14,9 +14,9 @@ import androidx.compose.ui.text.substring
  * Allowed characters:
  * - Uppercase and lowercase English letters (A-Z, a-z)
  * - Digits (0-9)
- * - Special characters: ! @ # $ % ^ & * ( ) - _ = + [ ] { } ; : ' " , . < > / ? \ |
+ * - Special characters: ! @ # $ % ^ & * ( ) - _ = + [ ] { } ; : ' " , . < > / ? \ | `
  *
- * The restriction is enforced via the regular expression: [A-Za-z0-9!@#$%^&*()\-_=+\[\]{};:'",.<>/?\\|]
+ * The restriction is enforced via the regular expression: [A-Za-z0-9!@#$%^&*()\-_=+\[\]{};:'",.<>/?\\|`]
  *
  * Rationale:
  * - Ensures passwords contain only commonly accepted characters for security and compatibility.
@@ -27,7 +27,7 @@ object PasswordAllowedCharactersTransformation : InputTransformation {
     override val keyboardOptions: KeyboardOptions =
         KeyboardOptions(keyboardType = KeyboardType.Password)
 
-    private val allowedCharRegex = Regex("""[A-Za-z0-9!@#$%^&*()\-_=+\[\]{};:'",.<>/?\\|]""")
+    private val allowedCharRegex = Regex("""[A-Za-z0-9!@#$%^&*()\-_=+\[\]{};:'",.<>/?\\|`]""")
 
     @OptIn(ExperimentalFoundationApi::class)
     override fun TextFieldBuffer.transformInput() {
