@@ -101,7 +101,7 @@ internal fun MeetingParticipantForm(
                         )
                         Text(
                             Res.string.meeting_create_participant_count_additional_info.value,
-                            style = SoomjaeTheme.typography.labelM.copy(),
+                            style = SoomjaeTheme.typography.labelM,
                             color = SoomjaeTheme.colorScheme.text3,
                         )
                     }
