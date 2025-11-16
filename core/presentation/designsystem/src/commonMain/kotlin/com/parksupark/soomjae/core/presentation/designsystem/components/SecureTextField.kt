@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicSecureTextField
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.TextObfuscationMode
 import androidx.compose.material.icons.Icons
@@ -50,6 +51,7 @@ fun SoomjaeSecureOutlinedTextField(
     keyboardType: KeyboardType = KeyboardType.Text,
     additionalInfo: String? = null,
     enabled: Boolean = true,
+    inputTransformation: InputTransformation? = null,
 ) {
     var isFocused by remember { mutableStateOf(false) }
     var isPasswordVisible by remember { mutableStateOf(false) }
@@ -102,6 +104,7 @@ fun SoomjaeSecureOutlinedTextField(
                         isFocused = it.isFocused
                     },
                 enabled = enabled,
+                inputTransformation = inputTransformation,
                 textStyle = SoomjaeTheme.typography.captionL.copy(
                     color = SoomjaeTheme.colorScheme.text1,
                 ),

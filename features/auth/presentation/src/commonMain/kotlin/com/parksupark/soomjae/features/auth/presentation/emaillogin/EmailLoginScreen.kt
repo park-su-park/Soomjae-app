@@ -30,6 +30,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeS
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSecureOutlinedTextField
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.resources.value
+import com.parksupark.soomjae.core.presentation.ui.textfield.PasswordAllowedCharactersTransformation
 import com.parksupark.soomjae.features.auth.presentation.resources.Res
 import com.parksupark.soomjae.features.auth.presentation.resources.email_login_button_login
 import com.parksupark.soomjae.features.auth.presentation.resources.email_login_checkbox_save_email
@@ -104,6 +105,7 @@ private fun InputSection(
             }.padding(horizontal = 16.dp),
             title = Res.string.email_login_textfield_password_title.value,
             hint = Res.string.email_login_textfield_password_hint.value,
+            inputTransformation = PasswordAllowedCharactersTransformation,
         )
 
         SoomjaeCheckbox(
