@@ -17,8 +17,9 @@
     <string name="meeting_create_datetime_toggle_allday_label">종료</string>
     <string name="meeting_create_datetime_start_datetime_label">시작:</string>
     <string name="meeting_create_datetime_end_datetime_label">종료</string>
-    <string name="meeting_create_participant_count_label">최대 인원</string>
-    <string name="meeting_create_participant_count_textfield_hint">최대 인원을 입력해주세요.</string>
+    <string name="meeting_create_participant_count_label">참가자 수</string>
+    <string name="meeting_create_participant_count_textfield_hint">예: 5명</string>
+    <string name="meeting_create_participant_count_additional_info">참가자 수는 본인을 제외한 인원 기준입니다.</string>
     <string name="meeting_create_participant_count_display_unlimited">제한 없음</string>
     <string name="meeting_create_participant_count_display">%1$d 명</string>
     <string name="meeting_create_participant_count_additional_info_unlimited">0은 제한 없음</string>
