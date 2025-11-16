@@ -2,22 +2,19 @@ package com.parksupark.soomjae.features.posts.member.presentation.post_list.comp
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import coil3.compose.AsyncImage
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSurface
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
-import com.parksupark.soomjae.core.presentation.ui.utils.imageRequest
+import com.parksupark.soomjae.core.presentation.ui.components.ProfileImage
 import com.parksupark.soomjae.features.posts.common.presentation.components.PostActionItem
 import com.parksupark.soomjae.features.posts.common.presentation.models.AuthorUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.CommentUi
@@ -41,12 +38,9 @@ fun CommentListItem(
             modifier = modifier,
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            AsyncImage(
-                model = imageRequest { data(author.profileImageUrl) },
-                contentDescription = null,
-                modifier = Modifier
-                    .size(36.dp)
-                    .clip(RoundedCornerShape(20.dp)),
+            ProfileImage(
+                imageUrl = author.profileImageUrl,
+                size = 36.dp,
             )
 
             Column(
@@ -59,7 +53,7 @@ fun CommentListItem(
                 ) {
                     Text(
                         text = author.nickname,
-                        style = SoomjaeTheme.typography.labelS,
+                        style = SoomjaeTheme.typography.labelM,
                     )
                     Text(
                         text = comment.formattedCreatedAt,
@@ -70,19 +64,22 @@ fun CommentListItem(
 
                 Text(
                     text = comment.content,
-                    style = SoomjaeTheme.typography.body2.copy(
-                        lineHeight = 16.sp,
-                    ),
+                    style = SoomjaeTheme.typography.captionM,
                 )
             }
 
-            PostActionItem(
-                action = PostActionUi(
-                    type = PostActionType.Like,
-                    count = null, // TODO: 좋아요 개수
-                    onClick = onLikeClick,
-                ),
-            )
+            Column(
+                modifier = Modifier.height(IntrinsicSize.Max),
+                verticalArrangement = Arrangement.Center,
+            ) {
+                PostActionItem(
+                    action = PostActionUi(
+                        type = PostActionType.Like,
+                        count = null, // TODO: 좋아요 개수
+                        onClick = onLikeClick,
+                    ),
+                )
+            }
         }
     }
 }

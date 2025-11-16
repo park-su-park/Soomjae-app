@@ -1,11 +1,9 @@
 package com.parksupark.soomjae.features.posts.member.presentation.post_list
 
-import androidx.paging.PagingData
-import com.parksupark.soomjae.features.posts.member.presentation.post_list.models.MemberPostUi
+import com.parksupark.soomjae.features.posts.member.presentation.post_list.comment.MemberPostCommentEvent
 
 data class MemberPostListState(
     val isPostsRefreshing: Boolean = false,
-    val posts: PagingData<MemberPostUi> = PagingData.empty(),
     val selectedPostId: Long? = null,
 )
 
@@ -19,10 +17,14 @@ sealed interface MemberPostListAction {
     data class OnCommentClick(val postId: Long) : MemberPostListAction
 
     data object OnBottomSheetDismiss : MemberPostListAction
+
+    data object OnSubmitCommentClick : MemberPostListAction
 }
 
 sealed interface MemberPostListEvent {
     data object NavigateToWritePost : MemberPostListEvent
 
     data object RefreshPosts : MemberPostListEvent
+
+    data class FromComment(val commentEvent: MemberPostCommentEvent) : MemberPostListEvent
 }

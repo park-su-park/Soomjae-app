@@ -17,7 +17,9 @@ private val memberPostListModule = module {
     viewModel {
         MemberPostCommentViewModel(
             dispatcher = get(),
+            soomjaeEventController = get(),
             commentRepository = get(named(MEMBER_COMMENT_REPOSITORY)),
+            createCommentUseCase = get(),
         )
     }
 }

@@ -9,6 +9,7 @@ kotlin {
             api(projects.features.posts.common.domain)
             api(projects.features.posts.community.domain)
             api(projects.features.posts.meeting.domain)
+            api(projects.features.posts.member.domain)
         }
     }
 }

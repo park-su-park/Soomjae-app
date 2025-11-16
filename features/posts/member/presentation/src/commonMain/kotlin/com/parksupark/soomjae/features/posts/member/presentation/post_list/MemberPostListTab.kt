@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -16,8 +18,8 @@ import app.cash.paging.compose.itemKey
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaePullToRefreshBox
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
+import com.parksupark.soomjae.core.presentation.ui.components.SoomjaeSnackbarHost
 import com.parksupark.soomjae.core.presentation.ui.utils.emptyLazyPagingItems
-import com.parksupark.soomjae.features.posts.common.presentation.PostAction
 import com.parksupark.soomjae.features.posts.common.presentation.components.WritePostFab
 import com.parksupark.soomjae.features.posts.member.presentation.post_list.components.MemberPostListItem
 import com.parksupark.soomjae.features.posts.member.presentation.post_list.models.MemberPostUi
@@ -28,7 +30,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 internal fun MemberPostListTab(
     state: MemberPostListState,
     onAction: (MemberPostListAction) -> Unit,
-    onPostAction: (PostAction) -> Unit,
+    snackbarHostState: SnackbarHostState,
     posts: LazyPagingItems<MemberPostUi>,
 ) {
     RefreshEffect(
@@ -39,6 +41,9 @@ internal fun MemberPostListTab(
 
     SoomjaeScaffold(
         modifier = Modifier.fillMaxSize(),
+        snackbarHost = {
+            SoomjaeSnackbarHost(hostState = snackbarHostState)
+        },
     ) {
         SoomjaePullToRefreshBox(
             isRefreshing = state.isPostsRefreshing,
@@ -109,8 +114,8 @@ private fun MemberPostListScreenPreview() {
         MemberPostListTab(
             state = MemberPostListState(),
             onAction = { },
-            onPostAction = { },
             posts = emptyLazyPagingItems(),
+            snackbarHostState = remember { SnackbarHostState() },
         )
     }
 }
