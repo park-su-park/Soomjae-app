@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -23,7 +24,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.TextFieldState
-import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -44,15 +44,18 @@ import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.features.posts.common.presentation.components.CommentInputBar
 import com.parksupark.soomjae.features.posts.common.presentation.models.AuthorUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.CommentUi
+import com.parksupark.soomjae.features.posts.member.presentation.post_list.MemberPostListAction
 import com.parksupark.soomjae.features.posts.member.presentation.post_list.comment.MemberPostCommentState
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun CommentBottomSheet(
     state: ModalBottomSheetState,
+    onAction: (MemberPostListAction) -> Unit,
     onDismiss: () -> Unit,
     commentState: MemberPostCommentState,
 ) {
@@ -62,13 +65,17 @@ internal fun CommentBottomSheet(
     ) {
         Scrim()
 
-        CommentBottomSheetContent(commentState = commentState)
+        CommentBottomSheetContent(
+            commentState = commentState,
+            onAction = onAction,
+        )
     }
 }
 
 @Composable
 private fun ModalBottomSheetScope.CommentBottomSheetContent(
     commentState: MemberPostCommentState,
+    onAction: (MemberPostListAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -95,43 +102,16 @@ private fun ModalBottomSheetScope.CommentBottomSheetContent(
                         .size(width = 40.dp, height = 5.dp),
                 )
 
-                Row(
-                    modifier = Modifier.fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 12.dp),
-                ) {
-                    Text(
-                        text = buildAnnotatedString {
-                            withStyle(SoomjaeTheme.typography.labelL.toSpanStyle()) {
-                                append("댓글 ")
-                            }
-                            withStyle(
-                                SoomjaeTheme.typography.captionL.copy(
-                                    color = SoomjaeTheme.colorScheme.primary,
-                                ).toSpanStyle(),
-                            ) {
-                                append("${commentState.comments.size}")
-                            }
-                        },
-                    )
-                }
+                CommentHeader(commentCount = commentState.comments.size)
 
-                LazyColumn(
-                    modifier = Modifier.fillMaxWidth()
-                        .weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    contentPadding = PaddingValues(16.dp),
-                ) {
-                    items(items = commentState.comments, key = { it.id }) { comment ->
-                        CommentListItem(
-                            comment = comment,
-                            onLikeClick = { /* TODO */ },
-                            modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp),
-                        )
-                    }
-                }
+                CommentList(commentState.comments)
 
                 CommentBar(
-                    text = rememberTextFieldState(), // TODO: Change to view model state
+                    state = commentState.inputComments,
+                    canSubmit = !commentState.isCommentSubmitting,
+                    onSendClick = {
+                        onAction(MemberPostListAction.OnSubmitCommentClick)
+                    },
                 )
             }
         }
@@ -139,10 +119,55 @@ private fun ModalBottomSheetScope.CommentBottomSheetContent(
 }
 
 @Composable
-private fun CommentBar(text: TextFieldState) {
+private fun CommentHeader(commentCount: Int) {
+    Row(
+        modifier = Modifier.fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+    ) {
+        Text(
+            text = buildAnnotatedString {
+                withStyle(SoomjaeTheme.typography.labelL.toSpanStyle()) {
+                    append("댓글 ")
+                }
+                withStyle(
+                    SoomjaeTheme.typography.captionL.copy(
+                        color = SoomjaeTheme.colorScheme.primary,
+                    ).toSpanStyle(),
+                ) {
+                    append("$commentCount")
+                }
+            },
+        )
+    }
+}
+
+@Composable
+private fun ColumnScope.CommentList(comments: ImmutableList<CommentUi>) {
+    LazyColumn(
+        modifier = Modifier.fillMaxWidth().weight(1f),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        contentPadding = PaddingValues(16.dp),
+    ) {
+        items(items = comments, key = { it.id }) { comment ->
+            CommentListItem(
+                comment = comment,
+                onLikeClick = { /* TODO */ },
+                modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp),
+            )
+        }
+    }
+}
+
+@Composable
+private fun CommentBar(
+    state: TextFieldState,
+    canSubmit: Boolean,
+    onSendClick: () -> Unit,
+) {
     CommentInputBar(
-        text,
-        onSendClick = { /*TODO*/ },
+        state = state,
+        onSendClick = onSendClick,
+        canSubmit = canSubmit,
     )
 }
 
@@ -157,6 +182,7 @@ private fun CommentBottomSheetPreview() {
     AppTheme(isSystemDarkTheme = false) {
         CommentBottomSheet(
             state = state,
+            onAction = { },
             onDismiss = { },
             commentState = MemberPostCommentState(
                 isLoading = false,

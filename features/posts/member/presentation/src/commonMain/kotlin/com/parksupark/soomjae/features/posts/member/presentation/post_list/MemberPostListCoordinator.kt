@@ -27,18 +27,19 @@ class MemberPostListCoordinator(
             )
 
             is MemberPostListAction.OnCommentClick -> handleCommentClick(action.postId)
+            MemberPostListAction.OnSubmitCommentClick -> commentViewModel.createComment()
             is MemberPostListAction.OnBottomSheetDismiss -> handleBottomSheetDismiss()
         }
     }
 
     private fun handleCommentClick(postId: Long) {
         postViewModel.setSelectedPostId(postId)
-        commentViewModel.loadCommentsForPost(postId)
+        commentViewModel.updatePostId(postId)
     }
 
     private fun handleBottomSheetDismiss() {
         postViewModel.setSelectedPostId(null)
-        commentViewModel.clearComments()
+        commentViewModel.updatePostId(null)
     }
 }
 

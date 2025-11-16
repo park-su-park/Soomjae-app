@@ -59,6 +59,7 @@ fun MemberPostListRoute(
 
     CommentBottomSheet(
         state = sheetState,
+        onAction = actionHandler,
         onDismiss = {
             actionHandler(MemberPostListAction.OnBottomSheetDismiss)
         },

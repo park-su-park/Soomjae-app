@@ -15,6 +15,8 @@ sealed interface MemberPostListAction {
     data class OnCommentClick(val postId: Long) : MemberPostListAction
 
     data object OnBottomSheetDismiss : MemberPostListAction
+
+    data object OnSubmitCommentClick : MemberPostListAction
 }
 
 sealed interface MemberPostListEvent {
