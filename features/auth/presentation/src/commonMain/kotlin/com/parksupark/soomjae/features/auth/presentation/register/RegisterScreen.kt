@@ -33,6 +33,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeS
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSecureOutlinedTextField
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeTextButton
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
+import com.parksupark.soomjae.core.presentation.ui.textfield.PasswordAllowedCharactersTransformation
 import com.parksupark.soomjae.features.auth.presentation.resources.Res
 import com.parksupark.soomjae.features.auth.presentation.resources.register_email_hint
 import com.parksupark.soomjae.features.auth.presentation.resources.register_login_button_1
@@ -142,6 +143,7 @@ private fun PasswordTextField(password: TextFieldState) {
         },
         title = stringResource(Res.string.register_password_hint),
         hint = stringResource(Res.string.register_password_hint),
+        inputTransformation = PasswordAllowedCharactersTransformation,
     )
 }
 
@@ -174,6 +176,7 @@ private fun ConfirmPasswordTextField(
         } else {
             null
         },
+        inputTransformation = PasswordAllowedCharactersTransformation,
     )
 }
 
