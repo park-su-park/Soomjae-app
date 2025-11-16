@@ -26,7 +26,7 @@ private val postModule = module {
 @AnnotationModule
 internal object CommentModule {
     @Single
-    fun provideRemoteMemberPotCommentDatasSource(
+    fun provideRemoteMemberPostCommentDataSource(
         @Provided httpClient: HttpClient,
     ): RemoteMemberPostCommentDataSource =
         RemoteMemberPostCommentDataSource(httpClient = httpClient)
