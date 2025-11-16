@@ -7,12 +7,14 @@ import com.parksupark.soomjae.core.common.coroutines.SoomjaeDispatcher
 import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEvent
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEventController
+import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CommentRepository
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
 import com.parksupark.soomjae.features.posts.member.domain.usecase.CreateMemberPostCommentUseCase
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,6 +22,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -33,6 +36,9 @@ class MemberPostCommentViewModel(
     private val _stateFlow: MutableStateFlow<MemberPostCommentState> =
         MutableStateFlow(MemberPostCommentState())
     val stateFlow: StateFlow<MemberPostCommentState> = _stateFlow.asStateFlow()
+
+    private val eventChannel = Channel<MemberPostCommentEvent>(Channel.BUFFERED)
+    val events = eventChannel.receiveAsFlow()
 
     init {
         _stateFlow.map { it.postId }
@@ -68,7 +74,9 @@ class MemberPostCommentViewModel(
                     if (it == DataFailure.Validation.UNAUTHORIZED) {
                         soomjaeEventController.sendEvent(SoomjaeEvent.LoginRequest)
                     } else {
-                        // TODO
+                        eventChannel.send(
+                            MemberPostCommentEvent.Error(message = it.asUiText()),
+                        )
                     }
                 },
                 ifRight = { newComment ->
@@ -78,6 +86,8 @@ class MemberPostCommentViewModel(
                             comments = prepend(newComment.toUi(), it.comments).toPersistentList(),
                         )
                     }
+
+                    eventChannel.send(MemberPostCommentEvent.CommentSubmissionSuccess)
                 },
             )
 
@@ -102,7 +112,9 @@ class MemberPostCommentViewModel(
 
         result.fold(
             ifLeft = {
-                // TODO: error handling
+                eventChannel.send(
+                    MemberPostCommentEvent.Error(message = it.asUiText()),
+                )
             },
             ifRight = { comments ->
                 _stateFlow.update { state ->
@@ -123,7 +135,7 @@ class MemberPostCommentViewModel(
     }
 }
 
-fun <E> prepend(
+private fun <E> prepend(
     first: E,
     rest: List<E>,
 ): List<E> = listOf(first) + rest

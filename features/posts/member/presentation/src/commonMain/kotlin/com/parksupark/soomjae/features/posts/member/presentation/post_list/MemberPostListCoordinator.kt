@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import com.parksupark.soomjae.features.posts.member.presentation.post_list.comment.MemberPostCommentViewModel
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.merge
 import org.koin.compose.viewmodel.koinViewModel
 
 @Stable
@@ -11,12 +13,17 @@ class MemberPostListCoordinator(
     val postViewModel: MemberPostListViewModel,
     private val commentViewModel: MemberPostCommentViewModel,
 ) {
-    val screenStateFlow = postViewModel.stateFlow
+    val postStateFlow = postViewModel.stateFlow
     val commentStateFlow = commentViewModel.stateFlow
 
     val posts = postViewModel.posts
 
-    val events = postViewModel.events
+    val events = merge(
+        commentViewModel.events.map {
+            MemberPostListEvent.FromComment(it)
+        },
+        postViewModel.events,
+    )
 
     fun handle(action: MemberPostListAction) {
         when (action) {
