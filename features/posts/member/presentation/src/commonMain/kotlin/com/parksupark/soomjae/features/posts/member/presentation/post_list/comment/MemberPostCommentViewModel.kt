@@ -81,9 +81,9 @@ class MemberPostCommentViewModel(
                 },
                 ifRight = { newComment ->
                     _stateFlow.update {
-                        it.inputComments.clearText()
                         it.copy(
                             comments = prepend(newComment.toUi(), it.comments).toPersistentList(),
+                            inputComments = it.inputComments.apply { clearText() },
                         )
                     }
 
@@ -102,8 +102,6 @@ class MemberPostCommentViewModel(
     }
 
     private suspend fun loadCommentsForPost(postId: Long) {
-        if (stateFlow.value.isLoading) return
-
         _stateFlow.update { it.copy(isLoading = true) }
 
         val result = withContext(dispatcher.io) {
@@ -130,7 +128,10 @@ class MemberPostCommentViewModel(
 
     private fun clearComments() {
         _stateFlow.update {
-            it.copy(comments = persistentListOf())
+            it.copy(
+                isLoading = false,
+                comments = persistentListOf(),
+            )
         }
     }
 }
