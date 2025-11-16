@@ -25,8 +25,8 @@ import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEvent
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEventController
 import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationBarItem.Companion.hasRoute
 import com.parksupark.soomjae.features.auth.presentation.navigation.authGraph
-import com.parksupark.soomjae.features.home.presentation.navigation.HomeDestination
 import com.parksupark.soomjae.features.home.presentation.navigation.homeGraph
+import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.PostDestination
 import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.postGraph
 import com.parksupark.soomjae.features.profile.presentation.navigation.profileGraph
 import com.parksupark.soomjae.features.setting.presentation.navigation.settingGraph
@@ -81,7 +81,7 @@ internal fun App(
             SoomjaeScaffold {
                 NavHost(
                     navController = navigator.navController,
-                    startDestination = HomeDestination.Root,
+                    startDestination = PostDestination.Root,
                     enterTransition = { EnterTransition.None },
                     exitTransition = { ExitTransition.None },
                     popEnterTransition = { EnterTransition.None },
