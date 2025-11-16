@@ -1,9 +1,8 @@
 package com.parksupark.soomjae.features.posts.member.presentation.post_list
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.composables.core.SheetDetent
@@ -11,8 +10,6 @@ import com.composables.core.rememberModalBottomSheetState
 import com.parksupark.soomjae.core.presentation.ui.ObserveAsEvents
 import com.parksupark.soomjae.features.posts.common.presentation.PostAction
 import com.parksupark.soomjae.features.posts.member.presentation.post_list.components.CommentBottomSheet
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 
 @Composable
 fun MemberPostListRoute(
@@ -21,12 +18,19 @@ fun MemberPostListRoute(
 ) {
     val uiState by coordinator.screenStateFlow.collectAsStateWithLifecycle()
     val commentState by coordinator.commentStateFlow.collectAsStateWithLifecycle()
-    val posts = coordinator.screenStateFlow.map { it.posts }.collectAsLazyPagingItems()
-    val showSheet = remember(uiState.selectedPostId) {
-        uiState.selectedPostId != null
+    val posts = coordinator.posts.collectAsLazyPagingItems()
+
+    val sheetState = rememberModalBottomSheetState(
+        initialDetent = SheetDetent.Hidden,
+    )
+
+    LaunchedEffect(uiState.selectedPostId) {
+        val showComments = uiState.selectedPostId != null
+        if (showComments) {
+            sheetState.animateTo(SheetDetent.FullyExpanded)
+        }
     }
 
-    val coroutineScope = rememberCoroutineScope()
     val actionHandler: (MemberPostListAction) -> Unit = { action ->
         coordinator.handle(action)
     }
@@ -50,24 +54,14 @@ fun MemberPostListRoute(
     MemberPostListTab(
         state = uiState,
         onAction = actionHandler,
-        onPostAction = onPostAction,
         posts = posts,
     )
 
-    if (showSheet) {
-        val state = rememberModalBottomSheetState(
-            initialDetent = SheetDetent.FullyExpanded,
-        )
-
-        CommentBottomSheet(
-            state = state,
-            onDismiss = {
-                coroutineScope.launch {
-                    state.animateTo(SheetDetent.Hidden)
-                    actionHandler(MemberPostListAction.OnBottomSheetDismiss)
-                }
-            },
-            commentState = commentState,
-        )
-    }
+    CommentBottomSheet(
+        state = sheetState,
+        onDismiss = {
+            actionHandler(MemberPostListAction.OnBottomSheetDismiss)
+        },
+        commentState = commentState,
+    )
 }

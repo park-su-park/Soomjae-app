@@ -17,7 +17,6 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeP
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.ui.utils.emptyLazyPagingItems
-import com.parksupark.soomjae.features.posts.common.presentation.PostAction
 import com.parksupark.soomjae.features.posts.common.presentation.components.WritePostFab
 import com.parksupark.soomjae.features.posts.member.presentation.post_list.components.MemberPostListItem
 import com.parksupark.soomjae.features.posts.member.presentation.post_list.models.MemberPostUi
@@ -28,7 +27,6 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 internal fun MemberPostListTab(
     state: MemberPostListState,
     onAction: (MemberPostListAction) -> Unit,
-    onPostAction: (PostAction) -> Unit,
     posts: LazyPagingItems<MemberPostUi>,
 ) {
     RefreshEffect(
@@ -109,7 +107,6 @@ private fun MemberPostListScreenPreview() {
         MemberPostListTab(
             state = MemberPostListState(),
             onAction = { },
-            onPostAction = { },
             posts = emptyLazyPagingItems(),
         )
     }

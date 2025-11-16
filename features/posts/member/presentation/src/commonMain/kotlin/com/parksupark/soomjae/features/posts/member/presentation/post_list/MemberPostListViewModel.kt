@@ -12,14 +12,10 @@ import com.parksupark.soomjae.features.posts.member.domain.repositories.MemberPo
 import com.parksupark.soomjae.features.posts.member.presentation.post_list.models.toMemberPostUi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -32,13 +28,12 @@ class MemberPostListViewModel(
 
     private val _stateFlow: MutableStateFlow<MemberPostListState> =
         MutableStateFlow(MemberPostListState())
-    val stateFlow: StateFlow<MemberPostListState> = _stateFlow.onStart {
-        observePosts()
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = _stateFlow.value,
-    )
+    val stateFlow: StateFlow<MemberPostListState> = _stateFlow.asStateFlow()
+
+    val posts = memberPostRepository.getPostsStream()
+        .map { pagingData ->
+            pagingData.map { post -> post.toMemberPostUi() }
+        }.cachedIn(viewModelScope)
 
     private val eventChannel = Channel<MemberPostListEvent>()
     val events = eventChannel.receiveAsFlow()
@@ -63,19 +58,6 @@ class MemberPostListViewModel(
                 soomjaeEventController.sendEvent(SoomjaeEvent.LoginRequest)
             }
         }
-    }
-
-    private fun observePosts() {
-        memberPostRepository.getPostsStream()
-            .cachedIn(viewModelScope)
-            .map { pagingData ->
-                pagingData.map { post -> post.toMemberPostUi() }
-            }
-            .onEach { postsPage ->
-                _stateFlow.update {
-                    it.copy(posts = postsPage)
-                }
-            }.launchIn(viewModelScope)
     }
 
     fun setSelectedPostId(postId: Long?) {
