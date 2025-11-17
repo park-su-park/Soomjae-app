@@ -10,21 +10,9 @@ data class ImageData(
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other == null || this::class != other::class) return false
-
-        other as ImageData
-
-        if (!bytes.contentEquals(other.bytes)) return false
-        if (fileName != other.fileName) return false
-        if (mimeType != other.mimeType) return false
-
-        return true
+        if (other !is ImageData) return false
+        return id == other.id
     }
 
-    override fun hashCode(): Int {
-        var result = bytes.contentHashCode()
-        result = 31 * result + fileName.hashCode()
-        result = 31 * result + mimeType.hashCode()
-        return result
-    }
+    override fun hashCode(): Int = id.hashCode()
 }

@@ -16,10 +16,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.parksupark.soomjae.core.image.domain.models.UploadProgress
+import com.parksupark.soomjae.core.image.presentation.model.PhotoUploadItem
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.core.presentation.ui.utils.pxToDp
-import com.parksupark.soomjae.features.posts.member.presentation.post_write.models.PhotoUploadItem
 import com.parksupark.soomjae.features.posts.member.presentation.resources.Res
 import com.parksupark.soomjae.features.posts.member.presentation.resources.common_error
 

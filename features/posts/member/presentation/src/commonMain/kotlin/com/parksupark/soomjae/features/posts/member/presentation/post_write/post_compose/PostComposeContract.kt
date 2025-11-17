@@ -1,8 +1,8 @@
 package com.parksupark.soomjae.features.posts.member.presentation.post_write.post_compose
 
 import androidx.compose.foundation.text.input.TextFieldState
+import com.parksupark.soomjae.core.image.presentation.model.PhotoUploadItem
 import com.parksupark.soomjae.features.posts.member.presentation.post_write.MemberPostWriteAction
-import com.parksupark.soomjae.features.posts.member.presentation.post_write.models.PhotoUploadItem
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 

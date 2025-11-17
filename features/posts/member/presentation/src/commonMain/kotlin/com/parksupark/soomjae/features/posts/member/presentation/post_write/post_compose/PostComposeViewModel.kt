@@ -6,9 +6,9 @@ import co.touchlab.kermit.Logger
 import com.parksupark.soomjae.core.common.coroutines.SoomjaeDispatcher
 import com.parksupark.soomjae.core.image.domain.ImageRepository
 import com.parksupark.soomjae.core.image.domain.models.UploadProgress
+import com.parksupark.soomjae.core.image.presentation.model.PhotoUploadItem
+import com.parksupark.soomjae.core.image.presentation.model.toPhotoUploadItem
 import com.parksupark.soomjae.features.posts.member.domain.repositories.MemberPostRepository
-import com.parksupark.soomjae.features.posts.member.presentation.post_write.models.PhotoUploadItem
-import com.parksupark.soomjae.features.posts.member.presentation.post_write.models.toPhotoUploadItem
 import io.github.vinceglb.filekit.PlatformFile
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
