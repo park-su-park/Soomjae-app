@@ -50,6 +50,7 @@ import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.features.profile.presentation.profile.adapter.ScrollableStateAdapter
 import com.parksupark.soomjae.features.profile.presentation.profile.adapter.asAdapter
 import com.parksupark.soomjae.features.profile.presentation.profile.components.UserProfileCard
+import com.parksupark.soomjae.features.profile.presentation.profile.components.UserProfileCardSkeleton
 import com.parksupark.soomjae.features.profile.presentation.profile.model.UserUi
 import com.parksupark.soomjae.features.profile.presentation.profile.tabs.member_post.ProfileMemberPostTab
 import com.parksupark.soomjae.features.profile.presentation.resources.Res
@@ -83,18 +84,32 @@ internal fun MyProfileScreen(
         },
         bottomBar = bottomBar,
     ) { innerPadding ->
-        if (state.isLoggedIn) {
-            MyProfileContent(
+        when {
+            state.isLoading -> LoadingProfileContent(
+                modifier = Modifier.fillMaxSize().padding(innerPadding),
+            )
+
+            state.isLoggedIn -> MyProfileContent(
                 user = state.user,
                 contentPadding = innerPadding,
                 modifier = Modifier.fillMaxSize(),
             )
-        } else {
-            GuestProfileContent(
-                modifier = Modifier.padding(innerPadding),
+
+            else -> GuestProfileContent(
+                modifier = Modifier.fillMaxSize().padding(innerPadding),
                 onLoginClick = { onAction(ProfileAction.OnLoginClick) },
             )
         }
+    }
+}
+
+@Composable
+private fun LoadingProfileContent(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        UserProfileCardSkeleton(modifier = Modifier.fillMaxWidth())
     }
 }
 

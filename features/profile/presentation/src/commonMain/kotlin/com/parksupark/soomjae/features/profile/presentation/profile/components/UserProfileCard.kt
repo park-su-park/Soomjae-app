@@ -2,13 +2,16 @@ package com.parksupark.soomjae.features.profile.presentation.profile.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Message
 import androidx.compose.material.icons.filled.Add
@@ -18,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeButton
@@ -27,6 +31,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.components.ProfileImage
 import com.parksupark.soomjae.features.profile.presentation.profile.model.UserUi
+import com.valentinilk.shimmer.shimmer
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -53,8 +58,12 @@ internal fun UserProfileCard(
 }
 
 @Composable
-private fun UserInfo(user: UserUi) {
+private fun UserInfo(
+    user: UserUi,
+    modifier: Modifier = Modifier,
+) {
     Column(
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         ProfileImage(imageUrl = user.profileImageUrl)
@@ -121,6 +130,68 @@ private fun ExtraButtons(
     }
 }
 
+@Composable
+internal fun UserProfileCardSkeleton(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(
+                color = SoomjaeTheme.colorScheme.background1,
+                shape = RoundedCornerShape(12.dp),
+            )
+            .padding(16.dp)
+            .shimmer(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        // Profile image placeholder
+        Box(
+            modifier = Modifier
+                .size(64.dp)
+                .clip(RoundedCornerShape(24))
+                .background(SoomjaeTheme.colorScheme.background3),
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Username placeholder
+        Box(
+            modifier = Modifier
+                .width(80.dp)
+                .height(14.dp)
+                .background(SoomjaeTheme.colorScheme.background3),
+        )
+
+        // Bio placeholder (multi-line, centered)
+        Box(
+            modifier = Modifier
+                .width(160.dp)
+                .height(12.dp)
+                .background(SoomjaeTheme.colorScheme.background3),
+        )
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // Buttons placeholder row
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Box(
+                modifier = Modifier
+                    .width(80.dp)
+                    .height(36.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(SoomjaeTheme.colorScheme.background3),
+            )
+            Box(
+                modifier = Modifier
+                    .width(80.dp)
+                    .height(36.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(SoomjaeTheme.colorScheme.background3),
+            )
+        }
+    }
+}
+
 @Preview
 @Composable
 private fun UserProfileCard_MyProfilePreview() {
@@ -144,6 +215,16 @@ private fun UserProfileCard_OtherProfilePreview() {
                 id = 1,
                 nickname = "Username",
             ),
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun UserProfileCard_SkeletonPreview() {
+    AppTheme {
+        UserProfileCardSkeleton(
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }

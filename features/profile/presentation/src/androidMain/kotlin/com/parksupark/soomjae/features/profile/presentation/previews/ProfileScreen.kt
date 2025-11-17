@@ -8,12 +8,14 @@ import com.parksupark.soomjae.features.profile.presentation.profile.OthersProfil
 import com.parksupark.soomjae.features.profile.presentation.profile.ProfileState
 
 @Composable
-@Preview("Guest Profile Screen")
-private fun MyProfileScreenPreview_Guest() {
+@Preview("Loading Profile Screen")
+private fun MyProfileScreen_LoadingPreview() {
     AppTheme {
         MyProfileScreen(
             bottomBar = {},
-            state = ProfileState.MyProfileState(),
+            state = ProfileState.MyProfileState(
+                isLoading = true,
+            ),
             onAction = {},
         )
     }
@@ -26,7 +28,22 @@ private fun MyProfileScreenPreview_User() {
         MyProfileScreen(
             bottomBar = {},
             state = ProfileState.MyProfileState(
+                isLoading = false,
                 isLoggedIn = true,
+            ),
+            onAction = {},
+        )
+    }
+}
+
+@Composable
+@Preview("Guest Profile Screen")
+private fun MyProfileScreenPreview_Guest() {
+    AppTheme {
+        MyProfileScreen(
+            bottomBar = {},
+            state = ProfileState.MyProfileState(
+                isLoading = false,
             ),
             onAction = {},
         )
