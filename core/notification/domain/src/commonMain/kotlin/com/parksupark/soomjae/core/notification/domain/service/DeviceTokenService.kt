@@ -7,8 +7,9 @@ interface DeviceTokenService {
 
     suspend fun registerToken(
         token: String,
+        deviceId: String,
         platform: String,
     ): Either<DataFailure.Network, Unit>
 
-    suspend fun unregisterToken(token: String): Either<DataFailure.Network, Unit>
+    suspend fun unregisterToken(deviceId: String): Either<DataFailure.Network, Unit>
 }

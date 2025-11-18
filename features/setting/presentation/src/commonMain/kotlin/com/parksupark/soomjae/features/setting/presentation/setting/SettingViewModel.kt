@@ -2,6 +2,7 @@ package com.parksupark.soomjae.features.setting.presentation.setting
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.parksupark.soomjae.core.common.coroutines.SoomjaeDispatcher
 import com.parksupark.soomjae.core.common.theme.ColorTheme
 import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
 import com.parksupark.soomjae.core.domain.logging.SjLogger
@@ -23,6 +24,7 @@ import kotlinx.coroutines.launch
 private const val TAG = "SettingViewModel"
 
 internal class SettingViewModel(
+    private val dispatcher: SoomjaeDispatcher,
     private val logger: SjLogger,
     private val colorThemeRepository: ColorThemeRepository,
     private val sessionRepository: SessionRepository,
@@ -66,12 +68,40 @@ internal class SettingViewModel(
         }
     }
 
+    private val deviceIdFlow = pushNotificationService.observeDeviceId()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Eagerly,
+            initialValue = null
+        )
+
     fun logout() {
         viewModelScope.launch {
-            // TODO: Unregister device token from server
+            val deviceId = deviceIdFlow.value
+            if (deviceId == null) {
+                logger.warn(TAG, "Device ID is null during logout")
+            } else {
+                val unregisterToken = with(dispatcher.io) {
+                    deviceTokenService.unregisterToken(deviceId)
+                }
+                unregisterToken.fold(
+                    ifLeft = { failure ->
+                        logger.error(
+                            TAG,
+                            "Failed to unregister device token during logout: $failure"
+                        )
+                    },
+                    ifRight = {
+                        logger.info(
+                            TAG,
+                            "Successfully unregistered device token during logout: $deviceId"
+                        )
+                    },
+                )
+            }
 
             sessionRepository.set(null)
-            logger.info(TAG, "User logged out successfully")
+            logger.debug(TAG, "User logged out successfully")
             eventChannel.send(SettingEvent.OnLogoutSuccess)
         }
     }

@@ -21,4 +21,17 @@ actual class FirebasePushNotificationService : PushNotificationService {
                 }
             }
         }
+
+    actual override fun observeDeviceId(): Flow<String?> = IosDeviceTokenHolder
+        .deviceId
+        .onStart {
+            if (IosDeviceTokenHolder.deviceId.value == null) {
+                val userDefaults = platform.Foundation.NSUserDefaults.standardUserDefaults
+                val deviceId = userDefaults.stringForKey("DEVICE_ID")
+
+                if (deviceId != null) {
+                    IosDeviceTokenHolder.updateDeviceId(deviceId)
+                }
+            }
+        }
 }
