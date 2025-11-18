@@ -2,9 +2,11 @@ package com.parksupark.soomjae.features.profile.presentation.profile_edit
 
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.Stable
+import com.parksupark.soomjae.core.image.presentation.model.PhotoUploadItem
 import com.parksupark.soomjae.core.presentation.ui.utils.UiText
 import com.parksupark.soomjae.features.profile.domain.model.NicknameValidationResult
 import com.parksupark.soomjae.features.profile.domain.model.isValid
+import io.github.vinceglb.filekit.PlatformFile
 
 @Stable
 data class ProfileEditState(
@@ -19,6 +21,8 @@ data class ProfileEditState(
     val originalNickname: String = "",
     val originalBio: String = "",
     val originalProfileImageUrl: String? = null,
+
+    val photoUploadItem: PhotoUploadItem? = null,
 ) {
     val isNicknameChanged: Boolean
         get() = inputNickname.text.trim() != originalNickname
@@ -39,7 +43,9 @@ data class ProfileEditState(
 }
 
 sealed interface ProfileEditAction {
-    data object OnClick : ProfileEditAction
+    data object OnBackClick : ProfileEditAction
+
+    data class OnProfileImageSelect(val image: PlatformFile) : ProfileEditAction
 
     data object OnSubmitClick : ProfileEditAction
 }

@@ -8,6 +8,10 @@ import androidx.navigation.toRoute
 import com.parksupark.soomjae.core.common.coroutines.SoomjaeDispatcher
 import com.parksupark.soomjae.core.common.utils.fold
 import com.parksupark.soomjae.core.domain.logging.SjLogger
+import com.parksupark.soomjae.core.image.domain.ImageRepository
+import com.parksupark.soomjae.core.image.domain.models.UploadProgress.Success
+import com.parksupark.soomjae.core.image.presentation.model.PhotoUploadItem
+import com.parksupark.soomjae.core.image.presentation.model.toPhotoUploadItem
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.mapTextFieldState
 import com.parksupark.soomjae.features.profile.domain.model.NicknameValidationResult
@@ -16,6 +20,7 @@ import com.parksupark.soomjae.features.profile.domain.model.Profile
 import com.parksupark.soomjae.features.profile.domain.repository.ProfileRepository
 import com.parksupark.soomjae.features.profile.domain.usecase.ValidateNicknameUseCase
 import com.parksupark.soomjae.features.profile.presentation.navigation.ProfileDestination
+import io.github.vinceglb.filekit.PlatformFile
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
@@ -25,6 +30,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -35,6 +41,7 @@ class ProfileEditViewModel(
     private val logger: SjLogger,
     private val dispatcher: SoomjaeDispatcher,
     private val profileRepository: ProfileRepository,
+    private val imageRepository: ImageRepository,
     private val validateNicknameUseCase: ValidateNicknameUseCase,
 ) : ViewModel() {
     private val memberId: Long = savedStateHandle.toRoute<ProfileDestination.Edit>().memberId
@@ -110,6 +117,45 @@ class ProfileEditViewModel(
                         },
                     )
                 }
+        }
+    }
+
+    fun uploadProfileImage(file: PlatformFile) {
+        viewModelScope.launch {
+            val photoUploadItem = with(dispatcher.io) { file.toPhotoUploadItem() }
+
+            performImageUpload(photoUploadItem)
+        }
+    }
+
+    fun retryProfileImageUpload() {
+        val photoUploadItem = _stateFlow.value.photoUploadItem ?: return
+        viewModelScope.launch {
+            performImageUpload(photoUploadItem)
+        }
+    }
+
+    private suspend fun performImageUpload(item: PhotoUploadItem) {
+        imageRepository.uploadWithProgress(item.localImage)
+            .flowOn(dispatcher.io)
+            .collectLatest { progress ->
+                _stateFlow.update { state ->
+                    val newUrl = (progress as? Success)?.result?.url
+
+                    state.copy(
+                        photoUploadItem = state.photoUploadItem?.copy(uploadProgress = progress),
+                        profileImageUrl = newUrl ?: state.profileImageUrl,
+                    )
+                }
+            }
+    }
+
+    fun resetProfileImage() {
+        _stateFlow.update { state ->
+            state.copy(
+                profileImageUrl = state.originalProfileImageUrl,
+                photoUploadItem = null,
+            )
         }
     }
 

@@ -48,6 +48,7 @@ import kotlinx.coroutines.delay
 fun UploadAwareImage(
     item: PhotoUploadItem,
     modifier: Modifier = Modifier,
+    contentDescription: String? = null,
     size: Dp = 96.dp,
     cornerRadius: Dp = 12.dp,
     overlayAlpha: Float = 0.45f,
@@ -61,7 +62,7 @@ fun UploadAwareImage(
             .size(size)
             .clip(shape),
     ) {
-        UploadImage(item = item, shape = shape)
+        UploadImage(item = item, shape = shape, contentDescription = contentDescription)
 
         when (val progress = item.uploadProgress) {
             UploadProgress.Idle -> Unit
@@ -88,13 +89,14 @@ fun UploadAwareImage(
 private fun UploadImage(
     item: PhotoUploadItem,
     shape: Shape,
+    contentDescription: String?,
 ) {
     AsyncImage(
         model = ImageRequest.Builder(LocalPlatformContext.current)
             .data(item.localImage.bytes)
             .crossfade(true)
             .build(),
-        contentDescription = null,
+        contentDescription = contentDescription,
         modifier = Modifier
             .fillMaxSize()
             .clip(shape),
