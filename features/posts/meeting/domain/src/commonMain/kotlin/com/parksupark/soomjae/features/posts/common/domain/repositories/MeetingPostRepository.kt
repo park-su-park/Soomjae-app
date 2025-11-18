@@ -3,12 +3,12 @@ package com.parksupark.soomjae.features.posts.common.domain.repositories
 import app.cash.paging.PagingData
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
-import com.parksupark.soomjae.features.posts.common.domain.models.CreateMeetingPost
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPost
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostDetail
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostFilter
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostPatch
 import com.parksupark.soomjae.features.posts.common.domain.models.NewPost
+import com.parksupark.soomjae.features.posts.common.domain.models.UpdateMeetingPost
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 import kotlinx.coroutines.flow.Flow
@@ -29,7 +29,7 @@ interface MeetingPostRepository {
 
     fun getPostsStream(filter: MeetingPostFilter): Flow<PagingData<MeetingPost>>
 
-    suspend fun updatePost(updatedPost: CreateMeetingPost): Either<DataFailure, NewPost>
+    suspend fun updatePost(updatedPost: UpdateMeetingPost): Either<DataFailure, NewPost>
 
     suspend fun deletePost(id: Long): Either<DataFailure, Unit>
 

@@ -1,6 +1,6 @@
 package com.parksupark.soomjae.features.posts.common.domain.models
 
-data class CreateMeetingPost(
+data class UpdateMeetingPost(
     val id: Long,
     val title: String,
     val content: String,

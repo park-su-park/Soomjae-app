@@ -1,6 +1,6 @@
 package com.parksupark.soomjae.features.posts.common.data.network.dto
 
-import com.parksupark.soomjae.features.posts.common.domain.models.CreateMeetingPost
+import com.parksupark.soomjae.features.posts.common.domain.models.UpdateMeetingPost
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 import kotlinx.serialization.Serializable
@@ -18,7 +18,7 @@ data class PutMeetingPostRequest(
 )
 
 @OptIn(ExperimentalTime::class)
-fun CreateMeetingPost.toPutMeetingPostRequest(): PutMeetingPostRequest = PutMeetingPostRequest(
+fun UpdateMeetingPost.toPutMeetingPostRequest(): PutMeetingPostRequest = PutMeetingPostRequest(
     title = this.title,
     content = this.content,
     categoryId = this.categoryId,

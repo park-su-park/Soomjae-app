@@ -16,12 +16,12 @@ import com.parksupark.soomjae.features.posts.common.data.dto.response.toMeetingP
 import com.parksupark.soomjae.features.posts.common.data.network.datasource.RemoteMeetingPostSource
 import com.parksupark.soomjae.features.posts.common.data.network.dto.toPutMeetingPostRequest
 import com.parksupark.soomjae.features.posts.common.data.paging.MeetingPagingSource
-import com.parksupark.soomjae.features.posts.common.domain.models.CreateMeetingPost
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPost
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostDetail
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostFilter
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostPatch
 import com.parksupark.soomjae.features.posts.common.domain.models.NewPost
+import com.parksupark.soomjae.features.posts.common.domain.models.UpdateMeetingPost
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
@@ -75,7 +75,7 @@ internal class DefaultMeetingPostRepository(
                 pagingData.map { it.toMeetingPost() }
             }
 
-    override suspend fun updatePost(updatedPost: CreateMeetingPost): Either<DataFailure, NewPost> =
+    override suspend fun updatePost(updatedPost: UpdateMeetingPost): Either<DataFailure, NewPost> =
         remoteSource.putPost(updatedPost.id, updatedPost.toPutMeetingPostRequest())
             .map { id ->
                 NewPost(id = id)
