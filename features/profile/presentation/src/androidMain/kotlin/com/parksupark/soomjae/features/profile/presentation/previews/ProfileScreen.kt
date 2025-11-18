@@ -13,7 +13,7 @@ private fun MyProfileScreen_LoadingPreview() {
     AppTheme {
         MyProfileScreen(
             bottomBar = {},
-            state = ProfileState.MyProfileState(
+            state = ProfileState.My(
                 isLoading = true,
             ),
             onAction = {},
@@ -27,7 +27,7 @@ private fun MyProfileScreenPreview_User() {
     AppTheme {
         MyProfileScreen(
             bottomBar = {},
-            state = ProfileState.MyProfileState(
+            state = ProfileState.My(
                 isLoading = false,
                 isLoggedIn = true,
             ),
@@ -42,7 +42,7 @@ private fun MyProfileScreenPreview_Guest() {
     AppTheme {
         MyProfileScreen(
             bottomBar = {},
-            state = ProfileState.MyProfileState(
+            state = ProfileState.My(
                 isLoading = false,
             ),
             onAction = {},
@@ -55,7 +55,7 @@ private fun MyProfileScreenPreview_Guest() {
 private fun OthersProfileScreenPreview() {
     AppTheme {
         OthersProfileScreen(
-            state = ProfileState.OtherProfileState(),
+            state = ProfileState.Other(),
             onAction = {},
         )
     }

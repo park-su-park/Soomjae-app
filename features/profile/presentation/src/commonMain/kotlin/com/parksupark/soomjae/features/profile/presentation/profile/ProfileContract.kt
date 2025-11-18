@@ -3,17 +3,21 @@ package com.parksupark.soomjae.features.profile.presentation.profile
 import androidx.compose.runtime.Immutable
 import com.parksupark.soomjae.features.profile.presentation.profile.model.UserUi
 
-internal sealed interface ProfileState {
+sealed interface ProfileState {
+    val isLoading: Boolean
+    val user: UserUi
+
     @Immutable
-    data class MyProfileState(
-        val isLoading: Boolean = true,
+    data class My(
+        override val isLoading: Boolean = true,
+        override val user: UserUi = UserUi.Default,
         val isLoggedIn: Boolean = false,
-        val user: UserUi = UserUi.Default,
     ) : ProfileState
 
     @Immutable
-    data class OtherProfileState(
-        val userId: String = "",
+    data class Other(
+        override val isLoading: Boolean = true,
+        override val user: UserUi = UserUi.Default,
     ) : ProfileState
 }
 

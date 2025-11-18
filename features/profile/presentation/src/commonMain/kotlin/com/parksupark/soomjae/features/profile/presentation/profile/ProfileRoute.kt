@@ -18,7 +18,7 @@ internal fun ProfileRoute(
     }
 
     when (val profileState = uiState) {
-        is ProfileState.MyProfileState -> MyProfileScreen(bottomBar, profileState, actionsHandler)
-        is ProfileState.OtherProfileState -> OthersProfileScreen(profileState, actionsHandler)
+        is ProfileState.My -> MyProfileScreen(bottomBar, profileState, actionsHandler)
+        is ProfileState.Other -> OthersProfileScreen(profileState, actionsHandler)
     }
 }

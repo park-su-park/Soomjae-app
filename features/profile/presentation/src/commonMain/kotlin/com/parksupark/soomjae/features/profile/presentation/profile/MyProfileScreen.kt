@@ -69,7 +69,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 internal fun MyProfileScreen(
     bottomBar: @Composable () -> Unit,
-    state: ProfileState.MyProfileState,
+    state: ProfileState.My,
     onAction: (ProfileAction) -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()

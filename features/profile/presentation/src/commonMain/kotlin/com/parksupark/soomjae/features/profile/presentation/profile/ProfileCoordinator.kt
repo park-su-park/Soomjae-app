@@ -9,7 +9,7 @@ internal class ProfileCoordinator(
     val navigator: ProfileNavigator,
     val viewModel: ProfileViewModel,
 ) {
-    val screenStateFlow = viewModel.uiStateFlow
+    val screenStateFlow = viewModel.state
 
     fun handle(action: ProfileAction) {
         when (action) {
