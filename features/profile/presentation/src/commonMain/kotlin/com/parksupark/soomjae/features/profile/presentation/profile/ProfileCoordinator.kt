@@ -9,7 +9,7 @@ internal class ProfileCoordinator(
     val navigator: ProfileNavigator,
     val viewModel: ProfileViewModel,
 ) {
-    val screenStateFlow = viewModel.uiStateFlow
+    val screenStateFlow = viewModel.state
 
     fun handle(action: ProfileAction) {
         when (action) {
@@ -18,6 +18,8 @@ internal class ProfileCoordinator(
             ProfileAction.OnLogoutClick -> viewModel.logout()
 
             ProfileAction.OnSettingClick -> navigator.navigateToSetting()
+
+            is ProfileAction.OnEditProfileClick -> navigator.navigateToProfileEdit(action.memberId)
         }
     }
 }

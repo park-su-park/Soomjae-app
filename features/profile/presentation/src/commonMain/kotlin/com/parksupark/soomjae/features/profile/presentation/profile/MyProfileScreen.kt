@@ -50,6 +50,7 @@ import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.features.profile.presentation.profile.adapter.ScrollableStateAdapter
 import com.parksupark.soomjae.features.profile.presentation.profile.adapter.asAdapter
 import com.parksupark.soomjae.features.profile.presentation.profile.components.UserProfileCard
+import com.parksupark.soomjae.features.profile.presentation.profile.components.UserProfileCardSkeleton
 import com.parksupark.soomjae.features.profile.presentation.profile.model.UserUi
 import com.parksupark.soomjae.features.profile.presentation.profile.tabs.member_post.ProfileMemberPostTab
 import com.parksupark.soomjae.features.profile.presentation.resources.Res
@@ -68,7 +69,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 internal fun MyProfileScreen(
     bottomBar: @Composable () -> Unit,
-    state: ProfileState.MyProfileState,
+    state: ProfileState.My,
     onAction: (ProfileAction) -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -83,15 +84,20 @@ internal fun MyProfileScreen(
         },
         bottomBar = bottomBar,
     ) { innerPadding ->
-        if (state.isLoggedIn) {
-            MyProfileContent(
+        when {
+            state.isLoading -> LoadingProfileContent(
+                modifier = Modifier.fillMaxSize().padding(innerPadding),
+            )
+
+            state.isLoggedIn -> MyProfileContent(
                 user = state.user,
+                onAction = onAction,
                 contentPadding = innerPadding,
                 modifier = Modifier.fillMaxSize(),
             )
-        } else {
-            GuestProfileContent(
-                modifier = Modifier.padding(innerPadding),
+
+            else -> GuestProfileContent(
+                modifier = Modifier.fillMaxSize().padding(innerPadding),
                 onLoginClick = { onAction(ProfileAction.OnLoginClick) },
             )
         }
@@ -99,8 +105,19 @@ internal fun MyProfileScreen(
 }
 
 @Composable
+private fun LoadingProfileContent(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        UserProfileCardSkeleton(modifier = Modifier.fillMaxWidth())
+    }
+}
+
+@Composable
 private fun MyProfileContent(
     user: UserUi,
+    onAction: (ProfileAction) -> Unit,
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
 ) {
@@ -135,6 +152,8 @@ private fun MyProfileContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
+                isMyProfile = true,
+                onEditProfileClick = { onAction(ProfileAction.OnEditProfileClick(user.id)) },
             )
         }
 
