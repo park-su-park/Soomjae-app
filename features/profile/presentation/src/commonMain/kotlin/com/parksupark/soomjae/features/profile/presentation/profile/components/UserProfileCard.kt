@@ -76,7 +76,7 @@ private fun UserInfo(
         )
 
         Text(
-            text = "누구나 쉽게 배우는 스프링 부트",
+            text = user.bio,
             color = SoomjaeTheme.colorScheme.text1,
             style = SoomjaeTheme.typography.captionS,
             textAlign = TextAlign.Center,
@@ -200,6 +200,7 @@ private fun UserProfileCard_MyProfilePreview() {
             user = UserUi(
                 id = 1,
                 nickname = "Username",
+                bio = "This is a sample bio for the user profile.",
             ),
             isMyProfile = true,
         )
@@ -214,6 +215,7 @@ private fun UserProfileCard_OtherProfilePreview() {
             user = UserUi(
                 id = 1,
                 nickname = "Username",
+                bio = "This is a sample bio for the user profile.",
             ),
         )
     }
