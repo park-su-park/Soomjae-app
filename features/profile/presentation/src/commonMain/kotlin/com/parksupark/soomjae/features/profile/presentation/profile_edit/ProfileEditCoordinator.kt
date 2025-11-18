@@ -16,6 +16,8 @@ class ProfileEditCoordinator(
         when (action) {
             ProfileEditAction.OnClick -> { // Handle action
             }
+
+            ProfileEditAction.OnSubmitClick -> viewModel.submitProfile()
         }
     }
 

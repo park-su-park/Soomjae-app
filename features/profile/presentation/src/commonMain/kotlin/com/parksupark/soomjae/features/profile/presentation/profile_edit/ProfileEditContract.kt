@@ -40,6 +40,8 @@ data class ProfileEditState(
 
 sealed interface ProfileEditAction {
     data object OnClick : ProfileEditAction
+
+    data object OnSubmitClick : ProfileEditAction
 }
 
 sealed interface ProfileEditEvent {
