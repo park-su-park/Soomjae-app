@@ -11,7 +11,7 @@ interface ProfileRepository {
 
     fun getProfileFlow(memberId: Long): Flow<Either<DataFailure, Profile>>
 
-    fun updateProfile(newProfile: Profile): Either<DataFailure, Profile>
+    suspend fun updateProfile(newProfile: Profile): Either<DataFailure, Profile>
 
     // Nickname
     suspend fun checkAvailableNickname(nickname: String): Either<DataFailure, Boolean>

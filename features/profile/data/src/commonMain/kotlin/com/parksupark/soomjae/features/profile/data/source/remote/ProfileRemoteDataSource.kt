@@ -3,15 +3,36 @@ package com.parksupark.soomjae.features.profile.data.source.remote
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.core.remote.networking.get
-import com.parksupark.soomjae.features.profile.data.model.dto.response.FetchProfileResponse
+import com.parksupark.soomjae.core.remote.networking.post
+import com.parksupark.soomjae.features.profile.data.model.dto.request.CheckNicknameDuplicateRequest
+import com.parksupark.soomjae.features.profile.data.model.dto.request.PutProfileRequest
+import com.parksupark.soomjae.features.profile.data.model.dto.response.ProfileResponse
 import io.ktor.client.HttpClient
+
+typealias IsDuplicated = Boolean
 
 internal class ProfileRemoteDataSource(
     private val httpClient: HttpClient,
 ) {
-    suspend fun fetchProfile(memberId: Long): Either<DataFailure.Network, FetchProfileResponse> {
-        return httpClient.get<FetchProfileResponse>(
+    suspend fun fetchProfile(memberId: Long): Either<DataFailure.Network, ProfileResponse> {
+        return httpClient.get<ProfileResponse>(
             route = "/v1/member/${memberId}/profiles"
+        )
+    }
+
+    suspend fun putProfile(request: PutProfileRequest): Either<DataFailure.Network, ProfileResponse> {
+        return httpClient.post<PutProfileRequest, ProfileResponse>(
+            route = "/v1/member",
+            body = request,
+        )
+    }
+
+    suspend fun checkNicknameDuplicate(
+        request: CheckNicknameDuplicateRequest,
+    ): Either<DataFailure, IsDuplicated> {
+        return httpClient.post<CheckNicknameDuplicateRequest, IsDuplicated>(
+            route = "/v1/member/profiles/nickname-duplication",
+            body = request,
         )
     }
 }

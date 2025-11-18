@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class FetchProfileResponse(
+data class ProfileResponse(
     @SerialName("memberId") val memberId: Long,
     @SerialName("nickname") val nickname: String,
     @SerialName("bio") val bio: String,
