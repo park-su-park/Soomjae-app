@@ -2,6 +2,7 @@ package com.parksupark.soomjae.features.profile.data.repository
 
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
+import com.parksupark.soomjae.features.profile.data.model.dto.request.CheckNicknameDuplicateRequest
 import com.parksupark.soomjae.features.profile.data.model.mapper.toProfile
 import com.parksupark.soomjae.features.profile.data.model.mapper.toPutProfileRequest
 import com.parksupark.soomjae.features.profile.data.source.cache.ProfileCacheDataSource
@@ -46,8 +47,10 @@ internal class DefaultProfileRepository(
         }
     }
 
-    override suspend fun checkAvailableNickname(nickname: String): Either<DataFailure, Boolean> {
-        // TODO: "Not yet implemented"
-        return Either.Left(DataFailure.Local.UNKNOWN)
+    override suspend fun isNicknameAvailable(nickname: String): Either<DataFailure, Boolean> {
+        return remoteSource.checkNicknameDuplicate(CheckNicknameDuplicateRequest(nickname))
+            .map { isDuplicated ->
+                !isDuplicated
+            }
     }
 }

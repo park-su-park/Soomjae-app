@@ -15,7 +15,7 @@ class ValidateNicknameUseCase(
             return Either.Right(NicknameValidationResult.Invalid(InvalidFormat))
         }
 
-        return profileRepository.checkAvailableNickname(nickname).map { result ->
+        return profileRepository.isNicknameAvailable(nickname).map { result ->
             if (result) {
                 NicknameValidationResult.Valid
             } else {

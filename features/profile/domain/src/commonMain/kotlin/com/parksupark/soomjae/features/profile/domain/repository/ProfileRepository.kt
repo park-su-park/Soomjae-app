@@ -14,5 +14,5 @@ interface ProfileRepository {
     suspend fun updateProfile(newProfile: Profile): Either<DataFailure, Profile>
 
     // Nickname
-    suspend fun checkAvailableNickname(nickname: String): Either<DataFailure, Boolean>
+    suspend fun isNicknameAvailable(nickname: String): Either<DataFailure, Boolean>
 }
