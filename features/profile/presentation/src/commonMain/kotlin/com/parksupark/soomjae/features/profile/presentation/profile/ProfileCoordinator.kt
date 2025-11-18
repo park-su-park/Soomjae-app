@@ -18,6 +18,8 @@ internal class ProfileCoordinator(
             ProfileAction.OnLogoutClick -> viewModel.logout()
 
             ProfileAction.OnSettingClick -> navigator.navigateToSetting()
+
+            is ProfileAction.OnEditProfileClick -> navigator.navigateToProfileEdit(action.memberId)
         }
     }
 }

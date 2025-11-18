@@ -91,6 +91,7 @@ internal fun MyProfileScreen(
 
             state.isLoggedIn -> MyProfileContent(
                 user = state.user,
+                onAction = onAction,
                 contentPadding = innerPadding,
                 modifier = Modifier.fillMaxSize(),
             )
@@ -116,6 +117,7 @@ private fun LoadingProfileContent(modifier: Modifier = Modifier) {
 @Composable
 private fun MyProfileContent(
     user: UserUi,
+    onAction: (ProfileAction) -> Unit,
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
 ) {
@@ -150,6 +152,8 @@ private fun MyProfileContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
+                isMyProfile = true,
+                onEditProfileClick = { onAction(ProfileAction.OnEditProfileClick(user.id)) },
             )
         }
 

@@ -14,8 +14,7 @@ class ProfileEditCoordinator(
 
     fun handle(action: ProfileEditAction) {
         when (action) {
-            ProfileEditAction.OnBackClick -> { // Handle action
-            }
+            ProfileEditAction.OnBackClick -> navigateBack()
 
             is ProfileEditAction.OnProfileImageSelect -> {
                 viewModel.uploadProfileImage(action.image)

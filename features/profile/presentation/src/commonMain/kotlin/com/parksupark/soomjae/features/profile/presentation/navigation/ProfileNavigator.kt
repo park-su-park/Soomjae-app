@@ -8,6 +8,8 @@ interface ProfileNavigator : SoomjaeNavigator {
     fun navigateToLogin()
 
     fun navigateToSetting()
+
+    fun navigateToProfileEdit(memberId: Long)
 }
 
 private class SoomjaeProfileNavigator(
@@ -22,6 +24,10 @@ private class SoomjaeProfileNavigator(
     }
 
     override fun navigateToSetting() {
+        overridden()
+    }
+
+    override fun navigateToProfileEdit(memberId: Long) {
         overridden()
     }
 }
