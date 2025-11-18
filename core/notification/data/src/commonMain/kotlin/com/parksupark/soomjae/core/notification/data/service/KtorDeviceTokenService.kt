@@ -14,17 +14,20 @@ class KtorDeviceTokenService(
 
     override suspend fun registerToken(
         token: String,
+        deviceId: String,
         platform: String,
     ): Either<DataFailure.Network, Unit> = httpClient.post(
         route = "/v1/fcm-token",
         body = RegisterDeviceTokenRequest(
             token = token,
+            deviceId = deviceId,
             platform = platform,
         ),
     )
 
-    override suspend fun unregisterToken(token: String): Either<DataFailure.Network, Unit> =
+    override suspend fun unregisterToken(deviceId: String): Either<DataFailure.Network, Unit> =
         httpClient.delete(
             route = "/v1/fcm-token",
+            queryParameters = mapOf("device" to deviceId),
         )
 }

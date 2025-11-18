@@ -2,6 +2,7 @@ package com.parksupark.soomjae.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.parksupark.soomjae.core.common.coroutines.SoomjaeDispatcher
 import com.parksupark.soomjae.core.data.util.PlatformUtils
 import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
 import com.parksupark.soomjae.core.domain.logging.SjLogger
@@ -21,6 +22,7 @@ import kotlinx.coroutines.launch
 private const val TAG = "SoomjaeViewModel"
 
 internal class SoomjaeViewModel(
+    private val dispatcher: SoomjaeDispatcher,
     private val logger: SjLogger,
     private val sessionRepository: SessionRepository,
     private val pushNotificationService: PushNotificationService,
@@ -48,10 +50,11 @@ internal class SoomjaeViewModel(
         combine(
             sessionRepository.getAsFlow(),
             pushNotificationService.observeDeviceToken(),
-        ) { authInfo, deviceToken ->
+            pushNotificationService.observeDeviceId(),
+        ) { authInfo, deviceToken, deviceId ->
             currentDeviceToken = deviceToken
-            if (authInfo != null && deviceToken != null && deviceToken != previousDeviceToken) {
-                registerDeviceToken(deviceToken, PlatformUtils.getOSName())
+            if (authInfo != null && deviceToken != null && deviceToken != previousDeviceToken && deviceId != null) {
+                registerDeviceToken(deviceToken, deviceId, PlatformUtils.getOSName())
                 previousDeviceToken = deviceToken
             }
         }
@@ -60,10 +63,11 @@ internal class SoomjaeViewModel(
 
     private fun registerDeviceToken(
         deviceToken: String,
+        deviceId: String,
         platform: String,
     ) {
-        viewModelScope.launch {
-            deviceTokenService.registerToken(deviceToken, platform).fold(
+        viewModelScope.launch(dispatcher.io) {
+            deviceTokenService.registerToken(deviceToken, deviceId, platform).fold(
                 ifLeft = {
                     logger.error(TAG, "Failed to register device token: $deviceToken")
                 },

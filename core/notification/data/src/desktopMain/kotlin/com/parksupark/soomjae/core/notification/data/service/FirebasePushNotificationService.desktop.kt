@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.emptyFlow
 
 actual class FirebasePushNotificationService : PushNotificationService {
     actual override fun observeDeviceToken(): Flow<String?> = emptyFlow()
+    actual override fun observeDeviceId(): Flow<String?> = emptyFlow()
 }
