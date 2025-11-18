@@ -16,7 +16,7 @@ class KtorDeviceTokenService(
         token: String,
         platform: String,
     ): Either<DataFailure.Network, Unit> = httpClient.post(
-        route = "/notification/register",
+        route = "/v1/fcm-token",
         body = RegisterDeviceTokenRequest(
             token = token,
             platform = platform,
@@ -25,6 +25,6 @@ class KtorDeviceTokenService(
 
     override suspend fun unregisterToken(token: String): Either<DataFailure.Network, Unit> =
         httpClient.delete(
-            route = "/notification/$token",
+            route = "/v1/fcm-token",
         )
 }
