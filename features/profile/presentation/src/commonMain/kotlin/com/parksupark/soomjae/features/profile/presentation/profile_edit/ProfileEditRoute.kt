@@ -17,6 +17,7 @@ fun ProfileEditRoute(
     coordinator: ProfileEditCoordinator = rememberProfileEditCoordinator(navigator = navigator),
 ) {
     val uiState by coordinator.screenStateFlow.collectAsStateWithLifecycle(ProfileEditState())
+    val canSubmit by coordinator.canSubmit.collectAsStateWithLifecycle(initialValue = false)
     val events = coordinator.eventFlow
 
     val coroutineScope = rememberCoroutineScope()
@@ -48,6 +49,7 @@ fun ProfileEditRoute(
 
     ProfileEditScreen(
         state = uiState,
+        canSubmit = canSubmit,
         onAction = actionsHandler,
     )
 }

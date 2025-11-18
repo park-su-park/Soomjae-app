@@ -17,6 +17,7 @@ import com.parksupark.soomjae.core.presentation.ui.utils.mapTextFieldState
 import com.parksupark.soomjae.features.profile.domain.model.NicknameValidationResult
 import com.parksupark.soomjae.features.profile.domain.model.NicknameValidationResult.Invalid.Reason.Unknown
 import com.parksupark.soomjae.features.profile.domain.model.Profile
+import com.parksupark.soomjae.features.profile.domain.model.isValid
 import com.parksupark.soomjae.features.profile.domain.repository.ProfileRepository
 import com.parksupark.soomjae.features.profile.domain.usecase.ValidateNicknameUseCase
 import com.parksupark.soomjae.features.profile.presentation.navigation.ProfileDestination
@@ -28,9 +29,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -52,6 +55,25 @@ class ProfileEditViewModel(
     private val _stateFlow: MutableStateFlow<ProfileEditState> =
         MutableStateFlow(ProfileEditState())
     val stateFlow: StateFlow<ProfileEditState> = _stateFlow.asStateFlow()
+
+    val canSubmit = combine(
+        stateFlow.mapTextFieldState { it.inputNickname },
+        stateFlow.mapTextFieldState { it.inputBio },
+        stateFlow.map { it.profileImageUrl }.distinctUntilChanged(),
+        stateFlow.map { it.nicknameValidationResult }.distinctUntilChanged(),
+    ) { nicknameField, bioField, profileImageUrl, nicknameValidation ->
+        val state = _stateFlow.value
+        val isNicknameChanged =
+            nicknameField.trim().toString() != state.originalNickname
+        val isBioChanged = bioField.trim().toString() != state.originalBio
+        val isProfileImageChanged = profileImageUrl != state.originalProfileImageUrl
+
+        val isAnyFieldChanged =
+            isNicknameChanged || isBioChanged || isProfileImageChanged
+
+        isAnyFieldChanged && nicknameValidation.isValid && !state.isSubmitting
+
+    }
 
     init {
         getProfile()
@@ -99,23 +121,29 @@ class ProfileEditViewModel(
                             nicknameValidationResult = NicknameValidationResult.Validating,
                         )
                     }
-                    validateNicknameUseCase(nickname.trim().toString()).fold(
-                        ifLeft = { failure ->
-                            logger.error(TAG, "Failed to validate nickname: $nickname")
-                            eventChannel.send(ProfileEditEvent.ShowError(failure.asUiText()))
-                            _stateFlow.update { state ->
-                                state.copy(
-                                    nicknameValidationResult =
-                                        NicknameValidationResult.Invalid(Unknown),
-                                )
-                            }
-                        },
-                        ifRight = { validationResult ->
-                            _stateFlow.update { state ->
-                                state.copy(nicknameValidationResult = validationResult)
-                            }
-                        },
-                    )
+                    if (_stateFlow.value.isNicknameChanged) {
+                        validateNicknameUseCase(nickname.trim().toString()).fold(
+                            ifLeft = { failure ->
+                                logger.error(TAG, "Failed to validate nickname: $nickname")
+                                eventChannel.send(ProfileEditEvent.ShowError(failure.asUiText()))
+                                _stateFlow.update { state ->
+                                    state.copy(
+                                        nicknameValidationResult =
+                                            NicknameValidationResult.Invalid(Unknown),
+                                    )
+                                }
+                            },
+                            ifRight = { validationResult ->
+                                _stateFlow.update { state ->
+                                    state.copy(nicknameValidationResult = validationResult)
+                                }
+                            },
+                        )
+                    } else {
+                        _stateFlow.update { state ->
+                            state.copy(nicknameValidationResult = NicknameValidationResult.Idle)
+                        }
+                    }
                 }
         }
     }
@@ -143,7 +171,7 @@ class ProfileEditViewModel(
                     val newUrl = (progress as? Success)?.result?.url
 
                     state.copy(
-                        photoUploadItem = state.photoUploadItem?.copy(uploadProgress = progress),
+                        photoUploadItem = item.copy(uploadProgress = progress),
                         profileImageUrl = newUrl ?: state.profileImageUrl,
                     )
                 }

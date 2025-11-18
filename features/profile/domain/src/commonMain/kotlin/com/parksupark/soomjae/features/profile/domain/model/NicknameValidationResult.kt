@@ -15,4 +15,4 @@ sealed class NicknameValidationResult {
 }
 
 val NicknameValidationResult.isValid: Boolean
-    get() = this is NicknameValidationResult.Valid
+    get() = this is NicknameValidationResult.Valid || this is NicknameValidationResult.Idle

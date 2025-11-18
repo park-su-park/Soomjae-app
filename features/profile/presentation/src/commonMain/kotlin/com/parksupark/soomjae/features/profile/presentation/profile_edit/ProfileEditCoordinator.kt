@@ -12,6 +12,8 @@ class ProfileEditCoordinator(
     val screenStateFlow = viewModel.stateFlow
     val eventFlow = viewModel.events
 
+    val canSubmit = viewModel.canSubmit
+
     fun handle(action: ProfileEditAction) {
         when (action) {
             ProfileEditAction.OnBackClick -> navigateBack()

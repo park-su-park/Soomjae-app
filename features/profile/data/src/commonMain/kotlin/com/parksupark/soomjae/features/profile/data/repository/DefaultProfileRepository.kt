@@ -49,8 +49,8 @@ internal class DefaultProfileRepository(
 
     override suspend fun isNicknameAvailable(nickname: String): Either<DataFailure, Boolean> {
         return remoteSource.checkNicknameDuplicate(CheckNicknameDuplicateRequest(nickname))
-            .map { isDuplicated ->
-                !isDuplicated
+            .map { response ->
+                !response.isDuplicated
             }
     }
 }

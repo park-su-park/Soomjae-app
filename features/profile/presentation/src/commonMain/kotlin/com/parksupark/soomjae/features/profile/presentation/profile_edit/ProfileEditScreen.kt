@@ -35,6 +35,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeS
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.components.ProfileImage
+import com.parksupark.soomjae.features.profile.presentation.profile_edit.model.mapper.message
 import io.github.vinceglb.filekit.PlatformFile
 import io.github.vinceglb.filekit.dialogs.FileKitType
 import io.github.vinceglb.filekit.dialogs.compose.rememberFilePickerLauncher
@@ -43,6 +44,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 internal fun ProfileEditScreen(
     state: ProfileEditState,
+    canSubmit: Boolean,
     onAction: (ProfileEditAction) -> Unit,
 ) {
     SoomjaeScaffold(
@@ -50,7 +52,7 @@ internal fun ProfileEditScreen(
         topBar = {
             ProfileEditTopBar(
                 onBackClick = { onAction(ProfileEditAction.OnBackClick) },
-                canSubmit = state.canSubmit,
+                canSubmit = canSubmit,
                 onSubmitClick = { onAction(ProfileEditAction.OnSubmitClick) },
             )
         }
@@ -120,7 +122,7 @@ private fun ProfileEditContent(
         NicknameField(
             state = state.inputNickname,
             hint = state.originalNickname,
-            error = null,
+            error = state.nicknameValidationResult.message,
             modifier = Modifier.padding(horizontal = 16.dp),
         )
 
@@ -226,6 +228,7 @@ private fun ProfileEditScreenPreview() {
     AppTheme {
         ProfileEditScreen(
             state = ProfileEditState(),
+            canSubmit = false,
             onAction = { },
         )
     }
