@@ -28,6 +28,7 @@ kotlin {
             implementation(projects.features.posts.aggregate.domain)
             implementation(projects.features.posts.aggregate.presentation)
             implementation(projects.features.profile.data)
+            implementation(projects.features.profile.domain)
             implementation(projects.features.profile.presentation)
             implementation(projects.features.setting.presentation)
         }
