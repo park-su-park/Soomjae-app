@@ -150,7 +150,7 @@ class ProfileEditViewModel(
 
     fun uploadProfileImage(file: PlatformFile) {
         viewModelScope.launch {
-            val photoUploadItem = with(dispatcher.io) { file.toPhotoUploadItem() }
+            val photoUploadItem = withContext(dispatcher.io) { file.toPhotoUploadItem() }
 
             performImageUpload(photoUploadItem)
         }
