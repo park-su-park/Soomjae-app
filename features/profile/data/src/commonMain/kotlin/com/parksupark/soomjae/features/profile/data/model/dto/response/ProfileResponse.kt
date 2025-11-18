@@ -7,6 +7,8 @@ import kotlinx.serialization.Serializable
 data class ProfileResponse(
     @SerialName("memberId") val memberId: Long,
     @SerialName("nickname") val nickname: String,
-    @SerialName("bio") val bio: String,
+    @SerialName("bio") private val _bio: String?,
     @SerialName("profileImageUrl") val profileImageUrl: String,
-)
+) {
+    val bio: String get() = _bio ?: ""
+}
