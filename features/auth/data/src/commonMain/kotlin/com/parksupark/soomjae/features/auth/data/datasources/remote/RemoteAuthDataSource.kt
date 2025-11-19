@@ -22,13 +22,11 @@ internal class RemoteAuthDataSource(
     suspend fun register(
         email: String,
         password: String,
-        nickname: String,
     ): Either<DataFailure.Network, Unit> = httpClient.post<RegisterRequest, Unit>(
         route = "/v1/members/create-member",
         body = RegisterRequest(
             email = email,
             password = password,
-            nickname = nickname,
         ),
     )
 

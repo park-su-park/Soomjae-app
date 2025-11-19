@@ -1,19 +1,15 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.participant_list.components
 
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeListItem
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSurface
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
+import com.parksupark.soomjae.core.presentation.ui.components.ProfileImage
 import com.parksupark.soomjae.core.presentation.ui.resources.value
-import com.parksupark.soomjae.core.presentation.ui.utils.imageRequest
 import com.parksupark.soomjae.features.posts.meeting.presentation.participant_list.model.ParticipantUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.Res
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.participant_list_item_nth_participant
@@ -41,11 +37,9 @@ internal fun ParticipantListItem(
         },
         modifier = modifier,
         leadingContent = {
-            AsyncImage(
-                model = imageRequest { data(participant.profileImageUrl) },
-                contentDescription = null,
-                modifier = Modifier.size(48.dp)
-                    .clip(MaterialTheme.shapes.medium),
+            ProfileImage(
+                imageUrl = participant.profileImageUrl,
+                size = 48.dp,
             )
         },
     )

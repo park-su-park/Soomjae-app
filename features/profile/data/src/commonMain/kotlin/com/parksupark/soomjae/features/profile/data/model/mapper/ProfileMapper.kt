@@ -11,8 +11,8 @@ internal fun ProfileResponse.toProfile() = Profile(
     profileImageUrl = this.profileImageUrl
 )
 
-internal fun Profile.toPutProfileRequest() = PutProfileRequest(
-    nickname = this.nickname,
+internal fun Profile.toPutProfileRequest(originalNickname: String) = PutProfileRequest(
+    nickname = if (this.nickname == originalNickname) null else this.nickname,
     bio = this.bio,
     profileImageUrl = this.profileImageUrl
 )

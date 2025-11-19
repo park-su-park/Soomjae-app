@@ -17,11 +17,9 @@ internal class AuthRepositoryImpl(
     override suspend fun register(
         email: String,
         password: String,
-        nickname: String,
     ): Either<DataFailure.Network, Unit> = remoteAuthDataSource.register(
         email = email,
         password = password,
-        nickname = nickname,
     )
 
     override suspend fun login(

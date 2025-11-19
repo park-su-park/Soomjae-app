@@ -16,13 +16,13 @@ internal class ProfileRemoteDataSource(
 ) {
     suspend fun fetchProfile(memberId: Long): Either<DataFailure.Network, ProfileResponse> {
         return httpClient.get<ProfileResponse>(
-            route = "/v1/member/${memberId}/profiles"
+            route = "/v1/members/${memberId}/profiles"
         )
     }
 
     suspend fun putProfile(request: PutProfileRequest): Either<DataFailure.Network, ProfileResponse> {
         return httpClient.put<PutProfileRequest, ProfileResponse>(
-            route = "/v1/member",
+            route = "/v1/members/profiles",
             body = request,
         )
     }
@@ -31,7 +31,7 @@ internal class ProfileRemoteDataSource(
         request: CheckNicknameDuplicateRequest,
     ): Either<DataFailure, CheckNicknameDuplicateResponse> {
         return httpClient.post<CheckNicknameDuplicateRequest, CheckNicknameDuplicateResponse>(
-            route = "/v1/member/profiles/check-duplicate-nickname",
+            route = "/v1/members/profiles/check-duplicate-nickname",
             body = request,
         )
     }

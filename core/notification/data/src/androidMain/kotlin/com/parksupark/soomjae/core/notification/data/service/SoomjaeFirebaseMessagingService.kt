@@ -34,7 +34,7 @@ class SoomjaeFirebaseMessagingService : FirebaseMessagingService() {
             } else {
                 logger.error(
                     TAG,
-                    "onNewToken: User not logged in or deviceId is null, skipping token registration. deviceId=$deviceId",
+                    "onNewToken: User not logged in or deviceId is null, skipping token registration.",
                 )
             }
         }

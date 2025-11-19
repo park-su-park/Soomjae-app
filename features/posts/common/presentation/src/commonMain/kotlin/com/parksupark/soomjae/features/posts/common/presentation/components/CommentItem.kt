@@ -1,18 +1,22 @@
 package com.parksupark.soomjae.features.posts.common.presentation.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
+import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
-import com.parksupark.soomjae.core.presentation.ui.utils.imageRequest
+import com.parksupark.soomjae.core.presentation.ui.components.ProfileImage
+import com.parksupark.soomjae.features.posts.common.presentation.models.AuthorUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.CommentUi
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun CommentItem(
@@ -20,13 +24,12 @@ fun CommentItem(
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier.padding(16.dp),
+        modifier = modifier.background(color = SoomjaeTheme.colorScheme.background1).padding(16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        AsyncImage(
-            model = imageRequest { data(comment.author.profileImageUrl) },
-            contentDescription = null,
-            modifier = Modifier.size(40.dp),
+        ProfileImage(
+            imageUrl = comment.author.profileImageUrl,
+            size = 40.dp
         )
 
         Column(
@@ -44,5 +47,25 @@ fun CommentItem(
                 ),
             )
         }
+    }
+}
+
+@OptIn(ExperimentalTime::class)
+@Preview
+@Composable
+private fun CommentItemPreview() {
+    AppTheme {
+        CommentItem(
+            comment = CommentUi(
+                id = 1L,
+                content = "This is a sample comment for preview purposes.",
+                author = AuthorUi(
+                    id = "user123",
+                    nickname = "SampleUser",
+                    profileImageUrl = "https://via.placeholder.com/150"
+                ),
+                createdAt = Clock.System.now()
+            )
+        )
     }
 }

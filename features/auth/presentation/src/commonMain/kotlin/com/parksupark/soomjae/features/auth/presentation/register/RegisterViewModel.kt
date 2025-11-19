@@ -59,22 +59,13 @@ class RegisterViewModel(
             }
         }.launchIn(viewModelScope)
 
-        uiState.value.inputNickname.collectAsFlow().onEach { nickname ->
-            val isNicknameValid = userDataValidator.isValidNickname(nickname.toString())
-            _uiState.update {
-                it.copy(isNicknameValid = isNicknameValid)
-            }
-        }.launchIn(viewModelScope)
-
         uiState.distinctUntilChanged { old, new ->
             old.passwordValidationState == new.passwordValidationState &&
                 old.isPasswordMatch == new.isPasswordMatch &&
-                old.isNicknameValid == new.isNicknameValid &&
                 old.isRegistering == new.isRegistering
         }.map { state ->
             state.passwordValidationState.isValidPassword &&
                 state.isPasswordMatch &&
-                state.isNicknameValid &&
                 !state.isRegistering
         }.onEach { canRegister ->
             _uiState.update {
@@ -89,11 +80,9 @@ class RegisterViewModel(
 
             val email = uiState.value.email.text.toString().trim()
             val password = uiState.value.inputPassword.text.toString().trim()
-            val nickname = uiState.value.inputNickname.text.toString().trim()
             val result = authRepository.register(
                 email = email,
                 password = password,
-                nickname = nickname,
             )
             _uiState.update { it.copy(isRegistering = false) }
 

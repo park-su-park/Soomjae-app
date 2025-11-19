@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private const val TAG = "SettingViewModel"
 
@@ -81,7 +82,7 @@ internal class SettingViewModel(
             if (deviceId == null) {
                 logger.warn(TAG, "Device ID is null during logout")
             } else {
-                val unregisterToken = with(dispatcher.io) {
+                val unregisterToken = withContext(dispatcher.io) {
                     deviceTokenService.unregisterToken(deviceId)
                 }
                 unregisterToken.fold(

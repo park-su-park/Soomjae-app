@@ -193,7 +193,7 @@ private fun CommentBottomSheetPreview() {
                         author = AuthorUi(
                             id = it.toString(),
                             nickname = "User$it",
-                            profileImageUrl = null,
+                            profileImageUrl = "",
                         ),
                         createdAt = Clock.System.now(),
                     )
