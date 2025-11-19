@@ -39,7 +39,6 @@ import com.parksupark.soomjae.features.auth.presentation.resources.register_emai
 import com.parksupark.soomjae.features.auth.presentation.resources.register_login_button_1
 import com.parksupark.soomjae.features.auth.presentation.resources.register_login_button_2
 import com.parksupark.soomjae.features.auth.presentation.resources.register_navigate_up_description
-import com.parksupark.soomjae.features.auth.presentation.resources.register_nickname_hint
 import com.parksupark.soomjae.features.auth.presentation.resources.register_password_confirm_hint
 import com.parksupark.soomjae.features.auth.presentation.resources.register_password_different_error
 import com.parksupark.soomjae.features.auth.presentation.resources.register_password_hint
@@ -118,7 +117,6 @@ private fun InputSection(
             confirmPassword = state.inputConfirmPassword,
             arePasswordsMatching = state.isPasswordMatch,
         )
-        NicknameTextField(nickname = state.inputNickname)
     }
 }
 
@@ -177,15 +175,6 @@ private fun ConfirmPasswordTextField(
             null
         },
         inputTransformation = PasswordAllowedCharactersTransformation,
-    )
-}
-
-@Composable
-private fun NicknameTextField(nickname: TextFieldState) {
-    SoomjaeOutlinedTextField(
-        state = nickname,
-        title = stringResource(Res.string.register_nickname_hint),
-        hint = stringResource(Res.string.register_nickname_hint),
     )
 }
 
