@@ -21,7 +21,7 @@ class KtorDeviceTokenService(
         body = RegisterDeviceTokenRequest(
             token = token,
             deviceId = deviceId,
-            platform = platform,
+            // platform = platform,
         ),
     )
 
