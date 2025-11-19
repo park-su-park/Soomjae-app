@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -45,7 +44,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeButton
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCircularProgressIndicator
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeHorizontalDivider
@@ -55,8 +53,8 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeT
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeVerticalDivider
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.like
+import com.parksupark.soomjae.core.presentation.ui.components.ProfileImage
 import com.parksupark.soomjae.core.presentation.ui.resources.value
-import com.parksupark.soomjae.core.presentation.ui.utils.imageRequest
 import com.parksupark.soomjae.features.posts.common.presentation.components.CommentInputBar
 import com.parksupark.soomjae.features.posts.common.presentation.components.CommentItem
 import com.parksupark.soomjae.features.posts.common.presentation.components.PostDetailTitleHeader
@@ -218,10 +216,9 @@ private fun PostDetailAuthorHeader(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        AsyncImage(
-            model = imageRequest { data(author.profileImageUrl) },
-            contentDescription = null,
-            modifier = Modifier.size(48.dp),
+        ProfileImage(
+            imageUrl = author.profileImageUrl,
+            size = 48.dp,
         )
 
         Column(modifier = Modifier.weight(1f)) {
