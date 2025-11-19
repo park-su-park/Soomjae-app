@@ -10,10 +10,12 @@ import com.parksupark.soomjae.features.profile.domain.repository.ProfileReposito
 import com.parksupark.soomjae.features.profile.presentation.profile.model.UserUi
 import com.parksupark.soomjae.features.profile.presentation.profile.model.mapper.toUserUi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -30,7 +32,13 @@ internal class ProfileViewModel(
     private val _state = MutableStateFlow<ProfileState>(
         ProfileState.My(isLoggedIn = false)
     )
-    val state: StateFlow<ProfileState> = _state.asStateFlow()
+    val state: StateFlow<ProfileState> = _state.onStart {
+        observeAuthState()
+    }.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(),
+        _state.value
+    )
 
     init {
         observeAuthState()
