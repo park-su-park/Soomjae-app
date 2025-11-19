@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PutProfileRequest(
-    @SerialName("nickname") val nickname: String,
+    @SerialName("nickname") val nickname: String? = null,
     @SerialName("bio") val bio: String,
     @SerialName("profileImageUrl") val profileImageUrl: String?,
 )

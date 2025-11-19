@@ -201,6 +201,7 @@ class ProfileEditViewModel(
                         bio = _stateFlow.value.inputBio.text.trim().toString(),
                         profileImageUrl = _stateFlow.value.profileImageUrl,
                     ),
+                    originalNickname = state.originalNickname
                 )
             }
 

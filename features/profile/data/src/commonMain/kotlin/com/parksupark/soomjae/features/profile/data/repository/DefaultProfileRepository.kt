@@ -39,8 +39,11 @@ internal class DefaultProfileRepository(
         }
     }
 
-    override suspend fun updateProfile(newProfile: Profile): Either<DataFailure, Profile> {
-        return remoteSource.putProfile(newProfile.toPutProfileRequest()).map { response ->
+    override suspend fun updateProfile(
+        newProfile: Profile,
+        originalNickname: String,
+    ): Either<DataFailure, Profile> {
+        return remoteSource.putProfile(newProfile.toPutProfileRequest(originalNickname)).map { response ->
             val updatedProfile = response.toProfile()
             cacheSource.upsertProfile(updatedProfile)
             updatedProfile
