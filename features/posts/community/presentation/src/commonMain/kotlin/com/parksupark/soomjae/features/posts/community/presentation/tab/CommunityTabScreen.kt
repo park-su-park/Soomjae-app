@@ -20,11 +20,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import app.cash.paging.LoadStateError
-import app.cash.paging.LoadStateLoading
-import app.cash.paging.LoadStateNotLoading
-import app.cash.paging.compose.LazyPagingItems
-import app.cash.paging.compose.itemKey
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.itemKey
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeCircularProgressIndicator
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeFilterChip
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeHorizontalDivider
@@ -32,8 +30,8 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeP
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
+import com.parksupark.soomjae.core.presentation.ui.paging.emptyLazyPagingItems
 import com.parksupark.soomjae.core.presentation.ui.resources.value
-import com.parksupark.soomjae.core.presentation.ui.utils.emptyLazyPagingItems
 import com.parksupark.soomjae.features.posts.common.presentation.components.MultipleSelectionDialog
 import com.parksupark.soomjae.features.posts.common.presentation.components.WritePostFab
 import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
@@ -63,14 +61,14 @@ internal fun CommunityTabScreen(
 
     LaunchedEffect(posts.loadState.refresh, onAction) {
         val refresh = posts.loadState.refresh
-        if (refresh is LoadStateNotLoading && postState.isPostsRefreshing) {
+        if (refresh is LoadState.NotLoading && postState.isPostsRefreshing) {
             onAction(CommunityTabAction.RefreshChange(false))
         }
     }
 
     SoomjaeScaffold(modifier = Modifier.fillMaxSize()) { _ ->
         val isRefreshing =
-            postState.isPostsRefreshing && posts.loadState.refresh is LoadStateLoading
+            postState.isPostsRefreshing && posts.loadState.refresh is LoadState.Loading
 
         SoomjaePullToRefreshBox(
             isRefreshing = isRefreshing,
@@ -82,11 +80,11 @@ internal fun CommunityTabScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 val refresh = posts.loadState.refresh
-                if (refresh is LoadStateLoading && !isRefreshing) {
+                if (refresh is LoadState.Loading && !isRefreshing) {
                     item {
                         SoomjaeCircularProgressIndicator()
                     }
-                } else if (refresh is LoadStateError && !isRefreshing) {
+                } else if (refresh is LoadState.Error && !isRefreshing) {
                     item {
                         Text(refresh.error.message!!)
                     }

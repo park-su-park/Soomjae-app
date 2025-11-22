@@ -1,7 +1,7 @@
 package com.parksupark.soomjae.features.posts.common.data.paging
 
+import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import app.cash.paging.PagingSource
 import com.parksupark.soomjae.core.domain.logging.SjLogger
 import com.parksupark.soomjae.features.posts.common.data.dto.response.MeetingPostResponse
 import com.parksupark.soomjae.features.posts.common.data.network.datasource.RemoteMeetingPostSource

@@ -1,11 +1,11 @@
 package com.parksupark.soomjae.features.posts.common.data.repository
 
-import app.cash.paging.PagingConfig
-import app.cash.paging.PagingData
-import app.cash.paging.createPager
-import app.cash.paging.filter
-import app.cash.paging.map
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.filter
+import androidx.paging.map
 import arrow.core.Either
+import com.parksupark.soomjae.core.common.paging.createPager
 import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.core.domain.logging.SjLogger
 import com.parksupark.soomjae.features.posts.common.data.cache.MeetingPostPatchCache

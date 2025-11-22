@@ -3,8 +3,8 @@ package com.parksupark.soomjae.features.posts.community.presentation.previews.ta
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import app.cash.paging.PagingData
-import app.cash.paging.compose.collectAsLazyPagingItems
+import androidx.paging.PagingData
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.features.posts.community.presentation.models.CommunityPostUi
 import com.parksupark.soomjae.features.posts.community.presentation.previews.providers.CommunityPostUiPreviewParameterProvider
