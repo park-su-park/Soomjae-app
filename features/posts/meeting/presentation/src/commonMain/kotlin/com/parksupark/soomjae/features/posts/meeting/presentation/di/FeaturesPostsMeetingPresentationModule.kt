@@ -49,6 +49,7 @@ private val tabModule = module {
         MeetingTabPostViewModel(
             meetingRepository = get(),
             sessionRepository = get(),
+            bus = get(),
             soomjaeEventController = get(),
         )
     }

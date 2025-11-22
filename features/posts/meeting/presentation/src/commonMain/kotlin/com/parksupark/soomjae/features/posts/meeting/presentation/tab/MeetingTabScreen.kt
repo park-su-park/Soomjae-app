@@ -2,8 +2,10 @@ package com.parksupark.soomjae.features.posts.meeting.presentation.tab
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
@@ -51,6 +53,7 @@ internal fun MeetingTabScreen(
     snackbarHostState: SnackbarHostState,
     onAction: (MeetingTabAction) -> Unit,
     posts: LazyPagingItems<MeetingPostUi>,
+    createCache: ImmutableList<MeetingPostUi>,
 ) {
     val postState = state.postState
     val filterState = state.filterState
@@ -78,6 +81,20 @@ internal fun MeetingTabScreen(
                         modifier = Modifier.fillMaxSize(),
                     )
                 }
+                items(items = createCache, key = { it.id }) {
+                    MeetingPostCard(
+                        post = it,
+                        onFavoriteClick = {
+                            onAction(MeetingTabAction.OnPostLikeClick(it.id))
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                            .clickable {
+                                onAction(MeetingTabAction.OnPostClick(it.id))
+                            }
+                            .animateItem(),
+                    )
+                    SoomjaeHorizontalDivider()
+                }
                 items(count = posts.itemCount, key = posts.itemKey { it.id }) { index ->
                     posts[index]?.let { post ->
                         MeetingPostCard(
@@ -85,10 +102,9 @@ internal fun MeetingTabScreen(
                             onFavoriteClick = {
                                 onAction(MeetingTabAction.OnPostLikeClick(post.id))
                             },
-                            modifier = Modifier.fillMaxSize()
-                                .clickable {
-                                    onAction(MeetingTabAction.OnPostClick(post.id))
-                                },
+                            modifier = Modifier.fillMaxWidth().clickable {
+                                onAction(MeetingTabAction.OnPostClick(post.id))
+                            },
                         )
                         SoomjaeHorizontalDivider()
                     }

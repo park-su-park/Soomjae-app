@@ -16,6 +16,7 @@ import com.parksupark.soomjae.features.posts.common.data.dto.response.toMeetingP
 import com.parksupark.soomjae.features.posts.common.data.network.datasource.RemoteMeetingPostSource
 import com.parksupark.soomjae.features.posts.common.data.network.dto.toPutMeetingPostRequest
 import com.parksupark.soomjae.features.posts.common.data.paging.MeetingPagingSource
+import com.parksupark.soomjae.features.posts.common.domain.event.MeetingPostEventBus
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPost
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostDetail
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostFilter
@@ -37,6 +38,7 @@ internal class DefaultMeetingPostRepository(
     private val logger: SjLogger,
     private val patchCache: MeetingPostPatchCache,
     private val remoteSource: RemoteMeetingPostSource,
+    private val bus: MeetingPostEventBus,
 ) : MeetingPostRepository {
 
     override suspend fun createPost(
@@ -48,6 +50,7 @@ internal class DefaultMeetingPostRepository(
         endAt: Instant,
         maxParticipants: Long?,
     ): Either<DataFailure.Network, NewPost> {
+        val maxParticipants = maxParticipants ?: -1
         return remoteSource.createPost(
             request = PostMeetingPostRequest(
                 title = title,
@@ -56,19 +59,23 @@ internal class DefaultMeetingPostRepository(
                 locationCode = locationCode,
                 startAt = startAt.toDeprecatedInstant(),
                 endAt = endAt.toDeprecatedInstant(),
-                maxParticipants = maxParticipants ?: -1,
+                maxParticipants = maxParticipants,
             ),
         ).map { response: PostMeetingPostResponse ->
-            patchCache.applyCreate(
+            val newId = response.id
+            bus.emitCreated(
                 MeetingPost.createNew(
-                    id = response.id,
+                    id = newId,
                     title = title,
                     content = content,
-                    maxParticipationCount =  maxParticipants?.toInt() ?: Int.MAX_VALUE,
-                    period = RecruitmentPeriod(startTime = startAt, endTime = endAt),
-                )
+                    maxParticipationCount = maxParticipants.toInt(),
+                    period = RecruitmentPeriod(
+                        startTime = startAt,
+                        endTime = endAt,
+                    ),
+                ),
             )
-            NewPost(id = response.id)
+            NewPost(id = newId)
         }
     }
 

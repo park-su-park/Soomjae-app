@@ -9,13 +9,6 @@ internal class MeetingPostPatchCache(
 ) {
     val modifiedPostsStream = delegate.updates
 
-    fun applyCreate(post: MeetingPost) {
-        delegate.update(
-            post.id,
-            MeetingPostPatch.Created(post = post),
-        )
-    }
-
     fun applyLike(
         postId: Long,
         liked: Boolean,

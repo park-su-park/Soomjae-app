@@ -13,6 +13,7 @@ import com.parksupark.soomjae.features.posts.meeting.presentation.tab.MeetingTab
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.MeetingTabState
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.MeetingPostUi
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 @Preview(name = "MeetingTab")
@@ -26,9 +27,10 @@ private fun MeetingTabScreenPreview(
         SoomjaeSurface {
             MeetingTabScreen(
                 state = MeetingTabState(),
+                snackbarHostState = remember { SnackbarHostState() },
                 onAction = { },
                 posts = lazyPagingItemsOf(posts),
-                snackbarHostState = remember { SnackbarHostState() },
+                createCache = persistentListOf(),
             )
         }
     }

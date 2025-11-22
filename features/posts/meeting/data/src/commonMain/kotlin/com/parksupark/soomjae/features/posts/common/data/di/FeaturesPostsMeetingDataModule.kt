@@ -27,6 +27,7 @@ private val meetingPostModule = module {
             logger = get(),
             patchCache = get(),
             remoteSource = get(),
+            bus = get(),
         )
     }.bind(MeetingPostRepository::class)
 }

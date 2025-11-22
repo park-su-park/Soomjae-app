@@ -24,6 +24,7 @@ fun MeetingTabRoute(
 ) {
     val uiState by coordinator.screenStateFlow.collectAsStateWithLifecycle()
     val posts = coordinator.posts.collectAsLazyPagingItems()
+    val createCache by coordinator.createCache.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
 
     val actionsHandler: (MeetingTabAction) -> Unit = { action ->
@@ -59,5 +60,6 @@ fun MeetingTabRoute(
         snackbarHostState = snackbarHostState,
         onAction = actionsHandler,
         posts = posts,
+        createCache = createCache,
     )
 }
