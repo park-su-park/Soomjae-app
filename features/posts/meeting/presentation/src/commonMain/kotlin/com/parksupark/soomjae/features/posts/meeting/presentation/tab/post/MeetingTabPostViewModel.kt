@@ -25,7 +25,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -62,13 +64,13 @@ class MeetingTabPostViewModel(
     }
 
     private fun observeCreatedEvent() {
-        viewModelScope.launch {
-            bus.created.collect { post ->
-                _createdCache.update { currentList ->
-                    (listOf(post.toMeetingPostUi()) + currentList).toPersistentList()
-                }
+        bus.created.onEach { post ->
+            _createdCache.update { currentList ->
+                (listOf(post.toMeetingPostUi()) + currentList).toPersistentList()
             }
-        }
+
+            eventChannel.send(MeetingTabPostEvent.PostCreated)
+        }.launchIn(viewModelScope)
     }
 
     fun handleWritePostClick() {

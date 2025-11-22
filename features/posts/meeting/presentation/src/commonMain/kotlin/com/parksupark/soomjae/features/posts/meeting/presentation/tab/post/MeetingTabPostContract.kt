@@ -12,4 +12,6 @@ sealed interface MeetingTabPostEvent {
     data object NavigateToMeetingWrite : MeetingTabPostEvent
 
     data object RefreshPost : MeetingTabPostEvent
+
+    data object PostCreated : MeetingTabPostEvent
 }

@@ -1,5 +1,6 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.previews
 
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -31,6 +32,7 @@ private fun MeetingTabScreenPreview(
                 onAction = { },
                 posts = lazyPagingItemsOf(posts),
                 createCache = persistentListOf(),
+                listState = rememberLazyListState(),
             )
         }
     }

@@ -1,5 +1,6 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.tab
 
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,6 +33,7 @@ fun MeetingTabRoute(
     }
 
     val scope = rememberCoroutineScope()
+    val listState = rememberLazyListState()
     ObserveAsEvents(
         flow = coordinator.events,
     ) { event ->
@@ -51,6 +53,12 @@ fun MeetingTabRoute(
                     actionsHandler(RefreshChange(true))
                     posts.refresh()
                 }
+
+                MeetingTabPostEvent.PostCreated -> {
+                    scope.launch {
+                        listState.animateScrollToItem(0)
+                    }
+                }
             }
         }
     }
@@ -61,5 +69,6 @@ fun MeetingTabRoute(
         onAction = actionsHandler,
         posts = posts,
         createCache = createCache,
+        listState = listState,
     )
 }

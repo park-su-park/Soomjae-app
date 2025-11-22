@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarHostState
@@ -54,6 +55,7 @@ internal fun MeetingTabScreen(
     onAction: (MeetingTabAction) -> Unit,
     posts: LazyPagingItems<MeetingPostUi>,
     createCache: ImmutableList<MeetingPostUi>,
+    listState: LazyListState,
 ) {
     val postState = state.postState
     val filterState = state.filterState
@@ -73,7 +75,7 @@ internal fun MeetingTabScreen(
             modifier = Modifier.fillMaxSize(),
             state = rememberPullToRefreshState(),
         ) {
-            LazyColumn {
+            LazyColumn(state = listState) {
                 stickyHeader {
                     FilterChipRow(
                         state = filterState,
