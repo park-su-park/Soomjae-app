@@ -1,7 +1,7 @@
 package com.parksupark.soomjae.features.posts.community.data.paging
 
-import app.cash.paging.PagingSource
-import app.cash.paging.PagingState
+import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import com.parksupark.soomjae.features.posts.community.data.remote.dto.CommunityPostResponse
 import com.parksupark.soomjae.features.posts.community.data.remote.source.CommunityRemoteSource
 import kotlinx.io.IOException

@@ -2,8 +2,11 @@ package com.parksupark.soomjae.features.posts.meeting.presentation.tab
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
@@ -17,8 +20,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
-import app.cash.paging.compose.LazyPagingItems
-import app.cash.paging.compose.itemKey
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.itemKey
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeHorizontalDivider
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaePullToRefreshBox
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
@@ -51,6 +54,8 @@ internal fun MeetingTabScreen(
     snackbarHostState: SnackbarHostState,
     onAction: (MeetingTabAction) -> Unit,
     posts: LazyPagingItems<MeetingPostUi>,
+    createCache: ImmutableList<MeetingPostUi>,
+    listState: LazyListState,
 ) {
     val postState = state.postState
     val filterState = state.filterState
@@ -70,13 +75,27 @@ internal fun MeetingTabScreen(
             modifier = Modifier.fillMaxSize(),
             state = rememberPullToRefreshState(),
         ) {
-            LazyColumn {
+            LazyColumn(state = listState) {
                 stickyHeader {
                     FilterChipRow(
                         state = filterState,
                         onAction = onAction,
                         modifier = Modifier.fillMaxSize(),
                     )
+                }
+                items(items = createCache, key = { it.id }) {
+                    MeetingPostCard(
+                        post = it,
+                        onFavoriteClick = {
+                            onAction(MeetingTabAction.OnPostLikeClick(it.id))
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                            .clickable {
+                                onAction(MeetingTabAction.OnPostClick(it.id))
+                            }
+                            .animateItem(),
+                    )
+                    SoomjaeHorizontalDivider()
                 }
                 items(count = posts.itemCount, key = posts.itemKey { it.id }) { index ->
                     posts[index]?.let { post ->
@@ -85,10 +104,9 @@ internal fun MeetingTabScreen(
                             onFavoriteClick = {
                                 onAction(MeetingTabAction.OnPostLikeClick(post.id))
                             },
-                            modifier = Modifier.fillMaxSize()
-                                .clickable {
-                                    onAction(MeetingTabAction.OnPostClick(post.id))
-                                },
+                            modifier = Modifier.fillMaxWidth().clickable {
+                                onAction(MeetingTabAction.OnPostClick(post.id))
+                            },
                         )
                         SoomjaeHorizontalDivider()
                     }

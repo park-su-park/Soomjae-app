@@ -3,7 +3,7 @@ package com.parksupark.soomjae.features.posts.community.presentation.tab
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import app.cash.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.parksupark.soomjae.core.presentation.ui.ObserveAsEvents
 import com.parksupark.soomjae.features.posts.common.presentation.PostAction
 import com.parksupark.soomjae.features.posts.community.presentation.tab.post.CommunityTabPostEvent

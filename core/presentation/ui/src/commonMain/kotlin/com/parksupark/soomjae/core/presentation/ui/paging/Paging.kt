@@ -1,9 +1,9 @@
-package com.parksupark.soomjae.core.presentation.ui.utils
+package com.parksupark.soomjae.core.presentation.ui.paging
 
 import androidx.compose.runtime.Composable
 import androidx.paging.PagingData
-import app.cash.paging.compose.LazyPagingItems
-import app.cash.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.flow.flowOf
 

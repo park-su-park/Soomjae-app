@@ -13,13 +13,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
-import app.cash.paging.compose.LazyPagingItems
-import app.cash.paging.compose.itemKey
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.itemKey
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaePullToRefreshBox
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.ui.components.SoomjaeSnackbarHost
-import com.parksupark.soomjae.core.presentation.ui.utils.emptyLazyPagingItems
+import com.parksupark.soomjae.core.presentation.ui.paging.emptyLazyPagingItems
 import com.parksupark.soomjae.features.posts.common.presentation.components.WritePostFab
 import com.parksupark.soomjae.features.posts.member.presentation.post_list.components.MemberPostListItem
 import com.parksupark.soomjae.features.posts.member.presentation.post_list.models.MemberPostUi

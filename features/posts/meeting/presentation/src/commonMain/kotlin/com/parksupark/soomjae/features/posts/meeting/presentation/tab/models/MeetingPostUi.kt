@@ -1,6 +1,7 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.tab.models
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import com.parksupark.soomjae.core.presentation.ui.utils.toRelativeTimeString
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPost
 import com.parksupark.soomjae.features.posts.common.presentation.models.AuthorUi
@@ -13,6 +14,7 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
 @OptIn(ExperimentalTime::class)
+@Immutable
 data class MeetingPostUi(
     val id: Long,
     val title: String,
@@ -24,8 +26,7 @@ data class MeetingPostUi(
     val commentCount: Int,
     val category: CategoryUi?,
 
-    val maxParticipantCount: Int,
-    val currentParticipantCount: Int,
+    val participant: ParticipantUi,
 
     val recruitmentPeriod: RecruitmentPeriodUi,
 ) {
@@ -34,9 +35,6 @@ data class MeetingPostUi(
 
     val isExpired: Boolean
         get() = recruitmentPeriod.endTime.isBefore(Clock.System.now())
-
-    val isFull: Boolean
-        get() = currentParticipantCount >= maxParticipantCount
 }
 
 @OptIn(ExperimentalTime::class)
@@ -53,7 +51,9 @@ internal fun MeetingPost.toMeetingPostUi() = MeetingPostUi(
     likeCount = likeCount,
     commentCount = commentCount,
     category = category?.toUi(),
-    maxParticipantCount = maxParticipationCount,
-    currentParticipantCount = currentParticipantCount,
+    participant = ParticipantUi(
+        max = if (maxParticipationCount == -1) null else maxParticipationCount,
+        current = currentParticipantCount,
+    ),
     recruitmentPeriod = recruitmentPeriod.toRecruitmentPeriodUi(),
 )

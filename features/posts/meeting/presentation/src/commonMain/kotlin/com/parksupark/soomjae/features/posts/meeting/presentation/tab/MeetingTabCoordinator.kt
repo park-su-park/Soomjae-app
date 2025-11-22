@@ -35,6 +35,7 @@ class MeetingTabCoordinator(
         initialValue = MeetingTabState(),
     )
     internal val posts = postViewModel.posts
+    internal val createCache = postViewModel.createdCache
     internal val events: Flow<MeetingTabEvent> = merge(
         filterViewModel.events.map { MeetingTabEvent.FromFilter(it) },
         postViewModel.events.map { MeetingTabEvent.FromPost(it) },

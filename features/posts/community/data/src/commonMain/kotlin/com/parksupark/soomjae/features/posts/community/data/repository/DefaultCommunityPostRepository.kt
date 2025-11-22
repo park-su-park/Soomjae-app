@@ -1,10 +1,10 @@
 package com.parksupark.soomjae.features.posts.community.data.repository
 
+import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import app.cash.paging.PagingConfig
-import app.cash.paging.createPager
 import arrow.core.Either
+import com.parksupark.soomjae.core.common.paging.createPager
 import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.features.posts.common.domain.models.NewPost
 import com.parksupark.soomjae.features.posts.community.data.cache.CommunityPostPatchCache

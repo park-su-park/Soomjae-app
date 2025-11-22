@@ -1,12 +1,13 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.tab
 
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import app.cash.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.parksupark.soomjae.core.presentation.ui.ObserveAsEvents
 import com.parksupark.soomjae.core.presentation.ui.components.showSnackbar
 import com.parksupark.soomjae.features.posts.common.presentation.PostAction
@@ -24,6 +25,7 @@ fun MeetingTabRoute(
 ) {
     val uiState by coordinator.screenStateFlow.collectAsStateWithLifecycle()
     val posts = coordinator.posts.collectAsLazyPagingItems()
+    val createCache by coordinator.createCache.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
 
     val actionsHandler: (MeetingTabAction) -> Unit = { action ->
@@ -31,6 +33,7 @@ fun MeetingTabRoute(
     }
 
     val scope = rememberCoroutineScope()
+    val listState = rememberLazyListState()
     ObserveAsEvents(
         flow = coordinator.events,
     ) { event ->
@@ -50,6 +53,12 @@ fun MeetingTabRoute(
                     actionsHandler(RefreshChange(true))
                     posts.refresh()
                 }
+
+                MeetingTabPostEvent.PostCreated -> {
+                    scope.launch {
+                        listState.animateScrollToItem(0)
+                    }
+                }
             }
         }
     }
@@ -59,5 +68,7 @@ fun MeetingTabRoute(
         snackbarHostState = snackbarHostState,
         onAction = actionsHandler,
         posts = posts,
+        createCache = createCache,
+        listState = listState,
     )
 }

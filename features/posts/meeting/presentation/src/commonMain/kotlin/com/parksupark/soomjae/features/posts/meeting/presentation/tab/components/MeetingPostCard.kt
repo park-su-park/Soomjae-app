@@ -20,10 +20,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
-import com.parksupark.soomjae.core.presentation.ui.utils.imageRequest
+import com.parksupark.soomjae.core.presentation.ui.components.ProfileImage
 import com.parksupark.soomjae.features.posts.common.domain.models.RecruitmentStatus
 import com.parksupark.soomjae.features.posts.common.presentation.components.PostActionItem
 import com.parksupark.soomjae.features.posts.common.presentation.components.PostCard
@@ -33,6 +32,7 @@ import com.parksupark.soomjae.features.posts.common.presentation.models.PostActi
 import com.parksupark.soomjae.features.posts.common.presentation.models.PostActionUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.detail.models.RecruitmentPeriodUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.MeetingPostUi
+import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.ParticipantUi
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.days
 import kotlin.time.ExperimentalTime
@@ -56,14 +56,11 @@ internal fun MeetingPostCard(
         },
         aboveHeader = {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                when {
-                    post.isFull -> RecruitmentStatusChip(status = RecruitmentStatus.FULL)
-                    post.isExpired -> RecruitmentStatusChip(status = RecruitmentStatus.EXPIRED)
-                    else -> RecruitmentStatusChip(status = RecruitmentStatus.RECRUITING)
-                }
-                MeetingPostCardChip(
-                    text = "${post.currentParticipantCount}/${post.maxParticipantCount}",
+                StatusChip(
+                    participant = post.participant,
+                    isExpired = post.isExpired,
                 )
+                ParticipantChip(participant = post.participant)
                 if (post.category != null) {
                     MeetingPostCardChip(text = post.category.name)
                 }
@@ -98,9 +95,8 @@ private fun PostAuthorHeader(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            AsyncImage(
-                model = imageRequest { data(author.profileImageUrl) },
-                contentDescription = null,
+            ProfileImage(
+                imageUrl = author.profileImageUrl,
                 modifier = Modifier.size(36.dp).clip(
                     RoundedCornerShape(12.dp),
                 ),
@@ -129,6 +125,24 @@ private fun PostAuthorHeader(
             },
         )
     }
+}
+
+@Composable
+private fun StatusChip(
+    participant: ParticipantUi,
+    isExpired: Boolean,
+) {
+    when {
+        participant.isFull -> RecruitmentStatusChip(status = RecruitmentStatus.FULL)
+        isExpired -> RecruitmentStatusChip(status = RecruitmentStatus.EXPIRED)
+        else -> RecruitmentStatusChip(status = RecruitmentStatus.RECRUITING)
+    }
+}
+
+@Composable
+private fun ParticipantChip(participant: ParticipantUi) {
+    val maxStr = if (participant.isLimitless) "∞" else participant.max.toString()
+    MeetingPostCardChip(text = "${participant.current}/$maxStr")
 }
 
 @Composable
@@ -207,8 +221,10 @@ private fun MeetingPostCardPreview() {
                     hierarchy = 1,
                     children = persistentListOf(),
                 ),
-                maxParticipantCount = 4,
-                currentParticipantCount = 2,
+                participant = ParticipantUi(
+                    max = 4,
+                    current = 2,
+                ),
                 recruitmentPeriod = RecruitmentPeriodUi(
                     startTime = Clock.System.now(),
                     endTime = Clock.System.now().plus(5.days),

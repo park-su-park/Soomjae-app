@@ -1,11 +1,11 @@
 package com.parksupark.soomjae.features.posts.common.data.repository
 
-import app.cash.paging.PagingConfig
-import app.cash.paging.PagingData
-import app.cash.paging.createPager
-import app.cash.paging.filter
-import app.cash.paging.map
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.filter
+import androidx.paging.map
 import arrow.core.Either
+import com.parksupark.soomjae.core.common.paging.createPager
 import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.core.domain.logging.SjLogger
 import com.parksupark.soomjae.features.posts.common.data.cache.MeetingPostPatchCache
@@ -16,11 +16,13 @@ import com.parksupark.soomjae.features.posts.common.data.dto.response.toMeetingP
 import com.parksupark.soomjae.features.posts.common.data.network.datasource.RemoteMeetingPostSource
 import com.parksupark.soomjae.features.posts.common.data.network.dto.toPutMeetingPostRequest
 import com.parksupark.soomjae.features.posts.common.data.paging.MeetingPagingSource
+import com.parksupark.soomjae.features.posts.common.domain.event.MeetingPostEventBus
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPost
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostDetail
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostFilter
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostPatch
 import com.parksupark.soomjae.features.posts.common.domain.models.NewPost
+import com.parksupark.soomjae.features.posts.common.domain.models.RecruitmentPeriod
 import com.parksupark.soomjae.features.posts.common.domain.models.UpdateMeetingPost
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
 import kotlin.time.ExperimentalTime
@@ -36,6 +38,7 @@ internal class DefaultMeetingPostRepository(
     private val logger: SjLogger,
     private val patchCache: MeetingPostPatchCache,
     private val remoteSource: RemoteMeetingPostSource,
+    private val bus: MeetingPostEventBus,
 ) : MeetingPostRepository {
 
     override suspend fun createPost(
@@ -46,18 +49,34 @@ internal class DefaultMeetingPostRepository(
         startAt: Instant,
         endAt: Instant,
         maxParticipants: Long?,
-    ): Either<DataFailure.Network, NewPost> = remoteSource.createPost(
-        request = PostMeetingPostRequest(
-            title = title,
-            content = content,
-            categoryId = categoryId,
-            locationCode = locationCode,
-            startAt = startAt.toDeprecatedInstant(),
-            endAt = endAt.toDeprecatedInstant(),
-            maxParticipants = maxParticipants ?: -1,
-        ),
-    ).map { response: PostMeetingPostResponse ->
-        NewPost(id = response.id)
+    ): Either<DataFailure.Network, NewPost> {
+        val maxParticipants = maxParticipants ?: -1
+        return remoteSource.createPost(
+            request = PostMeetingPostRequest(
+                title = title,
+                content = content,
+                categoryId = categoryId,
+                locationCode = locationCode,
+                startAt = startAt.toDeprecatedInstant(),
+                endAt = endAt.toDeprecatedInstant(),
+                maxParticipants = maxParticipants,
+            ),
+        ).map { response: PostMeetingPostResponse ->
+            val newId = response.id
+            bus.emitCreated(
+                MeetingPost.createNew(
+                    id = newId,
+                    title = title,
+                    content = content,
+                    maxParticipationCount = maxParticipants.toInt(),
+                    period = RecruitmentPeriod(
+                        startTime = startAt,
+                        endTime = endAt,
+                    ),
+                ),
+            )
+            NewPost(id = newId)
+        }
     }
 
     override fun getPostsStream(filter: MeetingPostFilter): Flow<PagingData<MeetingPost>> =
