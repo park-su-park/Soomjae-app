@@ -21,6 +21,7 @@ import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostDet
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostFilter
 import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostPatch
 import com.parksupark.soomjae.features.posts.common.domain.models.NewPost
+import com.parksupark.soomjae.features.posts.common.domain.models.RecruitmentPeriod
 import com.parksupark.soomjae.features.posts.common.domain.models.UpdateMeetingPost
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
 import kotlin.time.ExperimentalTime
@@ -46,18 +47,29 @@ internal class DefaultMeetingPostRepository(
         startAt: Instant,
         endAt: Instant,
         maxParticipants: Long?,
-    ): Either<DataFailure.Network, NewPost> = remoteSource.createPost(
-        request = PostMeetingPostRequest(
-            title = title,
-            content = content,
-            categoryId = categoryId,
-            locationCode = locationCode,
-            startAt = startAt.toDeprecatedInstant(),
-            endAt = endAt.toDeprecatedInstant(),
-            maxParticipants = maxParticipants ?: -1,
-        ),
-    ).map { response: PostMeetingPostResponse ->
-        NewPost(id = response.id)
+    ): Either<DataFailure.Network, NewPost> {
+        return remoteSource.createPost(
+            request = PostMeetingPostRequest(
+                title = title,
+                content = content,
+                categoryId = categoryId,
+                locationCode = locationCode,
+                startAt = startAt.toDeprecatedInstant(),
+                endAt = endAt.toDeprecatedInstant(),
+                maxParticipants = maxParticipants ?: -1,
+            ),
+        ).map { response: PostMeetingPostResponse ->
+            patchCache.applyCreate(
+                MeetingPost.createNew(
+                    id = response.id,
+                    title = title,
+                    content = content,
+                    maxParticipationCount =  maxParticipants?.toInt() ?: Int.MAX_VALUE,
+                    period = RecruitmentPeriod(startTime = startAt, endTime = endAt),
+                )
+            )
+            NewPost(id = response.id)
+        }
     }
 
     override fun getPostsStream(filter: MeetingPostFilter): Flow<PagingData<MeetingPost>> =

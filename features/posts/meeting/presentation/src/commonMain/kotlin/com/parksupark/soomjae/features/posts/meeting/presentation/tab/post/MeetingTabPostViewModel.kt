@@ -2,12 +2,14 @@ package com.parksupark.soomjae.features.posts.meeting.presentation.tab.post
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.insertHeaderItem
 import androidx.paging.map
 import app.cash.paging.PagingData
 import app.cash.paging.cachedIn
 import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEvent
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEventController
+import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostPatch
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
 import com.parksupark.soomjae.features.posts.meeting.presentation.models.MeetingTabFilterOption
 import com.parksupark.soomjae.features.posts.meeting.presentation.models.toDomain
@@ -20,6 +22,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -44,10 +47,28 @@ class MeetingTabPostViewModel(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     internal val posts: Flow<PagingData<MeetingPostUi>> = filterState.flatMapLatest { option ->
-        meetingRepository.getPatchedPostsStream(filter = option.toDomain())
+        meetingRepository.getPostsStream(filter = option.toDomain())
     }.map { pagingData ->
         pagingData.map { post -> post.toMeetingPostUi() }
     }.cachedIn(viewModelScope)
+        .combine(meetingRepository.postPatches) { pagingData, patches ->
+            pagingData.map { post ->
+                when (val patch = patches[post.id]) {
+                    is MeetingPostPatch.Created -> patch.post.toMeetingPostUi()
+                    is MeetingPostPatch.Updated -> patch.post.toMeetingPostUi()
+                    is MeetingPostPatch.LikeChanged -> post.copy(isUserLiked = patch.isLiked)
+                    else -> post
+                }
+            }.also {
+                patches.filter { it.value is MeetingPostPatch.Created }
+                    .forEach { entry ->
+                        (entry.value as? MeetingPostPatch.Created)?.let {
+                            val postUi = it.post.toMeetingPostUi()
+                            pagingData.insertHeaderItem(item = postUi)
+                        }
+                    }
+            }
+        }
 
     fun handleWritePostClick() {
         viewModelScope.launch {

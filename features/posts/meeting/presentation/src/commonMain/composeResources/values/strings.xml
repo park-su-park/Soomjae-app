@@ -14,7 +14,7 @@
     <string name="meeting_create_button_create_meeting">모임 생성</string>
 
     <string name="meeting_create_datetime_label">모임 날짜</string>
-    <string name="meeting_create_datetime_toggle_allday_label">종료</string>
+    <string name="meeting_create_datetime_toggle_allday_label">하루 종일</string>
     <string name="meeting_create_datetime_start_datetime_label">시작:</string>
     <string name="meeting_create_datetime_end_datetime_label">종료</string>
     <string name="meeting_create_participant_count_label">참가자 수</string>
