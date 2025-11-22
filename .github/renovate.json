@@ -3,11 +3,11 @@
     "assignees": [
         "ruh0n"
     ],
-    "baseBranches": [
+    "baseBranchPatterns": [
         "dev"
     ],
     "extends": [
-        "config:base",
+        "config:recommended",
         ":disableDependencyDashboard",
         "helpers:pinGitHubActionDigests"
     ],
@@ -19,38 +19,36 @@
         {
             "groupName": "Kotlin Dependants",
             "groupSlug": "kotlin",
-            "matchPackagePrefixes": [
-                "com.google.devtools.ksp",
-                "dev.mokkery",
-                "org.jetbrains.compose",
-                "org.jetbrains.kotlinx"
-            ],
-            "matchPackagePatterns": [
-                "org.jetbrains.kotlin.*"
+            "matchPackageNames": [
+                "com.google.devtools.ksp{/,}**",
+                "dev.mokkery{/,}**",
+                "org.jetbrains.compose{/,}**",
+                "org.jetbrains.kotlinx{/,}**",
+                "/org.jetbrains.kotlin.*/"
             ]
         },
         {
             "groupName": "Koin",
             "groupSlug": "koin",
-            "matchPackagePrefixes": [
-                "io.insert-koin"
+            "matchPackageNames": [
+                "io.insert-koin{/,}**"
             ]
         },
         {
             "groupName": "Kotest",
             "groupSlug": "kotest",
-            "matchPackagePrefixes": [
-                "io.kotest",
-                "io.kotest.extensions"
-            ],
-            "enabled": false
+            "enabled": false,
+            "matchPackageNames": [
+                "io.kotest{/,}**",
+                "io.kotest.extensions{/,}**"
+            ]
         },
         {
             "groupName": "Room",
             "groupSlug": "room",
-            "matchPackagePrefixes": [
-                "androidx.room",
-                "androidx.sqlite"
+            "matchPackageNames": [
+                "androidx.room{/,}**",
+                "androidx.sqlite{/,}**"
             ]
         },
         {
