@@ -44,6 +44,14 @@
             ]
         },
         {
+            "groupName": "Paging3",
+            "groupSlug": "paging3",
+            "matchPackageNames": [
+                "androidx.paging{/,}**"
+            ],
+            "ignoreUnstable": true
+        },
+        {
             "groupName": "Room",
             "groupSlug": "room",
             "matchPackageNames": [
