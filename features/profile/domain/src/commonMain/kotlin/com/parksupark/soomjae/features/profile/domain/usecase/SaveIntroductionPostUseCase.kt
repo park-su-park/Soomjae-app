@@ -14,7 +14,7 @@ class SaveIntroductionPostUseCase(
         current: IntroductionPost?,
         html: String,
     ): Either<DataFailure, IntroductionPost> {
-        if (sessionRepository.isLoggedIn()) {
+        if (!sessionRepository.isLoggedIn()) {
             return Either.Left(DataFailure.Validation.UNAUTHORIZED)
         }
 
