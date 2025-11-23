@@ -30,14 +30,14 @@ internal class ProfileViewModel(
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<ProfileState>(
-        ProfileState.My(isLoggedIn = false)
+        ProfileState.My(isLoggedIn = false),
     )
     val state: StateFlow<ProfileState> = _state.onStart {
         observeAuthState()
     }.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(),
-        _state.value
+        _state.value,
     )
 
     init {
@@ -62,7 +62,7 @@ internal class ProfileViewModel(
             ProfileState.My(
                 isLoggedIn = false,
                 isLoading = false,
-                user = UserUi.Default
+                user = UserUi.Default,
             )
         }
     }
@@ -76,12 +76,15 @@ internal class ProfileViewModel(
                     id = memberId,
                     nickname = "",
                     profileImageUrl = "",
-                )
+                ),
             )
         }
     }
 
-    private fun reduceWithProfile(profile: Profile, isMyProfile: Boolean) {
+    private fun reduceWithProfile(
+        profile: Profile,
+        isMyProfile: Boolean,
+    ) {
         val userUi = profile.toUserUi()
 
         _state.update {
@@ -119,7 +122,7 @@ internal class ProfileViewModel(
                 ifRight = { profile ->
                     val isMy = sessionRepository.get()?.memberId == memberId
                     reduceWithProfile(profile, isMy)
-                }
+                },
             )
         }
     }
@@ -127,10 +130,21 @@ internal class ProfileViewModel(
     fun logout() {
         viewModelScope.launch { sessionRepository.set(null) }
     }
+
+    fun getMemberId(): Long? = when (val currentState = _state.value) {
+        is ProfileState.My -> {
+            if (currentState.isLoggedIn) {
+                currentState.user.id
+            } else {
+                null
+            }
+        }
+
+        is ProfileState.Other -> currentState.user.id
+    }
 }
 
-private fun ProfileState.copyLoading(loading: Boolean): ProfileState =
-    when (this) {
-        is ProfileState.My -> copy(isLoading = loading)
-        is ProfileState.Other -> copy(isLoading = loading)
-    }
+private fun ProfileState.copyLoading(loading: Boolean): ProfileState = when (this) {
+    is ProfileState.My -> copy(isLoading = loading)
+    is ProfileState.Other -> copy(isLoading = loading)
+}
