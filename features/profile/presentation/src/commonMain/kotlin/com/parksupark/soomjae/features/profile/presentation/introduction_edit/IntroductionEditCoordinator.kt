@@ -10,6 +10,7 @@ class IntroductionEditCoordinator(
     private val navigator: ProfileNavigator,
 ) {
     val screenStateFlow = viewModel.stateFlow
+    val events = viewModel.events
 
     fun handle(action: IntroductionEditActions) {
         when (action) {
