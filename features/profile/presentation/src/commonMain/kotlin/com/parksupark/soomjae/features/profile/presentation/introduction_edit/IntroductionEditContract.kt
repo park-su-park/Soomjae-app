@@ -16,6 +16,8 @@ data class IntroductionEditState(
 
 sealed interface IntroductionEditActions {
     data object OnBackClick : IntroductionEditActions
+
+    data object OnSaveClick : IntroductionEditActions
 }
 
 sealed interface IntroductionEditEvents {

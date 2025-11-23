@@ -15,6 +15,7 @@ class IntroductionEditCoordinator(
     fun handle(action: IntroductionEditActions) {
         when (action) {
             IntroductionEditActions.OnBackClick -> navigator.navigateBack()
+            IntroductionEditActions.OnSaveClick -> viewModel.saveIntroduction()
         }
     }
 }
