@@ -30,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import com.mohamedrejeb.richeditor.model.RichTextState
@@ -226,6 +227,7 @@ private fun IntroductionEditInput(
 
             innerTextField()
         },
+        cursorBrush = SolidColor(SoomjaeTheme.colorScheme.primary),
     )
 }
 
