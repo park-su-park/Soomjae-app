@@ -96,10 +96,7 @@ class IntroductionEditViewModel(
 
             val htmlContent = currentState.richTextState.toHtml()
             val result = withContext(dispatcher.io) {
-                saveIntroductionUseCase(
-                    current = _stateFlow.value.original,
-                    html = htmlContent,
-                )
+                saveIntroductionUseCase(html = htmlContent)
             }
 
             result.fold(

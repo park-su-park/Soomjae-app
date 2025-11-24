@@ -10,18 +10,11 @@ class SaveIntroductionPostUseCase(
     private val sessionRepository: SessionRepository,
     private val repository: IntroductionPostRepository,
 ) {
-    suspend operator fun invoke(
-        current: IntroductionPost?,
-        html: String,
-    ): Either<DataFailure, IntroductionPost> {
+    suspend operator fun invoke(html: String): Either<DataFailure, IntroductionPost> {
         if (!sessionRepository.isLoggedIn()) {
             return Either.Left(DataFailure.Validation.UNAUTHORIZED)
         }
 
-        return if (current == null) {
-            repository.create(html)
-        } else {
-            repository.update(html)
-        }
+        return repository.update(html)
     }
 }

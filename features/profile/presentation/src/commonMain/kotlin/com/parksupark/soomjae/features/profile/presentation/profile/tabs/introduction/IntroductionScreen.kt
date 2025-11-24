@@ -96,7 +96,7 @@ private fun IntroductionContent(content: HtmlContent) {
     val textState = rememberRichTextState()
 
     LaunchedEffect(content) {
-        textState.setText(content)
+        textState.setHtml(content)
     }
 
     BasicRichText(
