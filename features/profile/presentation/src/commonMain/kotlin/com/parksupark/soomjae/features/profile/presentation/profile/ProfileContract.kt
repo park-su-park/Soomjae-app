@@ -27,5 +27,8 @@ sealed interface ProfileAction {
     data object OnLogoutClick : ProfileAction
 
     data object OnSettingClick : ProfileAction
+
     data class OnEditProfileClick(val memberId: Long) : ProfileAction
+
+    data class OnEditIntroductionClick(val memberId: Long) : ProfileAction
 }

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
@@ -52,6 +51,7 @@ import com.parksupark.soomjae.features.profile.presentation.profile.adapter.asAd
 import com.parksupark.soomjae.features.profile.presentation.profile.components.UserProfileCard
 import com.parksupark.soomjae.features.profile.presentation.profile.components.UserProfileCardSkeleton
 import com.parksupark.soomjae.features.profile.presentation.profile.model.UserUi
+import com.parksupark.soomjae.features.profile.presentation.profile.tabs.introduction.IntroductionTab
 import com.parksupark.soomjae.features.profile.presentation.profile.tabs.member_post.ProfileMemberPostTab
 import com.parksupark.soomjae.features.profile.presentation.resources.Res
 import com.parksupark.soomjae.features.profile.presentation.resources.my_profile_login_button
@@ -89,12 +89,14 @@ internal fun MyProfileScreen(
                 modifier = Modifier.fillMaxSize().padding(innerPadding),
             )
 
-            state.isLoggedIn -> MyProfileContent(
-                user = state.user,
-                onAction = onAction,
-                contentPadding = innerPadding,
-                modifier = Modifier.fillMaxSize(),
-            )
+            state.isLoggedIn -> {
+                MyProfileContent(
+                    user = state.user,
+                    onAction = onAction,
+                    contentPadding = innerPadding,
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
 
             else -> GuestProfileContent(
                 modifier = Modifier.fillMaxSize().padding(innerPadding),
@@ -125,6 +127,7 @@ private fun MyProfileContent(
     val coroutineScope = rememberCoroutineScope()
 
     val parentState = rememberLazyListState()
+    val introductionPostState = rememberLazyListState()
     val memberPostTabGridState = rememberLazyGridState()
 
     val stubState = rememberLazyListState()
@@ -132,6 +135,7 @@ private fun MyProfileContent(
         parentState = parentState,
         childAdapterProvider = {
             when (ProfileTab.entries[pagerState.currentPage]) {
+                ProfileTab.INTRODUCTION -> introductionPostState.asAdapter()
                 ProfileTab.MEMBER_POSTS -> memberPostTabGridState.asAdapter()
                 else -> stubState.asAdapter()
             }
@@ -179,11 +183,11 @@ private fun MyProfileContent(
             ) { page ->
                 when (ProfileTab.entries[page]) {
                     ProfileTab.INTRODUCTION -> {
-                        LazyColumn(state = stubState, modifier = Modifier.fillMaxSize()) {
-                            items(count = 1000) {
-                                Spacer(modifier = Modifier.height(16.dp).fillMaxWidth())
-                            }
-                        }
+                        IntroductionTab(
+                            userId = user.id,
+                            onAction = onAction,
+                            listState = introductionPostState,
+                        )
                     }
 
                     ProfileTab.MEMBER_POSTS -> ProfileMemberPostTab(

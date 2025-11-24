@@ -8,9 +8,14 @@
     <!-- ============================================================= -->
     <!-- Profile -->
     <!-- ============================================================= -->
-
     <string name="profile_tab_introduction">소개</string>
     <string name="profile_tab_posts">게시글</string>
     <string name="profile_tab_meetings">모임</string>
     <string name="profile_tab_reviews">리뷰</string>
+
+    <!-- ============================================================= -->
+    <!-- Introduction Edit -->
+    <!-- ============================================================= -->
+    <string name="introduction_edit_content_placeholder">멋지게 자신을 꾸며보세요!</string>
+
 </resources>

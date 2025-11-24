@@ -29,6 +29,7 @@ import com.parksupark.soomjae.features.posts.aggregate.presentation.navigation.s
 import com.parksupark.soomjae.features.posts.community.presentation.navigation.navigateToCommunityCreate
 import com.parksupark.soomjae.features.posts.community.presentation.navigation.navigateToCommunityEdit
 import com.parksupark.soomjae.features.profile.presentation.navigation.ProfileNavigator
+import com.parksupark.soomjae.features.profile.presentation.navigation.navigateToIntroductionEdit
 import com.parksupark.soomjae.features.profile.presentation.navigation.navigateToProfileEdit
 import com.parksupark.soomjae.features.profile.presentation.navigation.soomjaeProfileNavigator
 import com.parksupark.soomjae.features.setting.presentation.navigation.SettingNavigator
@@ -129,6 +130,11 @@ private class SoomjaeRootNavigator(
     override fun navigateToProfileEdit(memberId: Long) {
         navController.navigateToProfileEdit(memberId)
     }
+
+    override fun navigateToIntroductionEdit(memberId: Long) {
+        navController.navigateToIntroductionEdit(memberId)
+    }
+
     // </editor-fold>
 
     private fun onNavigationBarItemClicked(screen: NavigationDestination) {

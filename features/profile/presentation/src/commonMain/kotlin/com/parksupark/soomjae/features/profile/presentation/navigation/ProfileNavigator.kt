@@ -10,6 +10,8 @@ interface ProfileNavigator : SoomjaeNavigator {
     fun navigateToSetting()
 
     fun navigateToProfileEdit(memberId: Long)
+
+    fun navigateToIntroductionEdit(memberId: Long)
 }
 
 private class SoomjaeProfileNavigator(
@@ -28,6 +30,10 @@ private class SoomjaeProfileNavigator(
     }
 
     override fun navigateToProfileEdit(memberId: Long) {
+        overridden()
+    }
+
+    override fun navigateToIntroductionEdit(memberId: Long) {
         overridden()
     }
 }

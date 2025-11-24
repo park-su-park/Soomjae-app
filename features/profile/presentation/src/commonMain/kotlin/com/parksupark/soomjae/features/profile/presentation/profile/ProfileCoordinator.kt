@@ -20,6 +20,10 @@ internal class ProfileCoordinator(
             ProfileAction.OnSettingClick -> navigator.navigateToSetting()
 
             is ProfileAction.OnEditProfileClick -> navigator.navigateToProfileEdit(action.memberId)
+
+            is ProfileAction.OnEditIntroductionClick -> navigator.navigateToIntroductionEdit(
+                action.memberId,
+            )
         }
     }
 }

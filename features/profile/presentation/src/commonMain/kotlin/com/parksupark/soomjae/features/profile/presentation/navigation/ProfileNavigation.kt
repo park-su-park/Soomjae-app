@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.parksupark.soomjae.core.presentation.ui.navigation.NavigationDestination
+import com.parksupark.soomjae.features.profile.presentation.introduction_edit.IntroductionEditRoute
 import com.parksupark.soomjae.features.profile.presentation.profile.ProfileRoute
 import com.parksupark.soomjae.features.profile.presentation.profile_edit.ProfileEditRoute
 import kotlinx.serialization.Serializable
@@ -22,6 +23,11 @@ sealed class ProfileDestination : NavigationDestination {
     data class Edit(
         val memberId: Long,
     ) : ProfileDestination()
+
+    @Serializable
+    data class IntroductionEdit(
+        val memberId: Long,
+    ) : ProfileDestination()
 }
 
 fun NavGraphBuilder.profileGraph(
@@ -36,6 +42,10 @@ fun NavGraphBuilder.profileGraph(
         composable<ProfileDestination.Edit> {
             ProfileEditRoute(navigator)
         }
+
+        composable<ProfileDestination.IntroductionEdit> {
+            IntroductionEditRoute(navigator)
+        }
     }
 }
 
@@ -49,6 +59,12 @@ fun NavHostController.navigateToProfile() {
 
 fun NavHostController.navigateToProfileEdit(memberId: Long) {
     navigate(ProfileDestination.Edit(memberId)) {
+        launchSingleTop = true
+    }
+}
+
+fun NavHostController.navigateToIntroductionEdit(memberId: Long) {
+    navigate(ProfileDestination.IntroductionEdit(memberId)) {
         launchSingleTop = true
     }
 }

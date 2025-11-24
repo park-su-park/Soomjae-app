@@ -1,9 +1,12 @@
 package com.parksupark.soomjae.features.profile.data.di
 
+import com.parksupark.soomjae.features.profile.data.repository.DefaultIntroductionPostRepository
 import com.parksupark.soomjae.features.profile.data.repository.DefaultProfileMemberPostRepository
 import com.parksupark.soomjae.features.profile.data.repository.DefaultProfileRepository
 import com.parksupark.soomjae.features.profile.data.source.cache.ProfileCacheDataSource
+import com.parksupark.soomjae.features.profile.data.source.remote.IntroductionPostRemoteDataSource
 import com.parksupark.soomjae.features.profile.data.source.remote.ProfileRemoteDataSource
+import com.parksupark.soomjae.features.profile.domain.repository.IntroductionPostRepository
 import com.parksupark.soomjae.features.profile.domain.repository.ProfileMemberPostRepository
 import com.parksupark.soomjae.features.profile.domain.repository.ProfileRepository
 import io.ktor.client.HttpClient
@@ -32,7 +35,24 @@ internal object ProfileModule {
         remoteSource: ProfileRemoteDataSource,
     ): ProfileRepository = DefaultProfileRepository(
         cacheSource = cacheDataSource,
-        remoteSource = remoteSource
+        remoteSource = remoteSource,
+    )
+}
+
+@Module
+internal object IntroductionPostModule {
+    @Single
+    fun provideIntroductionPostRemoteDataSource(
+        @Provided httpClient: HttpClient,
+    ): IntroductionPostRemoteDataSource = IntroductionPostRemoteDataSource(
+        httpClient = httpClient,
+    )
+
+    @Single
+    fun provideIntroductionPostRepository(
+        remoteSource: IntroductionPostRemoteDataSource,
+    ): IntroductionPostRepository = DefaultIntroductionPostRepository(
+        remoteSource = remoteSource,
     )
 }
 
@@ -41,5 +61,5 @@ private val profileMemberPostModule = module {
 }
 
 val featuresProfileDataModule = module {
-    includes(profileMemberPostModule, ProfileModule.module)
+    includes(profileMemberPostModule, ProfileModule.module, IntroductionPostModule.module)
 }

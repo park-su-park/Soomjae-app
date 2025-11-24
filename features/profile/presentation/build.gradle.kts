@@ -10,6 +10,9 @@ kotlin {
             implementation(projects.core.image)
 
             implementation(projects.features.profile.domain)
+
+            implementation(libs.rich.editor)
+            implementation(libs.rich.editor.coil3)
         }
     }
 }
