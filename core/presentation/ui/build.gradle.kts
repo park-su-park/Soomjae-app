@@ -11,6 +11,8 @@ kotlin {
             api(projects.core.presentation.designsystem)
 
             implementation(libs.coil.network.ktor)
+            implementation(libs.rich.editor)
+            implementation(libs.rich.editor.coil3)
         }
 
         commonTest.dependencies {

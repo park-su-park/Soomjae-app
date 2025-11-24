@@ -13,7 +13,10 @@ data class PhotoUploadItem(
     val platformImage: PlatformFile,
     val localImage: ImageData,
     val uploadProgress: UploadProgress = UploadProgress.Idle,
-)
+) {
+    val isUploading: Boolean
+        get() = uploadProgress is UploadProgress.InProgress
+}
 
 suspend fun PlatformFile.toPhotoUploadItem(): PhotoUploadItem {
     val id = NanoId.generate()

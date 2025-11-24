@@ -5,14 +5,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.parksupark.soomjae.core.common.coroutines.SoomjaeDispatcher
+import com.parksupark.soomjae.core.common.utils.NanoId
 import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.core.domain.logging.SjLogger
+import com.parksupark.soomjae.core.image.domain.models.UploadProgress
+import com.parksupark.soomjae.core.image.domain.usecase.UploadImageWithProgressUseCase
+import com.parksupark.soomjae.core.image.presentation.model.toPhotoUploadItem
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEvent
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEventController
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
+import com.parksupark.soomjae.core.presentation.ui.richtext.insertImageAtCursor
 import com.parksupark.soomjae.features.profile.domain.usecase.GetIntroductionUseCase
 import com.parksupark.soomjae.features.profile.domain.usecase.SaveIntroductionPostUseCase
 import com.parksupark.soomjae.features.profile.presentation.navigation.ProfileDestination
+import io.github.vinceglb.filekit.PlatformFile
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,14 +27,13 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.koin.android.annotation.KoinViewModel
 
-@KoinViewModel
 class IntroductionEditViewModel(
     private val logger: SjLogger,
     private val dispatcher: SoomjaeDispatcher,
     private val soomjaeEventController: SoomjaeEventController,
 
+    private val uploadImageWithProgressUseCase: UploadImageWithProgressUseCase,
     private val getIntroductionUseCase: GetIntroductionUseCase,
     private val saveIntroductionUseCase: SaveIntroductionPostUseCase,
 
@@ -60,6 +65,12 @@ class IntroductionEditViewModel(
                 ifLeft = { failure ->
                     logger.error(TAG, "Failed to load introduction with $failure")
                     eventChannel.send(IntroductionEditEvents.Error(failure.asUiText()))
+                    _stateFlow.update {
+                        it.copy(
+                            isLoading = false,
+                            original = null,
+                        )
+                    }
                 },
                 ifRight = { introductionPost ->
                     _stateFlow.update { state ->
@@ -106,6 +117,48 @@ class IntroductionEditViewModel(
             )
 
             _stateFlow.update { it.copy(isSaving = false) }
+        }
+    }
+
+    fun handleImageSelect(image: PlatformFile) {
+        val tempId = NanoId.generate()
+
+        startImageUpload(
+            tempId = tempId,
+            image = image,
+        )
+    }
+
+    private fun startImageUpload(
+        tempId: String,
+        image: PlatformFile,
+    ) {
+        viewModelScope.launch {
+            val imageData = image.toPhotoUploadItem()
+            _stateFlow.update { current ->
+                current.copy(imageUploads = current.imageUploads + listOf(imageData))
+            }
+
+            uploadImageWithProgressUseCase(imageData.localImage)
+                .collect { event ->
+                    _stateFlow.update { currentState ->
+                        currentState.copy(
+                            imageUploads = currentState.imageUploads.map { item ->
+                                if (item.id == tempId) {
+                                    item.copy(uploadProgress = event)
+                                } else {
+                                    item
+                                }
+                            },
+                        ).also {
+                            if (event is UploadProgress.Success) {
+                                currentState.apply {
+                                    richTextState.insertImageAtCursor(event.result.url)
+                                }
+                            }
+                        }
+                    }
+                }
         }
     }
 

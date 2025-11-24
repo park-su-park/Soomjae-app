@@ -16,6 +16,7 @@ class IntroductionEditCoordinator(
         when (action) {
             IntroductionEditActions.OnBackClick -> navigator.navigateBack()
             IntroductionEditActions.OnSaveClick -> viewModel.saveIntroduction()
+            is IntroductionEditActions.OnImageSelected -> viewModel.handleImageSelect(action.file)
         }
     }
 }
