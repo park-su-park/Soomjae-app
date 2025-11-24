@@ -52,19 +52,18 @@ internal fun ProfileIntroductionScreen(
                         hasIntroduction = (introduction != null),
                     )
                 }
-
-                if (introduction == null) {
-                    item {
-                        Text(
-                            text = "아직 작성한 소개글이 없어요.\n소개글을 작성해보세요!",
-                            modifier = Modifier.fillMaxWidth().padding(16.dp),
-                            textAlign = TextAlign.Center,
-                        )
-                    }
-                } else {
-                    item {
-                        IntroductionContent(introduction)
-                    }
+            }
+            if (introduction == null) {
+                item {
+                    Text(
+                        text = "아직 작성한 소개글이 없어요.",
+                        modifier = Modifier.fillMaxWidth().padding(16.dp),
+                        textAlign = TextAlign.Center,
+                    )
+                }
+            } else {
+                item {
+                    IntroductionContent(introduction)
                 }
             }
         }
