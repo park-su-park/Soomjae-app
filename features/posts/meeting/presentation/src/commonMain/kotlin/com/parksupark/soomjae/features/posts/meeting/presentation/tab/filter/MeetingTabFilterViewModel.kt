@@ -1,13 +1,13 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.tab.filter
 
 import androidx.lifecycle.ViewModel
+import com.parksupark.soomjae.core.presentation.ui.post.model.CategoryUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.LocationUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.toLocationUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.toUi
 import com.parksupark.soomjae.core.presentation.ui.utils.loadIfNeeded
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CategoryRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LocationRepository
-import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.LocationUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.toLocationUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.models.RecruitmentStatusUi
 import kotlinx.collections.immutable.toImmutableMap
 import kotlinx.collections.immutable.toPersistentSet

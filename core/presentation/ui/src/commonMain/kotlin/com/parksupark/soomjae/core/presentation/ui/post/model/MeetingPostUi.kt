@@ -1,0 +1,54 @@
+package com.parksupark.soomjae.core.presentation.ui.post.model
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
+import com.parksupark.soomjae.core.domain.post.model.MeetingPost
+import com.parksupark.soomjae.core.presentation.ui.utils.toRelativeTimeString
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
+
+@OptIn(ExperimentalTime::class)
+@Immutable
+data class MeetingPostUi(
+    val id: Long,
+    val title: String,
+    val content: String,
+    val createdAt: Instant,
+    val author: AuthorUi,
+    val isUserLiked: Boolean,
+    val likeCount: Int,
+    val commentCount: Int,
+    val category: CategoryUi?,
+
+    val participant: ParticipantUi,
+
+    val recruitmentPeriod: RecruitmentPeriodUi,
+) {
+    val formattedCreatedAt: String
+        @Composable get() = createdAt.toRelativeTimeString()
+
+    val isExpired: Boolean
+        get() = recruitmentPeriod.endTime.isBefore(Clock.System.now())
+}
+
+@OptIn(ExperimentalTime::class)
+private fun Instant.isBefore(now: Instant) = this < now
+
+@ExperimentalTime
+fun MeetingPost.toMeetingPostUi() = MeetingPostUi(
+    id = id,
+    title = title,
+    content = content,
+    createdAt = createdAt,
+    author = author.toUi(),
+    isUserLiked = isUserLiked,
+    likeCount = likeCount,
+    commentCount = commentCount,
+    category = category?.toUi(),
+    participant = ParticipantUi(
+        max = if (maxParticipationCount == -1) null else maxParticipationCount,
+        current = currentParticipantCount,
+    ),
+    recruitmentPeriod = recruitmentPeriod.toRecruitmentPeriodUi(),
+)

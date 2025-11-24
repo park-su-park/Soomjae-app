@@ -1,6 +1,6 @@
 package com.parksupark.soomjae.features.posts.common.presentation.previews.providers
 
-import com.parksupark.soomjae.features.posts.common.domain.models.Location
+import com.parksupark.soomjae.core.domain.post.model.Location
 import kotlinx.collections.immutable.persistentListOf
 
 object LocationPreviewParametersData {

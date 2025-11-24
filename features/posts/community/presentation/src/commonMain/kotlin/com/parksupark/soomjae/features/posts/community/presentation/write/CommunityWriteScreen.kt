@@ -18,13 +18,13 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeS
 import com.parksupark.soomjae.core.presentation.designsystem.modifiers.bottomBorder
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
+import com.parksupark.soomjae.core.presentation.ui.post.model.CategoryUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.LocationUi
 import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.features.posts.common.presentation.components.PostWriteLayout
 import com.parksupark.soomjae.features.posts.common.presentation.components.WriteDialogSelection
 import com.parksupark.soomjae.features.posts.common.presentation.components.WriteInputContent
 import com.parksupark.soomjae.features.posts.common.presentation.components.WriteInputTitle
-import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.LocationUi
 import com.parksupark.soomjae.features.posts.community.presentation.resources.Res
 import com.parksupark.soomjae.features.posts.community.presentation.resources.community_write_button_confirm_description
 import com.parksupark.soomjae.features.posts.community.presentation.resources.community_write_navigate_up_description

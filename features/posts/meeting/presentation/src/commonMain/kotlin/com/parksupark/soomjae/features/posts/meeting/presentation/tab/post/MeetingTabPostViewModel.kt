@@ -6,14 +6,14 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
+import com.parksupark.soomjae.core.domain.post.repository.MeetingPostRepository
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEvent
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEventController
+import com.parksupark.soomjae.core.presentation.ui.post.model.MeetingPostUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.toMeetingPostUi
 import com.parksupark.soomjae.features.posts.common.domain.event.MeetingPostEventBus
-import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
 import com.parksupark.soomjae.features.posts.meeting.presentation.models.MeetingTabFilterOption
 import com.parksupark.soomjae.features.posts.meeting.presentation.models.toDomain
-import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.MeetingPostUi
-import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.toMeetingPostUi
 import kotlin.time.ExperimentalTime
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf

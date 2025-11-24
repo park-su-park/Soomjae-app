@@ -3,7 +3,7 @@ package com.parksupark.soomjae.features.posts.community.domain.repository
 import androidx.paging.PagingData
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
-import com.parksupark.soomjae.features.posts.common.domain.models.NewPost
+import com.parksupark.soomjae.core.domain.post.model.NewPost
 import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPost
 import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPostDetail
 import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPostEdited

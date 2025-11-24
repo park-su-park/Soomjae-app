@@ -26,6 +26,10 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeH
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaePullToRefreshBox
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeScaffold
 import com.parksupark.soomjae.core.presentation.ui.components.SoomjaeSnackbarHost
+import com.parksupark.soomjae.core.presentation.ui.post.components.MeetingPostCard
+import com.parksupark.soomjae.core.presentation.ui.post.model.CategoryUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.LocationUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.MeetingPostUi
 import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.features.posts.common.presentation.components.FilterChipItem
 import com.parksupark.soomjae.features.posts.common.presentation.components.FilterChipRow
@@ -33,14 +37,10 @@ import com.parksupark.soomjae.features.posts.common.presentation.components.Mult
 import com.parksupark.soomjae.features.posts.common.presentation.components.WritePostFab
 import com.parksupark.soomjae.features.posts.common.presentation.components.buildCategoryLabel
 import com.parksupark.soomjae.features.posts.common.presentation.components.buildLocationLabel
-import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.LocationUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.models.RecruitmentStatusUi
-import com.parksupark.soomjae.features.posts.meeting.presentation.tab.components.MeetingPostCard
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.filter.MeetingTabFilterKey
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.filter.MeetingTabFilterState
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.filter.buildRecruitmentStatusLabel
-import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.MeetingPostUi
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.toImmutableList

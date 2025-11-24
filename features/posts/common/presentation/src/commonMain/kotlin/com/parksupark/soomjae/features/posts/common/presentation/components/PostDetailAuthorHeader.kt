@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.components.ProfileImage
-import com.parksupark.soomjae.features.posts.common.presentation.models.AuthorUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.AuthorUi
 
 @Composable
 fun PostDetailAuthorHeader(

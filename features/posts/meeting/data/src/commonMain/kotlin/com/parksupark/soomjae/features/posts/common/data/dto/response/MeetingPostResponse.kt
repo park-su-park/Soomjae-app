@@ -1,13 +1,13 @@
 package com.parksupark.soomjae.features.posts.common.data.dto.response
 
+import com.parksupark.soomjae.core.domain.post.model.MeetingPost
+import com.parksupark.soomjae.core.domain.post.model.RecruitmentPeriod
 import com.parksupark.soomjae.features.posts.common.data.category.dtos.CategoryResponse
 import com.parksupark.soomjae.features.posts.common.data.category.dtos.toDomain
 import com.parksupark.soomjae.features.posts.common.data.common.dtos.MemberResponse
 import com.parksupark.soomjae.features.posts.common.data.common.dtos.toModel
 import com.parksupark.soomjae.features.posts.common.data.location.dtos.LocationResponse
 import com.parksupark.soomjae.features.posts.common.data.location.dtos.toLocation
-import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPost
-import com.parksupark.soomjae.features.posts.common.domain.models.RecruitmentPeriod
 import kotlin.time.ExperimentalTime
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toStdlibInstant

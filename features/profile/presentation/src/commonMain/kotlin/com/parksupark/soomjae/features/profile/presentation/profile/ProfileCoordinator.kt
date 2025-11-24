@@ -24,6 +24,10 @@ internal class ProfileCoordinator(
             is ProfileAction.OnEditIntroductionClick -> navigator.navigateToIntroductionEdit(
                 action.memberId,
             )
+
+            is ProfileAction.NavigateToMeetingPostDetail -> navigator.navigateToMeetingDetail(
+                action.postId,
+            )
         }
     }
 }

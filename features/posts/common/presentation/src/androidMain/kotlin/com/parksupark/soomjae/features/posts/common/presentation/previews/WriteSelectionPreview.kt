@@ -5,8 +5,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSurface
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
+import com.parksupark.soomjae.core.presentation.ui.post.model.CategoryUi
 import com.parksupark.soomjae.features.posts.common.presentation.components.WriteDialogSelection
-import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
 import com.parksupark.soomjae.features.posts.common.presentation.previews.providers.CategoryUiPreviewParametersProvider
 import kotlinx.collections.immutable.ImmutableList
 

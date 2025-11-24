@@ -1,8 +1,8 @@
 package com.parksupark.soomjae.features.posts.common.data.cache
 
 import com.parksupark.soomjae.core.data.cache.ReactiveCache
-import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPost
-import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostPatch
+import com.parksupark.soomjae.core.domain.post.model.MeetingPost
+import com.parksupark.soomjae.core.domain.post.model.MeetingPostPatch
 
 internal class MeetingPostPatchCache(
     private val delegate: ReactiveCache<Long, MeetingPostPatch> = ReactiveCache(),

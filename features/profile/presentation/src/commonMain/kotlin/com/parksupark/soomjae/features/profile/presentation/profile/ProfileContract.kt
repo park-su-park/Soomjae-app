@@ -31,4 +31,6 @@ sealed interface ProfileAction {
     data class OnEditProfileClick(val memberId: Long) : ProfileAction
 
     data class OnEditIntroductionClick(val memberId: Long) : ProfileAction
+
+    data class NavigateToMeetingPostDetail(val postId: Long) : ProfileAction
 }

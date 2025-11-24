@@ -1,8 +1,8 @@
 package com.parksupark.soomjae.features.posts.member.presentation.post_list.comment
 
 import androidx.compose.foundation.text.input.TextFieldState
+import com.parksupark.soomjae.core.presentation.ui.post.model.CommentUi
 import com.parksupark.soomjae.core.presentation.ui.utils.UiText
-import com.parksupark.soomjae.features.posts.common.presentation.models.CommentUi
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 

@@ -31,11 +31,11 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeS
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.paging.emptyLazyPagingItems
+import com.parksupark.soomjae.core.presentation.ui.post.model.CategoryUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.LocationUi
 import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.features.posts.common.presentation.components.MultipleSelectionDialog
 import com.parksupark.soomjae.features.posts.common.presentation.components.WritePostFab
-import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.LocationUi
 import com.parksupark.soomjae.features.posts.community.presentation.models.CommunityFilterOption
 import com.parksupark.soomjae.features.posts.community.presentation.models.CommunityPostUi
 import com.parksupark.soomjae.features.posts.community.presentation.resources.Res

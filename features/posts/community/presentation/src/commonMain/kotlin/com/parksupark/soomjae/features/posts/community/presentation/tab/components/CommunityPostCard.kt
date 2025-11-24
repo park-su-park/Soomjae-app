@@ -24,8 +24,8 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeV
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.comment
 import com.parksupark.soomjae.core.presentation.designsystem.theme.like
+import com.parksupark.soomjae.core.presentation.ui.post.model.CategoryUi
 import com.parksupark.soomjae.core.presentation.ui.utils.toDp
-import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
 import com.parksupark.soomjae.features.posts.community.presentation.models.CommunityPostUi
 
 @Composable

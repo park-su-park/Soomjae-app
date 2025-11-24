@@ -1,10 +1,10 @@
 package com.parksupark.soomjae.features.posts.community.presentation.models
 
 import androidx.compose.runtime.Composable
+import com.parksupark.soomjae.core.presentation.ui.post.model.AuthorUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.CategoryUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.toUi
 import com.parksupark.soomjae.core.presentation.ui.utils.toRelativeTimeString
-import com.parksupark.soomjae.features.posts.common.presentation.models.AuthorUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
 import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPost
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant

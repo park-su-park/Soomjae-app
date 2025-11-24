@@ -1,0 +1,26 @@
+package com.parksupark.soomjae.core.presentation.ui.post.model
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
+import com.parksupark.soomjae.core.domain.post.model.RecruitmentPeriod
+import com.parksupark.soomjae.core.presentation.ui.utils.rememberRemainingTimeText
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
+
+@OptIn(ExperimentalTime::class)
+@Immutable
+data class RecruitmentPeriodUi(
+    val startTime: Instant,
+    val endTime: Instant,
+) {
+    val formattedStartTime: String
+        @Composable get() = startTime.rememberRemainingTimeText()
+    val formattedEndTime: String
+        @Composable get() = endTime.rememberRemainingTimeText()
+}
+
+@OptIn(ExperimentalTime::class)
+fun RecruitmentPeriod.toRecruitmentPeriodUi() = RecruitmentPeriodUi(
+    startTime = this.startTime,
+    endTime = this.endTime,
+)

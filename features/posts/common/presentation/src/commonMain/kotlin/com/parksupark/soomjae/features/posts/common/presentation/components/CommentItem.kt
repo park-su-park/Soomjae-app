@@ -12,8 +12,8 @@ import androidx.compose.ui.unit.dp
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.components.ProfileImage
-import com.parksupark.soomjae.features.posts.common.presentation.models.AuthorUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.CommentUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.AuthorUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.CommentUi
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -29,7 +29,7 @@ fun CommentItem(
     ) {
         ProfileImage(
             imageUrl = comment.author.profileImageUrl,
-            size = 40.dp
+            size = 40.dp,
         )
 
         Column(
@@ -62,10 +62,10 @@ private fun CommentItemPreview() {
                 author = AuthorUi(
                     id = "user123",
                     nickname = "SampleUser",
-                    profileImageUrl = "https://via.placeholder.com/150"
+                    profileImageUrl = "https://via.placeholder.com/150",
                 ),
-                createdAt = Clock.System.now()
-            )
+                createdAt = Clock.System.now(),
+            ),
         )
     }
 }

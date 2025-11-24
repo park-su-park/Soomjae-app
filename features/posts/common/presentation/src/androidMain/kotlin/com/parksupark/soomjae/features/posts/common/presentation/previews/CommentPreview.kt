@@ -5,8 +5,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSurface
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
+import com.parksupark.soomjae.core.presentation.ui.post.model.CommentUi
 import com.parksupark.soomjae.features.posts.common.presentation.components.CommentItem
-import com.parksupark.soomjae.features.posts.common.presentation.models.CommentUi
 import com.parksupark.soomjae.features.posts.common.presentation.previews.providers.CommentUiPreviewParameterProvider
 import kotlin.time.ExperimentalTime
 import kotlinx.collections.immutable.ImmutableList

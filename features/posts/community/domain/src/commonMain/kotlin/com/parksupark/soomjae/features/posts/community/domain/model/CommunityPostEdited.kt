@@ -1,8 +1,8 @@
 package com.parksupark.soomjae.features.posts.community.domain.model
 
 import com.parksupark.soomjae.core.domain.models.Member
-import com.parksupark.soomjae.features.posts.common.domain.models.Category
-import com.parksupark.soomjae.features.posts.common.domain.models.Location
+import com.parksupark.soomjae.core.domain.post.model.Category
+import com.parksupark.soomjae.core.domain.post.model.Location
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 

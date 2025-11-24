@@ -1,6 +1,6 @@
 package com.parksupark.soomjae.features.posts.common.data.common.dtos
 
-import com.parksupark.soomjae.features.posts.common.domain.models.Comment
+import com.parksupark.soomjae.core.domain.post.model.Comment
 import kotlin.time.ExperimentalTime
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toStdlibInstant

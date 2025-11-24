@@ -1,6 +1,6 @@
 package com.parksupark.soomjae.features.posts.common.data.category.dtos
 
-import com.parksupark.soomjae.features.posts.common.domain.models.Category
+import com.parksupark.soomjae.core.domain.post.model.Category
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

@@ -3,6 +3,7 @@ package com.parksupark.soomjae.features.profile.presentation.di
 import com.parksupark.soomjae.features.profile.presentation.introduction_edit.IntroductionEditViewModel
 import com.parksupark.soomjae.features.profile.presentation.profile.ProfileViewModel
 import com.parksupark.soomjae.features.profile.presentation.profile.tabs.introduction.IntroductionViewModel
+import com.parksupark.soomjae.features.profile.presentation.profile.tabs.meeting_post.MeetingPostViewModel
 import com.parksupark.soomjae.features.profile.presentation.profile.tabs.member_post.ProfileMemberPostViewModel
 import com.parksupark.soomjae.features.profile.presentation.profile_edit.ProfileEditViewModel
 import org.koin.core.module.dsl.viewModelOf
@@ -20,6 +21,10 @@ private val profileMemberPostModule = module {
     viewModelOf(::ProfileMemberPostViewModel)
 }
 
+private val profileMeetingPostModule = module {
+    viewModelOf(::MeetingPostViewModel)
+}
+
 private val profileEditModule = module {
     viewModelOf(::ProfileEditViewModel)
 }
@@ -33,6 +38,7 @@ val featuresProfilePresentationModule = module {
         profileModule,
         profileIntroductionModule,
         profileMemberPostModule,
+        profileMeetingPostModule,
         profileEditModule,
         introductionEditModule,
     )

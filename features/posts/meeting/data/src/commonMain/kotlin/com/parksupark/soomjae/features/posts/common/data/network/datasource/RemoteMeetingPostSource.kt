@@ -47,6 +47,14 @@ internal class RemoteMeetingPostSource(
         )
     }
 
+    suspend fun fetchPostsByMemberId(
+        page: Int,
+        memberId: Long,
+    ): Either<DataFailure.Network, MeetingPostsResponse> = httpClient.get(
+        route = "/v1/members/$memberId/activities/posts/meeting",
+        queryParameters = mapOf("page" to page),
+    )
+
     suspend fun putPost(
         postId: Long,
         requestDto: PutMeetingPostRequest,

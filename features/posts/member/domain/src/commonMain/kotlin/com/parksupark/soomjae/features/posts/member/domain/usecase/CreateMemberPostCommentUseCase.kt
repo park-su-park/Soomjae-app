@@ -3,7 +3,7 @@ package com.parksupark.soomjae.features.posts.member.domain.usecase
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
 import com.parksupark.soomjae.core.domain.failures.DataFailure
-import com.parksupark.soomjae.features.posts.common.domain.models.Comment
+import com.parksupark.soomjae.core.domain.post.model.Comment
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CommentRepository
 
 class CreateMemberPostCommentUseCase(

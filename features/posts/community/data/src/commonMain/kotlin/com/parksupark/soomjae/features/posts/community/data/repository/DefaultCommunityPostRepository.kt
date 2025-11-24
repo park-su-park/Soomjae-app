@@ -6,7 +6,7 @@ import androidx.paging.map
 import arrow.core.Either
 import com.parksupark.soomjae.core.common.paging.createPager
 import com.parksupark.soomjae.core.domain.failures.DataFailure
-import com.parksupark.soomjae.features.posts.common.domain.models.NewPost
+import com.parksupark.soomjae.core.domain.post.model.NewPost
 import com.parksupark.soomjae.features.posts.community.data.cache.CommunityPostPatchCache
 import com.parksupark.soomjae.features.posts.community.data.paging.CommunityPagingSource
 import com.parksupark.soomjae.features.posts.community.data.remote.dto.toCommunityPostDetail

@@ -7,12 +7,12 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import co.touchlab.kermit.Logger
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
+import com.parksupark.soomjae.core.presentation.ui.post.model.toDomain
+import com.parksupark.soomjae.core.presentation.ui.post.model.toLocationUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.toUi
 import com.parksupark.soomjae.core.presentation.ui.utils.mapTextFieldState
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CategoryRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LocationRepository
-import com.parksupark.soomjae.features.posts.common.presentation.models.toDomain
-import com.parksupark.soomjae.features.posts.common.presentation.models.toLocationUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
 import com.parksupark.soomjae.features.posts.community.domain.model.toCommunityPostEdited
 import com.parksupark.soomjae.features.posts.community.domain.repository.CommunityPostRepository
 import com.parksupark.soomjae.features.posts.community.presentation.navigation.CommunityDestination

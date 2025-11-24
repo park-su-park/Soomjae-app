@@ -2,6 +2,7 @@ package com.parksupark.soomjae.features.posts.common.data.repository
 
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
+import com.parksupark.soomjae.core.domain.post.model.Comment
 import com.parksupark.soomjae.core.remote.networking.delete
 import com.parksupark.soomjae.core.remote.networking.get
 import com.parksupark.soomjae.core.remote.networking.post
@@ -10,7 +11,6 @@ import com.parksupark.soomjae.features.posts.common.data.common.dtos.toComment
 import com.parksupark.soomjae.features.posts.common.data.dtos.AddCommentRequest
 import com.parksupark.soomjae.features.posts.common.data.dtos.AddCommentResponse
 import com.parksupark.soomjae.features.posts.common.data.dtos.toComment
-import com.parksupark.soomjae.features.posts.common.domain.models.Comment
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CommentRepository
 import io.ktor.client.HttpClient
 
