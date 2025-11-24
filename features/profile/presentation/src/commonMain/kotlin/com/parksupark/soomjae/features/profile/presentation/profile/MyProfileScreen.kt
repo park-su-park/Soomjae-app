@@ -52,6 +52,7 @@ import com.parksupark.soomjae.features.profile.presentation.profile.components.U
 import com.parksupark.soomjae.features.profile.presentation.profile.components.UserProfileCardSkeleton
 import com.parksupark.soomjae.features.profile.presentation.profile.model.UserUi
 import com.parksupark.soomjae.features.profile.presentation.profile.tabs.introduction.IntroductionTab
+import com.parksupark.soomjae.features.profile.presentation.profile.tabs.meeting_post.ProfileMeetingPostTab
 import com.parksupark.soomjae.features.profile.presentation.profile.tabs.member_post.ProfileMemberPostTab
 import com.parksupark.soomjae.features.profile.presentation.resources.Res
 import com.parksupark.soomjae.features.profile.presentation.resources.my_profile_login_button
@@ -129,6 +130,7 @@ private fun MyProfileContent(
     val parentState = rememberLazyListState()
     val introductionPostState = rememberLazyListState()
     val memberPostTabGridState = rememberLazyGridState()
+    val meetingPostState = rememberLazyListState()
 
     val stubState = rememberLazyListState()
     val nestedScrollConnection = rememberNestedScrollMediator(
@@ -137,6 +139,7 @@ private fun MyProfileContent(
             when (ProfileTab.entries[pagerState.currentPage]) {
                 ProfileTab.INTRODUCTION -> introductionPostState.asAdapter()
                 ProfileTab.MEMBER_POSTS -> memberPostTabGridState.asAdapter()
+                ProfileTab.MEETING_POSTS -> meetingPostState.asAdapter()
                 else -> stubState.asAdapter()
             }
         },
@@ -182,22 +185,22 @@ private fun MyProfileContent(
                     .nestedScroll(nestedScrollConnection), // Pager도 chain relay 역할 수행
             ) { page ->
                 when (ProfileTab.entries[page]) {
-                    ProfileTab.INTRODUCTION -> {
-                        IntroductionTab(
-                            userId = user.id,
-                            onAction = onAction,
-                            listState = introductionPostState,
-                        )
-                    }
+                    ProfileTab.INTRODUCTION -> IntroductionTab(
+                        userId = user.id,
+                        onAction = onAction,
+                        listState = introductionPostState,
+                    )
 
                     ProfileTab.MEMBER_POSTS -> ProfileMemberPostTab(
                         userId = user.id,
                         listState = memberPostTabGridState,
                     )
 
-                    ProfileTab.MEETING_POSTS -> {
-                        // TODO()
-                    }
+                    ProfileTab.MEETING_POSTS -> ProfileMeetingPostTab(
+                        userId = user.id,
+                        onPostAction = onAction,
+                        listState = meetingPostState,
+                    )
 
                     ProfileTab.REVIEWS -> {
                         // TODO()

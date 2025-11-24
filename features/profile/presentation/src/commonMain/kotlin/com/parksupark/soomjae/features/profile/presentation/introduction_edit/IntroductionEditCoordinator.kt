@@ -19,6 +19,10 @@ class IntroductionEditCoordinator(
             is IntroductionEditActions.OnImageSelected -> viewModel.handleImageSelect(action.file)
         }
     }
+
+    fun navigateBack() {
+        navigator.navigateBack()
+    }
 }
 
 @Composable
