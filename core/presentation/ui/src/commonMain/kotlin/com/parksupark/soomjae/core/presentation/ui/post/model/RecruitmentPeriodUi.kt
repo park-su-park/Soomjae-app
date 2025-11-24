@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.meeting.presentation.detail.models
+package com.parksupark.soomjae.core.presentation.ui.post.model
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -20,7 +20,7 @@ data class RecruitmentPeriodUi(
 }
 
 @OptIn(ExperimentalTime::class)
-internal fun RecruitmentPeriod.toRecruitmentPeriodUi() = RecruitmentPeriodUi(
+fun RecruitmentPeriod.toRecruitmentPeriodUi() = RecruitmentPeriodUi(
     startTime = this.startTime,
     endTime = this.endTime,
 )

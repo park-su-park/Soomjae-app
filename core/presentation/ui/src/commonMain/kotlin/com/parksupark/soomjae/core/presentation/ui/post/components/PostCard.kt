@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.common.presentation.components
+package com.parksupark.soomjae.core.presentation.ui.post.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.meeting.presentation.tab.components
+package com.parksupark.soomjae.core.presentation.ui.post.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -24,15 +24,13 @@ import com.parksupark.soomjae.core.domain.post.model.RecruitmentStatus
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.components.ProfileImage
-import com.parksupark.soomjae.features.posts.common.presentation.components.PostActionItem
-import com.parksupark.soomjae.features.posts.common.presentation.components.PostCard
-import com.parksupark.soomjae.features.posts.common.presentation.models.AuthorUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.PostActionType
-import com.parksupark.soomjae.features.posts.common.presentation.models.PostActionUi
-import com.parksupark.soomjae.features.posts.meeting.presentation.detail.models.RecruitmentPeriodUi
-import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.MeetingPostUi
-import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.ParticipantUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.AuthorUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.CategoryUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.MeetingPostUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.ParticipantUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.PostActionType
+import com.parksupark.soomjae.core.presentation.ui.post.model.PostActionUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.RecruitmentPeriodUi
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.days
 import kotlin.time.ExperimentalTime
@@ -40,7 +38,7 @@ import kotlinx.collections.immutable.persistentListOf
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-internal fun MeetingPostCard(
+fun MeetingPostCard(
     post: MeetingPostUi,
     onFavoriteClick: () -> Unit,
     modifier: Modifier = Modifier,

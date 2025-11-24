@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.meeting.presentation.tab.components
+package com.parksupark.soomjae.core.presentation.ui.post.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,7 +11,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeS
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 
 @Composable
-internal fun MeetingPostCardChip(
+fun MeetingPostCardChip(
     text: String,
     modifier: Modifier = Modifier,
     backgroundColor: Color = SoomjaeTheme.colorScheme.background3,

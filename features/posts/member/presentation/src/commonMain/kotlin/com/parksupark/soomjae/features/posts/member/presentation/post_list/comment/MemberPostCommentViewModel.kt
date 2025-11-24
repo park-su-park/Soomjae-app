@@ -8,8 +8,8 @@ import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEvent
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEventController
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
+import com.parksupark.soomjae.core.presentation.ui.post.model.toUi
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CommentRepository
-import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
 import com.parksupark.soomjae.features.posts.member.domain.usecase.CreateMemberPostCommentUseCase
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList

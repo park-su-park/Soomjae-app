@@ -15,11 +15,11 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeS
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
 import com.parksupark.soomjae.core.presentation.ui.components.ProfileImage
-import com.parksupark.soomjae.features.posts.common.presentation.components.PostActionItem
-import com.parksupark.soomjae.features.posts.common.presentation.models.AuthorUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.CommentUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.PostActionType
-import com.parksupark.soomjae.features.posts.common.presentation.models.PostActionUi
+import com.parksupark.soomjae.core.presentation.ui.post.components.PostActionItem
+import com.parksupark.soomjae.core.presentation.ui.post.model.AuthorUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.CommentUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.PostActionType
+import com.parksupark.soomjae.core.presentation.ui.post.model.PostActionUi
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.ExperimentalTime

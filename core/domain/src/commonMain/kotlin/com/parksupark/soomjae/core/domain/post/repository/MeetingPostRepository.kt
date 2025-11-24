@@ -29,6 +29,8 @@ interface MeetingPostRepository {
 
     fun getPostsStream(filter: MeetingPostFilter): Flow<PagingData<MeetingPost>>
 
+    fun getByMemberId(memberId: Long): Flow<PagingData<MeetingPost>>
+
     suspend fun updatePost(updatedPost: UpdateMeetingPost): Either<DataFailure, NewPost>
 
     suspend fun deletePost(id: Long): Either<DataFailure, Unit>

@@ -45,14 +45,14 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeV
 import com.parksupark.soomjae.core.presentation.designsystem.modifiers.bottomBorder
 import com.parksupark.soomjae.core.presentation.designsystem.modifiers.topBorder
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
+import com.parksupark.soomjae.core.presentation.ui.post.components.PostActionItem
+import com.parksupark.soomjae.core.presentation.ui.post.model.PostActionType
+import com.parksupark.soomjae.core.presentation.ui.post.model.PostActionUi
 import com.parksupark.soomjae.core.presentation.ui.resources.value
 import com.parksupark.soomjae.features.posts.common.presentation.components.CommentInputBar
 import com.parksupark.soomjae.features.posts.common.presentation.components.CommentItem
-import com.parksupark.soomjae.features.posts.common.presentation.components.PostActionItem
 import com.parksupark.soomjae.features.posts.common.presentation.components.PostDetailAuthorHeader
 import com.parksupark.soomjae.features.posts.common.presentation.components.PostDetailTitleHeader
-import com.parksupark.soomjae.features.posts.common.presentation.models.PostActionType
-import com.parksupark.soomjae.features.posts.common.presentation.models.PostActionUi
 import com.parksupark.soomjae.features.posts.community.presentation.resources.Res
 import com.parksupark.soomjae.features.posts.community.presentation.resources.community_detail_comment_button_description
 import com.parksupark.soomjae.features.posts.community.presentation.resources.community_detail_delete_button_description

@@ -1,7 +1,7 @@
 package com.parksupark.soomjae.features.posts.community.presentation.previews.providers
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.toUi
 import com.parksupark.soomjae.features.posts.common.presentation.previews.providers.CommentPreviewParameterData
 import com.parksupark.soomjae.features.posts.community.presentation.models.CommunityPostDetailUi
 import com.parksupark.soomjae.features.posts.community.presentation.models.toUi

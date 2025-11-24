@@ -1,10 +1,12 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.detail.models
 
 import com.parksupark.soomjae.core.domain.post.model.MeetingPostDetail
-import com.parksupark.soomjae.features.posts.common.presentation.models.CommentUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
-import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.MeetingPostUi
-import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.toMeetingPostUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.CommentUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.MeetingPostUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.RecruitmentPeriodUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.toMeetingPostUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.toRecruitmentPeriodUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.toUi
 import kotlin.time.ExperimentalTime
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList

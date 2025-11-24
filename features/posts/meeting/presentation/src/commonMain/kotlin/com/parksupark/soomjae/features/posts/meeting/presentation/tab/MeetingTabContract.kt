@@ -1,7 +1,7 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.tab
 
-import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.LocationUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.CategoryUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.LocationUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.models.RecruitmentStatusUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.filter.MeetingTabFilterEvent
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.filter.MeetingTabFilterState

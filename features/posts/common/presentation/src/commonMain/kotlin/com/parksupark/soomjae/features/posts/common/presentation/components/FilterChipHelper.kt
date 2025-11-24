@@ -1,9 +1,9 @@
 package com.parksupark.soomjae.features.posts.common.presentation.components
 
 import androidx.compose.runtime.Composable
+import com.parksupark.soomjae.core.presentation.ui.post.model.CategoryUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.LocationUi
 import com.parksupark.soomjae.core.presentation.ui.resources.value
-import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.LocationUi
 import com.parksupark.soomjae.features.posts.common.presentation.resources.Res
 import com.parksupark.soomjae.features.posts.common.presentation.resources.filter_chip_category
 import com.parksupark.soomjae.features.posts.common.presentation.resources.filter_chip_category_selected_multiple

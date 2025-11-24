@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.common.presentation.models
+package com.parksupark.soomjae.core.presentation.ui.post.model
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Comment

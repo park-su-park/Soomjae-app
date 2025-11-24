@@ -1,9 +1,9 @@
 package com.parksupark.soomjae.features.posts.member.presentation.post_list.models
 
 import androidx.compose.runtime.Composable
+import com.parksupark.soomjae.core.presentation.ui.post.model.AuthorUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.toUi
 import com.parksupark.soomjae.core.presentation.ui.utils.toRelativeTimeString
-import com.parksupark.soomjae.features.posts.common.presentation.models.AuthorUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
 import com.parksupark.soomjae.features.posts.member.domain.models.MemberPost
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant

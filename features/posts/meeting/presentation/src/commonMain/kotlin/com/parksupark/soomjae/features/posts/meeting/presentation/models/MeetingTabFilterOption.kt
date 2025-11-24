@@ -1,8 +1,8 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.models
 
 import com.parksupark.soomjae.core.domain.post.model.MeetingPostFilter
-import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.LocationUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.CategoryUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.LocationUi
 import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.persistentSetOf
 

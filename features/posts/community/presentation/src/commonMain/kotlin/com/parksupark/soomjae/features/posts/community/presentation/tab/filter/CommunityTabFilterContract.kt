@@ -1,7 +1,7 @@
 package com.parksupark.soomjae.features.posts.community.presentation.tab.filter
 
-import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.LocationUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.CategoryUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.LocationUi
 import com.parksupark.soomjae.features.posts.community.presentation.models.CommunityFilterOption
 import kotlinx.collections.immutable.ImmutableMap
 import kotlinx.collections.immutable.persistentMapOf

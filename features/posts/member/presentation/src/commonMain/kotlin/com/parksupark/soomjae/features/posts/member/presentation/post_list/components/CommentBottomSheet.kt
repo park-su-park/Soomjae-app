@@ -41,9 +41,9 @@ import com.composables.core.SheetDetent
 import com.composables.core.rememberModalBottomSheetState
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
+import com.parksupark.soomjae.core.presentation.ui.post.model.AuthorUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.CommentUi
 import com.parksupark.soomjae.features.posts.common.presentation.components.CommentInputBar
-import com.parksupark.soomjae.features.posts.common.presentation.models.AuthorUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.CommentUi
 import com.parksupark.soomjae.features.posts.member.presentation.post_list.MemberPostListAction
 import com.parksupark.soomjae.features.posts.member.presentation.post_list.comment.MemberPostCommentState
 import kotlin.time.Clock

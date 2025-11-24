@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.meeting.presentation.tab.components
+package com.parksupark.soomjae.core.presentation.ui.post.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,7 +17,7 @@ import com.parksupark.soomjae.core.presentation.designsystem.theme.successContai
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-internal fun RecruitmentStatusChip(
+fun RecruitmentStatusChip(
     status: RecruitmentStatus,
     modifier: Modifier = Modifier,
 ) {
@@ -29,6 +29,7 @@ internal fun RecruitmentStatusChip(
         RecruitmentStatus.JOINED ->
             SoomjaeTheme.colorScheme.infoContainer to
                 SoomjaeTheme.colorScheme.onInfoContainer
+
         else -> SoomjaeTheme.colorScheme.background3 to SoomjaeTheme.colorScheme.text3
     }
 

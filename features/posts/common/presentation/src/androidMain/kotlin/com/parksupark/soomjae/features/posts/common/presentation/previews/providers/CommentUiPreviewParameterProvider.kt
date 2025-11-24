@@ -2,9 +2,9 @@ package com.parksupark.soomjae.features.posts.common.presentation.previews.provi
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.parksupark.soomjae.core.domain.post.model.Comment
+import com.parksupark.soomjae.core.presentation.ui.post.model.CommentUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.toUi
 import com.parksupark.soomjae.core.presentation.ui.previews.proviers.MemberPreviewParameterData.members
-import com.parksupark.soomjae.features.posts.common.presentation.models.CommentUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
 import kotlin.time.ExperimentalTime
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf

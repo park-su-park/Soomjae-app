@@ -2,8 +2,8 @@ package com.parksupark.soomjae.features.posts.common.presentation.previews.provi
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.parksupark.soomjae.core.domain.post.model.Category
-import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.CategoryUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.toUi
 import com.parksupark.soomjae.features.posts.common.presentation.previews.providers.CategoryUiPreviewParameterData.categories
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf

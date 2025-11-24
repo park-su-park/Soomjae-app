@@ -1,9 +1,9 @@
 package com.parksupark.soomjae.features.posts.community.presentation.write
 
 import androidx.compose.foundation.text.input.TextFieldState
+import com.parksupark.soomjae.core.presentation.ui.post.model.CategoryUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.LocationUi
 import com.parksupark.soomjae.core.presentation.ui.utils.UiText
-import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.LocationUi
 import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPostDetail
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf

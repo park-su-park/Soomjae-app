@@ -9,9 +9,9 @@ import com.parksupark.soomjae.core.common.coroutines.SoomjaeDispatcher
 import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEvent
 import com.parksupark.soomjae.core.presentation.ui.controllers.SoomjaeEventController
+import com.parksupark.soomjae.core.presentation.ui.post.model.toUi
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CommentRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LikeRepository
-import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
 import com.parksupark.soomjae.features.posts.community.domain.repository.CommunityPostRepository
 import com.parksupark.soomjae.features.posts.community.presentation.models.toDetailUi
 import com.parksupark.soomjae.features.posts.community.presentation.navigation.CommunityDestination

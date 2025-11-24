@@ -1,14 +1,9 @@
-package com.parksupark.soomjae.features.posts.meeting.presentation.tab.models
+package com.parksupark.soomjae.core.presentation.ui.post.model
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import com.parksupark.soomjae.core.domain.post.model.MeetingPost
 import com.parksupark.soomjae.core.presentation.ui.utils.toRelativeTimeString
-import com.parksupark.soomjae.features.posts.common.presentation.models.AuthorUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
-import com.parksupark.soomjae.features.posts.meeting.presentation.detail.models.RecruitmentPeriodUi
-import com.parksupark.soomjae.features.posts.meeting.presentation.detail.models.toRecruitmentPeriodUi
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
@@ -41,7 +36,7 @@ data class MeetingPostUi(
 private fun Instant.isBefore(now: Instant) = this < now
 
 @ExperimentalTime
-internal fun MeetingPost.toMeetingPostUi() = MeetingPostUi(
+fun MeetingPost.toMeetingPostUi() = MeetingPostUi(
     id = id,
     title = title,
     content = content,

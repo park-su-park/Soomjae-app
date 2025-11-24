@@ -12,10 +12,17 @@ class MeetingPostCoordinator(
     val viewModel: MeetingPostViewModel,
 ) {
     val screenStateFlow = viewModel.stateFlow
+    val posts = viewModel.posts
+
+    val events = viewModel.events
 
     fun handle(action: MeetingPostAction) {
         when (action) {
             MeetingPostAction.OnPullToRefresh -> viewModel.refreshPosts()
+            is MeetingPostAction.RefreshChange -> viewModel.setRefresh(action.isRefreshing)
+            is MeetingPostAction.OnClickPost -> onProfileAction(
+                ProfileAction.NavigateToMeetingPostDetail(action.postId),
+            )
         }
     }
 }

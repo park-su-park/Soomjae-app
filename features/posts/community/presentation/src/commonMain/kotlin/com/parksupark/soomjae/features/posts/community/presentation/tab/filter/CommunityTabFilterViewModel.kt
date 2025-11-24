@@ -2,10 +2,10 @@ package com.parksupark.soomjae.features.posts.community.presentation.tab.filter
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.parksupark.soomjae.core.presentation.ui.post.model.toLocationUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.toUi
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CategoryRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LocationRepository
-import com.parksupark.soomjae.features.posts.common.presentation.models.toLocationUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
 import kotlinx.collections.immutable.toImmutableMap
 import kotlinx.collections.immutable.toPersistentSet
 import kotlinx.coroutines.flow.MutableStateFlow

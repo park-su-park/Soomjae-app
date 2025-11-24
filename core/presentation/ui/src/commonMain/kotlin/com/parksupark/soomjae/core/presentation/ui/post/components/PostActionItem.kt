@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.common.presentation.components
+package com.parksupark.soomjae.core.presentation.ui.post.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -14,10 +14,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
+import com.parksupark.soomjae.core.presentation.ui.post.model.PostActionType
+import com.parksupark.soomjae.core.presentation.ui.post.model.PostActionUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.resolveVisuals
 import com.parksupark.soomjae.core.presentation.ui.utils.applyIf
-import com.parksupark.soomjae.features.posts.common.presentation.models.PostActionType
-import com.parksupark.soomjae.features.posts.common.presentation.models.PostActionUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.resolveVisuals
 
 @Composable
 fun PostActionItem(

@@ -30,12 +30,12 @@ import com.parksupark.soomjae.core.presentation.designsystem.components.Expandab
 import com.parksupark.soomjae.core.presentation.designsystem.components.SoomjaeSurface
 import com.parksupark.soomjae.core.presentation.designsystem.theme.AppTheme
 import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
+import com.parksupark.soomjae.core.presentation.ui.post.components.PostActionItem
+import com.parksupark.soomjae.core.presentation.ui.post.model.AuthorUi
+import com.parksupark.soomjae.core.presentation.ui.post.model.PostActionType
+import com.parksupark.soomjae.core.presentation.ui.post.model.PostActionUi
 import com.parksupark.soomjae.core.presentation.ui.utils.imageRequest
 import com.parksupark.soomjae.core.presentation.ui.utils.pxToDp
-import com.parksupark.soomjae.features.posts.common.presentation.components.PostActionItem
-import com.parksupark.soomjae.features.posts.common.presentation.models.AuthorUi
-import com.parksupark.soomjae.features.posts.common.presentation.models.PostActionType
-import com.parksupark.soomjae.features.posts.common.presentation.models.PostActionUi
 import com.parksupark.soomjae.features.posts.member.presentation.post_list.models.MemberPostUi
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime

@@ -23,6 +23,7 @@ import com.parksupark.soomjae.features.posts.common.data.dto.response.toMeetingP
 import com.parksupark.soomjae.features.posts.common.data.dto.response.toMeetingPostDetail
 import com.parksupark.soomjae.features.posts.common.data.network.datasource.RemoteMeetingPostSource
 import com.parksupark.soomjae.features.posts.common.data.network.dto.toPutMeetingPostRequest
+import com.parksupark.soomjae.features.posts.common.data.paging.MeetingByMemberIdPagingSource
 import com.parksupark.soomjae.features.posts.common.data.paging.MeetingPagingSource
 import com.parksupark.soomjae.features.posts.common.domain.event.MeetingPostEventBus
 import kotlin.time.ExperimentalTime
@@ -93,6 +94,20 @@ internal class DefaultMeetingPostRepository(
             .map { pagingData ->
                 pagingData.map { it.toMeetingPost() }
             }
+
+    override fun getByMemberId(memberId: Long): Flow<PagingData<MeetingPost>> = createPager(
+        config = PagingConfig(pageSize = 20),
+        pagingSourceFactory = {
+            MeetingByMemberIdPagingSource(
+                logger = logger,
+                memberId = memberId,
+                remoteSource = remoteSource,
+            )
+        },
+    ).flow
+        .map { pagingData ->
+            pagingData.map { it.toMeetingPost() }
+        }
 
     override suspend fun updatePost(updatedPost: UpdateMeetingPost): Either<DataFailure, NewPost> =
         remoteSource.putPost(updatedPost.id, updatedPost.toPutMeetingPostRequest())
