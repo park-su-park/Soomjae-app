@@ -15,23 +15,23 @@ internal class IntroductionPostRemoteDataSource(
 ) {
     suspend fun getByMember(memberId: Long): Either<DataFailure.Network, IntroductionPostResponse> =
         httpClient.get(
-            route = "/v1/members/introduce-post/by-memberId/$memberId",
+            route = "/v1/members/introduction-post/by-memberId/$memberId",
         )
 
     suspend fun create(html: String): Either<DataFailure.Network, IntroductionPostResponse> =
         httpClient.post(
-            route = "/v1/members/introduce-post",
+            route = "/v1/members/introduction-post",
             body = IntroductionPostRequest(html = html),
         )
 
     suspend fun put(html: String): Either<DataFailure.Network, IntroductionPostResponse> =
         httpClient.put(
-            route = "/v1/members/introduce-post/update",
+            route = "/v1/members/introduction-post/update",
             body = IntroductionPostRequest(html = html),
         )
 
     suspend fun deleteByMember(memberId: Long): Either<DataFailure.Network, Unit> =
         httpClient.delete(
-            route = "/v1/members/introduce-post/by-memberId/$memberId",
+            route = "/v1/members/introduction-post/by-memberId/$memberId",
         )
 }
