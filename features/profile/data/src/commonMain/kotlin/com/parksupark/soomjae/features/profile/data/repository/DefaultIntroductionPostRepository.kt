@@ -15,11 +15,6 @@ internal class DefaultIntroductionPostRepository(
             it.toIntroductionPost()
         }
 
-    override suspend fun create(html: String): Either<DataFailure, IntroductionPost> =
-        remoteSource.create(html = html).map {
-            it.toIntroductionPost()
-        }
-
     override suspend fun update(html: String): Either<DataFailure, IntroductionPost> =
         remoteSource.put(html).map {
             it.toIntroductionPost()

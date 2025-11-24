@@ -4,7 +4,6 @@ import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
 import com.parksupark.soomjae.core.remote.networking.delete
 import com.parksupark.soomjae.core.remote.networking.get
-import com.parksupark.soomjae.core.remote.networking.post
 import com.parksupark.soomjae.core.remote.networking.put
 import com.parksupark.soomjae.features.profile.data.model.dto.request.IntroductionPostRequest
 import com.parksupark.soomjae.features.profile.data.model.dto.response.IntroductionPostResponse
@@ -18,15 +17,9 @@ internal class IntroductionPostRemoteDataSource(
             route = "/v1/members/introduction-post/by-memberId/$memberId",
         )
 
-    suspend fun create(html: String): Either<DataFailure.Network, IntroductionPostResponse> =
-        httpClient.post(
-            route = "/v1/members/introduction-post",
-            body = IntroductionPostRequest(html = html),
-        )
-
     suspend fun put(html: String): Either<DataFailure.Network, IntroductionPostResponse> =
         httpClient.put(
-            route = "/v1/members/introduction-post/update",
+            route = "/v1/members/introduction-post",
             body = IntroductionPostRequest(html = html),
         )
 
