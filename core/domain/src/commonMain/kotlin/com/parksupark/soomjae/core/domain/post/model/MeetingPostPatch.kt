@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.common.domain.models
+package com.parksupark.soomjae.core.domain.post.model
 
 interface MeetingPostPatch {
     data class Updated(val post: MeetingPost) : MeetingPostPatch

@@ -1,6 +1,6 @@
 package com.parksupark.soomjae.features.posts.common.presentation.models
 
-import com.parksupark.soomjae.features.posts.common.domain.models.Category
+import com.parksupark.soomjae.core.domain.post.model.Category
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
 

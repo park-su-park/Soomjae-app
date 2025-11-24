@@ -1,6 +1,6 @@
 package com.parksupark.soomjae.features.posts.common.presentation.models
 
-import com.parksupark.soomjae.features.posts.common.domain.models.Location
+import com.parksupark.soomjae.core.domain.post.model.Location
 
 data class LocationUi(
     val code: Long,

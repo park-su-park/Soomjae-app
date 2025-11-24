@@ -1,6 +1,6 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.models
 
-import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostFilter
+import com.parksupark.soomjae.core.domain.post.model.MeetingPostFilter
 import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.LocationUi
 import kotlinx.collections.immutable.ImmutableSet

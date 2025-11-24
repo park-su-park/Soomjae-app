@@ -2,7 +2,7 @@ package com.parksupark.soomjae.features.posts.common.domain.repositories
 
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
-import com.parksupark.soomjae.features.posts.common.domain.models.Comment
+import com.parksupark.soomjae.core.domain.post.model.Comment
 
 interface CommentRepository {
     suspend fun addComment(

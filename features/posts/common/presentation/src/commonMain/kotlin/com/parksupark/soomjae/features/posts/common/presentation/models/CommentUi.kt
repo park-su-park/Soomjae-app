@@ -2,8 +2,8 @@ package com.parksupark.soomjae.features.posts.common.presentation.models
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import com.parksupark.soomjae.core.domain.post.model.Comment
 import com.parksupark.soomjae.core.presentation.ui.utils.toRelativeTimeString
-import com.parksupark.soomjae.features.posts.common.domain.models.Comment
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 

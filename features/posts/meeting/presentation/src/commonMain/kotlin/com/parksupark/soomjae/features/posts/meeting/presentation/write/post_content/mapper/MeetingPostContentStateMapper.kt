@@ -1,7 +1,7 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.write.post_content.mapper
 
-import com.parksupark.soomjae.features.posts.common.domain.models.RecruitmentPeriod
-import com.parksupark.soomjae.features.posts.common.domain.models.UpdateMeetingPost
+import com.parksupark.soomjae.core.domain.post.model.RecruitmentPeriod
+import com.parksupark.soomjae.core.domain.post.model.UpdateMeetingPost
 import com.parksupark.soomjae.features.posts.meeting.presentation.models.DateTimeRangeUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.write.post_content.MeetingPostContentState
 import kotlin.time.ExperimentalTime

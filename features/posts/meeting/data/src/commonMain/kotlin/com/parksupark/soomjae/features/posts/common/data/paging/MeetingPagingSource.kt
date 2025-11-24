@@ -3,10 +3,10 @@ package com.parksupark.soomjae.features.posts.common.data.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.parksupark.soomjae.core.domain.logging.SjLogger
+import com.parksupark.soomjae.core.domain.post.model.MeetingPostFilter
+import com.parksupark.soomjae.core.domain.post.model.RecruitmentStatus
 import com.parksupark.soomjae.features.posts.common.data.dto.response.MeetingPostResponse
 import com.parksupark.soomjae.features.posts.common.data.network.datasource.RemoteMeetingPostSource
-import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostFilter
-import com.parksupark.soomjae.features.posts.common.domain.models.RecruitmentStatus
 import kotlinx.io.IOException
 
 internal class MeetingPagingSource(

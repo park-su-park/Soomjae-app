@@ -1,7 +1,7 @@
 package com.parksupark.soomjae.features.posts.common.presentation.previews.providers
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.parksupark.soomjae.features.posts.common.domain.models.Category
+import com.parksupark.soomjae.core.domain.post.model.Category
 import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
 import com.parksupark.soomjae.features.posts.common.presentation.previews.providers.CategoryUiPreviewParameterData.categories

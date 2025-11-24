@@ -1,6 +1,6 @@
 package com.parksupark.soomjae.features.posts.common.data.network.dto
 
-import com.parksupark.soomjae.features.posts.common.domain.models.UpdateMeetingPost
+import com.parksupark.soomjae.core.domain.post.model.UpdateMeetingPost
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 import kotlinx.serialization.Serializable

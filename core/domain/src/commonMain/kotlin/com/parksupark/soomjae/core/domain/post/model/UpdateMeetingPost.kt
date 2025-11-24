@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.common.domain.models
+package com.parksupark.soomjae.core.domain.post.model
 
 data class UpdateMeetingPost(
     val id: Long,

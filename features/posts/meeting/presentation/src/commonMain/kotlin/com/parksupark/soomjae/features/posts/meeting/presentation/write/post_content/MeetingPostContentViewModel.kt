@@ -7,11 +7,11 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.parksupark.soomjae.core.common.coroutines.SoomjaeDispatcher
 import com.parksupark.soomjae.core.common.utils.fold
+import com.parksupark.soomjae.core.domain.post.repository.MeetingPostRepository
 import com.parksupark.soomjae.core.presentation.ui.errors.asUiText
 import com.parksupark.soomjae.core.presentation.ui.utils.mapTextFieldState
 import com.parksupark.soomjae.features.posts.common.domain.repositories.CategoryRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LocationRepository
-import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
 import com.parksupark.soomjae.features.posts.common.domain.usecase.GetMeetingPostForEditUseCase
 import com.parksupark.soomjae.features.posts.common.domain.usecase.UpdateMeetingPostUseCase
 import com.parksupark.soomjae.features.posts.common.domain.usecase.ValidatePeriodUseCase

@@ -1,5 +1,6 @@
 package com.parksupark.soomjae.features.posts.common.data.di
 
+import com.parksupark.soomjae.core.domain.post.repository.MeetingPostRepository
 import com.parksupark.soomjae.features.posts.common.data.cache.MeetingPostPatchCache
 import com.parksupark.soomjae.features.posts.common.data.network.datasource.RemoteMeetingLikeDataSource
 import com.parksupark.soomjae.features.posts.common.data.network.datasource.RemoteMeetingPostSource
@@ -11,7 +12,6 @@ import com.parksupark.soomjae.features.posts.common.domain.repositories.CommentR
 import com.parksupark.soomjae.features.posts.common.domain.repositories.LikeRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MEETING_COMMENT_REPOSITORY
 import com.parksupark.soomjae.features.posts.common.domain.repositories.MEETING_LIKE_REPOSITORY
-import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
 import com.parksupark.soomjae.features.posts.common.domain.repositories.ParticipationRepository
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named

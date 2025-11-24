@@ -1,8 +1,8 @@
 package com.parksupark.soomjae.features.posts.common.domain.di
 
 import com.parksupark.soomjae.core.domain.auth.repositories.SessionRepository
+import com.parksupark.soomjae.core.domain.post.repository.MeetingPostRepository
 import com.parksupark.soomjae.features.posts.common.domain.event.MeetingPostEventBus
-import com.parksupark.soomjae.features.posts.common.domain.repositories.MeetingPostRepository
 import com.parksupark.soomjae.features.posts.common.domain.usecase.GetMeetingPostForEditUseCase
 import com.parksupark.soomjae.features.posts.common.domain.usecase.UpdateMeetingPostUseCase
 import com.parksupark.soomjae.features.posts.common.domain.usecase.ValidatePeriodUseCase

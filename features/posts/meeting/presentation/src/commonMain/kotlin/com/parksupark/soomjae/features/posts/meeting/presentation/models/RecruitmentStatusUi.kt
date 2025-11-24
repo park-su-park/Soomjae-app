@@ -1,6 +1,6 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.models
 
-import com.parksupark.soomjae.features.posts.common.domain.models.RecruitmentStatus
+import com.parksupark.soomjae.core.domain.post.model.RecruitmentStatus
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.Res
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.recruitment_status_expired
 import com.parksupark.soomjae.features.posts.meeting.presentation.resources.recruitment_status_full

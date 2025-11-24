@@ -1,4 +1,4 @@
-package com.parksupark.soomjae.features.posts.common.domain.models
+package com.parksupark.soomjae.core.domain.post.model
 
 import com.parksupark.soomjae.core.domain.models.Member
 import kotlin.time.Clock
@@ -28,26 +28,24 @@ data class MeetingPost(
             content: String,
             maxParticipationCount: Int,
             period: RecruitmentPeriod,
-        ): MeetingPost {
-            return MeetingPost(
-                id = id,
-                title = title,
-                content = content,
-                createdAt = Clock.System.now(),
-                author = Member(
-                    id = "나",
-                    nickname = "나",
-                    profileImageUrl = "",
-                ),
-                category = null,
-                location = null,
-                likeCount = 0,
-                isUserLiked = false,
-                commentCount = 0,
-                maxParticipationCount = maxParticipationCount,
-                currentParticipantCount = 0,
-                recruitmentPeriod = period
-            )
-        }
+        ): MeetingPost = MeetingPost(
+            id = id,
+            title = title,
+            content = content,
+            createdAt = Clock.System.now(),
+            author = Member(
+                id = "나",
+                nickname = "나",
+                profileImageUrl = "",
+            ),
+            category = null,
+            location = null,
+            likeCount = 0,
+            isUserLiked = false,
+            commentCount = 0,
+            maxParticipationCount = maxParticipationCount,
+            currentParticipantCount = 0,
+            recruitmentPeriod = period,
+        )
     }
 }

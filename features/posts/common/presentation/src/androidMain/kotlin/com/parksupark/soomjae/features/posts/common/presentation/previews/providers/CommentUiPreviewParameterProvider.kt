@@ -1,8 +1,8 @@
 package com.parksupark.soomjae.features.posts.common.presentation.previews.providers
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import com.parksupark.soomjae.core.domain.post.model.Comment
 import com.parksupark.soomjae.core.presentation.ui.previews.proviers.MemberPreviewParameterData.members
-import com.parksupark.soomjae.features.posts.common.domain.models.Comment
 import com.parksupark.soomjae.features.posts.common.presentation.models.CommentUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
 import kotlin.time.ExperimentalTime

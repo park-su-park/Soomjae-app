@@ -2,8 +2,8 @@ package com.parksupark.soomjae.features.posts.meeting.presentation.tab.models
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import com.parksupark.soomjae.core.domain.post.model.MeetingPost
 import com.parksupark.soomjae.core.presentation.ui.utils.toRelativeTimeString
-import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPost
 import com.parksupark.soomjae.features.posts.common.presentation.models.AuthorUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.CategoryUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi

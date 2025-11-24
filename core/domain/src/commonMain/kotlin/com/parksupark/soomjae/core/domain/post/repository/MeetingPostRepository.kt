@@ -1,14 +1,14 @@
-package com.parksupark.soomjae.features.posts.common.domain.repositories
+package com.parksupark.soomjae.core.domain.post.repository
 
 import androidx.paging.PagingData
 import arrow.core.Either
 import com.parksupark.soomjae.core.domain.failures.DataFailure
-import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPost
-import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostDetail
-import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostFilter
-import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostPatch
-import com.parksupark.soomjae.features.posts.common.domain.models.NewPost
-import com.parksupark.soomjae.features.posts.common.domain.models.UpdateMeetingPost
+import com.parksupark.soomjae.core.domain.post.model.MeetingPost
+import com.parksupark.soomjae.core.domain.post.model.MeetingPostDetail
+import com.parksupark.soomjae.core.domain.post.model.MeetingPostFilter
+import com.parksupark.soomjae.core.domain.post.model.MeetingPostPatch
+import com.parksupark.soomjae.core.domain.post.model.NewPost
+import com.parksupark.soomjae.core.domain.post.model.UpdateMeetingPost
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 import kotlinx.coroutines.flow.Flow

@@ -1,6 +1,6 @@
 package com.parksupark.soomjae.features.posts.common.data.like.dtos
 
-import com.parksupark.soomjae.features.posts.common.domain.models.Like
+import com.parksupark.soomjae.core.domain.post.model.Like
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

@@ -1,6 +1,6 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.detail.models
 
-import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPostDetail
+import com.parksupark.soomjae.core.domain.post.model.MeetingPostDetail
 import com.parksupark.soomjae.features.posts.common.presentation.models.CommentUi
 import com.parksupark.soomjae.features.posts.common.presentation.models.toUi
 import com.parksupark.soomjae.features.posts.meeting.presentation.tab.models.MeetingPostUi

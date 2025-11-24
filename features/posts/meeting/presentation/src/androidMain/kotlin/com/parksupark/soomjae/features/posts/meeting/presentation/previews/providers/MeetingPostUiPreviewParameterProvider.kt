@@ -1,9 +1,9 @@
 package com.parksupark.soomjae.features.posts.meeting.presentation.previews.providers
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import com.parksupark.soomjae.core.domain.post.model.MeetingPost
+import com.parksupark.soomjae.core.domain.post.model.RecruitmentPeriod
 import com.parksupark.soomjae.core.presentation.ui.previews.proviers.MemberPreviewParameterData.members
-import com.parksupark.soomjae.features.posts.common.domain.models.MeetingPost
-import com.parksupark.soomjae.features.posts.common.domain.models.RecruitmentPeriod
 import com.parksupark.soomjae.features.posts.common.presentation.previews.providers.CategoryUiPreviewParameterData.categories
 import com.parksupark.soomjae.features.posts.common.presentation.previews.providers.LocationPreviewParametersData.locations
 import com.parksupark.soomjae.features.posts.meeting.presentation.previews.providers.MeetingPostPreviewParameterData.posts
