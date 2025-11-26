@@ -102,7 +102,7 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
                     if (file.exists()) {
                         storeFile = file
                     } else {
-                        logger.warn(KEYSTORE_FILE_NOT_FOUND, "debug")
+                        logger.warn("⚠️ Keystore file not found for debug build type.")
                     }
                 }
             }
@@ -116,7 +116,7 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
                     if (file.exists()) {
                         storeFile = file
                     } else {
-                        logger.warn(KEYSTORE_FILE_NOT_FOUND, "internal")
+                        logger.warn("⚠️ Keystore file not found for internal build type.")
                     }
                 }
                 props["keystore.password", "KEYSTORE_PASSWORD"]?.let {
@@ -139,7 +139,7 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
                     if (file.exists()) {
                         storeFile = file
                     } else {
-                        logger.warn(KEYSTORE_FILE_NOT_FOUND, "release")
+                        logger.warn("⚠️ Keystore file not found for release build type.")
                     }
                 }
                 props["keystore.password", "KEYSTORE_PASSWORD"]?.let {
@@ -256,5 +256,3 @@ private operator fun Properties.get(
 ) = getOrElse(key) { System.getenv(env) } as? String
 
 private const val ANDROID_DIR = "src/androidMain"
-
-private const val KEYSTORE_FILE_NOT_FOUND = "⚠️ Keystore file not found for %s build type."
