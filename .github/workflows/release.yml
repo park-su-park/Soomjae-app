@@ -27,6 +27,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Extract versionName from Tag
+        shell: bash
         run: |
           RAW="${GITHUB_REF#refs/tags/}"
           VERSION_NAME="${RAW#v}"
