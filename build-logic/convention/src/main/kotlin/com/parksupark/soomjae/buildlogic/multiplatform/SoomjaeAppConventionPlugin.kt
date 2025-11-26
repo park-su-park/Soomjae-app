@@ -102,7 +102,7 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
                     if (file.exists()) {
                         storeFile = file
                     } else {
-                        logger.warn(KEYSTORE_FILE_NOT_FOUND)
+                        logger.warn("⚠️ Keystore file not found for debug build type.")
                     }
                 }
             }
@@ -116,7 +116,7 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
                     if (file.exists()) {
                         storeFile = file
                     } else {
-                        logger.warn(KEYSTORE_FILE_NOT_FOUND)
+                        logger.warn("⚠️ Keystore file not found for internal build type.")
                     }
                 }
                 props["keystore.password", "KEYSTORE_PASSWORD"]?.let {
@@ -129,7 +129,28 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
                     keyPassword = it
                 }
             }
-            register("release") {
+            create("release") {
+                val props = with(project) {
+                    loadProperties("release")
+                }
+
+                props["keystore.path", "KEYSTORE_PATH"]?.let {
+                    val file = project.rootProject.file(it)
+                    if (file.exists()) {
+                        storeFile = file
+                    } else {
+                        logger.warn("⚠️ Keystore file not found for release build type.")
+                    }
+                }
+                props["keystore.password", "KEYSTORE_PASSWORD"]?.let {
+                    storePassword = it
+                }
+                props["key.alias", "KEY_ALIAS"]?.let {
+                    keyAlias = it
+                }
+                props["key.password", "KEY_PASSWORD"]?.let {
+                    keyPassword = it
+                }
             }
         }
 
@@ -235,5 +256,3 @@ private operator fun Properties.get(
 ) = getOrElse(key) { System.getenv(env) } as? String
 
 private const val ANDROID_DIR = "src/androidMain"
-
-private const val KEYSTORE_FILE_NOT_FOUND = "⚠️ Keystore file not found"
