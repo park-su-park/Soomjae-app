@@ -27,7 +27,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
 
       - name: Extract versionName from Tag
         shell: bash
@@ -82,11 +82,20 @@ jobs:
           APK=$(find ${{ env.APP_MODULE }}/build/outputs/apk/release -name "*.apk" | head -n 1)
           echo "apk_path=$APK" >> $GITHUB_OUTPUT
 
+      - name: Rename APK
+        id: rename_apk
+        if: steps.resolve_apk.outputs.apk_path != ''
+        run: |
+          VERSION=${VERSION_NAME}
+          DIR=$(dirname "${{ steps.resolve_apk.outputs.apk_path }}")
+          mv "${{ steps.resolve_apk.outputs.apk_path }}" "$DIR/Soomjae-v${VERSION}.apk"
+          echo "apk_renamed_path=$DIR/Soomjae-v${VERSION}.apk" >> $GITHUB_OUTPUT
+
       - name: Upload Android Artifact
         uses: actions/upload-artifact@v4
         with:
           name: android-apk
-          path: ${{ steps.resolve_apk.outputs.apk_path }}
+          path: ${{ steps.rename_apk.outputs.apk_renamed_path }}
           retention-days: 7
 
 
@@ -100,7 +109,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
 
       - name: Build macOS DMG
         run: ./gradlew :${{ env.APP_MODULE }}:packageDmg
@@ -111,12 +120,21 @@ jobs:
           DMG=$(find ${{ env.APP_MODULE }}/build/compose/binaries -name "*.dmg" | head -n 1)
           echo "dmg_path=$DMG" >> $GITHUB_OUTPUT
 
-      - name: Upload macOS Artifact
+      - name: Rename DMG
+        id: rename_dmg
         if: steps.resolve_dmg.outputs.dmg_path != ''
-        uses: actions/upload-artifact@v4
+        run: |
+          VERSION=${VERSION_NAME}
+          DIR=$(dirname "${{ steps.resolve_dmg.outputs.dmg_path }}")
+          mv "${{ steps.resolve_dmg.outputs.dmg_path }}" "$DIR/Soomjae-v${VERSION}.dmg"
+          echo "dmg_renamed_path=$DIR/Soomjae-v${VERSION}.dmg" >> $GITHUB_OUTPUT
+
+      - name: Upload macOS Artifact
+        if: steps.rename_dmg.outputs.dmg_renamed_path != ''
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
           name: macos-dmg
-          path: ${{ steps.resolve_dmg.outputs.dmg_path }}
+          path: ${{ steps.rename_dmg.outputs.dmg_renamed_path }}
           retention-days: 7
 
 
@@ -130,7 +148,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
 
       - name: Build Windows EXE
         run: ./gradlew :${{ env.APP_MODULE }}:packageExe
@@ -142,12 +160,22 @@ jobs:
           EXE=$(find ${{ env.APP_MODULE }}/build/compose/binaries -name "*.exe" | head -n 1)
           echo "exe_path=$EXE" >> $GITHUB_OUTPUT
 
-      - name: Upload Windows Artifact
+      - name: Rename EXE
+        id: rename_exe
         if: steps.resolve_exe.outputs.exe_path != ''
-        uses: actions/upload-artifact@v4
+        shell: bash
+        run: |
+          VERSION=${VERSION_NAME}
+          DIR=$(dirname "${{ steps.resolve_exe.outputs.exe_path }}")
+          mv "${{ steps.resolve_exe.outputs.exe_path }}" "$DIR/Soomjae-v${VERSION}.exe"
+          echo "exe_renamed_path=$DIR/Soomjae-v${VERSION}.exe" >> $GITHUB_OUTPUT
+
+      - name: Upload Windows Artifact
+        if: steps.rename_exe.outputs.exe_renamed_path != ''
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
           name: windows-exe
-          path: ${{ steps.resolve_exe.outputs.exe_path }}
+          path: ${{ steps.rename_exe.outputs.exe_renamed_path }}
           retention-days: 7
 
 
@@ -161,12 +189,12 @@ jobs:
 
     steps:
       - name: Download all artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6
         with:
           path: release_files
 
       - name: Publish Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@5be0e66d93ac7ed76da52eca8bb058f665c3a5fe # v2
         with:
           files: release_files/**/*.*
           generate_release_notes: true
