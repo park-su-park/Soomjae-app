@@ -2,7 +2,6 @@ package com.parksupark.soomjae.core.remote.networking
 
 import com.parksupark.soomjae.core.domain.auth.datasources.SessionDataSource
 import com.parksupark.soomjae.core.remote.dtos.response.RefreshTokenResponse
-import com.parksupark.soomjae.core.remote.util.getRefreshTokenFromCookies
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngineConfig
 import io.ktor.client.engine.HttpClientEngineFactory
@@ -69,7 +68,6 @@ internal class HttpClientFactory(
                         return@refreshTokens null
                     }
 
-                    var newRefreshToken: String? = null
                     safeCall<RefreshTokenResponse> {
                         val response = client.post {
                             this.url(constructRoute(route = "/v1/auth/refresh"))
@@ -79,7 +77,6 @@ internal class HttpClientFactory(
                                 "${HttpCookieKey.REFRESH_TOKEN}=$currentRefreshToken",
                             )
                         }
-                        newRefreshToken = response.getRefreshTokenFromCookies()
                         response
                     }.fold(
                         ifLeft = {
@@ -93,7 +90,6 @@ internal class HttpClientFactory(
                             sessionRepository.set(
                                 currentInfo.copy(
                                     accessToken = newAccessToken,
-                                    refreshToken = newRefreshToken,
                                 ),
                             )
                             BearerTokens(
