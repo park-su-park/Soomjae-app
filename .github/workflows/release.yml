@@ -1,0 +1,149 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Extract versionName from Tag
+        run: |
+          RAW="${GITHUB_REF#refs/tags/}"
+          VERSION_NAME="${RAW#v}"
+          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
+
+      - name: Common Steps
+        uses: ./.github/actions/common-steps
+        with:
+          gradle-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+
+      - name: Grant execute permission for Gradle
+        run: chmod +x ./gradlew
+
+      # -----------------------------
+      # ANDROID (ubuntu-only)
+      # -----------------------------
+      - name: Create Keystore
+        if: matrix.os == 'ubuntu-latest'
+        uses: ./.github/actions/create-flavor-keystore
+        with:
+          build-flavor: release
+          keystore-path: ${{ secrets.RELEASE_KEYSTORE_PATH }}
+          keystore-base64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+
+      - name: Local Properties
+        if: matrix.os == 'ubuntu-latest'
+        uses: ./.github/actions/local-properties
+        with:
+          base-url: ${{ secrets.RELEASE_BASE_URL }}
+          oauth-google-server-client-id: ${{ secrets.OAUTH_GOOGLE_SERVER_CLIENT_ID }}
+          build-flavor: release
+
+      - name: Generate build flavored local.properties
+        if: matrix.os == 'ubuntu-latest'
+        uses: ./.github/actions/local-flavor-properties
+        with:
+          build-flavor: release
+          keystore-path: ${{ secrets.RELEASE_KEYSTORE_PATH }}
+          keystore-password: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
+          key-alias: ${{ secrets.RELEASE_KEY_ALIAS }}
+          key-password: ${{ secrets.RELEASE_KEY_PASSWORD }}
+
+      - name: Google Services
+        if: matrix.os == 'ubuntu-latest'
+        uses: ./.github/actions/google-services
+        with:
+          google-services-json-base64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
+
+      - name: Build Android APK
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          ./gradlew :${{ env.APP_MODULE }}:assembleRelease --no-daemon --stacktrace
+
+      - name: Resolve Android APK Path
+        if: matrix.os == 'ubuntu-latest'
+        id: resolve_apk
+        run: |
+          APK=$(find ${{ env.APP_MODULE }}/build/outputs/apk/release -name "*.apk" | head -n 1)
+          echo "apk_path=$APK" >> $GITHUB_OUTPUT
+
+      - name: Upload Android Artifact
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apk
+          path: ${{ steps.resolve_apk.outputs.apk_path }}
+          retention-days: 7
+
+      # -----------------------------
+      # DESKTOP (macOS)
+      # -----------------------------
+      - name: Build macOS DMG
+        if: matrix.os == 'macos-latest'
+        run: ./gradlew :${{ env.APP_MODULE }}:packageDmg
+
+      - name: Resolve DMG Path
+        if: matrix.os == 'macos-latest'
+        id: resolve_dmg
+        run: |
+          DMG=$(find ${{ env.APP_MODULE }}/build/compose/binaries -name "*.dmg" | head -n 1)
+          echo "dmg_path=$DMG" >> $GITHUB_OUTPUT
+
+      - name: Upload macOS Artifact
+        if: matrix.os == 'macos-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-dmg
+          path: ${{ steps.resolve_dmg.outputs.dmg_path }}
+          retention-days: 7
+
+      # -----------------------------
+      # DESKTOP (Windows)
+      # -----------------------------
+      - name: Build Windows EXE
+        if: matrix.os == 'windows-latest'
+        run: ./gradlew :${{ env.APP_MODULE }}:packageExe
+
+      - name: Resolve EXE Path
+        if: matrix.os == 'windows-latest'
+        id: resolve_exe
+        shell: bash
+        run: |
+          EXE=$(find ${{ env.APP_MODULE }}/build/compose/binaries -name "*.exe" | head -n 1)
+          echo "exe_path=$EXE" >> $GITHUB_OUTPUT
+
+      - name: Upload Windows Artifact
+        if: matrix.os == 'windows-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-exe
+          path: ${{ steps.resolve_exe.outputs.exe_path }}
+          retention-days: 7
+
+  # ---------------------------------------------------------
+  # Release
+  # ---------------------------------------------------------
+  release:
+    name: Publish GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release_files
+
+      - name: Publish Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: release_files/**/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
