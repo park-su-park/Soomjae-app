@@ -1,9 +1,12 @@
+@file:Suppress("NoUnusedImports", "UnusedImports")
+
 package com.parksupark.soomjae.buildlogic.multiplatform.ui
 
 import bundleImplementation
 import com.parksupark.soomjae.buildlogic.multiplatform.desktopMain
 import com.parksupark.soomjae.buildlogic.multiplatform.desktopTest
 import fullPackageName
+import java.io.File
 import kspDependencies
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -14,11 +17,10 @@ import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.invoke
 import org.jetbrains.compose.ComposeExtension
 import org.jetbrains.compose.ComposePlugin
+import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.resources.ResourcesExtension
 import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
-import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag.Companion.OptimizeNonSkippingGroups
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import java.io.File
 
 class MultiplatformComposeConventionPlugin : Plugin<Project> {
 
@@ -27,7 +29,6 @@ class MultiplatformComposeConventionPlugin : Plugin<Project> {
             apply("org.jetbrains.kotlin.multiplatform")
             apply("org.jetbrains.compose")
             apply("org.jetbrains.kotlin.plugin.compose")
-            apply("org.jetbrains.compose.hot-reload")
         }
 
         with(extensions) {
@@ -43,6 +44,7 @@ class MultiplatformComposeConventionPlugin : Plugin<Project> {
         kspDependencies(project, "ui")
     }
 
+    @OptIn(ExperimentalComposeLibrary::class)
     private fun KotlinMultiplatformExtension.configureSourceSets() {
         val compose = (this as ExtensionAware).extensions.getByType<ComposePlugin.Dependencies>()
 
@@ -50,8 +52,8 @@ class MultiplatformComposeConventionPlugin : Plugin<Project> {
             commonMain.dependencies {
                 implementation(compose.animation)
                 implementation(compose.components.resources)
+                implementation(compose.components.uiToolingPreview)
                 implementation(compose.foundation)
-                implementation(compose.material)
                 implementation(compose.material3)
                 implementation(compose.materialIconsExtended)
                 implementation(compose.runtime)
@@ -68,10 +70,13 @@ class MultiplatformComposeConventionPlugin : Plugin<Project> {
                 bundleImplementation("ui-ios")
             }
             desktopMain.dependencies {
+                implementation(compose.preview)
+                implementation(compose.uiTooling)
                 bundleImplementation("ui-desktop")
             }
 
             commonTest.dependencies {
+                implementation(compose.uiTest)
                 bundleImplementation("ui-common-test")
             }
             androidUnitTest.dependencies {
@@ -81,14 +86,13 @@ class MultiplatformComposeConventionPlugin : Plugin<Project> {
                 bundleImplementation("ui-ios-test")
             }
             desktopTest.dependencies {
+                implementation(compose.desktop.currentOs)
                 bundleImplementation("ui-desktop-test")
             }
         }
     }
 
     private fun ComposeCompilerGradlePluginExtension.configureComposeCompiler(project: Project) {
-        featureFlags.add(OptimizeNonSkippingGroups)
-
         metricsDestination = project.file(project.composePluginDir("compose-metrics"))
         reportsDestination = project.file(project.composePluginDir("compose-reports"))
     }
@@ -98,5 +102,8 @@ class MultiplatformComposeConventionPlugin : Plugin<Project> {
         resources.packageOfResClass = "${project.fullPackageName}.resources"
     }
 
-    private fun Project.composePluginDir(directory: String) = File(layout.buildDirectory.asFile.get(), directory).absolutePath
+    private fun Project.composePluginDir(directory: String) = File(
+        layout.buildDirectory.asFile.get(),
+        directory,
+    ).absolutePath
 }

@@ -1,6 +1,8 @@
 package com.parksupark.soomjae.buildlogic.multiplatform
 
+import apiAlias
 import bundleImplementation
+import com.google.devtools.ksp.gradle.KspExtension
 import commonExtensions
 import commonTasks
 import kspDependencies
@@ -54,6 +56,32 @@ private fun KotlinMultiplatformExtension.configureMultiplatform(
     configureSourceSets()
 
     kspDependencies(project, "core")
+    configureKoinAnnotation(project)
+}
+
+private fun KotlinMultiplatformExtension.configureKoinAnnotation(project: Project) {
+    sourceSets {
+        commonMain.dependencies {
+            apiAlias("koin-annotation")
+        }
+    }
+
+    sourceSets.named("commonMain").configure {
+        kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
+    }
+
+    project.extensions.configure<KspExtension> {
+        arg("KOIN_CONFIG_CHECK", "true")
+
+        if (project.logger.isInfoEnabled) {
+            arg("KOIN_LOG_TIMES", "true")
+        }
+    }
+
+    project.tasks.matching { it.name.startsWith("ksp") && it.name != "kspCommonMainKotlinMetadata" }
+        .configureEach {
+            dependsOn("kspCommonMainKotlinMetadata")
+        }
 }
 
 private fun KotlinMultiplatformExtension.configureSourceSets() {

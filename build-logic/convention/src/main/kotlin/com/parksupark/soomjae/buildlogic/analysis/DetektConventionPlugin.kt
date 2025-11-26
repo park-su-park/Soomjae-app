@@ -1,3 +1,5 @@
+@file:Suppress("NoUnusedImports", "UnusedImports")
+
 package com.parksupark.soomjae.buildlogic.analysis
 
 import SoomjaeConfiguration
@@ -27,7 +29,6 @@ internal class DetektConventionPlugin : Plugin<Project> {
             jvmTarget = SoomjaeConfiguration.JvmTargetStr
             setSource(files(projectDir))
             config.setFrom(files("$rootDir/gradle/config/detekt/detekt.yml"))
-            config.setFrom(files("$rootDir/gradle/config/detekt/compose-rules.yml"))
             include("**/*.kt", "**/*.kts")
             exclude("**/resources/**", "**/build/**")
 

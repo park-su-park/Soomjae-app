@@ -1,0 +1,33 @@
+package com.parksupark.soomjae.core.domain.failures
+
+sealed interface DataFailure : Failure {
+    enum class Network : DataFailure {
+        BAD_REQUEST,
+        UNAUTHORIZED,
+        FORBIDDEN,
+        NOT_FOUND,
+        NO_INTERNET,
+        PAYLOAD_TOO_LARGE,
+        SERVER_ERROR,
+        SERIALIZATION,
+        UNKNOWN,
+    }
+
+    enum class Local : DataFailure {
+        DISK_FULL,
+        NOT_FOUND,
+        UNKNOWN,
+    }
+
+    enum class Credential : DataFailure {
+        NOT_FOUND,
+        INVALID,
+        CANCELLED,
+        UNKNOWN,
+        PORT_UNAVAILABLE,
+    }
+
+    enum class Validation : DataFailure {
+        UNAUTHORIZED,
+    }
+}

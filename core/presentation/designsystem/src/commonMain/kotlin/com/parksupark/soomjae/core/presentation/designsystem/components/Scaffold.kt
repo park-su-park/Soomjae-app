@@ -1,0 +1,38 @@
+package com.parksupark.soomjae.core.presentation.designsystem.components
+
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScaffoldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import com.parksupark.soomjae.core.presentation.designsystem.theme.SoomjaeTheme
+
+@Composable
+fun SoomjaeScaffold(
+    modifier: Modifier = Modifier.Companion,
+    topBar: @Composable () -> Unit = {},
+    bottomBar: @Composable () -> Unit = {},
+    snackbarHost: @Composable () -> Unit = {},
+    floatingActionButton: @Composable () -> Unit = {},
+    floatingActionButtonPosition: FabPosition = FabPosition.End,
+    backgroundColor: Color = SoomjaeTheme.colorScheme.background1,
+    contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
+    contentColor: Color = SoomjaeTheme.colorScheme.text1,
+    content: @Composable (PaddingValues) -> Unit,
+) {
+    Scaffold(
+        modifier = modifier,
+        topBar = topBar,
+        bottomBar = bottomBar,
+        snackbarHost = snackbarHost,
+        floatingActionButton = floatingActionButton,
+        floatingActionButtonPosition = floatingActionButtonPosition,
+        containerColor = backgroundColor,
+        contentColor = contentColor,
+        contentWindowInsets = contentWindowInsets,
+        content = content,
+    )
+}

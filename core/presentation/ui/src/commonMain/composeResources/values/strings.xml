@@ -1,0 +1,49 @@
+<resources>
+    <!-- ============================================================= -->
+    <!-- Failure -->
+    <!-- ============================================================= -->
+    <!-- 공통 -->
+    <string name="error_unknown">오류가 발생했어요.</string>
+
+    <!-- Network -->
+    <string name="error_network_bad_request">잘못된 요청이에요.</string>
+    <string name="error_network_unauthorized">로그인이 필요해요.</string>
+    <string name="error_network_forbidden">권한이 없어요.</string>
+    <string name="error_network_not_found">정보를 찾지 못했어요.</string>
+    <string name="error_network_no_internet">인터넷이 연결되지 않았어요.</string>
+    <string name="error_network_payload_too_large">데이터가 너무 커요.</string>
+    <string name="error_network_server">서버에 문제가 있어요.</string>
+    <string name="error_network_parsing">처리 중 문제가 생겼어요.</string>
+
+    <!-- Local/Database -->
+    <string name="error_local_conflict">충돌이 발생했어요.</string>
+    <string name="error_local_not_found">데이터가 없어요.</string>
+
+    <string name="login_request_dialog_title1">로그인</string>
+    <string name="login_request_dialog_title2">로그인이 필요해요.</string>
+    <string name="login_request_dialog_text">로그인 하시겠습니까?</string>
+    <string name="login_request_dialog_confirm_button">로그인</string>
+    <string name="login_request_dialog_cancel_button">취소</string>
+
+    <string name="datetime_soon">방금 전</string>
+    <string name="datetime_minutes_ago">%1$d분 전</string>
+    <string name="datetime_years_ago">%1$d년 전</string>
+
+    <!-- ============================================================= -->
+    <!-- Instant -->
+    <!-- ============================================================= -->
+
+    <!-- Date formats -->
+    <string name="datetime_friendly_today_time">오늘 %1$s</string>
+    <string name="datetime_friendly_month_day_time">%1$d/%2$d %3$s</string>
+    <string name="datetime_friendly_year_month_day">%1$d/%2$d/%3$d</string>
+
+    <!-- Remaining time -->
+    <string name="datetime_remaining_minutes">%1$d분 남음</string>
+    <string name="datetime_remaining_hours">%1$d시간 남음</string>
+    <string name="datetime_remaining_days">%1$d일 남음</string>
+    <string name="datetime_remaining_expired">지남</string>
+
+    <!-- Combined format -->
+    <string name="datetime_until_combined">%1$s (%2$s)</string>
+</resources>

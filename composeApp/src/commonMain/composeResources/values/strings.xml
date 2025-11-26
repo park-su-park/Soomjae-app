@@ -4,4 +4,8 @@
     <string name="run">Run</string>
     <string name="stop">Stop</string>
     <string name="theme">Theme</string>
+
+    <string name="navigation_bar_home">홈</string>
+    <string name="navigation_bar_post">탐색</string>
+    <string name="navigation_bar_profile">프로필</string>
 </resources>

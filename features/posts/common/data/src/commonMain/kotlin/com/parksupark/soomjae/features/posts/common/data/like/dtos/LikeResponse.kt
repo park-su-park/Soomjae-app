@@ -1,0 +1,16 @@
+package com.parksupark.soomjae.features.posts.common.data.like.dtos
+
+import com.parksupark.soomjae.core.domain.post.model.Like
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
+internal data class LikeResponse(
+    @SerialName("liked") val liked: Boolean,
+    @SerialName("likeCount") val likeCount: Long,
+)
+
+internal fun LikeResponse.toDomain(): Like = Like(
+    liked = liked,
+    likeCount = likeCount,
+)

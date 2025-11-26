@@ -1,0 +1,49 @@
+<resources>
+    <string name="login_action_close">닫기</string>
+    <string name="login_eula_text">가입을 진행할 경우, 이용약관과 개인정보 수집 및 이용\n에 대해 동의한 것으로 간주됩니다.</string>
+    <string name="login_divider_text">또는</string>
+    <string name="login_register_button">회원가입</string>
+    <string name="login_email_login_button">이메일로 로그인</string>
+
+    <string name="register_title">회원가입</string>
+    <string name="register_email_hint">이메일</string>
+    <string name="register_email_error">사용할 수 없는 이메일 입니다.</string>
+    <string name="register_password_hint">비밀번호</string>
+    <string name="register_password_confirm_hint">비밀번호 재확인</string>
+    <string name="register_password_different_error">비밀번호가 일치하지 않습니다.</string>
+    <string name="register_nickname_hint">닉네임</string>
+    <string name="register_register_button">가입</string>
+    <string name="register_login_button_1">이미 계정이 있으신가요?</string>
+    <string name="register_login_button_2">로그인</string>
+    <string name="register_navigate_up_description">뒤로 가기</string>
+
+    <string name="email_login_title">로그인</string>
+    <string name="email_login_textfield_email_title">이메일</string>
+    <string name="email_login_textfield_email_hint">이메일을 입력해주세요.</string>
+    <string name="email_login_textfield_password_title">비밀번호</string>
+    <string name="email_login_textfield_password_hint">비밀번호를 입력해주세요.</string>
+    <string name="email_login_checkbox_save_email">이메일을 저장하기</string>
+    <string name="email_login_button_login">로그인</string>
+    <string name="email_login_navigate_up_description">뒤로 가기</string>
+
+    <string name="login_naver_oauth_button">네이버로 로그인</string>
+    <string name="login_kakao_oauth_button">카카오로 3초만에 시작하기</string>
+    <string name="login_google_oauth_button">구글로 로그인</string>
+
+    <string name="email_verification_submit_button">인증하기</string>
+    <string name="email_verification_title">회원 가입 - 이메일 인증</string>
+    <string name="email_verification_back">뒤로가기</string>
+    <string name="email_verification_email_hint">이메일을 입력하세요</string>
+    <string name="email_verification_email_title">이메일</string>
+    <string name="email_verification_checking">확인중…</string>
+    <string name="email_verification_available">사용 가능</string>
+    <string name="email_verification_check">확인</string>
+    <string name="email_verification_code_hint">인증번호를 입력하세요</string>
+    <string name="email_verification_code_title">인증번호</string>
+    <string name="email_verification_code_sent">인증번호를 발송했어요.</string>
+    <string name="email_verification_code_send_failed">인증번호 발송에 실패했어요.</string>
+    <string name="email_verification_send">전송</string>
+    <string name="email_verification_resend">재전송</string>
+
+    <string name="error_invalid_verification_code">유효하지 않은 인증번호입니다.</string>
+</resources>

@@ -29,6 +29,11 @@ gradlePlugin {
             implementationClass =
                 "com.parksupark.soomjae.buildlogic.common.BuildConfigConventionPlugin"
         }
+        register("crashlytics") {
+            id = "soomjae.crashlytics"
+            implementationClass =
+                "com.parksupark.soomjae.buildlogic.common.CrashlyticsConventionPlugin"
+        }
         register("detekt") {
             id = "soomjae.detekt"
             implementationClass =

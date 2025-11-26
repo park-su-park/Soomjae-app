@@ -1,0 +1,126 @@
+name: Internal Nightly Build
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TZ: UTC
+  APP_MODULE: composeApp
+
+jobs:
+  check-changes:
+    name: Check for recent changes
+    runs-on: ubuntu-latest
+    outputs:
+      should_build: ${{ steps.check.outputs.should_build }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+        with:
+          fetch-depth: 0
+          ref: dev
+
+      - name: Check if commits exist in last 24h
+        id: check
+        run: |
+          if git log --since="24 hours ago" --oneline | grep .; then
+            echo "should_build=true" >> $GITHUB_OUTPUT
+          else
+            echo "No changes in last 24h."
+            echo "should_build=false" >> $GITHUB_OUTPUT
+          fi
+
+  build-and-deploy:
+    name: Build & Deploy Internal
+    needs: check-changes
+    if: needs.check-changes.outputs.should_build == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+        with:
+          fetch-depth: 0
+          ref: dev
+
+      - name: Common Steps
+        uses: ./.github/actions/common-steps
+        with:
+          gradle-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+
+      - name: Create Keystore
+        uses: ./.github/actions/create-flavor-keystore
+        with:
+          build-flavor: 'internal'
+          keystore-path: ${{ secrets.INTERNAL_KEYSTORE_PATH }}
+          keystore-base64: ${{ secrets.INTERNAL_KEYSTORE_BASE64 }}
+
+      - name: Local Properties
+        uses: ./.github/actions/local-properties
+        with:
+          base-url: ${{ secrets.INTERNAL_BASE_URL }}
+          oauth-google-server-client-id: ${{ secrets.OAUTH_GOOGLE_SERVER_CLIENT_ID }}
+          build-flavor: 'internal'
+
+      - name: Generate build flavored local.properties
+        uses: ./.github/actions/local-flavor-properties
+        with:
+          build-flavor: 'internal'
+          keystore-path: ${{ secrets.INTERNAL_KEYSTORE_PATH }}
+          keystore-password: ${{ secrets.INTERNAL_KEYSTORE_PASSWORD }}
+          key-alias: ${{ secrets.INTERNAL_KEY_ALIAS }}
+          key-password: ${{ secrets.INTERNAL_KEY_PASSWORD }}
+
+      - name: Google Services
+        uses: ./.github/actions/google-services
+        with:
+          google-services-json-base64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
+
+      - name: Set nightly version name
+        id: version
+        run: |
+          VERSION=$(grep -E '^versionName=' gradle.properties | cut -d'=' -f2 | xargs)
+          if [ -z "$VERSION" ]; then
+            echo "⚠️ versionName not found in gradle.properties. Using fallback."
+            VERSION="0.0.0"
+          fi
+          NIGHTLY_VERSION="${VERSION}-nightly-$(date +'%Y%m%d%H%M')"
+          echo "version_name=${NIGHTLY_VERSION}" >> $GITHUB_OUTPUT
+          echo "Resolved version: ${NIGHTLY_VERSION}"
+
+      - name: Assemble internal APK
+        run: |
+          ./gradlew :${{ env.APP_MODULE }}:assembleInternal \
+            -PversionName=${{ steps.version.outputs.version_name }} \
+            --no-daemon --stacktrace
+
+      - name: Resolve APK Path
+        id: resolve_apk
+        run: |
+          APK_PATH=$(find ${{ env.APP_MODULE }}/build/outputs/apk/internal -name "*.apk" | head -n 1)
+          echo "Found APK at: $APK_PATH"
+          echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        with:
+          name: internal-nightly-apk
+          path: ${{ steps.resolve_apk.outputs.apk_path }}
+          retention-days: 3
+
+      - name: Distribute to Firebase
+        uses: wzieba/Firebase-Distribution-Github-Action@bd494989dd4bec0343f78adee87fe66e48279ad6 # v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID_INTERNAL }}
+          serviceCredentialsFileContent: ${{ secrets.GOOGLE_CLOUD_CREDENTIAL_FILE_CONTENT }}
+          groups: admin
+          file: ${{ steps.resolve_apk.outputs.apk_path }}
+          releaseNotes: |
+            Nightly build - ${{ steps.version.outputs.version_name }}
+            Released on $(date +'%Y-%m-%d %H:%M UTC')

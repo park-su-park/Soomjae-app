@@ -1,0 +1,22 @@
+name: Override google-services.json
+description: 'Overrides google-services.json file for Android CI builds'
+
+inputs:
+  google-services-json-base64:
+    description: 'Base64 encoded contents of google-services.json'
+    required: true
+  output-path:
+    description: 'Path where the google-services.json file should be written'
+    required: false
+    default: 'composeApp/google-services.json'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Decode and write google-services.json
+      shell: bash
+      run: |
+        set -e
+        mkdir -p "$(dirname "${{ inputs.output-path }}")"
+        echo "${{ inputs.google-services-json-base64 }}" | base64 --decode > "${{ inputs.output-path }}"
+        echo "✅ google-services.json successfully written to ${{ inputs.output-path }}"

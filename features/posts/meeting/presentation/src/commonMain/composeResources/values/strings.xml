@@ -1,0 +1,56 @@
+<resources>
+    <string name="meeting_write_navigate_up_description">뒤로 가기</string>
+    <string name="meeting_write_button_confirm_description">완료</string>
+
+    <string name="meeting_write_meeting_label">모임 날짜</string>
+    <string name="meeting_write_meeting_placeholder">모임을 만들어주세요!</string>
+    <string name="meeting_write_category_label">카테고리</string>
+    <string name="meeting_write_category_placeholder">카테고리를 선택해주세요.</string>
+    <string name="meeting_write_location_label">지역</string>
+    <string name="meeting_write_location_placeholder">지역을 선택해주세요.</string>
+
+    <string name="meeting_create_title">신규 모임</string>
+    <string name="meeting_create_navigate_up_description">뒤로 가기</string>
+    <string name="meeting_create_button_create_meeting">모임 생성</string>
+
+    <string name="meeting_create_datetime_label">모임 날짜</string>
+    <string name="meeting_create_datetime_toggle_allday_label">하루 종일</string>
+    <string name="meeting_create_datetime_start_datetime_label">시작:</string>
+    <string name="meeting_create_datetime_end_datetime_label">종료</string>
+    <string name="meeting_create_participant_count_label">참가자 수</string>
+    <string name="meeting_create_participant_count_textfield_hint">예: 5명</string>
+    <string name="meeting_create_participant_count_additional_info">참가자 수는 본인을 제외한 인원 기준입니다.</string>
+    <string name="meeting_create_participant_count_display_unlimited">제한 없음</string>
+    <string name="meeting_create_participant_count_display">%1$d 명</string>
+    <string name="meeting_create_participant_count_additional_info_unlimited">0은 제한 없음</string>
+
+    <string name="meeting_create_datetime_dialog_cancel">취소</string>
+    <string name="meeting_create_datetime_dialog_confirm">확인</string>
+
+    <!-- ============================================================= -->
+    <!-- Meeting Detail -->
+    <!-- ============================================================= -->
+    <string name="meeting_detail_navigate_up_description">뒤로 가기</string>
+    <string name="meeting_detail_like_button_description">좋아요</string>
+    <string name="meeting_detail_dislike_button_description">좋아요 취소</string>
+    <string name="meeting_detail_comment_button_description">댓글</string>
+    <string name="meeting_detail_join_meeting_button_text">참여하기</string>
+    <string name="meeting_detail_leave_meeting_button_text">참여 취소</string>
+    <string name="meeting_detail_edit_button_description">수정</string>
+    <string name="meeting_detail_delete_button_description">삭제</string>
+
+    <string name="participant_list_title">참여자 목록</string>
+    <string name="participant_list_close_description">닫기</string>
+    <string name="participant_list_item_nth_participant">%1$d번째 참여자</string>
+
+    <string name="meeting_detail_filter_chip_recruitment_status">모집 상태</string>
+    <string name="meeting_detail_filter_chip_recruitment_status_selected_multiple">%1$s외 %2$d건</string>
+
+    <!-- ============================================================= -->
+    <!-- RecruitmentStatus -->
+    <!-- ============================================================= -->
+    <string name="recruitment_status_recruiting">모집</string>
+    <string name="recruitment_status_full">만원</string>
+    <string name="recruitment_status_expired">종료</string>
+    <string name="recruitment_status_joined">참여</string>
+</resources>

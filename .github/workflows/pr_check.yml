@@ -1,0 +1,102 @@
+name: Pr Check
+
+on:
+  pull_request:
+  push:
+    branches:
+      - dev
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TZ: UTC
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  cancel-stale-jobs:
+    name: Cancel stale jobs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Stale Jobs
+        uses: styfle/cancel-workflow-action@85880fa0301c86cca9da44039ee3bb12d3bedbfa # 0.12.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  validation:
+    name: Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        with:
+          fetch-depth: 0
+      - name: Validate Gradle wrapper
+        uses: gradle/actions/wrapper-validation@4d9f0ba0025fe599b4ebab900eb7f3a1d93ef4c2 # v5.0.0
+
+  assemble:
+    name: Assembling
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        with:
+          fetch-depth: 0
+      - name: Common Steps
+        uses: ./.github/actions/common-steps
+        with:
+          gradle-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+      - name: Google Services
+        uses: ./.github/actions/google-services
+        with:
+          google-services-json-base64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
+      - name: Local Properties
+        uses: ./.github/actions/local-properties
+        with:
+          base-url: ${{ secrets.BASE_URL }}
+          oauth-google-server-client-id: ${{ secrets.OAUTH_GOOGLE_SERVER_CLIENT_ID }}
+
+      - name: Assemble
+        run: ./gradlew :composeApp:assembleDebug --no-daemon --stacktrace
+      - name: Upload compose reports artifact
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        if: always()
+        with:
+          name: compose-reports
+          path: |
+            **/build/compose-metrics
+            **/build/compose-reports
+          retention-days: 7
+
+      - name: Notify Failure on Discord
+        if: ${{ failure() }}
+        uses: Ilshidur/action-discord@d2594079a10f1d6739ee50a2471f0ca57418b554 # 0.4.0
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_APP_CI }}
+          DISCORD_USERNAME: CI_CAT
+          DISCORD_AVATAR: https://github.com/user-attachments/assets/f4a333ae-c6e0-43ed-abe7-4e50a519a3be
+          DISCORD_EMBEDS: |
+            [
+              {
+                "title": "빌드 실패했다냥 ❌",
+                "color": 15158332,
+                "description": "[#${{ github.event.pull_request.number }}] ${{ github.event.pull_request.title }}\n${{ github.event.pull_request.html_url }}",
+                "fields": [
+                  {
+                    "name": "브랜치",
+                    "value": "${{ github.ref }}",
+                    "inline": true
+                  },
+                  {
+                    "name": "작성자",
+                    "value": "${{ github.event.pull_request.user.login }}",
+                    "inline": true
+                  }
+                ]
+              }
+            ]

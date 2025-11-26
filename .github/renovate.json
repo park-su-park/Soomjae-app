@@ -1,0 +1,82 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "assignees": [
+        "ruh0n"
+    ],
+    "baseBranchPatterns": [
+        "dev"
+    ],
+    "extends": [
+        "config:recommended",
+        ":disableDependencyDashboard",
+        "helpers:pinGitHubActionDigests"
+    ],
+    "rebaseWhen": "behind-base-branch",
+    "reviewers": [
+        "ruh0n"
+    ],
+    "packageRules": [
+        {
+            "groupName": "Kotlin Dependants",
+            "groupSlug": "kotlin",
+            "matchPackageNames": [
+                "com.google.devtools.ksp{/,}**",
+                "dev.mokkery{/,}**",
+                "org.jetbrains.compose{/,}**",
+                "org.jetbrains.kotlinx{/,}**",
+                "/org.jetbrains.kotlin.*/"
+            ]
+        },
+        {
+            "groupName": "Koin",
+            "groupSlug": "koin",
+            "matchPackageNames": [
+                "io.insert-koin{/,}**"
+            ]
+        },
+        {
+            "groupName": "Kotest",
+            "groupSlug": "kotest",
+            "enabled": false,
+            "matchPackageNames": [
+                "io.kotest{/,}**",
+                "io.kotest.extensions{/,}**"
+            ]
+        },
+        {
+            "groupName": "Paging3",
+            "groupSlug": "paging3",
+            "matchPackageNames": [
+                "androidx.paging{/,}**"
+            ],
+            "ignoreUnstable": true
+        },
+        {
+            "groupName": "Room",
+            "groupSlug": "room",
+            "matchPackageNames": [
+                "androidx.room{/,}**",
+                "androidx.sqlite{/,}**"
+            ]
+        },
+        {
+            "groupName": "GitHub Actions",
+            "groupSlug": "actions",
+            "matchManagers": [
+                "github-actions"
+            ],
+            "matchUpdateTypes": [
+                "digest",
+                "pinDigest"
+            ]
+        },
+        {
+            "matchUpdateTypes": [
+                "minor",
+                "patch",
+                "pin",
+                "digest"
+            ]
+        }
+    ]
+}

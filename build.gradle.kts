@@ -10,5 +10,11 @@ plugins {
     alias(libs.plugins.kotlinx.serialization).apply(false)
     alias(libs.plugins.room).apply(false)
     alias(libs.plugins.ksp).apply(false)
-    alias(libs.plugins.buildConfig).apply(false)
+    alias(libs.plugins.buildconfig).apply(false)
+    alias(libs.plugins.google.services).apply(false)
+    alias(libs.plugins.firebase.crashlytics).apply(false)
+}
+
+apply {
+    from("gradle/dependencyGraph.gradle")
 }

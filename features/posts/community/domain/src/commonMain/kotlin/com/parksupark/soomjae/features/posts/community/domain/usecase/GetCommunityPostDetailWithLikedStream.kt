@@ -1,0 +1,32 @@
+package com.parksupark.soomjae.features.posts.community.domain.usecase
+
+import arrow.core.Either
+import arrow.core.raise.either
+import com.parksupark.soomjae.core.domain.failures.DataFailure
+import com.parksupark.soomjae.features.posts.community.domain.model.CommunityPostDetailWithLiked
+import com.parksupark.soomjae.features.posts.community.domain.repository.CommunityPostLikeRepository
+import com.parksupark.soomjae.features.posts.community.domain.repository.CommunityPostRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+
+class GetCommunityPostDetailWithLikedStream(
+    private val postRepository: CommunityPostRepository,
+    private val likeRepository: CommunityPostLikeRepository,
+) {
+
+    operator fun invoke(postId: Long): Flow<Either<DataFailure, CommunityPostDetailWithLiked>> =
+        combine(
+            postRepository.postDetailStream(postId),
+            likeRepository.likedStream(postId),
+        ) { postDetail, liked ->
+            either {
+                val post = postDetail.bind()
+                val like = liked.bind()
+
+                CommunityPostDetailWithLiked(
+                    postDetail = post,
+                    isLiked = like.liked,
+                )
+            }
+        }
+}

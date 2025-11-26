@@ -1,0 +1,34 @@
+name: Generate local.properties
+
+description: 'Generates local.properties file if it does not exist'
+
+inputs:
+  base-url:
+    description: 'Base Url for API request'
+    required: true
+  oauth-google-server-client-id:
+    description: 'OAuth Google Server Client ID'
+    required: true
+  build-flavor:
+    description: 'Build flavor (optional)'
+    required: false
+    default: 'dev'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Ensure local.properties exists
+      shell: bash
+      run: |
+        if [ ! -f local.properties ]; then
+          echo "Creating local.properties..."
+          touch local.properties
+        else
+          echo "local.properties already exists. Skipping file creation."
+        fi
+    - name: Write to local.properties
+      shell: bash
+      run: |
+        echo "base.url=${{ inputs.base-url }}" >> local.properties
+        echo "oauth.google.server.client.id=${{ inputs.oauth-google-server-client-id }}" >> local.properties
+        echo "soomjae.flavor=${{ inputs.build-flavor }}" >> local.properties

@@ -1,0 +1,54 @@
+package com.parksupark.soomjae.features.posts.meeting.presentation.detail
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import com.parksupark.soomjae.features.posts.meeting.presentation.navigation.MeetingNavigator
+import org.koin.compose.viewmodel.koinViewModel
+
+class MeetingDetailCoordinator(
+    private val navigator: MeetingNavigator,
+    val viewModel: MeetingDetailViewModel,
+) {
+    val screenStateFlow = viewModel.stateFlow
+    val events = viewModel.events
+
+    fun handle(action: MeetingDetailAction) {
+        when (action) {
+            MeetingDetailAction.OnBackClick -> navigator.navigateBack()
+            MeetingDetailAction.OnToggleLikeClick -> viewModel.toggleLike()
+            MeetingDetailAction.OnSendCommentClick -> viewModel.submitComment()
+            MeetingDetailAction.OnMessageClick -> { // TODO: implement logic to navigate to
+            }
+
+            MeetingDetailAction.OnToggleParticipationClick -> viewModel.toggleParticipation()
+
+            MeetingDetailAction.OnEditClick -> viewModel.onEditClick()
+
+            MeetingDetailAction.OnDeleteClick -> viewModel.onDeleteClick()
+
+            MeetingDetailAction.LoginRequest -> viewModel.requestLogin()
+
+            MeetingDetailAction.OnParticipantListClick ->
+                navigator.navigateToParticipantList(viewModel.postId)
+        }
+    }
+
+    fun navigateBack() {
+        navigator.navigateBack()
+    }
+
+    fun navigateToEditPost(postId: Long) {
+        navigator.navigateToMeetingPostEdit(postId)
+    }
+}
+
+@Composable
+fun rememberMeetingDetailCoordinator(
+    navigator: MeetingNavigator,
+    viewModel: MeetingDetailViewModel = koinViewModel(),
+): MeetingDetailCoordinator = remember(viewModel) {
+    MeetingDetailCoordinator(
+        navigator = navigator,
+        viewModel = viewModel,
+    )
+}

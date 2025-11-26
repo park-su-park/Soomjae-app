@@ -1,4 +1,7 @@
+@file:Suppress("NoUnusedImports", "UnusedImports")
+
 import com.android.build.gradle.BaseExtension
+import java.util.Locale
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.plugins.ExtensionContainer
@@ -25,7 +28,6 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType.native
 import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.konan.util.visibleName
-import java.util.Locale
 
 private val Project.libs
     get() = extensions.getByType<VersionCatalogsExtension>().named("libs")
@@ -38,13 +40,22 @@ internal val Project.fullPackageName
         '.',
     )
 
-internal val Test.isRelease get() = name.contains("""beta|release""".toRegex(RegexOption.IGNORE_CASE))
+internal val Test.isRelease
+    get() = name.contains(
+        """beta|release""".toRegex(RegexOption.IGNORE_CASE),
+    )
 
 internal fun KotlinDependencyHandler.bundleImplementation(alias: String) {
     project.optionalCatalogBundle(alias).ifPresent { bundle -> implementation(bundle) }
 }
 
 private fun Project.optionalCatalogBundle(alias: String) = libs.findBundle(alias)
+
+internal fun KotlinDependencyHandler.apiAlias(alias: String) {
+    project.optionalCatalogLibrary(alias).ifPresent { bundle -> api(bundle) }
+}
+
+private fun Project.optionalCatalogLibrary(alias: String) = libs.findLibrary(alias)
 
 internal fun KotlinMultiplatformExtension.kspDependencies(
     project: Project,

@@ -1,0 +1,88 @@
+package com.parksupark.soomjae.core.presentation.designsystem.theme
+
+import androidx.compose.ui.graphics.Color
+
+// Blue
+internal val Blue900 = Color(0xFF0014C4)
+internal val Blue800 = Color(0xFF002AD6)
+internal val Blue700 = Color(0xFF0035E2)
+internal val Blue600 = Color(0xFF0040F1)
+internal val Blue500 = Color(0xFF004FFF)
+internal val Blue400 = Color(0xFF0462FF)
+internal val Blue300 = Color(0xFF667FFF)
+internal val Blue200 = Color(0xFF94A3FF)
+internal val Blue100 = Color(0xFFC0C5FF)
+internal val Blue50 = Color(0xFFE6E8FF)
+
+// Red
+internal val Red900 = Color(0xFFAE1A1A)
+internal val Red800 = Color(0xFFBE2324)
+internal val Red700 = Color(0xFFCD2929)
+internal val Red600 = Color(0xFFE1322E)
+internal val Red500 = Color(0xFFF23A2F)
+internal val Red400 = Color(0xFFEC4946)
+internal val Red300 = Color(0xFFE16868)
+internal val Red200 = Color(0xFFEC8F8F)
+internal val Red100 = Color(0xFFFFC6CC)
+internal val Red50 = Color(0xFFFFE8EB)
+
+// Orange
+internal val Orange900 = Color(0xFFD97520)
+internal val Orange800 = Color(0xFFE09C2D)
+internal val Orange700 = Color(0xFFE3B536)
+internal val Orange600 = Color(0xFFE7CD3F)
+internal val Orange500 = Color(0xFFE7DF43)
+internal val Orange400 = Color(0xFFEAE45A)
+internal val Orange300 = Color(0xFFEEEA73)
+internal val Orange200 = Color(0xFFF2F098)
+internal val Orange100 = Color(0xFFF7F6C0)
+internal val Orange50 = Color(0xFFFCFBE5)
+
+// Green
+internal val Green900 = Color(0xFF165135)
+internal val Green800 = Color(0xFF196F47)
+internal val Green700 = Color(0xFF1C8152)
+internal val Green600 = Color(0xFF20935F)
+internal val Green500 = Color(0xFF25A36A)
+internal val Green400 = Color(0xFF46B07E)
+internal val Green300 = Color(0xFF65BE92)
+internal val Green200 = Color(0xFF90CFB0)
+internal val Green100 = Color(0xFFBAE1CE)
+internal val Green50 = Color(0xFFE2F3EA)
+
+// Navy
+internal val Navy900 = Color(0xFF0E3767)
+internal val Navy800 = Color(0xFF195086)
+internal val Navy700 = Color(0xFF1F5F99)
+internal val Navy600 = Color(0xFF2870AB)
+internal val Navy500 = Color(0xFF307CB8)
+internal val Navy400 = Color(0xFF458CC0)
+internal val Navy300 = Color(0xFF5F9ECA)
+internal val Navy200 = Color(0xFF85B9D9)
+internal val Navy100 = Color(0xFFB0D3E8)
+internal val Navy50 = Color(0xFFDFEEF5)
+
+// Neutral
+internal val Neutral1100 = Color(0xFF000000)
+internal val Neutral1000 = Color(0xFF17191A)
+internal val Neutral900 = Color(0xFF2F3133)
+internal val Neutral800 = Color(0xFF464A4D)
+internal val Neutral700 = Color(0xFF5E6366)
+internal val Neutral600 = Color(0xFF757B80)
+internal val Neutral500 = Color(0xFF8C9499)
+internal val Neutral400 = Color(0xFFA4ADB2)
+internal val Neutral300 = Color(0xFFBBC5CC)
+internal val Neutral200 = Color(0xFFE8EEF2)
+internal val Neutral100 = Color(0xFFF2F8FC)
+internal val Neutral0 = Color(0xFFFFFFFF)
+
+// Neutral Alpha (Alpha values handled with transparency)
+internal val NeutralA90 = Color(0xE6000000)
+internal val NeutralA80 = Color(0xCC000000)
+internal val NeutralA70 = Color(0xB3000000)
+internal val NeutralA60 = Color(0x99000000)
+internal val NeutralA50 = Color(0x80000000)
+internal val NeutralA40 = Color(0x66000000)
+internal val NeutralA30 = Color(0x4D000000)
+internal val NeutralA20 = Color(0x33000000)
+internal val NeutralA10 = Color(0x1A000000)

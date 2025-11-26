@@ -1,0 +1,28 @@
+<resources>
+    <string name="post_community_fab_description">새 게시글 작성</string>
+
+    <string name="community_write_navigate_up_description">뒤로 가기</string>
+    <string name="community_write_button_confirm_description">완료</string>
+
+    <string name="community_detail_title">커뮤니티</string>
+    <string name="community_detail_navigate_up_description">뒤로 가기</string>
+    <string name="community_detail_like_button_description">좋아요</string>
+    <string name="community_detail_dislike_button_description">좋아요 취소</string>
+    <string name="community_detail_comment_button_description">댓글</string>
+
+    <string name="post_detail_created_at_icon_description">작성일</string>
+
+    <string name="write_category_selection_label">카테고리</string>
+    <string name="write_category_selection_placeholder">카테고리를 선택해주세요.</string>
+
+    <string name="write_location_selection_label">지역</string>
+    <string name="write_location_selection_placeholder">지역을 선택해주세요.</string>
+
+    <string name="community_detail_delete_button_description">삭제</string>
+    <string name="community_detail_edit_button_description">수정</string>
+
+    <string name="community_tab_filter_chip_category">카테고리</string>
+    <string name="community_tab_filter_chip_category_selected">%1$s외 %2$d건</string>
+    <string name="community_tab_filter_chip_location">위치</string>
+    <string name="community_tab_filter_chip_location_selected">%1$s외 %2$d건</string>
+</resources>

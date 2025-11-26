@@ -1,0 +1,20 @@
+<resources>
+    <string name="write_input_title_placeholder">제목을 입력해주세요!</string>
+    <string name="write_input_content_placeholder">내용을 입력해주세요!</string>
+
+    <string name="write_post_button">글 쓰기</string>
+
+    <string name="comment_bar_input_placeholder">댓글을 입력해주세요!</string>
+    <string name="comment_bar_send_button">전송</string>
+
+    <string name="selection_dialog_cancel_button">취소</string>
+    <string name="selection_dialog_confirm_button">확인</string>
+
+    <!-- ============================================================= -->
+    <!-- FilterChip -->
+    <!-- ============================================================= -->
+    <string name="filter_chip_category">카테고리</string>
+    <string name="filter_chip_category_selected_multiple">%1$s외 %2$d건</string>
+    <string name="filter_chip_location">위치</string>
+    <string name="filter_chip_location_selected_multiple">%1$s외 %2$d건</string>
+</resources>

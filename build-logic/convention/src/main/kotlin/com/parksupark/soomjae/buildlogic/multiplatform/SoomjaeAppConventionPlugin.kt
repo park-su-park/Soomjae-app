@@ -1,3 +1,5 @@
+@file:Suppress("NoUnusedImports", "UnusedImports")
+
 package com.parksupark.soomjae.buildlogic.multiplatform
 
 import SoomjaeConfiguration
@@ -5,9 +7,11 @@ import bundleImplementation
 import com.android.build.api.dsl.ApplicationBuildType
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import configureAndroid
+import java.util.Properties
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
+import org.gradle.internal.cc.base.logger
 import org.gradle.kotlin.dsl.assign
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.get
@@ -18,7 +22,6 @@ import org.jetbrains.compose.ComposePlugin
 import org.jetbrains.compose.desktop.DesktopExtension
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import java.util.Properties
 
 class SoomjaeAppConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
@@ -31,6 +34,8 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
         // ! Should be applied after commonConfiguration to avoid 'kspCommonMainMetadata' not found error
         with(pluginManager) {
             apply("soomjae.multiplatform.compose")
+            apply("org.jetbrains.compose.hot-reload")
+            apply("soomjae.crashlytics")
         }
 
         with(extensions) {
@@ -70,7 +75,6 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
     private fun BaseAppModuleExtension.configureAndroid(project: Project) {
         fun ApplicationBuildType.configure(isDebug: Boolean) {
             isDebuggable = isDebug
-            isDefault = isDebug
             isMinifyEnabled = !isDebug
             isShrinkResources = !isDebug
             enableUnitTestCoverage = isDebug
@@ -88,7 +92,65 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
         }
 
         signingConfigs {
-            register("release") {
+            getByName("debug") {
+                val props = with(project) {
+                    loadProperties("dev")
+                }
+
+                props["keystore.path", "KEYSTORE_PATH"]?.let {
+                    val file = project.rootProject.file(it)
+                    if (file.exists()) {
+                        storeFile = file
+                    } else {
+                        logger.warn("⚠️ Keystore file not found for debug build type.")
+                    }
+                }
+            }
+            create("internal") {
+                val props = with(project) {
+                    loadProperties("internal")
+                }
+
+                props["keystore.path", "KEYSTORE_PATH"]?.let {
+                    val file = project.rootProject.file(it)
+                    if (file.exists()) {
+                        storeFile = file
+                    } else {
+                        logger.warn("⚠️ Keystore file not found for internal build type.")
+                    }
+                }
+                props["keystore.password", "KEYSTORE_PASSWORD"]?.let {
+                    storePassword = it
+                }
+                props["key.alias", "KEY_ALIAS"]?.let {
+                    keyAlias = it
+                }
+                props["key.password", "KEY_PASSWORD"]?.let {
+                    keyPassword = it
+                }
+            }
+            create("release") {
+                val props = with(project) {
+                    loadProperties("release")
+                }
+
+                props["keystore.path", "KEYSTORE_PATH"]?.let {
+                    val file = project.rootProject.file(it)
+                    if (file.exists()) {
+                        storeFile = file
+                    } else {
+                        logger.warn("⚠️ Keystore file not found for release build type.")
+                    }
+                }
+                props["keystore.password", "KEYSTORE_PASSWORD"]?.let {
+                    storePassword = it
+                }
+                props["key.alias", "KEY_ALIAS"]?.let {
+                    keyAlias = it
+                }
+                props["key.password", "KEY_PASSWORD"]?.let {
+                    keyPassword = it
+                }
             }
         }
 
@@ -98,7 +160,22 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
                 versionNameSuffix = "-dev"
 
                 configure(isDebug = true)
+                isDefault = true
+
+                signingConfig = signingConfigs.getByName("debug")
                 resValue("string", "app_name", "Soomjae Dev")
+            }
+
+            create("internal") {
+                initWith(getByName("debug"))
+                matchingFallbacks += listOf("debug")
+                applicationIdSuffix = ".internal"
+                versionNameSuffix = "-internal"
+
+                configure(isDebug = true)
+
+                signingConfig = signingConfigs.getByName("internal")
+                resValue("string", "app_name", "Soomjae Internal")
             }
 
             release {
@@ -157,6 +234,19 @@ class SoomjaeAppConventionPlugin : Plugin<Project> {
                 }
             }
         }
+    }
+
+    fun Project.loadProperties(flavor: String): Properties {
+        val props = Properties()
+        val fileName = "local-$flavor.properties"
+        val propFile = project.rootProject.file(fileName)
+        if (propFile.exists()) {
+            propFile.inputStream().use { props.load(it) }
+            logger.lifecycle("✅ Loaded $fileName")
+        } else {
+            logger.warn("⚠️ $fileName not found")
+        }
+        return props
     }
 }
 
