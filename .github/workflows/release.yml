@@ -13,12 +13,15 @@ env:
   TZ: UTC
   APP_MODULE: composeApp
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Build
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
     runs-on: ${{ matrix.os }}
 
 
@@ -158,6 +161,7 @@ jobs:
       - name: Publish Release
         uses: softprops/action-gh-release@v1
         with:
-          files: release_files/**/*
+          files: release_files/**/*.*
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
