@@ -19,84 +19,69 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Extract old versionName
-        id: old_version
+      - name: Extract current versionName
+        id: current
         run: |
           FILE="build-logic/convention/src/main/kotlin/SoomjaeConfiguration.kt"
+          CURRENT=$(grep 'VERSION_NAME' "$FILE" | sed -E 's/.*"([^"]+)".*/\1/')
+          echo "CURRENT=$CURRENT"
+          echo "current=$CURRENT" >> $GITHUB_OUTPUT
 
-          OLD_VERSION_NAME=$(git show HEAD~1:$FILE 2>/dev/null | \
-            grep 'VERSION_NAME' | sed -E 's/.*"([^"]+)".*/\1/' || echo "")
-
-          echo "OLD_VERSION_NAME=$OLD_VERSION_NAME"
-          echo "old_version_name=$OLD_VERSION_NAME" >> $GITHUB_OUTPUT
-
-      - name: Extract new versionName
-        id: new_version
+      - name: Get previous tag
+        id: prev_tag
         run: |
-          FILE="build-logic/convention/src/main/kotlin/SoomjaeConfiguration.kt"
+          PREV_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          echo "PREV_TAG=$PREV_TAG"
+          echo "prev_tag=$PREV_TAG" >> $GITHUB_OUTPUT
 
-          NEW_VERSION_NAME=$(grep 'VERSION_NAME' "$FILE" \
-            | sed -E 's/.*"([^"]+)".*/\1/' || true)
-
-          if [ -z "$NEW_VERSION_NAME" ]; then
-            echo "VERSION_NAME not found in $FILE"
-            exit 1
-          fi
-
-          echo "NEW_VERSION_NAME=$NEW_VERSION_NAME"
-          echo "new_version_name=$NEW_VERSION_NAME" >> $GITHUB_OUTPUT
-
-      - name: Determine if version bump occurred
-        id: check
+      - name: Extract previous versionName
+        id: previous
         run: |
-          OLD="${{ steps.old_version.outputs.old_version_name }}"
-          NEW="${{ steps.new_version.outputs.new_version_name }}"
-
-          echo "old: $OLD"
-          echo "new: $NEW"
-
-          if [ -z "$OLD" ]; then
-            echo "First release → allow tag"
-            echo "should_create=true" >> $GITHUB_OUTPUT
+          PREV="${{ steps.prev_tag.outputs.prev_tag }}"
+          if [ -z "$PREV" ]; then
+            echo "No previous tag → first release"
+            echo "prev_version=" >> $GITHUB_OUTPUT
             exit 0
           fi
 
-          if [ "$OLD" = "$NEW" ]; then
-            echo "No version bump → skip tag creation"
-            echo "should_create=false" >> $GITHUB_OUTPUT
-          else
-            echo "Version bump detected → tag creation allowed"
-            echo "should_create=true" >> $GITHUB_OUTPUT
+          FILE="build-logic/convention/src/main/kotlin/SoomjaeConfiguration.kt"
+          PREV_VERSION=$(git show "$PREV":"$FILE" | grep 'VERSION_NAME' | sed -E 's/.*"([^"]+)".*/\1/')
+          echo "PREV_VERSION=$PREV_VERSION"
+          echo "prev_version=$PREV_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Compare versions
+        id: check
+        run: |
+          CUR="${{ steps.current.outputs.current }}"
+          PRE="${{ steps.previous.outputs.prev_version }}"
+
+          echo "current: $CUR"
+          echo "previous: $PRE"
+
+          if [ -z "$PRE" ]; then
+            echo "No previous version → allow"
+            echo "should_tag=true" >> $GITHUB_OUTPUT
+            exit 0
           fi
 
-      - name: Check if tag already exists
-        id: tag_exists
-        if: steps.check.outputs.should_create == 'true'
-        run: |
-          TAG="v${{ steps.new_version.outputs.new_version_name }}"
-
-          if git rev-parse "refs/tags/$TAG" >/dev/null 2>&1; then
-            echo "Tag $TAG already exists → skip"
+          if [ "$CUR" = "$PRE" ]; then
+            echo "Version unchanged → skip"
             echo "should_tag=false" >> $GITHUB_OUTPUT
           else
+            echo "Version changed → create tag"
             echo "should_tag=true" >> $GITHUB_OUTPUT
           fi
 
       - name: Create and Push Tag
-        if: steps.tag_exists.outputs.should_tag == 'true'
+        if: steps.check.outputs.should_tag == 'true'
         run: |
-          VERSION="${{ steps.new_version.outputs.new_version_name }}"
-          TAG="v${VERSION}"
-
-          echo "Creating local git tag $TAG"
+          VERSION="${{ steps.current.outputs.current }}"
+          TAG="v$VERSION"
 
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
 
           git tag "$TAG"
-
-          echo "Pushing tag $TAG to origin"
           git push origin "$TAG"
 
-        env:
-          NEW_VERSION_NAME: ${{ steps.new_version.outputs.new_version_name }}
+          echo "Tag $TAG created and pushed."
